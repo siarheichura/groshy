@@ -12,6 +12,11 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 // Components
+import { LoginPageComponent } from './login-page/login-page.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
+
 import { AppComponent } from './app.component';
 import { UserAmountComponent } from './components/user-amount/user-amount.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
@@ -19,18 +24,20 @@ import { TabsetComponent } from './components/tabset/tabset.component';
 import { FormComponent } from './components/form/form.component';
 import { CardComponent } from './components/card/card.component';
 import { CardBodyComponent } from './components/card-body/card-body.component';
-import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginPageComponent,
+    MainPageComponent,
+    StatisticsPageComponent,
+    ProfilePageComponent,
     UserAmountComponent,
     NavBarComponent,
     TabsetComponent,
     FormComponent,
     CardComponent,
     CardBodyComponent,
-    LoginPageComponent,
   ],
   imports: [
     BrowserModule,

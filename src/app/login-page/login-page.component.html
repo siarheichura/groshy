@@ -1,1 +1,54 @@
-<p>login-page works!</p>
+<div class="login-page">
+  <div class="login-page__card">
+    <div class="logo"></div>
+
+    <form
+      nz-form
+      [formGroup]="loginForm"
+      class="login-form"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="emailError">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="email"
+              placeholder="E-mail"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="passwordError">
+          <nz-input-group>
+            <input
+              type="password"
+              nz-input
+              formControlName="password"
+              placeholder="Password"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <button
+        nz-button
+        class="login-form-button login-form-margin"
+        nzType="primary"
+      >
+        Log in
+      </button>
+    </form>
+  </div>
+</div>
+
+<ng-template #emailError>
+  <small>Please input your email!</small>
+</ng-template>
+
+<ng-template #passwordError>
+  <small>Please input your password!</small>
+</ng-template>

@@ -5,39 +5,41 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // NG-Zorro
-import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 // Components
-import { LoginPageComponent } from './login-page/login-page.component';
-import { MainPageComponent } from './main-page/main-page.component';
-import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
-import { ProfilePageComponent } from './profile-page/profile-page.component';
-
 import { AppComponent } from './app.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { UserAmountComponent } from './components/user-amount/user-amount.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { TabsetComponent } from './components/tabset/tabset.component';
-import { FormComponent } from './components/form/form.component';
-import { CardComponent } from './components/card/card.component';
-import { CardBodyComponent } from './components/card-body/card-body.component';
+import { HeaderComponent } from './components/header/header.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { StatisticsTabsetComponent } from './components/statistics-tabset/statistics-tabset.component';
+import { MoneymoveTabsetComponent } from './components/moneymove-tabset/moneymove-tabset.component';
+import { MoneymoveFormComponent } from './components/moneymove-form/moneymove-form.component';
+import { MoneymoveBodyComponent } from './components/moneymove-body/moneymove-body.component';
+import { MoneymoveCardComponent } from './components/moneymove-card/moneymove-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    MainPageComponent,
-    StatisticsPageComponent,
-    ProfilePageComponent,
     UserAmountComponent,
-    NavBarComponent,
-    TabsetComponent,
-    FormComponent,
-    CardComponent,
-    CardBodyComponent,
+    MainLayoutComponent,
+    HeaderComponent,
+    HomePageComponent,
+    MoneymoveTabsetComponent,
+    StatisticsTabsetComponent,
+    MoneymoveFormComponent,
+    MoneymoveBodyComponent,
+    MoneymoveCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,8 +50,11 @@ import { CardBodyComponent } from './components/card-body/card-body.component';
     NzFormModule,
     NzTabsModule,
     NzInputModule,
+    NzInputNumberModule,
+    NzSelectModule,
     NzButtonModule,
     NzIconModule,
+    NzCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

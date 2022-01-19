@@ -1,16 +1,31 @@
-import { ProfilePageComponent } from './profile-page/profile-page.component';
-import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
-import { MainPageComponent } from './main-page/main-page.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { HomePageComponent } from './home-page/home-page.component';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { StatisticsTabsetComponent } from './components/statistics-tabset/statistics-tabset.component';
+import { MoneymoveTabsetComponent } from './components/moneymove-tabset/moneymove-tabset.component';
+
+const paths = {
+  index: '',
+  login: 'login',
+  wallet: 'wallet',
+  statistics: 'statistics',
+};
 
 const routes: Routes = [
-  { path: '', component: MainPageComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'profile', component: ProfilePageComponent },
-  { path: 'statistics', component: StatisticsPageComponent },
+  { path: '', component: HomePageComponent },
+  {
+    path: 'wallet/:id',
+    component: MainLayoutComponent,
+    children: [
+      { path: 'wallet/:id', redirectTo: '' },
+      { path: '', component: MoneymoveTabsetComponent },
+      { path: 'statistics', component: StatisticsTabsetComponent },
+    ],
+  },
 ];
 
 @NgModule({

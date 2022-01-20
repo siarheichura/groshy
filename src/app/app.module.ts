@@ -4,6 +4,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HttpClientModule } from '@angular/common/http';
+
+// NgRx
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+
 // NG-Zorro
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -13,6 +22,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 // Components
 import { AppComponent } from './app.component';
@@ -47,6 +57,15 @@ import { MoneymoveCardComponent } from './components/moneymove-card/moneymove-ca
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([]),
     NzFormModule,
     NzTabsModule,
     NzInputModule,
@@ -55,6 +74,7 @@ import { MoneymoveCardComponent } from './components/moneymove-card/moneymove-ca
     NzButtonModule,
     NzIconModule,
     NzCardModule,
+    NzSpinModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

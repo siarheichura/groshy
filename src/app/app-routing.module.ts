@@ -7,15 +7,15 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { StatisticsTabsetComponent } from './components/statistics-tabset/statistics-tabset.component';
 import { MoneymoveTabsetComponent } from './components/moneymove-tabset/moneymove-tabset.component';
 
-const paths = {
-  index: '',
-  login: 'login',
-  wallet: 'wallet',
-  statistics: 'statistics',
-};
+enum RoutersEnum {
+ Index = '',
+ Login = 'login',
+ Wallet = 'wallet',
+ Statistics = 'statistics',
+}
 
 const routes: Routes = [
-  { path: 'login', component: LoginPageComponent },
+  { path: RoutersEnum.Login, component: LoginPageComponent },
   { path: '', component: HomePageComponent },
   {
     path: 'wallet/:id',

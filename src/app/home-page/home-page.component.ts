@@ -1,4 +1,4 @@
-import { Wallet } from './../models/Wallet';
+import { WalletClass} from '../models/WalletInterface';
 import { WalletService } from './../services/wallet.service';
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs';
@@ -9,7 +9,7 @@ import { delay } from 'rxjs';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
-  wallets: Wallet[] = [];
+  wallets: WalletClass[] = [];
   isLoading: boolean = false;
 
   constructor(private walletService: WalletService) {}
@@ -28,5 +28,11 @@ export class HomePageComponent implements OnInit {
         this.wallets = response;
         this.isLoading = false;
       });
+  }
+  increase(event: MouseEvent, wallet: WalletClass): void {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    wallet.increase();
+
   }
 }

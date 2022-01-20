@@ -10,11 +10,15 @@
       >
         <p>{{ wallet.name }}</p>
         <p>{{ wallet.amount }} {{ wallet.currency }}</p>
+        <button class="lol" nz-button nzType="dashed" class="add-button" (click)="increase($event, wallet)">
+          Increase
+        </button>
       </div>
 
       <button class="lol" nz-button nzType="dashed" class="add-button">
         + Add wallet
       </button>
+
     </div>
   </nz-spin>
 </div>

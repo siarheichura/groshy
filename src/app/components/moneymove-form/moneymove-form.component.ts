@@ -10,13 +10,16 @@ export class MoneymoveFormComponent implements OnInit {
   moneymoveForm!: FormGroup;
 
   submitForm(): void {
+    this.moneymoveForm.markAllAsTouched();
+    this.moneymoveForm.updateValueAndValidity();
+    console.log('submit', this.moneymoveForm.value);
     if (this.moneymoveForm.valid) {
       console.log('submit', this.moneymoveForm.value);
     } else {
       Object.values(this.moneymoveForm.controls).forEach((control) => {
         if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity();
+          // control.markAsDirty();
+          // control.updateValueAndValidity();
         }
       });
     }
@@ -34,5 +37,6 @@ export class MoneymoveFormComponent implements OnInit {
       category: [null, [Validators.required]],
       comment: [null],
     });
+    this.moneymoveForm.markAsDirty()
   }
 }

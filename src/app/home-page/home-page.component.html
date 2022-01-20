@@ -1,10 +1,20 @@
 <div class="home">
-  <div class="card">
-    <h3 class="card__title">Choose wallet</h3>
+  <nz-spin [nzSpinning]="isLoading">
+    <div class="card" *ngIf="!isLoading">
+      <h3 class="card__title">Choose your wallet</h3>
 
-    <div class="card__wallet" [routerLink]="['/wallet', 123]">
-      <p>My wallet</p>
-      <p>700 BYN</p>
+      <div
+        class="card__wallet"
+        *ngFor="let wallet of wallets"
+        [routerLink]="['/wallet', wallet.id]"
+      >
+        <p>{{ wallet.name }}</p>
+        <p>{{ wallet.amount }} {{ wallet.currency }}</p>
+      </div>
+
+      <button class="lol" nz-button nzType="dashed" class="add-button">
+        + Add wallet
+      </button>
     </div>
-  </div>
+  </nz-spin>
 </div>

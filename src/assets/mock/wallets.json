@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Wallet 1",
+    "currency": "BYN",
+    "amount": 1400,
+    "expenses": [
+      {
+        "id": "11e",
+        "date": "2022-01-10T00:00:00.000Z",
+        "category": "Food",
+        "amount": "5.40"
+      },
+      {
+        "id": "12e",
+        "date": "2022-01-10T00:00:00.000Z",
+        "category": "Food",
+        "amount": "5.40"
+      }
+    ],
+    "income": [
+      {
+        "id": "11i",
+        "date": "2022-01-10T00:00:00.000Z",
+        "category": "Salary",
+        "amount": "700"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Wallet 2",
+    "currency": "USD",
+    "amount": 600,
+    "expenses": [
+      {
+        "id": "21e",
+        "date": "2022-01-10T00:00:00.000Z",
+        "category": "Vacation",
+        "amount": "120"
+      }
+    ],
+    "income": [
+      {
+        "id": "21i",
+        "date": "2022-01-10T00:00:00.000Z",
+        "category": "Gift",
+        "amount": "200"
+      }
+    ]
+  }
+]

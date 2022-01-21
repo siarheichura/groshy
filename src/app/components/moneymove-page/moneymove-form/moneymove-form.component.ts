@@ -1,10 +1,11 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-moneymove-form',
   templateUrl: './moneymove-form.component.html',
   styleUrls: ['./moneymove-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneymoveFormComponent implements OnInit {
   moneymoveForm: FormGroup;

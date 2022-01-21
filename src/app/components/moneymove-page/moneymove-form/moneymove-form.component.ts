@@ -7,7 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./moneymove-form.component.scss'],
 })
 export class MoneymoveFormComponent implements OnInit {
-  moneymoveForm!: FormGroup;
+  moneymoveForm: FormGroup;
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit(): void {
+    this.moneymoveForm = this.fb.group({
+      amount: ['', [Validators.required]],
+      category: ['', [Validators.required]],
+      comment: [''],
+    });
+  }
 
   submitForm(): void {
     if (this.moneymoveForm.valid) {
@@ -20,19 +30,5 @@ export class MoneymoveFormComponent implements OnInit {
         }
       });
     }
-  }
-
-  genderChange(value: string): void {
-    console.log('changed');
-  }
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.moneymoveForm = this.fb.group({
-      amount: [null, [Validators.required]],
-      category: [null, [Validators.required]],
-      comment: [null],
-    });
   }
 }

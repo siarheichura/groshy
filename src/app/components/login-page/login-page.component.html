@@ -2,12 +2,7 @@
   <div class="login-page__card">
     <div class="logo"></div>
 
-    <form
-      nz-form
-      [formGroup]="loginForm"
-      class="login-form"
-      (ngSubmit)="submitForm()"
-    >
+    <form nz-form [formGroup]="loginForm" class="login-form">
       <nz-form-item>
         <nz-form-control [nzErrorTip]="emailError">
           <nz-input-group>
@@ -34,21 +29,31 @@
         </nz-form-control>
       </nz-form-item>
 
-      <button
-        nz-button
-        class="login-form-button login-form-margin"
-        nzType="primary"
-      >
-        Log in
-      </button>
+      <button nz-button nzType="primary" (click)="submitForm()">Log in</button>
     </form>
   </div>
 </div>
 
-<ng-template #emailError>
-  <small>Please input your email!</small>
+<ng-template #emailError let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    <small>Please input your email!</small>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('email')">
+    <small>Please input correct email!</small>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('wrong')">
+    <small>Incorrect email!</small>
+  </ng-container>
 </ng-template>
 
-<ng-template #passwordError>
-  <small>Please input your password!</small>
+<ng-template #passwordError let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    <small>Please input your password!</small>
+  </ng-container>
+
+  <ng-container *ngIf="control.hasError('wrong')">
+    <small>Incorrect password!</small>
+  </ng-container>
 </ng-template>

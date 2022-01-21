@@ -1,6 +1,6 @@
-<form nz-form [formGroup]="moneymoveForm" (ngSubmit)="submitForm()">
+<form nz-form [formGroup]="moneymoveForm">
   <div class="form__top">
-    <nz-form-item style="margin: 0">
+    <nz-form-item>
       <nz-form-control>
         <input
           type="number"
@@ -11,13 +11,9 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item style="margin: 0">
+    <nz-form-item>
       <nz-form-control>
-        <nz-select
-          formControlName="category"
-          nzPlaceHolder="Select category"
-          (ngModelChange)="genderChange($event)"
-        >
+        <nz-select formControlName="category" nzPlaceHolder="Select category">
           <nz-option nzValue="some" nzLabel="some"></nz-option>
           <nz-option nzValue="basic" nzLabel="basic"></nz-option>
           <nz-option nzValue="categories" nzLabel="categories"></nz-option>
@@ -27,7 +23,7 @@
   </div>
 
   <div class="form__bottom">
-    <nz-form-item style="margin: 0; width: 85%">
+    <nz-form-item class="form__comment">
       <nz-form-control>
         <input
           type="text"
@@ -38,9 +34,9 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item style="margin: 0; width: 15%">
+    <nz-form-item class="form__button">
       <nz-form-control>
-        <button nz-button nzType="primary" style="width: 100%">Add</button>
+        <button nz-button nzType="primary" (click)="submitForm()">Add</button>
       </nz-form-control>
     </nz-form-item>
   </div>

@@ -7,21 +7,22 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit {
+  loginForm: FormGroup;
+
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
-
-  loginForm: FormGroup = this.fb.group({
-    email: [null, [Validators.required, Validators.email]],
-    password: [null, [Validators.required]],
-  });
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
+  }
 
   submitForm(): void {
     if (this.loginForm.valid) {
       console.log('submit', this.loginForm.value);
     } else {
       Object.values(this.loginForm.controls).forEach((control) => {
-        console.log(control);
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity();

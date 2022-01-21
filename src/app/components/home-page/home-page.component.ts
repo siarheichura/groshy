@@ -1,5 +1,5 @@
-import { Wallet } from './../models/Wallet';
-import { WalletService } from './../services/wallet.service';
+import { Wallet } from '../../models/Wallet';
+import { WalletService } from '../../services/wallet.service';
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs';
 

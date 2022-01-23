@@ -7,23 +7,19 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
 import { MoneymovePageComponent } from './components/moneymove-page/moneymove-page.component';
 
-const paths = {
-  index: '',
-  login: 'login',
-  wallet: 'wallet',
-  statistics: 'statistics',
-};
+import { RouterEnum } from './shared/enums/RouterEnum';
+import { HeaderComponent } from './shared/header/header.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginPageComponent },
-  { path: '', component: HomePageComponent },
+  { path: RouterEnum.Login, component: LoginPageComponent },
+  { path: RouterEnum.Index, component: HomePageComponent },
   {
-    path: 'wallet/:id',
+    path: `${RouterEnum.Wallet}/:id`,
     component: MainLayoutComponent,
     children: [
-      { path: 'wallet/:id', redirectTo: '' },
-      { path: '', component: MoneymovePageComponent },
-      { path: 'statistics', component: StatisticsPageComponent },
+      { path: `${RouterEnum.Wallet}/:id`, redirectTo: '' },
+      { path: RouterEnum.Index, component: MoneymovePageComponent },
+      { path: RouterEnum.Statistics, component: StatisticsPageComponent },
     ],
   },
 ];

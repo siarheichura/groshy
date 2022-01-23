@@ -7,6 +7,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneymovePageComponent implements OnInit {
+  tabs = ['Expneses', 'Income'];
+
   constructor() {}
 
   ngOnInit(): void {}

@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { HttpClientModule } from '@angular/common/http';
 
 // NgRx
@@ -26,16 +25,16 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 // Components
 import { AppComponent } from './app.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { UserAmountComponent } from './components/user-amount/user-amount.component';
-import { HeaderComponent } from './components/header/header.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { StatisticsTabsetComponent } from './components/statistics-tabset/statistics-tabset.component';
-import { MoneymoveTabsetComponent } from './components/moneymove-tabset/moneymove-tabset.component';
-import { MoneymoveFormComponent } from './components/moneymove-form/moneymove-form.component';
-import { MoneymoveBodyComponent } from './components/moneymove-body/moneymove-body.component';
-import { MoneymoveCardComponent } from './components/moneymove-card/moneymove-card.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { MainLayoutComponent } from './shared/main-layout/main-layout.component';
+import { UserAmountComponent } from './shared/user-amount/user-amount.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { MoneymoveFormComponent } from './components/moneymove-page/moneymove-form/moneymove-form.component';
+import { MoneymoveBodyComponent } from './components/moneymove-page/moneymove-body/moneymove-body.component';
+import { MoneymoveCardComponent } from './components/moneymove-page/moneymove-card/moneymove-card.component';
+import { MoneymovePageComponent } from './components/moneymove-page/moneymove-page.component';
+import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
 
 @NgModule({
   declarations: [
@@ -45,11 +44,11 @@ import { MoneymoveCardComponent } from './components/moneymove-card/moneymove-ca
     MainLayoutComponent,
     HeaderComponent,
     HomePageComponent,
-    MoneymoveTabsetComponent,
-    StatisticsTabsetComponent,
     MoneymoveFormComponent,
     MoneymoveBodyComponent,
     MoneymoveCardComponent,
+    MoneymovePageComponent,
+    StatisticsPageComponent,
   ],
   imports: [
     BrowserModule,

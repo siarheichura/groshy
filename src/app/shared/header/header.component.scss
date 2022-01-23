@@ -1,0 +1,41 @@
+:host {
+  .header {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__logo {
+      width: 50px;
+      height: 50px;
+      background: url("../../../assets/images/mini-logo.svg") no-repeat center
+        center;
+      background-size: contain;
+      cursor: pointer;
+    }
+
+    &__nav {
+      display: flex;
+      gap: 15px;
+
+      &--stat {
+        width: 25px;
+        height: 25px;
+        background: url("../../../assets/images/statistics.svg") no-repeat
+          center center;
+        background-size: contain;
+        cursor: pointer;
+      }
+
+      &--profile {
+        width: 25px;
+        height: 25px;
+        background: url("../../../assets/images/profile.svg") no-repeat center
+          center;
+        background-size: contain;
+        cursor: pointer;
+      }
+    }
+  }
+}

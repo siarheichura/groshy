@@ -11,6 +11,15 @@ import { RouterEnum } from './shared/enums/RouterEnum';
 import { HeaderComponent } from './shared/header/header.component';
 
 const routes: Routes = [
+  // {
+  //   path: RouterEnum.Index,
+  //   component: MainLayoutComponent,
+  //   children: [
+  //     { path: '', redirectTo: '/', pathMatch: 'full' },
+  //     { path: '', component: HomePageComponent },
+  //   ],
+  // },
+
   { path: RouterEnum.Login, component: LoginPageComponent },
   { path: RouterEnum.Index, component: HomePageComponent },
   {

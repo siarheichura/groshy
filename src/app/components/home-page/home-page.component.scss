@@ -1,6 +1,7 @@
 :host {
   .home {
     height: 100vh;
+    // padding-top: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,4 +43,8 @@
       }
     }
   }
+}
+
+nz-form-item {
+  margin: 0;
 }

@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { RouterEnum } from './../../shared/enums/RouterEnum';
 import {
   Component,
   OnInit,
@@ -6,7 +8,7 @@ import {
 } from '@angular/core';
 import { delay } from 'rxjs';
 
-import { Wallet } from '../../models/Wallet';
+import { Wallet } from '../../interfaces/Wallet';
 import { WalletService } from '../../services/wallet.service';
 
 @Component({
@@ -18,10 +20,12 @@ import { WalletService } from '../../services/wallet.service';
 export class HomePageComponent implements OnInit {
   wallets: Wallet[] = [];
   isLoading: boolean = false;
+  walletRoute: string = RouterEnum.Wallet;
 
   constructor(
     private walletService: WalletService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -39,5 +43,11 @@ export class HomePageComponent implements OnInit {
         this.isLoading = false;
         this.cdr.detectChanges();
       });
+  }
+
+  createWallet() {
+    this.walletService.addWallet().subscribe((resp) => {
+      console.log(resp);
+    });
   }
 }

@@ -22,6 +22,14 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+
+// Modules
+import { SharedModule } from './shared/shared.module';
+import { HomePageModule } from './components/home-page/home-page.module';
+import { LoginPageModule } from './components/login-page/login-page.module';
+import { MoneymovePageModule } from './components/moneymove-page/moneymove-page.module';
+import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
 
 // Components
 import { AppComponent } from './app.component';
@@ -57,14 +65,11 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    EffectsModule.forRoot([]),
+    SharedModule,
+    HomePageModule,
+    LoginPageModule,
+    MoneymovePageModule,
+    StatisticsPageModule,
     NzFormModule,
     NzTabsModule,
     NzInputModule,
@@ -74,6 +79,15 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     NzIconModule,
     NzCardModule,
     NzSpinModule,
+    NzPopoverModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([]),
   ],
   providers: [],
   bootstrap: [AppComponent],

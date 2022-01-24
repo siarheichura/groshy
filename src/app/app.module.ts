@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
@@ -36,6 +36,10 @@ import { MoneymoveTabsetComponent } from './components/moneymove-tabset/moneymov
 import { MoneymoveFormComponent } from './components/moneymove-form/moneymove-form.component';
 import { MoneymoveBodyComponent } from './components/moneymove-body/moneymove-body.component';
 import { MoneymoveCardComponent } from './components/moneymove-card/moneymove-card.component';
+import {HTTPWalletService, WalletService, WalletService2} from "./services/wallet.service";
+
+const CONFIG = new InjectionToken<number>('Wallet config');
+
 
 @NgModule({
   declarations: [
@@ -76,7 +80,17 @@ import { MoneymoveCardComponent } from './components/moneymove-card/moneymove-ca
     NzCardModule,
     NzSpinModule,
   ],
-  providers: [],
+  providers: [
+    {provide: CONFIG, useValue: 0},
+    WalletService2,
+    WalletService,
+    {
+      provide: HTTPWalletService,
+      useFactory: (config: number, service1: HTTPWalletService, service2: HTTPWalletService) => {
+        return config === 1 ?  service2 : service1;
+      },
+      deps: [CONFIG, WalletService2, WalletService]}
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

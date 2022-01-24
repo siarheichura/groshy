@@ -1,5 +1,5 @@
 import { WalletClass} from '../models/WalletInterface';
-import { WalletService } from './../services/wallet.service';
+import {HTTPWalletService, WalletService} from './../services/wallet.service';
 import { Component, OnInit } from '@angular/core';
 import { delay } from 'rxjs';
 
@@ -12,7 +12,7 @@ export class HomePageComponent implements OnInit {
   wallets: WalletClass[] = [];
   isLoading: boolean = false;
 
-  constructor(private walletService: WalletService) {}
+  constructor(private walletService: HTTPWalletService) {}
 
   ngOnInit(): void {
     this.getWallets();
@@ -20,11 +20,11 @@ export class HomePageComponent implements OnInit {
 
   getWallets() {
     this.isLoading = true;
-
     this.walletService
       .fetchWallets()
-      .pipe(delay(500))
       .subscribe((response) => {
+        console.log('response', response)
+
         this.wallets = response;
         this.isLoading = false;
       });
@@ -33,6 +33,5 @@ export class HomePageComponent implements OnInit {
     event.preventDefault();
     event.stopImmediatePropagation();
     wallet.increase();
-
   }
 }

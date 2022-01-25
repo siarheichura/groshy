@@ -8,7 +8,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
 
 const routes: Routes = [
-  { path: RouterEnum.Index, component: HomePageComponent },
+  {
+    path: RouterEnum.Index,
+    component: MainLayoutComponent,
+    children: [{ path: RouterEnum.Index, component: HomePageComponent }],
+  },
   {
     path: `${RouterEnum.Wallet}/:id`,
     component: MainLayoutComponent,

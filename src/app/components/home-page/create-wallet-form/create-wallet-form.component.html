@@ -1,0 +1,43 @@
+<form nz-form [formGroup]="createWalletForm">
+  <nz-form-item>
+    <nz-form-control>
+      <input
+        nz-input
+        type="text"
+        placeholder="Wallet name"
+        [formControlName]="formControls.Name"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <input
+        nz-input
+        type="number"
+        placeholder="Initial amount"
+        [formControlName]="formControls.Amount"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-select
+        nzPlaceHolder="Currency"
+        [formControlName]="formControls.Currency"
+      >
+        <nz-option
+          *ngFor="let currency of currencies"
+          [nzValue]="currency"
+          [nzLabel]="currency"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item class="form__button">
+    <button nz-button nzType="primary" (click)="onButtonCreateClick()">
+      Create
+    </button>
+  </nz-form-item>
+</form>

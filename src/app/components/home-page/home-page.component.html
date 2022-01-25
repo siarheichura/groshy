@@ -1,78 +1,8 @@
 <div class="home">
   <nz-spin [nzSpinning]="loading">
-    <div class="card" *ngIf="!loading">
-      <h3 class="card__title">Choose your wallet</h3>
-
-      <div
-        class="card__item"
-        *ngFor="let wallet of wallets"
-        [routerLink]="[walletRoute, wallet._id]"
-      >
-        <p>{{ wallet.name }}</p>
-        <p>{{ wallet.amount }} {{ wallet.currency }}</p>
-        <button
-          class="card__btn-delete"
-          (click)="removeWallet($event, wallet._id)"
-        ></button>
-      </div>
-
-      <button
-        class="card__btn-add"
-        nz-button
-        nzType="dashed"
-        (click)="showModal()"
-      >
-        + Add wallet
-      </button>
-    </div>
+    <app-wallets-list
+      [loading]="loading"
+      [wallets]="wallets"
+    ></app-wallets-list>
   </nz-spin>
 </div>
-
-<nz-modal
-  [(nzVisible)]="isModalVisible"
-  nzTitle="Create wallet"
-  (nzOnCancel)="closeModal()"
-  (nzOnOk)="addWallet()"
-  nzWidth="350px"
->
-  <ng-container *nzModalContent>
-    <form nz-form [formGroup]="createWalletForm">
-      <nz-form-item>
-        <nz-form-control>
-          <input
-            nz-input
-            type="text"
-            placeholder="Wallet name"
-            [formControlName]="formControls.Name"
-          />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control>
-          <input
-            nz-input
-            type="number"
-            placeholder="Initial amount"
-            [formControlName]="formControls.Amount"
-          />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control>
-          <nz-select
-            nzPlaceHolder="Currency"
-            [formControlName]="formControls.Currency"
-          >
-            <nz-option
-              *ngFor="let currency of currencies"
-              [nzValue]="currency"
-              [nzLabel]="currency"
-            ></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </ng-container>
-</nz-modal>

@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-create-wallet-modal',
@@ -13,13 +7,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateWalletModalComponent implements OnInit {
-  @Input() isModalVisible: boolean;
-
   constructor() {}
 
   ngOnInit(): void {}
-
-  closeModal() {}
-
-  addWallet() {}
 }

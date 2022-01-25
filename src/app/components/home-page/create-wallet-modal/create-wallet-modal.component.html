@@ -1,0 +1,48 @@
+<nz-modal
+  [(nzVisible)]="isModalVisible"
+  nzTitle="Create wallet"
+  (nzOnCancel)="closeModal()"
+  (nzOnOk)="addWallet()"
+  nzWidth="350px"
+>
+  <!-- <ng-container *nzModalContent>
+    <form nz-form [formGroup]="createWalletForm">
+      <nz-form-item>
+        <nz-form-control>
+          <input
+            nz-input
+            type="text"
+            placeholder="Wallet name"
+            [formControlName]="formControls.Name"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <input
+            nz-input
+            type="number"
+            placeholder="Initial amount"
+            [formControlName]="formControls.Amount"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select
+            nzPlaceHolder="Currency"
+            [formControlName]="formControls.Currency"
+          >
+            <nz-option
+              *ngFor="let currency of currencies"
+              [nzValue]="currency"
+              [nzLabel]="currency"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container> -->
+</nz-modal>

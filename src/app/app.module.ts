@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 
 // NG-Zorro
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -22,6 +23,15 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+
+// Modules
+import { SharedModule } from './shared/shared.module';
+import { HomePageModule } from './components/home-page/home-page.module';
+import { LoginPageModule } from './components/login-page/login-page.module';
+import { MoneymovePageModule } from './components/moneymove-page/moneymove-page.module';
+import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
 
 // Components
 import { AppComponent } from './app.component';
@@ -43,7 +53,7 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     UserAmountComponent,
     MainLayoutComponent,
     HeaderComponent,
-    HomePageComponent,
+    // HomePageComponent,
     MoneymoveFormComponent,
     MoneymoveBodyComponent,
     MoneymoveCardComponent,
@@ -57,14 +67,11 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    EffectsModule.forRoot([]),
+    SharedModule,
+    HomePageModule,
+    LoginPageModule,
+    MoneymovePageModule,
+    StatisticsPageModule,
     NzFormModule,
     NzTabsModule,
     NzInputModule,
@@ -74,8 +81,18 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     NzIconModule,
     NzCardModule,
     NzSpinModule,
+    NzPopoverModule,
+    NzPopconfirmModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([]),
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 
 // NG-Zorro
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -23,6 +24,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 // Modules
 import { SharedModule } from './shared/shared.module';
@@ -51,7 +53,7 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     UserAmountComponent,
     MainLayoutComponent,
     HeaderComponent,
-    HomePageComponent,
+    // HomePageComponent,
     MoneymoveFormComponent,
     MoneymoveBodyComponent,
     MoneymoveCardComponent,
@@ -80,6 +82,7 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     NzCardModule,
     NzSpinModule,
     NzPopoverModule,
+    NzPopconfirmModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
     }),
@@ -89,7 +92,7 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     }),
     EffectsModule.forRoot([]),
   ],
-  providers: [],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

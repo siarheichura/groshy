@@ -9,7 +9,7 @@
             <input
               type="text"
               nz-input
-              formControlName="email"
+              [formControlName]="formControls.Email"
               placeholder="E-mail"
             />
           </nz-input-group>
@@ -22,7 +22,7 @@
             <input
               type="password"
               nz-input
-              formControlName="password"
+              [formControlName]="formControls.Password"
               placeholder="Password"
             />
           </nz-input-group>

@@ -1,72 +1,29 @@
 <div class="home">
-  <nz-spin [nzSpinning]="isLoading">
-    <div class="card" *ngIf="!isLoading">
+  <nz-spin [nzSpinning]="loading">
+    <div class="card" *ngIf="!loading">
       <h3 class="card__title">Choose your wallet</h3>
 
       <div
-        class="card__wallet"
+        class="card__item"
         *ngFor="let wallet of wallets"
-        [routerLink]="[walletRoute, wallet.id]"
+        [routerLink]="[walletRoute, wallet._id]"
       >
         <p>{{ wallet.name }}</p>
         <p>{{ wallet.amount }} {{ wallet.currency }}</p>
+        <button
+          class="card__btn-delete"
+          (click)="removeWallet($event, wallet._id)"
+        ></button>
       </div>
 
       <button
+        class="card__btn-add"
         nz-button
         nzType="dashed"
-        nz-popover
-        nzPopoverTrigger="click"
-        [nzPopoverContent]="popoverContent"
+        (click)="showModal()"
       >
         + Add wallet
       </button>
     </div>
-
-    <button (click)="createWallet()">Create</button>
   </nz-spin>
 </div>
-
-<ng-template #popoverContent>
-  <form nz-form>
-    <nz-form-item>
-      <nz-form-control>
-        <input
-          nz-input
-          type="text"
-          placeholder="Wallet name"
-          nzSize="small"
-          name="name"
-        />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-control>
-        <input
-          nz-input
-          type="number"
-          placeholder="Initial amount"
-          nzSize="small"
-          name="name"
-        />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-control>
-        <nz-select nzSize="small" nzPlaceHolder="Currency">
-          <nz-option nzValue="BYN" nzLabel="BYN"></nz-option>
-          <nz-option nzValue="USD" nzLabel="USD"></nz-option>
-          <nz-option nzValue="EUR" nzLabel="EUR"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-control>
-        <button nz-button nzSize="small" nzType="primary">Add</button>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</ng-template>

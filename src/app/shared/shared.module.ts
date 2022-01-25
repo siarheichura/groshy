@@ -1,4 +1,11 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-@NgModule({ declarations: [], imports: [], providers: [] })
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+
+@NgModule({
+  declarations: [],
+  imports: [CommonModule, NzSpinModule],
+  providers: [],
+})
 export class SharedModule {}

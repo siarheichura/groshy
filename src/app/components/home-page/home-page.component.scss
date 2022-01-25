@@ -1,7 +1,6 @@
 :host {
   .home {
     height: 100vh;
-    // padding-top: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,10 +14,11 @@
         text-align: center;
       }
 
-      &__wallet {
+      &__item {
+        position: relative;
         width: 100%;
         margin-bottom: 5px;
-        padding: 5px 15px;
+        padding: 5px 35px 5px 15px;
         display: flex;
         justify-content: space-between;
         border: 1px solid #c4c4c4;
@@ -37,7 +37,21 @@
         }
       }
 
-      button {
+      &__btn-delete {
+        position: absolute;
+        top: calc(50% - 10px);
+        right: 2px;
+        width: 20px;
+        height: 20px;
+        background: none;
+        background: url("../../../assets/images/close.svg") no-repeat center
+          center;
+        background-size: cover;
+        border: none;
+        cursor: pointer;
+      }
+
+      &__btn-add {
         width: 100%;
         font-size: 16px;
       }
@@ -45,6 +59,6 @@
   }
 }
 
-nz-form-item {
-  margin: 0;
+.ant-form-item {
+  margin: 0 0 10px 0;
 }

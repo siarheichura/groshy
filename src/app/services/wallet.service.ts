@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Wallet } from '../interfaces/Wallet';
+import { Wallet } from '../shared/interfaces/Wallet';
 import { Observable } from 'rxjs';
 
 const API_PATH = '/wallets';
@@ -13,18 +13,15 @@ export class WalletService {
 
   fetchWallets(): Observable<Wallet[]> {
     return this.http.get<Wallet[]>(`${environment.apiUrl}${API_PATH}`);
-    // return this.http.get<Wallet[]>('assets/mock/wallets.json');
   }
 
-  addWallet() {
-    return this.http.post(`${environment.apiUrl}${API_PATH}`, {
-      name: 'lol',
-      currency: 'kek',
-      amount: 500,
-    });
+  addWallet(body: Object) {
+    return this.http.post(`${environment.apiUrl}${API_PATH}`, body);
   }
 
-  removeWallet() {}
+  removeWallet(id: string) {
+    return this.http.delete(`${environment.apiUrl}${API_PATH}/${id}`);
+  }
 
   getWalletById(id: string) {}
 }

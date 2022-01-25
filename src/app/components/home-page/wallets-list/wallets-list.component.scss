@@ -44,6 +44,11 @@
       background-size: cover;
       border: none;
       cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        transform: rotate(90deg);
+      }
     }
 
     &__btn-add {

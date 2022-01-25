@@ -22,7 +22,6 @@ export class MoneymoveFormComponent implements OnInit {
 
   submitForm(): void {
     if (this.moneymoveForm.valid) {
-      console.log('submit', this.moneymoveForm.value);
     } else {
       Object.values(this.moneymoveForm.controls).forEach((control) => {
         if (control.invalid) {

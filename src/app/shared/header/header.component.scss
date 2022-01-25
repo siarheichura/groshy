@@ -2,6 +2,7 @@
   .header {
     max-width: 700px;
     margin: 0 auto;
+    padding: 20px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,7 +18,8 @@
 
     &__nav {
       display: flex;
-      gap: 15px;
+      align-items: center;
+      gap: 10px;
 
       &--stat {
         width: 25px;

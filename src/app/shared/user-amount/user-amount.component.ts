@@ -1,3 +1,4 @@
+import { RouterEnum } from './../enums/RouterEnum';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,6 +8,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserAmountComponent implements OnInit {
+  statisticsPageRoute = RouterEnum.Statistics;
+
   constructor() {}
 
   ngOnInit(): void {}

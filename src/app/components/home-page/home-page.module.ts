@@ -9,6 +9,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 import { HomePageComponent } from './home-page.component';
 import { HomePageRoutingModule } from './home-page-routing.module';
@@ -32,6 +33,7 @@ import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
     NzFormModule,
     NzInputModule,
     NzSelectModule,
+    NzPopconfirmModule,
   ],
   providers: [],
 })

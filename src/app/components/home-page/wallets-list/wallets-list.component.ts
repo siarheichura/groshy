@@ -36,13 +36,11 @@ export class WalletsListComponent implements OnInit {
     this.onAdd.emit();
   }
 
-  onEditItem(event: Event, id: string): void {
-    event.stopPropagation();
+  onEditItem(id: string): void {
     this.onEdit.emit(id);
   }
 
-  onDeleteButtonClick(event: Event, id: string): void {
-    event.stopPropagation();
+  onDeleteItem(id: string): void {
     this.onDelete.emit(id);
   }
 }

@@ -4,22 +4,26 @@
   <div
     class="list__item"
     *ngFor="let wallet of wallets"
-    [routerLink]="[walletRoute, wallet._id]"
+    (click)="onItemClick(wallet._id)"
   >
-    <p>{{ wallet.name }}</p>
-    <p>{{ wallet.amount }} {{ wallet.currency }}</p>
-    <button
-      class="list__btn-delete"
-      (click)="onDeleteButtonClick($event, wallet._id)"
-    ></button>
+    <div class="list__item-info">
+      <p>{{ wallet.name }}</p>
+      <p>{{ wallet.amount }} {{ wallet.currency }}</p>
+    </div>
+
+    <div class="list__item-btns">
+      <button
+        class="btn-delete"
+        (click)="onDeleteButtonClick($event, wallet._id)"
+      ></button>
+      <button
+        class="btn-edit"
+        (click)="onEditItem($event, wallet._id)"
+      ></button>
+    </div>
   </div>
 
-  <button
-    class="list__btn-add"
-    nz-button
-    nzType="dashed"
-    (click)="onAddButtonClick()"
-  >
+  <button class="list__btn-add" nz-button nzType="dashed" (click)="onAddItem()">
     + Add wallet
   </button>
 </div>

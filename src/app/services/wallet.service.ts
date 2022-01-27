@@ -15,7 +15,7 @@ export class WalletService {
     return this.http.get<Wallet[]>(`${environment.apiUrl}${API_PATH}`);
   }
 
-  addWallet(body: Object) {
+  addWallet(body: Wallet) {
     return this.http.post(`${environment.apiUrl}${API_PATH}`, body);
   }
 
@@ -23,5 +23,7 @@ export class WalletService {
     return this.http.delete(`${environment.apiUrl}${API_PATH}/${id}`);
   }
 
-  getWalletById(id: string) {}
+  editWallet(id: string, body: Wallet) {
+    return this.http.put(`${environment.apiUrl}${API_PATH}/${id}`, body);
+  }
 }

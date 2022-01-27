@@ -36,8 +36,12 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item class="form__button">
-    <button nz-button nzType="primary" (click)="onButtonCreateClick()">
-      Create
+    <button
+      nz-button
+      nzType="primary"
+      (click)="onFormSubmit(createWalletForm.value)"
+    >
+      {{ button }}
     </button>
   </nz-form-item>
 </form>

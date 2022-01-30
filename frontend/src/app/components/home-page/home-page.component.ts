@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { remove, walletsSelector } from './../../store/reducers/wallets';
+import { Store } from '@ngrx/store';
 import {
   Component,
   OnInit,
@@ -11,6 +14,7 @@ import { RouterEnum } from './../../shared/enums/RouterEnum';
 import { Wallet } from './../../shared/interfaces/Wallet';
 import { WalletService } from '../../services/wallet.service';
 import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
+import { add, edit } from 'src/app/store/reducers/wallets';
 
 @Component({
   selector: 'app-home-page',
@@ -22,15 +26,22 @@ export class HomePageComponent implements OnInit {
   wallets: Wallet[] = [];
   loading: boolean = false;
 
+  wallets$: Observable<Wallet[]>;
+
   constructor(
     private walletService: WalletService,
     private cdr: ChangeDetectorRef,
     private modal: NzModalService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
     this.getWallets();
+
+    this.wallets$ = this.walletService.fetchWallets();
+
+    // this.wallets$ = this.store.select(walletsSelector);
   }
 
   getWallets(): void {
@@ -47,6 +58,8 @@ export class HomePageComponent implements OnInit {
       this.modal.closeAll();
       this.getWallets();
     });
+
+    this.store.dispatch(add(wallet));
   }
 
   editWallet(walletId: string, updatedWallet: Wallet): void {
@@ -54,6 +67,8 @@ export class HomePageComponent implements OnInit {
       this.modal.closeAll();
       this.getWallets();
     });
+
+    this.store.dispatch(edit());
   }
 
   deleteWallet(walletId: string): void {
@@ -63,6 +78,8 @@ export class HomePageComponent implements OnInit {
       });
       this.cdr.detectChanges();
     });
+
+    this.store.dispatch(remove());
   }
 
   onWalletClick(walletId: string): void {

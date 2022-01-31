@@ -1,4 +1,4 @@
-import { RouterEnum } from './../enums/RouterEnum';
+import { RouterEnum } from '../../enums/RouterEnum';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({

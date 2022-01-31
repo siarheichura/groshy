@@ -10,8 +10,7 @@
     &__logo {
       width: 50px;
       height: 50px;
-      background: url("../../../assets/images/mini-logo.svg") no-repeat center
-        center;
+      background: url("/assets/images/mini-logo.svg") no-repeat center center;
       background-size: contain;
       cursor: pointer;
     }
@@ -24,8 +23,7 @@
       &--stat {
         width: 25px;
         height: 25px;
-        background: url("../../../assets/images/statistics.svg") no-repeat
-          center center;
+        background: url("/assets/images/statistics.svg") no-repeat center center;
         background-size: contain;
         cursor: pointer;
       }
@@ -33,8 +31,7 @@
       &--profile {
         width: 25px;
         height: 25px;
-        background: url("../../../assets/images/profile.svg") no-repeat center
-          center;
+        background: url("/assets/images/profile.svg") no-repeat center center;
         background-size: contain;
         cursor: pointer;
       }

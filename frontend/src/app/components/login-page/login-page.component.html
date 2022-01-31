@@ -4,13 +4,13 @@
 
     <form nz-form [formGroup]="loginForm" class="login-form">
       <nz-form-item>
-        <nz-form-control [nzErrorTip]="emailError">
+        <nz-form-control [nzErrorTip]="usernameError">
           <nz-input-group>
             <input
               type="text"
               nz-input
-              [formControlName]="formControls.Email"
-              placeholder="E-mail"
+              [formControlName]="formControls.Username"
+              placeholder="Username"
             />
           </nz-input-group>
         </nz-form-control>
@@ -34,26 +34,10 @@
   </div>
 </div>
 
-<ng-template #emailError let-control>
-  <ng-container *ngIf="control.hasError('required')">
-    <small>Please input your email!</small>
-  </ng-container>
-
-  <ng-container *ngIf="control.hasError('email')">
-    <small>Please input correct email!</small>
-  </ng-container>
-
-  <ng-container *ngIf="control.hasError('wrong')">
-    <small>Incorrect email!</small>
-  </ng-container>
+<ng-template #usernameError>
+  <small>Please input your username!</small>
 </ng-template>
 
-<ng-template #passwordError let-control>
-  <ng-container *ngIf="control.hasError('required')">
-    <small>Please input your password!</small>
-  </ng-container>
-
-  <ng-container *ngIf="control.hasError('wrong')">
-    <small>Incorrect password!</small>
-  </ng-container>
+<ng-template #passwordError>
+  <small>Please input your password!</small>
 </ng-template>

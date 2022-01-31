@@ -4,10 +4,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { add, edit, remove } from 'src/app/store/wallets/wallets.actions';
+import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 
+import { Router } from '@angular/router';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Wallet } from './../../shared/interfaces/Wallet';
 import { WalletService } from '../../services/wallet.service';
 import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
@@ -26,7 +30,8 @@ export class HomePageComponent implements OnInit {
     private walletService: WalletService,
     private cdr: ChangeDetectorRef,
     private modal: NzModalService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +52,8 @@ export class HomePageComponent implements OnInit {
       this.modal.closeAll();
       this.getWallets();
     });
+
+    this.store.dispatch(add(wallet));
   }
 
   editWallet(walletId: string, updatedWallet: Wallet): void {
@@ -54,6 +61,8 @@ export class HomePageComponent implements OnInit {
       this.modal.closeAll();
       this.getWallets();
     });
+
+    this.store.dispatch(edit());
   }
 
   deleteWallet(walletId: string): void {
@@ -63,6 +72,8 @@ export class HomePageComponent implements OnInit {
       });
       this.cdr.detectChanges();
     });
+
+    this.store.dispatch(remove());
   }
 
   onWalletClick(walletId: string): void {

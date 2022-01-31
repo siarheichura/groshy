@@ -30,6 +30,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { SharedModule } from './shared/shared.module';
 import { HomePageModule } from './components/home-page/home-page.module';
 import { LoginPageModule } from './components/login-page/login-page.module';
+import { RegistrationPageModule } from './components/registration-page/registration-page.module';
 import { MoneymovePageModule } from './components/moneymove-page/moneymove-page.module';
 import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
 
@@ -62,6 +63,7 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     SharedModule,
     HomePageModule,
     LoginPageModule,
+    RegistrationPageModule,
     MoneymovePageModule,
     StatisticsPageModule,
     NzFormModule,

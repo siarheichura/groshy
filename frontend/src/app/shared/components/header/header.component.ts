@@ -1,5 +1,6 @@
-import { RouterEnum } from '../../enums/RouterEnum';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { RouterEnum } from '../../enums/RouterEnum';
 
 @Component({
   selector: 'app-header',
@@ -8,10 +9,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-  homePageRoute = RouterEnum.Index;
-  statisticsPageRoute = RouterEnum.Statistics;
+  routes = RouterEnum;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  handleRouteClick(param: string): void {
+    this.router.navigate([param]);
+  }
 }

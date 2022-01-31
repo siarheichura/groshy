@@ -1,6 +1,6 @@
-import { RouterEnum } from './../enums/RouterEnum';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouterEnum } from '../../enums/RouterEnum';
 
 @Component({
   selector: 'app-error-page',
@@ -8,11 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./error-page.component.scss'],
 })
 export class ErrorPageComponent implements OnInit {
+  routes = RouterEnum;
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
-  handleClick() {
-    this.router.navigate([RouterEnum.Index]);
+  handleClick(param: string): void {
+    this.router.navigate([param]);
   }
 }

@@ -36,10 +36,7 @@ import { StatisticsPageModule } from './components/statistics-page/statistics-pa
 // Components
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
-import { MainLayoutComponent } from './shared/main-layout/main-layout.component';
-import { UserAmountComponent } from './shared/user-amount/user-amount.component';
-import { HeaderComponent } from './shared/header/header.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
+import { UserAmountComponent } from './shared/components/user-amount/user-amount.component';
 import { MoneymoveFormComponent } from './components/moneymove-page/moneymove-form/moneymove-form.component';
 import { MoneymoveBodyComponent } from './components/moneymove-page/moneymove-body/moneymove-body.component';
 import { MoneymoveCardComponent } from './components/moneymove-page/moneymove-card/moneymove-card.component';
@@ -51,9 +48,6 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     AppComponent,
     LoginPageComponent,
     UserAmountComponent,
-    MainLayoutComponent,
-    HeaderComponent,
-    // HomePageComponent,
     MoneymoveFormComponent,
     MoneymoveBodyComponent,
     MoneymoveCardComponent,

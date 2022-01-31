@@ -6,10 +6,10 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
-import { LoginPageComponent } from './login-page.component';
+import { RegistrationPageComponent } from './registration-page.component';
 
 @NgModule({
-  declarations: [LoginPageComponent],
+  declarations: [RegistrationPageComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,4 +20,4 @@ import { LoginPageComponent } from './login-page.component';
   ],
   providers: [],
 })
-export class LoginPageModule {}
+export class RegistrationPageModule {}

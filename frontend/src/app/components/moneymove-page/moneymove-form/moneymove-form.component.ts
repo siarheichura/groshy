@@ -1,6 +1,8 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
+import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
+
 @Component({
   selector: 'app-moneymove-form',
   templateUrl: './moneymove-form.component.html',
@@ -23,12 +25,7 @@ export class MoneymoveFormComponent implements OnInit {
   submitForm(): void {
     if (this.moneymoveForm.valid) {
     } else {
-      Object.values(this.moneymoveForm.controls).forEach((control) => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity();
-        }
-      });
+      markFormControlsDirty(this.moneymoveForm.controls);
     }
   }
 }

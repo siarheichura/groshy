@@ -4,25 +4,21 @@ const app = express();
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { router } from './routes/user.routes';
+import { config } from './config';
+import { RouterEnum } from './shared/enums/RouterEnum';
+import { walletRouter } from './routes/wallet.routes';
+import { userRouter } from './routes/auth.router';
 
-const mongoUrl =
-  'mongodb+srv://siarhei:qwerty123@cluster0.bxsyh.mongodb.net/groshy?retryWrites=true&w=majority';
-
-const PORT = process.env.PORT || 5000;
-
-const corsOptions = {
-  origin: 'http://localhost:4200',
-};
-app.use(cors(corsOptions));
-
+app.use(cors(config.corsOptions));
 app.use(express.json());
-app.use('/api/groshy', router);
+app.use(RouterEnum.Base, userRouter, walletRouter);
 
 const start = async () => {
   try {
-    await mongoose.connect(mongoUrl);
-    app.listen(PORT, () => console.log(`Server is running on port ${PORT}...`));
+    await mongoose.connect(config.dbUrl);
+    app.listen(config.PORT, () =>
+      console.log(`Server is running on port ${config.PORT}...`)
+    );
   } catch (err) {
     console.log(err);
   }

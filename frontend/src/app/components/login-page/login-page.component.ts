@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { AuthService } from '../../services/auth.service';
+import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
+
 enum FormEnum {
-  Email = 'email',
+  Username = 'username',
   Password = 'password',
 }
 
 @Component({
-  selector: 'app-login-page',
+  selector: 'app-aloginuth-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,24 +19,22 @@ export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   formControls = FormEnum;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      [this.formControls.Email]: ['', [Validators.required, Validators.email]],
+      [this.formControls.Username]: ['', [Validators.required]],
       [this.formControls.Password]: ['', [Validators.required]],
     });
   }
 
   submitForm(): void {
     if (this.loginForm.valid) {
-    } else {
-      Object.values(this.loginForm.controls).forEach((control) => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity();
-        }
+      this.authService.login(this.loginForm.value).subscribe((response) => {
+        console.log(response);
       });
+    } else {
+      markFormControlsDirty(this.loginForm.controls);
     }
   }
 }

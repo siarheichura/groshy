@@ -30,12 +30,12 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { SharedModule } from './shared/shared.module';
 import { HomePageModule } from './components/home-page/home-page.module';
 import { LoginPageModule } from './components/login-page/login-page.module';
+import { RegistrationPageModule } from './components/registration-page/registration-page.module';
 import { MoneymovePageModule } from './components/moneymove-page/moneymove-page.module';
 import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
 
 // Components
 import { AppComponent } from './app.component';
-import { LoginPageComponent } from './components/login-page/login-page.component';
 import { UserAmountComponent } from './shared/components/user-amount/user-amount.component';
 import { MoneymoveFormComponent } from './components/moneymove-page/moneymove-form/moneymove-form.component';
 import { MoneymoveBodyComponent } from './components/moneymove-page/moneymove-body/moneymove-body.component';
@@ -46,7 +46,6 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
 @NgModule({
   declarations: [
     AppComponent,
-    LoginPageComponent,
     UserAmountComponent,
     MoneymoveFormComponent,
     MoneymoveBodyComponent,
@@ -64,6 +63,7 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     SharedModule,
     HomePageModule,
     LoginPageModule,
+    RegistrationPageModule,
     MoneymovePageModule,
     StatisticsPageModule,
     NzFormModule,

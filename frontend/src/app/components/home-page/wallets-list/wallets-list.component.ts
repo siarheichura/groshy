@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import {
   Component,
   OnInit,
@@ -17,6 +18,7 @@ import { Wallet } from './../../../shared/interfaces/Wallet';
 })
 export class WalletsListComponent implements OnInit {
   @Input() wallets: Wallet[];
+  // @Input() wallets: Observable<Wallet[]>;
   @Input() loading: boolean;
 
   @Output() onAdd = new EventEmitter();

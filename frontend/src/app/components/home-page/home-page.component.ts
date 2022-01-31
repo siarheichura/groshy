@@ -1,20 +1,20 @@
-import { Observable } from 'rxjs';
-import { remove, walletsSelector } from './../../store/reducers/wallets';
-import { Store } from '@ngrx/store';
 import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { add, edit, remove } from 'src/app/store/wallets/wallets.actions';
+import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 
+import { Router } from '@angular/router';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Wallet } from './../../shared/interfaces/Wallet';
 import { WalletService } from '../../services/wallet.service';
 import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
-import { add, edit } from 'src/app/store/reducers/wallets';
 
 @Component({
   selector: 'app-home-page',
@@ -26,8 +26,6 @@ export class HomePageComponent implements OnInit {
   wallets: Wallet[] = [];
   loading: boolean = false;
 
-  wallets$: Observable<Wallet[]>;
-
   constructor(
     private walletService: WalletService,
     private cdr: ChangeDetectorRef,
@@ -38,10 +36,6 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWallets();
-
-    this.wallets$ = this.walletService.fetchWallets();
-
-    // this.wallets$ = this.store.select(walletsSelector);
   }
 
   getWallets(): void {

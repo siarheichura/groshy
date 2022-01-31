@@ -3,11 +3,11 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Input,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Wallet } from '../../../shared/interfaces/Wallet';
+import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
 
 enum FormEnum {
   Name = 'name',
@@ -28,7 +28,7 @@ export class CreateWalletFormComponent implements OnInit {
   @Input() walletForEdit: Wallet;
   @Input() onFormSubmit: (wallet: Wallet) => void;
 
-  createWalletForm: FormGroup;
+  walletForm: FormGroup;
   formControls = FormEnum;
 
   constructor(private fb: FormBuilder) {}
@@ -48,10 +48,18 @@ export class CreateWalletFormComponent implements OnInit {
       walletName = walletAmount = walletCurrency = '';
     }
 
-    this.createWalletForm = this.fb.group({
+    this.walletForm = this.fb.group({
       [this.formControls.Name]: [walletName, Validators.required],
       [this.formControls.Amount]: [walletAmount, Validators.required],
       [this.formControls.Currency]: [walletCurrency, Validators.required],
     });
+  }
+
+  submitForm(): void {
+    if (this.walletForm.valid) {
+      this.onFormSubmit(this.walletForm.value);
+    } else {
+      markFormControlsDirty(this.walletForm.controls);
+    }
   }
 }

@@ -1,6 +1,6 @@
 <form nz-form [formGroup]="registrationForm" class="login-form">
   <nz-form-item>
-    <nz-form-control nzHasFeedback [nzErrorTip]="usernameError">
+    <nz-form-control [nzErrorTip]="usernameError">
       <nz-input-group>
         <input
           type="text"
@@ -13,7 +13,7 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control nzHasFeedback [nzErrorTip]="emailError">
+    <nz-form-control [nzErrorTip]="emailError">
       <nz-input-group>
         <input
           type="email"
@@ -26,7 +26,7 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control nzHasFeedback [nzErrorTip]="passwordError">
+    <nz-form-control [nzErrorTip]="passwordError">
       <nz-input-group>
         <input
           type="password"
@@ -61,9 +61,6 @@
   <ng-container *ngIf="control.hasError(controlErrors.Email)">
     <small>Incorrect email</small>
   </ng-container>
-  <ng-container *ngIf="control.hasError(controlErrors.Wrong)">
-    <small>No users with this email</small>
-  </ng-container>
 </ng-template>
 
 <ng-template #passwordError let-control>
@@ -72,8 +69,5 @@
   </ng-container>
   <ng-container *ngIf="control.hasError(controlErrors.Minlength)">
     <small>Password must be at least 8 characters</small>
-  </ng-container>
-  <ng-container *ngIf="control.hasError(controlErrors.Wrong)">
-    <small>Wrong password</small>
   </ng-container>
 </ng-template>

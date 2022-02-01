@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -27,6 +27,7 @@ enum FormEnum {
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationFormComponent implements OnInit {
   formControls = FormEnum;
@@ -65,14 +66,13 @@ export class RegistrationFormComponent implements OnInit {
           this.authService.authLoading$.next(false);
           this.router.navigate([RouterEnum.Auth]);
         },
-        error: () => {
-          this.message.error(NzMessageEnum.BASIC_ERROR);
+        error: (err) => {
+          this.message.error(err.error.message);
           this.authService.authLoading$.next(false);
         },
       });
     } else {
       markFormControlsDirty(this.registrationForm.controls);
-      console.log(this.registrationForm.controls);
     }
   }
 

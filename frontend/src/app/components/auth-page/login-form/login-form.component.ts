@@ -1,7 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from './../../../services/auth.service';
 import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
+import { FormControlErrorsEnum } from './../../../shared/enums/FormControlErrorsEnum';
+import { NzMessageEnum } from 'src/app/shared/enums/NzMessagesEnum';
+import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
+
+interface FormValue {
+  username: string;
+  password: string;
+}
 
 enum FormEnum {
   Username = 'username',
@@ -12,12 +23,25 @@ enum FormEnum {
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent implements OnInit {
-  loginForm: FormGroup;
   formControls = FormEnum;
+  routes = RouterEnum;
+  controlErrors = FormControlErrorsEnum;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  loginForm: FormGroup;
+
+  get formValue(): FormValue {
+    return this.loginForm.value as FormValue;
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private message: NzMessageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -28,11 +52,26 @@ export class LoginFormComponent implements OnInit {
 
   submitForm(): void {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe((response) => {
-        console.log(response);
+      this.authService.authLoading$.next(true);
+
+      this.authService.login(this.formValue).subscribe({
+        next: () => {
+          this.loginForm.reset();
+          this.message.success(NzMessageEnum.LOGIN_SUCCESS);
+          this.authService.authLoading$.next(false);
+          this.router.navigate([RouterEnum.Index]);
+        },
+        error: (err) => {
+          this.message.error(err.error.message);
+          this.authService.authLoading$.next(false);
+        },
       });
     } else {
       markFormControlsDirty(this.loginForm.controls);
     }
+  }
+
+  handleRouteClick(param: string): void {
+    this.router.navigate([RouterEnum.Auth, param]);
   }
 }

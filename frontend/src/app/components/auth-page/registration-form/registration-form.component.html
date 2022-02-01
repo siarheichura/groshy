@@ -1,0 +1,79 @@
+<form nz-form [formGroup]="registrationForm" class="login-form">
+  <nz-form-item>
+    <nz-form-control nzHasFeedback [nzErrorTip]="usernameError">
+      <nz-input-group>
+        <input
+          type="text"
+          nz-input
+          [formControlName]="formControls.Username"
+          placeholder="Username"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control nzHasFeedback [nzErrorTip]="emailError">
+      <nz-input-group>
+        <input
+          type="email"
+          nz-input
+          [formControlName]="formControls.Email"
+          placeholder="Email"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control nzHasFeedback [nzErrorTip]="passwordError">
+      <nz-input-group>
+        <input
+          type="password"
+          nz-input
+          [formControlName]="formControls.Password"
+          placeholder="Password"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <button nz-button nzType="primary" (click)="submitForm()">Sign up</button>
+  <div class="or">or</div>
+  <button nz-button nzType="dashed" (click)="handleRouteClick(routes.Auth)">
+    Log in
+  </button>
+</form>
+
+<ng-template #usernameError let-control>
+  <ng-container *ngIf="control.hasError(controlErrors.Required)">
+    <small>This field is required</small>
+  </ng-container>
+  <ng-container *ngIf="control.hasError(controlErrors.Minlength)">
+    <small>Username must be at least 3 characters</small>
+  </ng-container>
+</ng-template>
+
+<ng-template #emailError let-control>
+  <ng-container *ngIf="control.hasError(controlErrors.Required)">
+    <small>This field is required</small>
+  </ng-container>
+  <ng-container *ngIf="control.hasError(controlErrors.Email)">
+    <small>Incorrect email</small>
+  </ng-container>
+  <ng-container *ngIf="control.hasError(controlErrors.Wrong)">
+    <small>No users with this email</small>
+  </ng-container>
+</ng-template>
+
+<ng-template #passwordError let-control>
+  <ng-container *ngIf="control.hasError(controlErrors.Required)">
+    <small>This field is required</small>
+  </ng-container>
+  <ng-container *ngIf="control.hasError(controlErrors.Minlength)">
+    <small>Password must be at least 8 characters</small>
+  </ng-container>
+  <ng-container *ngIf="control.hasError(controlErrors.Wrong)">
+    <small>Wrong password</small>
+  </ng-container>
+</ng-template>

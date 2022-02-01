@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { AuthService } from '../../services/auth.service';
-import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from './../../../services/auth.service';
+import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
 
 enum FormEnum {
   Username = 'username',
@@ -10,12 +9,11 @@ enum FormEnum {
 }
 
 @Component({
-  selector: 'app-aloginuth-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-login-form',
+  templateUrl: './login-form.component.html',
+  styleUrls: ['./login-form.component.scss'],
 })
-export class LoginPageComponent implements OnInit {
+export class LoginFormComponent implements OnInit {
   loginForm: FormGroup;
   formControls = FormEnum;
 

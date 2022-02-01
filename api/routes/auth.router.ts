@@ -11,6 +11,7 @@ userRouter.post(
   RouterEnum.Registration,
   [
     check('username', 'Username cannot be empty').notEmpty(),
+    check('email', 'Incorrect email').isEmail(),
     check('password', 'Password cannot be shorter than 8 characters').isLength({
       min: 8,
     }),

@@ -17,22 +17,20 @@ export class AuthController {
   async registration(req: Request, res: Response) {
     try {
       const errors = validationResult(req);
+      const { username, password, email } = req.body;
 
-      const { username, password } = req.body;
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: 'Registration error', errors });
       }
 
-      const candidate = await User.findOne({ username });
+      const candidate = await User.findOne({ email });
 
       if (candidate) {
-        return res
-          .status(400)
-          .json({ message: 'This username is already taken' });
+        return res.status(400).json({ message: 'This email is already taken' });
       }
 
       const hashPassword = bcrypt.hashSync(password, 7);
-      const user = new User({ username, password: hashPassword });
+      const user = new User({ username, email, password: hashPassword });
 
       await user.save();
       return res.json({ message: 'Registration success' });

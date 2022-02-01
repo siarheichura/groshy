@@ -2,7 +2,7 @@
 
 <form nz-form [formGroup]="loginForm">
   <nz-form-item>
-    <nz-form-control>
+    <nz-form-control [nzErrorTip]="usernameError">
       <nz-input-group>
         <input
           type="text"
@@ -15,7 +15,7 @@
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control>
+    <nz-form-control [nzErrorTip]="passwordError">
       <nz-input-group>
         <input
           type="password"
@@ -28,4 +28,24 @@
   </nz-form-item>
 
   <button nz-button nzType="primary" (click)="submitForm()">Log in</button>
+  <div class="or">or</div>
+  <button
+    nz-button
+    nzType="dashed"
+    (click)="handleRouteClick(routes.Registration)"
+  >
+    Sign up
+  </button>
 </form>
+
+<ng-template #usernameError let-control>
+  <ng-container *ngIf="control.hasError(controlErrors.Required)">
+    <small>This field is required</small>
+  </ng-container>
+</ng-template>
+
+<ng-template #passwordError let-control>
+  <ng-container *ngIf="control.hasError(controlErrors.Required)">
+    <small>This field is required</small>
+  </ng-container>
+</ng-template>

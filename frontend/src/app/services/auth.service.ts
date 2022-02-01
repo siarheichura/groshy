@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { environment } from './../../environments/environment';
 import { User } from '../shared/interfaces/User';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, tap, Observable } from 'rxjs';
 
 enum AuthUrlEnum {
   Registration = '/registration',
@@ -22,7 +22,7 @@ export class AuthService {
     return localStorage.getItem(LocalStorageUserKey);
   }
 
-  registration(user: User) {
+  registration(user: User): Observable<any> {
     return this.http.post(
       `${environment.apiUrl}${AuthUrlEnum.Registration}`,
       user
@@ -35,11 +35,15 @@ export class AuthService {
       .pipe(tap(this.setToken));
   }
 
-  logout() {
+  logout(): void {
     this.setToken(null);
   }
 
-  setToken(response: any) {
+  isAuthenticated(): boolean {
+    return !!this.token;
+  }
+
+  private setToken(response: any) {
     localStorage.setItem(LocalStorageUserKey, response.token);
   }
 }

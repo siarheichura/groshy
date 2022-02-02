@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
 
-@NgModule({ declarations: [], imports: [], providers: [] })
+import { SharedModule } from './../../shared/shared.module';
+
+@NgModule({ declarations: [], imports: [SharedModule], providers: [] })
 export class MoneymovePageModule {}

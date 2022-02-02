@@ -10,12 +10,12 @@ import {
 import { Wallet } from './../../../shared/interfaces/Wallet';
 
 @Component({
-  selector: 'app-wallets-list',
-  templateUrl: './wallets-list.component.html',
-  styleUrls: ['./wallets-list.component.scss'],
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletsListComponent implements OnInit {
+export class ListComponent implements OnInit {
   @Input() items: Wallet[];
   @Input() loading: boolean;
 

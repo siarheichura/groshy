@@ -40,7 +40,6 @@ import { MoneymoveFormComponent } from './components/moneymove-page/moneymove-fo
 import { MoneymoveBodyComponent } from './components/moneymove-page/moneymove-body/moneymove-body.component';
 import { MoneymoveCardComponent } from './components/moneymove-page/moneymove-card/moneymove-card.component';
 import { MoneymovePageComponent } from './components/moneymove-page/moneymove-page.component';
-import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +49,6 @@ import { StatisticsPageComponent } from './components/statistics-page/statistics
     MoneymoveBodyComponent,
     MoneymoveCardComponent,
     MoneymovePageComponent,
-    StatisticsPageComponent,
   ],
   imports: [
     BrowserModule,

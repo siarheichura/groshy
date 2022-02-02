@@ -1,13 +1,13 @@
-import { Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AuthService } from './../../../services/auth.service';
-import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
-import { FormControlErrorsEnum } from './../../../shared/enums/FormControlErrorsEnum';
 import { NzMessageEnum } from 'src/app/shared/enums/NzMessagesEnum';
+import { FormControlErrorsEnum } from './../../../shared/enums/FormControlErrorsEnum';
 import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
+import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
 
 interface FormValue {
   username: string;

@@ -1,3 +1,4 @@
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     NzSelectModule,
     NzPopconfirmModule,
     NzDrawerModule,
+    NzTabsModule,
     ListComponent,
   ],
   providers: [],

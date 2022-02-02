@@ -4,12 +4,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { AuthService } from './../../../services/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
-import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
-
 import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
 import { NzMessageEnum } from 'src/app/shared/enums/NzMessagesEnum';
 import { FormControlErrorsEnum } from './../../../shared/enums/FormControlErrorsEnum';
+import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
 
 interface FormValue {
   username: string;

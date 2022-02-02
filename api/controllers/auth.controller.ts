@@ -5,9 +5,10 @@ import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import { config } from '../config';
 
-const generateAccessToken = (id: string) => {
+const generateAccessToken = (id: string, username: string) => {
   const payload = {
     id,
+    username,
   };
 
   return jwt.sign(payload, config.tokenSecretKey, { expiresIn: '24h' });
@@ -58,7 +59,7 @@ export class AuthController {
         return res.status(400).json({ message: 'Incorrect password' });
       }
 
-      const token = generateAccessToken(user._id);
+      const token = generateAccessToken(user._id, user.username);
 
       return res.json({ token });
     } catch (err) {

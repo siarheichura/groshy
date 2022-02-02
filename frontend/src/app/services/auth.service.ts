@@ -22,14 +22,14 @@ export class AuthService {
     return localStorage.getItem(LocalStorageUserKey);
   }
 
-  registration(user: User): Observable<any> {
+  registration(user: User): Observable<Object> {
     return this.http.post(
       `${environment.apiUrl}${AuthUrlEnum.Registration}`,
       user
     );
   }
 
-  login(user: User) {
+  login(user: User): Observable<Response> {
     return this.http
       .post(`${environment.apiUrl}${AuthUrlEnum.Login}`, user)
       .pipe(tap(this.setToken));
@@ -43,7 +43,15 @@ export class AuthService {
     return !!this.token;
   }
 
-  private setToken(response: any) {
+  private setToken(response: any): void {
     localStorage.setItem(LocalStorageUserKey, response.token);
+  }
+
+  jwtDecode() {
+    try {
+      return JSON.parse(atob(this.token!.split('.')[1]));
+    } catch (error) {
+      return null;
+    }
   }
 }

@@ -11,6 +11,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { ErrorPageComponent } from './shared/components/error-page/error-page.component';
 import { AuthPageComponent } from './components/auth-page/auth-page.component';
 
+import { AuthGuard } from './services/auth.guard';
+
 import { RouterEnum } from './shared/enums/RouterEnum';
 
 const routes: Routes = [
@@ -27,6 +29,7 @@ const routes: Routes = [
   {
     path: RouterEnum.Index,
     component: MainLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: RouterEnum.Index, component: HomePageComponent },
       {

@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/auth.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterEnum } from '../../enums/RouterEnum';
@@ -11,9 +12,12 @@ import { RouterEnum } from '../../enums/RouterEnum';
 export class HeaderComponent implements OnInit {
   routes = RouterEnum;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
+  username: string;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.username = this.authService.jwtDecode().username;
+  }
 
   handleRouteClick(param: string): void {
     this.router.navigate([param]);

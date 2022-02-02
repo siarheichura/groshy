@@ -36,14 +36,14 @@ export class AuthService {
   }
 
   logout(): void {
-    this.setToken(null);
+    localStorage.removeItem(LocalStorageUserKey);
   }
 
   isAuthenticated(): boolean {
     return !!this.token;
   }
 
-  private setToken(response: any): void {
+  setToken(response: any): void {
     localStorage.setItem(LocalStorageUserKey, response.token);
   }
 

@@ -13,11 +13,13 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { ListComponent } from './components/list/list.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { ListComponent } from './components/list/list.component';
     HeaderComponent,
     MainLayoutComponent,
     ListComponent,
+    UserProfileComponent,
   ],
 
   imports: [CommonModule, RouterModule, NzResultModule, NzButtonModule],
@@ -40,6 +43,7 @@ import { ListComponent } from './components/list/list.component';
     NzModalModule,
     NzSelectModule,
     NzPopconfirmModule,
+    NzDrawerModule,
     ListComponent,
   ],
   providers: [],

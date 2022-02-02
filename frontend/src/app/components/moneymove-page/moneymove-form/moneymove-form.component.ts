@@ -1,7 +1,7 @@
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
+import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
 
 @Component({
   selector: 'app-moneymove-form',

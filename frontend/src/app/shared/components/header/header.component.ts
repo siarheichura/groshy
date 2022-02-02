@@ -1,6 +1,9 @@
-import { AuthService } from './../../../services/auth.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { AuthService } from './../../../services/auth.service';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { UserProfileComponent } from './../user-profile/user-profile.component';
 import { RouterEnum } from '../../enums/RouterEnum';
 
 @Component({
@@ -12,7 +15,11 @@ import { RouterEnum } from '../../enums/RouterEnum';
 export class HeaderComponent implements OnInit {
   routes = RouterEnum;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private drawerService: NzDrawerService
+  ) {}
   username: string;
 
   ngOnInit(): void {
@@ -21,5 +28,12 @@ export class HeaderComponent implements OnInit {
 
   handleRouteClick(param: string): void {
     this.router.navigate([param]);
+  }
+
+  openDrawer() {
+    const drawer = this.drawerService.create({
+      nzTitle: this.username,
+      nzContent: UserProfileComponent,
+    });
   }
 }

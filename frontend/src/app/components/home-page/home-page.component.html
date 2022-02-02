@@ -2,7 +2,7 @@
   <nz-spin [nzSpinning]="loading">
     <app-wallets-list
       [loading]="loading"
-      [wallets]="wallets"
+      [items]="wallets"
       (onAdd)="printModal()"
       (onEdit)="printModal($event)"
       (onDelete)="deleteWallet($event)"

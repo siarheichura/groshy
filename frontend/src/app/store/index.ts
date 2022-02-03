@@ -1,17 +1,16 @@
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { environment } from '../../environments/environment';
-
+import { Action, ActionReducerMap } from '@ngrx/store';
 import { walletsReducer } from './wallets/wallets.reducers';
-import { Wallet } from '../shared/interfaces/Wallet';
 
-export interface State {
-  wallets: Wallet[];
+import { initialWalletsState, WalletsState } from './wallets/wallets.state';
+
+export interface AppState {
+  wallets: WalletsState;
 }
 
-export const reducers: ActionReducerMap<State> = {
-  wallets: walletsReducer,
+export const initialAppState: AppState = {
+  wallets: initialWalletsState,
 };
 
-export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? []
-  : [];
+export const reducers: ActionReducerMap<AppState, Action> = {
+  wallets: walletsReducer,
+};

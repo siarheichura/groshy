@@ -16,7 +16,7 @@ import { Wallet } from './../../../shared/interfaces/Wallet';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletsListComponent implements OnInit {
-  @Input() items: Wallet[];
+  @Input() items: Wallet[] | null;
   @Input() loading: boolean;
 
   @Output() onAdd = new EventEmitter();

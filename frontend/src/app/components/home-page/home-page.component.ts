@@ -4,14 +4,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { find, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { add, edit, remove } from 'src/app/store/wallets/wallets.actions';
+import {
+  AddWallet,
+  EditWallet,
+  GetWallets,
+  RemoveWallet,
+} from 'src/app/store/wallets/wallets.actions';
 import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 
 import { Router } from '@angular/router';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Wallet } from './../../shared/interfaces/Wallet';
 import { WalletService } from '../../services/wallet.service';
 import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
@@ -23,7 +28,7 @@ import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent implements OnInit {
-  wallets: Wallet[] = [];
+  wallets$: Observable<Wallet[]> = this.store.select(walletsSelector);
   loading: boolean = false;
 
   constructor(
@@ -35,45 +40,23 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getWallets();
-  }
-
-  getWallets(): void {
-    this.loading = true;
-    this.walletService.fetchWallets().subscribe((response) => {
-      this.wallets = response;
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
+    this.store.dispatch(GetWallets());
   }
 
   createWallet(wallet: Wallet): void {
-    this.walletService.addWallet(wallet).subscribe(() => {
-      this.modal.closeAll();
-      this.getWallets();
-    });
-
-    this.store.dispatch(add(wallet));
+    this.store.dispatch(AddWallet({ payload: wallet }));
+    this.modal.closeAll();
   }
 
   editWallet(walletId: string, updatedWallet: Wallet): void {
-    this.walletService.editWallet(walletId, updatedWallet).subscribe(() => {
-      this.modal.closeAll();
-      this.getWallets();
-    });
-
-    this.store.dispatch(edit());
+    this.store.dispatch(
+      EditWallet({ payload: { id: walletId, updatedWallet: updatedWallet } })
+    );
+    this.modal.closeAll();
   }
 
   deleteWallet(walletId: string): void {
-    this.walletService.removeWallet(walletId).subscribe((response) => {
-      this.wallets = this.wallets.filter((wallet) => {
-        return wallet._id !== walletId;
-      });
-      this.cdr.detectChanges();
-    });
-
-    this.store.dispatch(remove());
+    this.store.dispatch(RemoveWallet({ payload: { id: walletId } }));
   }
 
   onWalletClick(walletId: string): void {
@@ -87,9 +70,11 @@ export class HomePageComponent implements OnInit {
 
     if (walletIdForEdit) {
       modalName = 'Edit';
-      walletForEdit = this.wallets.find(
-        (wallet) => wallet._id === walletIdForEdit
-      );
+
+      this.wallets$.subscribe((resp) => {
+        walletForEdit = resp.find((wallet) => wallet._id === walletIdForEdit);
+      });
+
       onFormSubmit = (wallet: Wallet) => {
         this.editWallet(walletIdForEdit, wallet);
       };

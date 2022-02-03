@@ -1,3 +1,4 @@
+import { WalletsEffects } from './store/wallets/wallets.effects';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,7 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, metaReducers } from './store';
+import { reducers } from './store';
 
 // NG-Zorro
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -73,14 +74,12 @@ import { MoneymovePageComponent } from './components/moneymove-page/moneymove-pa
     NzSpinModule,
     NzPopoverModule,
     NzPopconfirmModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([WalletsEffects]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

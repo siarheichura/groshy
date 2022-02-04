@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../models/User';
+import { UserModel } from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
@@ -24,14 +24,14 @@ export class AuthController {
         return res.status(400).json({ message: 'Registration error', errors });
       }
 
-      const candidate = await User.findOne({ email });
+      const candidate = await UserModel.findOne({ email });
 
       if (candidate) {
         return res.status(400).json({ message: 'This email is already taken' });
       }
 
       const hashPassword = bcrypt.hashSync(password, 7);
-      const user = new User({ username, email, password: hashPassword });
+      const user = new UserModel({ username, email, password: hashPassword });
 
       await user.save();
       return res.json({ message: 'Registration success' });
@@ -45,7 +45,7 @@ export class AuthController {
     try {
       const { username, password } = req.body;
 
-      const user = await User.findOne({ username });
+      const user = await UserModel.findOne({ username });
 
       if (!user) {
         return res
@@ -70,7 +70,7 @@ export class AuthController {
 
   async getUsers(req: Request, res: Response) {
     try {
-      const users = await User.find();
+      const users = await UserModel.find();
       res.json(users);
     } catch (err) {
       console.log(err);

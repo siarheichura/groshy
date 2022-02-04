@@ -1,6 +1,13 @@
 import { Schema, model } from 'mongoose';
 
-const ExpenseSchema = new Schema({
+export interface Expense {
+  _id: string;
+  category: string;
+  date: Date;
+  amount: number;
+}
+
+const ExpenseSchema = new Schema<Expense>({
   category: { type: String },
   date: { type: Date, default: Date.now },
   amount: { type: Number },

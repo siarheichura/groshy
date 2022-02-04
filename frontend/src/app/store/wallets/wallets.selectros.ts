@@ -7,3 +7,8 @@ export const walletsSelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.wallets
 );
+
+export const walletSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.wallet
+);

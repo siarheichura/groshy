@@ -21,6 +21,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { ListComponent } from './components/list/list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { WalletSettingComponent } from './components/wallet-setting/wallet-setting.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     MainLayoutComponent,
     ListComponent,
     UserProfileComponent,
+    WalletSettingComponent,
   ],
 
   imports: [CommonModule, RouterModule, NzResultModule, NzButtonModule],

@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { find, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   AddWallet,
@@ -32,8 +32,6 @@ export class HomePageComponent implements OnInit {
   loading: boolean = false;
 
   constructor(
-    private walletService: WalletService,
-    private cdr: ChangeDetectorRef,
     private modal: NzModalService,
     private router: Router,
     private store: Store

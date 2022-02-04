@@ -1,7 +1,7 @@
 import { Wallet } from './../../shared/interfaces/Wallet';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs';
 import { WalletService } from './../../services/wallet.service';
 import * as WalletsActions from './wallets.actions';
 
@@ -17,10 +17,25 @@ export class WalletsEffects {
       ofType(WalletsActions.GetWallets),
       mergeMap(() =>
         this.walletService
-          .fetchWallets()
+          .getWallets()
           .pipe(
             map((wallets: Wallet[]) =>
               WalletsActions.GetWalletsSuccess({ payload: wallets })
+            )
+          )
+      )
+    );
+  });
+
+  getWallet$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetWallet),
+      switchMap((action) =>
+        this.walletService
+          .getWallet(action.payload.id)
+          .pipe(
+            map((wallet: Wallet) =>
+              WalletsActions.GetWalletSuccess({ payload: wallet })
             )
           )
       )

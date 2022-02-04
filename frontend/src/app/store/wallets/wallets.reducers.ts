@@ -1,13 +1,6 @@
-import { initialWalletsState, WalletsState } from './wallets.state';
 import { createReducer, on } from '@ngrx/store';
-import {
-  AddWallet,
-  RemoveWallet,
-  EditWallet,
-  GetWallets,
-  GetWalletsSuccess,
-  ShowSpinner,
-} from './wallets.actions';
+import { initialWalletsState } from './wallets.state';
+import { GetWalletsSuccess, GetWalletSuccess } from './wallets.actions';
 
 export const walletsReducer = createReducer(
   initialWalletsState,
@@ -15,9 +8,9 @@ export const walletsReducer = createReducer(
     ...state,
     wallets: payload,
   })),
-  on(ShowSpinner, (state, { payload }) => ({
+  on(GetWalletSuccess, (state, { payload }) => ({
     ...state,
-    loading: payload,
+    wallet: payload,
   }))
 
   // on(AddWallet, (state, { payload }) => ({

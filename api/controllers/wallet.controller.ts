@@ -1,20 +1,31 @@
 import { Request, Response } from 'express';
-import { Wallet } from '../models/Wallet';
+import { WalletModel } from '../models/Wallet';
 
 export class WalletController {
   async getWallets(req: Request, res: Response) {
     try {
-      const wallets = await Wallet.find();
+      const wallets = await WalletModel.find();
       res.json(wallets);
     } catch (err) {
       res.status(500).json({ message: 'Cannot get wallets' });
     }
   }
 
+  async getWallet(req: Request, res: Response) {
+    const id = req.params.id;
+
+    try {
+      const wallet = await WalletModel.findById(id);
+      res.send(wallet);
+    } catch (err) {
+      res.status(404).send({ message: `Wallet with id=${id} is not found` });
+    }
+  }
+
   async addWallet(req: Request, res: Response) {
     try {
       const { name, currency, amount } = req.body;
-      const wallet = new Wallet({ name, currency, amount });
+      const wallet = new WalletModel({ name, currency, amount });
       await wallet.save();
       return res.json({ message: 'Wallet has been created' });
     } catch (err) {
@@ -26,7 +37,7 @@ export class WalletController {
     const id = req.params.id;
 
     try {
-      Wallet.findByIdAndDelete(id, (err: Error) => {
+      WalletModel.findByIdAndDelete(id, (err: Error) => {
         if (err) {
           res.status(404).send({
             message: `Cannot remove wallet with id=${id}. Maybe wallet was not found!`,
@@ -47,7 +58,7 @@ export class WalletController {
   async editWallet(req: Request, res: Response) {
     const id = req.params.id;
     try {
-      Wallet.findByIdAndUpdate(id, req.body, (err: Error) => {
+      WalletModel.findByIdAndUpdate(id, req.body, (err: Error) => {
         if (err) {
           res.status(404).json({
             message: `Cannot edit wallet with id=${id}. Maybe wallet was not found!`,

@@ -1,11 +1,8 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 import {
   AddWallet,
   EditWallet,
@@ -13,12 +10,9 @@ import {
   RemoveWallet,
 } from 'src/app/store/wallets/wallets.actions';
 import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
-
-import { Router } from '@angular/router';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Wallet } from './../../shared/interfaces/Wallet';
-import { WalletService } from '../../services/wallet.service';
 import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
 
 @Component({
@@ -53,7 +47,7 @@ export class HomePageComponent implements OnInit {
     this.modal.closeAll();
   }
 
-  deleteWallet(walletId: string): void {
+  removeWallet(walletId: string): void {
     this.store.dispatch(RemoveWallet({ payload: { id: walletId } }));
   }
 

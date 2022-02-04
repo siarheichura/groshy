@@ -11,8 +11,12 @@ const API_PATH = '/wallets';
 export class WalletService {
   constructor(private http: HttpClient) {}
 
-  fetchWallets(): Observable<Wallet[]> {
+  getWallets(): Observable<Wallet[]> {
     return this.http.get<Wallet[]>(`${environment.apiUrl}${API_PATH}`);
+  }
+
+  getWallet(id: string): Observable<Wallet> {
+    return this.http.get<Wallet>(`${environment.apiUrl}${API_PATH}/${id}`);
   }
 
   addWallet(body: Wallet) {

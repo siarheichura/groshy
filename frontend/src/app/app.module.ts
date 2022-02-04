@@ -36,7 +36,7 @@ import { StatisticsPageModule } from './components/statistics-page/statistics-pa
 
 // Components
 import { AppComponent } from './app.component';
-import { UserAmountComponent } from './shared/components/user-amount/user-amount.component';
+import { WalletAmountComponent } from './shared/components/wallet-amount/wallet-amount.component';
 import { MoneymoveFormComponent } from './components/moneymove-page/moneymove-form/moneymove-form.component';
 import { MoneymoveBodyComponent } from './components/moneymove-page/moneymove-body/moneymove-body.component';
 import { MoneymoveCardComponent } from './components/moneymove-page/moneymove-card/moneymove-card.component';
@@ -45,7 +45,7 @@ import { MoneymovePageComponent } from './components/moneymove-page/moneymove-pa
 @NgModule({
   declarations: [
     AppComponent,
-    UserAmountComponent,
+    WalletAmountComponent,
     MoneymoveFormComponent,
     MoneymoveBodyComponent,
     MoneymoveCardComponent,

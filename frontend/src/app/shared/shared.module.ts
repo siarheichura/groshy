@@ -33,7 +33,13 @@ import { WalletSettingComponent } from './components/wallet-setting/wallet-setti
     WalletSettingComponent,
   ],
 
-  imports: [CommonModule, RouterModule, NzResultModule, NzButtonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NzResultModule,
+    NzButtonModule,
+    NzPopconfirmModule,
+  ],
   exports: [
     ReactiveFormsModule,
     RouterModule,

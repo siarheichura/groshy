@@ -1,4 +1,3 @@
-import { WalletsEffects } from './store/wallets/wallets.effects';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store';
+import { WalletsEffects } from './store/wallets/wallets.effects';
 
 // NG-Zorro
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';

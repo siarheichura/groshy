@@ -7,8 +7,6 @@ import {
   EventEmitter,
 } from '@angular/core';
 
-import { Wallet } from './../../../shared/interfaces/Wallet';
-
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -16,7 +14,8 @@ import { Wallet } from './../../../shared/interfaces/Wallet';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
-  @Input() items: Wallet[];
+  @Input() title: string;
+  @Input() items: any; // ???
   @Input() loading: boolean;
 
   @Output() onAdd = new EventEmitter();

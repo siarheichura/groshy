@@ -25,7 +25,6 @@ export const GetWalletSuccess = createAction(
   WalletsActionsEnum.GetWalletSuccess,
   props<{ payload: Wallet }>()
 );
-
 export const AddWallet = createAction(
   WalletsActionsEnum.AddWallet,
   props<{ payload: Wallet }>()

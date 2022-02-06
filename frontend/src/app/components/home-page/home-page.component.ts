@@ -9,7 +9,10 @@ import {
   GetWallets,
   RemoveWallet,
 } from 'src/app/store/wallets/wallets.actions';
-import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
+import {
+  walletsLoadingSelector,
+  walletsSelector,
+} from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Wallet } from './../../shared/interfaces/Wallet';
@@ -23,7 +26,7 @@ import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
 })
 export class HomePageComponent implements OnInit {
   wallets$: Observable<Wallet[]> = this.store.select(walletsSelector);
-  loading: boolean = false;
+  loading$: Observable<boolean> = this.store.select(walletsLoadingSelector);
 
   constructor(
     private modal: NzModalService,

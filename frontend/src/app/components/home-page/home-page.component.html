@@ -1,9 +1,9 @@
 <div class="home">
-  <nz-spin [nzSpinning]="loading">
+  <nz-spin [nzSpinning]="loading$ | async">
     <app-list
       [title]="'Choose your wallet 💰'"
       [items]="wallets$ | async"
-      [loading]="loading"
+      [loading]="loading$ | async"
       (onAdd)="printModal()"
       (onEdit)="printModal($event)"
       (onDelete)="removeWallet($event)"

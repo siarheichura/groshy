@@ -12,3 +12,8 @@ export const walletSelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.wallet
 );
+
+export const walletsLoadingSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.loading
+);

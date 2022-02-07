@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 import { WalletSettingComponent } from '../wallet-setting/wallet-setting.component';
@@ -18,8 +18,7 @@ import { GetWallet } from 'src/app/store/wallets/wallets.actions';
 })
 export class WalletAmountComponent implements OnInit {
   routes = RouterEnum;
-
-  walletId: string;
+  walletId: string = this.route.snapshot.params['id']; // ???
   wallet$: Observable<Wallet | null> = this.store.select(walletSelector);
 
   constructor(
@@ -30,12 +29,6 @@ export class WalletAmountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe({
-      next: (p) => {
-        this.walletId = p['id'];
-      },
-    });
-
     this.store.dispatch(GetWallet({ payload: { id: this.walletId } }));
   }
 

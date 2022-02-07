@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store';
 import { WalletsEffects } from './store/wallets/wallets.effects';
+import { UserEffects } from './store/user/user.effects';
 
 // NG-Zorro
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
@@ -79,7 +80,7 @@ import { MoneymovePageComponent } from './components/moneymove-page/moneymove-pa
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([WalletsEffects]),
+    EffectsModule.forRoot([WalletsEffects, UserEffects]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

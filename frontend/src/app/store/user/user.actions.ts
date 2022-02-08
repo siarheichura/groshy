@@ -5,6 +5,7 @@ export enum UserActionsEnum {
   Login = '[USER] LOGIN',
   LoginSuccess = '[USER] LOGIN_SUCCESS',
   LoginFail = '[USER] LOGIN_FAIL',
+  Registraion = '[USER] REGISTRATION',
 }
 
 export const Login = createAction(

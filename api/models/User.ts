@@ -1,4 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 interface User {
   _id: string;
@@ -14,5 +15,16 @@ const UserSchema = new Schema<User>({
   password: { type: String, required: true },
   wallets: [{ type: Schema.Types.ObjectId, ref: 'Wallet', default: [] }],
 });
+
+UserSchema.methods.hashPassword = function (password: string) {
+  return bcrypt.hashSync(password, 7);
+};
+
+UserSchema.methods.checkPassword = function (
+  password: string,
+  userPassword: string
+) {
+  return bcrypt.compareSync(password, userPassword);
+};
 
 export const UserModel = model<User>('User', UserSchema);

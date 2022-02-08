@@ -1,3 +1,4 @@
+import { ListItem } from './../../interfaces/ListItem';
 import {
   Component,
   OnInit,
@@ -15,7 +16,7 @@ import {
 })
 export class ListComponent implements OnInit {
   @Input() title: string;
-  @Input() items: any; // ???
+  @Input() items: ListItem[] | null;
   @Input() loading: boolean | null;
 
   @Output() onAdd = new EventEmitter();

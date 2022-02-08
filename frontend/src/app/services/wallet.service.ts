@@ -19,15 +19,18 @@ export class WalletService {
     return this.http.get<Wallet>(`${environment.apiUrl}${API_PATH}/${id}`);
   }
 
-  addWallet(body: Wallet) {
-    return this.http.post(`${environment.apiUrl}${API_PATH}`, body);
+  addWallet(body: Wallet): Observable<{}> {
+    return this.http.post<Wallet>(`${environment.apiUrl}${API_PATH}`, body);
   }
 
-  removeWallet(id: string) {
-    return this.http.delete(`${environment.apiUrl}${API_PATH}/${id}`);
+  removeWallet(id: string): Observable<{}> {
+    return this.http.delete<Wallet>(`${environment.apiUrl}${API_PATH}/${id}`);
   }
 
-  editWallet(id: string, body: Wallet) {
-    return this.http.put(`${environment.apiUrl}${API_PATH}/${id}`, body);
+  editWallet(id: string, body: Wallet): Observable<{}> {
+    return this.http.put<Wallet>(
+      `${environment.apiUrl}${API_PATH}/${id}`,
+      body
+    );
   }
 }

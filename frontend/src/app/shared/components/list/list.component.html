@@ -1,11 +1,11 @@
 <div class="list" *ngIf="!loading">
   <h3 class="list__title">{{ title }}</h3>
 
-  <div class="list__empty" *ngIf="!items.length">Add your first wallet</div>
+  <div class="list__empty" *ngIf="!items!.length">Add your first wallet</div>
   <div class="list__item" *ngFor="let item of items">
-    <div class="list__item-info" (click)="onItemClick(item._id)">
+    <div class="list__item-info" (click)="onItemClick(item.id)">
       <p>{{ item.name }}</p>
-      <p>{{ item.amount }} {{ item.currency }}</p>
+      <p>{{ item.description }}</p>
     </div>
 
     <div class="list__item-btns">
@@ -14,10 +14,10 @@
         nz-popconfirm
         nzPopconfirmTitle="Are you sure?"
         nzPopconfirmPlacement="left"
-        (nzOnConfirm)="onDeleteItem(item._id)"
+        (nzOnConfirm)="onDeleteItem(item.id)"
       ></button>
 
-      <button class="btn-edit" (click)="onEditItem(item._id)"></button>
+      <button class="btn-edit" (click)="onEditItem(item.id)"></button>
     </div>
   </div>
 

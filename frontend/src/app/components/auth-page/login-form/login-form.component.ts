@@ -67,11 +67,11 @@ export class LoginFormComponent implements OnInit {
         },
       });
     } else {
-      markFormControlsDirty(this.loginForm.controls);
+      markFormControlsDirty(this.loginForm);
     }
   }
 
   handleRouteClick(param: string): void {
-    this.router.navigate([RouterEnum.Auth, param]);
+    void this.router.navigate([RouterEnum.Auth, param]);
   }
 }

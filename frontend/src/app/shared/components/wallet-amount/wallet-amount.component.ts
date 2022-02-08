@@ -18,7 +18,7 @@ import { GetWallet } from 'src/app/store/wallets/wallets.actions';
 })
 export class WalletAmountComponent implements OnInit {
   routes = RouterEnum;
-  walletId: string = this.route.snapshot.params['id']; // ???
+  walletId: string = (this.route.snapshot.params as { id: string }).id;
   wallet$: Observable<Wallet | null> = this.store.select(walletSelector);
 
   constructor(
@@ -32,8 +32,14 @@ export class WalletAmountComponent implements OnInit {
     this.store.dispatch(GetWallet({ payload: { id: this.walletId } }));
   }
 
-  handleRouteClick(param: string): void {
-    this.router.navigate([param], { relativeTo: this.route });
+  handleStatRouteClick(): void {
+    void this.router.navigate([RouterEnum.Statistics], {
+      relativeTo: this.route,
+    });
+  }
+
+  handleWalletRouteClick(): void {
+    void this.router.navigate([RouterEnum.Wallet, this.walletId]);
   }
 
   printDrawer(): void {

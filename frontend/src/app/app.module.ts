@@ -4,8 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 
-// NgRx
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -14,44 +14,16 @@ import { reducers } from './store';
 import { WalletsEffects } from './store/wallets/wallets.effects';
 import { UserEffects } from './store/user/user.effects';
 
-// NG-Zorro
-import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-
-// Modules
 import { SharedModule } from './shared/shared.module';
 import { AuthPageModule } from './components/auth-page/auth-page.module';
 import { HomePageModule } from './components/home-page/home-page.module';
 import { MoneymovePageModule } from './components/moneymove-page/moneymove-page.module';
 import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
 
-// Components
 import { AppComponent } from './app.component';
-import { WalletAmountComponent } from './shared/components/wallet-amount/wallet-amount.component';
-import { MoneymoveFormComponent } from './components/moneymove-page/moneymove-form/moneymove-form.component';
-import { MoneymoveBodyComponent } from './components/moneymove-page/moneymove-body/moneymove-body.component';
-import { MoneymoveCardComponent } from './components/moneymove-page/moneymove-card/moneymove-card.component';
-import { MoneymovePageComponent } from './components/moneymove-page/moneymove-page.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    WalletAmountComponent,
-    MoneymoveFormComponent,
-    MoneymoveBodyComponent,
-    MoneymoveCardComponent,
-    MoneymovePageComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -64,17 +36,6 @@ import { MoneymovePageComponent } from './components/moneymove-page/moneymove-pa
     HomePageModule,
     MoneymovePageModule,
     StatisticsPageModule,
-    NzFormModule,
-    NzTabsModule,
-    NzInputModule,
-    NzInputNumberModule,
-    NzSelectModule,
-    NzButtonModule,
-    NzIconModule,
-    NzCardModule,
-    NzSpinModule,
-    NzPopoverModule,
-    NzPopconfirmModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

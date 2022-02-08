@@ -1,9 +1,13 @@
 export const config = {
-  dbUrl:
+  DB_URL:
     'mongodb+srv://siarhei:qwerty123@cluster0.bxsyh.mongodb.net/groshy?retryWrites=true&w=majority',
+
   PORT: process.env.PORT || 5000,
-  corsOptions: {
+
+  CORS_OPTIONS: {
     origin: 'http://localhost:4200',
   },
-  tokenSecretKey: 'TOKEN_SECRET_KEY',
+
+  TOKEN_SECRET_KEY: 'TOKEN_SECRET_KEY',
+  TOKEN_EXPIRE_TIME: '1h',
 };

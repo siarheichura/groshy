@@ -5,7 +5,7 @@ import { RouterEnum } from '../shared/enums/RouterEnum';
 export const walletRouter = express.Router();
 const controller = new WalletController();
 
-walletRouter.get(RouterEnum.Wallets, controller.getWallets);
+walletRouter.get(RouterEnum.Wallets, controller.getUserWallets);
 walletRouter.get(`${RouterEnum.Wallets}/:id`, controller.getWallet);
 walletRouter.post(RouterEnum.Wallets, controller.addWallet);
 walletRouter.delete(`${RouterEnum.Wallets}/:id`, controller.removeWallet);

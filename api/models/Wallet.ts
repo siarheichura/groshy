@@ -9,6 +9,7 @@ interface Wallet {
   amount: number;
   expenses: Expense[] | undefined;
   income: Income[] | undefined;
+  user: Types.ObjectId;
 }
 
 const WalletSchema = new Schema<Wallet>({
@@ -17,6 +18,7 @@ const WalletSchema = new Schema<Wallet>({
   amount: { type: Number, required: true },
   expenses: { type: Array, ref: 'Expense', required: true, default: [] },
   income: { type: Array, ref: 'Income', default: [] },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
 export const WalletModel = model('Wallet', WalletSchema);

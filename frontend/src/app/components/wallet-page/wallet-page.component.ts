@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-moneymove-page',
-  templateUrl: './moneymove-page.component.html',
-  styleUrls: ['./moneymove-page.component.scss'],
+  selector: 'app-wallet-page',
+  templateUrl: './wallet-page.component.html',
+  styleUrls: ['./wallet-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoneymovePageComponent implements OnInit {
+export class WalletPageComponent implements OnInit {
   tabs = ['Expneses', 'Income'];
 
   constructor() {}

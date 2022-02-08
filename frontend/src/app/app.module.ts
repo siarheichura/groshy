@@ -17,7 +17,7 @@ import { UserEffects } from './store/user/user.effects';
 import { SharedModule } from './shared/shared.module';
 import { AuthPageModule } from './components/auth-page/auth-page.module';
 import { HomePageModule } from './components/home-page/home-page.module';
-import { MoneymovePageModule } from './components/moneymove-page/moneymove-page.module';
+import { WalletPageModule } from './components/wallet-page/wallet-page.module';
 import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
 
 import { AppComponent } from './app.component';
@@ -41,7 +41,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SharedModule,
     AuthPageModule,
     HomePageModule,
-    MoneymovePageModule,
+    WalletPageModule,
     StatisticsPageModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({

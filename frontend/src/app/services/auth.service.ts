@@ -22,8 +22,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  get token(): string | null {
-    return localStorage.getItem(LocalStorageUserKey);
+  get token(): string {
+    return localStorage.getItem(LocalStorageUserKey)!;
   }
 
   registration(user: User): Observable<{}> {

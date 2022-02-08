@@ -4,11 +4,9 @@ const forbiddenUsernameChars = /[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?А-Яа-я]/;
 
 export class FormValidators {
   static username(control: AbstractControl) {
-    const minLength = control.value.length > 3;
     const validChars = !forbiddenUsernameChars.test(control.value);
-    const isValid = minLength && validChars;
 
-    if (!isValid) {
+    if (!validChars) {
       return { invalidUsername: true };
     }
 
@@ -19,8 +17,7 @@ export class FormValidators {
     const hasNumber = /\d/.test(control.value);
     const hasUpperCase = /[A-Z]/.test(control.value);
     const hasLowerCase = /[a-z]/.test(control.value);
-    const minLength = control.value.length > 8;
-    const isValid = hasNumber && hasUpperCase && hasLowerCase && minLength;
+    const isValid = hasNumber && hasUpperCase && hasLowerCase;
 
     if (!isValid) {
       return { invalidPassword: true };

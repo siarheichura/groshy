@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, take, map } from 'rxjs';
@@ -42,7 +43,8 @@ export class HomePageComponent implements OnInit {
   constructor(
     private modal: NzModalService,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {

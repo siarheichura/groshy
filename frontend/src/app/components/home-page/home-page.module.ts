@@ -5,10 +5,10 @@ import { SharedModule } from './../../shared/shared.module';
 import { HomePageRoutingModule } from './home-page-routing.module';
 
 import { HomePageComponent } from './home-page.component';
-import { CreateWalletFormComponent } from './wallet-form/wallet-form.component';
+import { WalletFormComponent } from './wallet-form/wallet-form.component';
 
 @NgModule({
-  declarations: [HomePageComponent, CreateWalletFormComponent],
+  declarations: [HomePageComponent, WalletFormComponent],
   imports: [CommonModule, SharedModule, HomePageRoutingModule],
   providers: [],
 })

@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 import {
   Component,
   OnInit,
@@ -21,45 +23,38 @@ enum FormEnum {
   styleUrls: ['./wallet-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateWalletFormComponent implements OnInit {
+export class WalletFormComponent implements OnInit {
   currencies: string[] = ['USD', 'EUR', 'BYN', 'RUB'];
 
-  @Input() button: string;
-  @Input() walletForEdit: Wallet;
-  @Input() onFormSubmit: (wallet: Wallet) => void;
+  @Input() walletForEdit$: Observable<Wallet | undefined>;
 
+  walletForEdit: Wallet | undefined;
   walletForm: FormGroup;
   formControls = FormEnum;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private modalRef: NzModalRef) {}
 
   ngOnInit(): void {
+    if (this.walletForEdit$) {
+      this.walletForEdit$.subscribe((resp) => (this.walletForEdit = resp));
+    }
     this.initFormGroup(this.walletForEdit);
   }
 
   initFormGroup(walletForEdit?: Wallet): void {
-    let walletName, walletAmount, walletCurrency;
-
-    if (walletForEdit) {
-      walletName = walletForEdit.name;
-      walletAmount = walletForEdit.amount;
-      walletCurrency = walletForEdit.currency;
-    } else {
-      walletName = walletAmount = walletCurrency = '';
-    }
-
     this.walletForm = this.fb.group({
-      [this.formControls.Name]: [walletName, Validators.required],
-      [this.formControls.Amount]: [walletAmount, Validators.required],
-      [this.formControls.Currency]: [walletCurrency, Validators.required],
+      [this.formControls.Name]: [
+        walletForEdit ? walletForEdit.name : '',
+        Validators.required,
+      ],
+      [this.formControls.Amount]: [
+        walletForEdit ? walletForEdit.amount : '',
+        Validators.required,
+      ],
+      [this.formControls.Currency]: [
+        walletForEdit ? walletForEdit.currency : '',
+        Validators.required,
+      ],
     });
-  }
-
-  submitForm(): void {
-    if (this.walletForm.valid) {
-      this.onFormSubmit(this.walletForm.value);
-    } else {
-      markFormControlsDirty(this.walletForm.controls);
-    }
   }
 }

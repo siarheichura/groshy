@@ -6,8 +6,8 @@ import { AuthService } from './../../../services/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
 import { NzMessageEnum } from 'src/app/shared/enums/NzMessagesEnum';
-import { FormControlErrorsEnum } from './../../../shared/enums/FormControlErrorsEnum';
 import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
+import { FormValidators } from './../../../shared/validators/form-validators';
 
 interface FormValue {
   username: string;
@@ -30,7 +30,6 @@ enum FormEnum {
 export class RegistrationFormComponent implements OnInit {
   formControls = FormEnum;
   routes = RouterEnum;
-  controlErrors = FormControlErrorsEnum;
 
   registrationForm: FormGroup;
 
@@ -47,9 +46,9 @@ export class RegistrationFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({
-      [FormEnum.Username]: ['', [Validators.required, Validators.minLength(3)]],
+      [FormEnum.Username]: ['', [Validators.required, FormValidators.username]],
       [FormEnum.Email]: ['', [Validators.required, Validators.email]],
-      [FormEnum.Password]: ['', [Validators.required, Validators.minLength(8)]],
+      [FormEnum.Password]: ['', [Validators.required, FormValidators.password]],
     });
   }
 
@@ -70,11 +69,11 @@ export class RegistrationFormComponent implements OnInit {
         },
       });
     } else {
-      markFormControlsDirty(this.registrationForm.controls);
+      markFormControlsDirty(this.registrationForm);
     }
   }
 
   handleRouteClick(param: string): void {
-    this.router.navigate([param]);
+    void this.router.navigate([param]);
   }
 }

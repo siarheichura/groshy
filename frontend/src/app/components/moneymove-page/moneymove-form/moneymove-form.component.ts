@@ -25,7 +25,7 @@ export class MoneymoveFormComponent implements OnInit {
   submitForm(): void {
     if (this.moneymoveForm.valid) {
     } else {
-      markFormControlsDirty(this.moneymoveForm.controls);
+      markFormControlsDirty(this.moneymoveForm);
     }
   }
 }

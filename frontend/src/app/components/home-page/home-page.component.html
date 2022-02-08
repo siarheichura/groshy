@@ -2,10 +2,10 @@
   <nz-spin [nzSpinning]="loading$ | async">
     <app-list
       [title]="'Choose your wallet 💰'"
-      [items]="wallets$ | async"
+      [items]="walletsForList$ | async"
       [loading]="loading$ | async"
-      (onAdd)="printModal()"
-      (onEdit)="printModal($event)"
+      (onAdd)="printAddWalletModal()"
+      (onEdit)="printEditWalletModal($event)"
       (onDelete)="removeWallet($event)"
       (onClick)="onWalletClick($event)"
     ></app-list>

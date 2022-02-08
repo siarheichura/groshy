@@ -15,6 +15,6 @@ export class ErrorPageComponent implements OnInit {
   ngOnInit(): void {}
 
   handleClick(param: string): void {
-    this.router.navigate([param]);
+    void this.router.navigate([param]);
   }
 }

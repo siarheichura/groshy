@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
   }
 
   handleRouteClick(param: string): void {
-    this.router.navigate([param]);
+    void this.router.navigate([param]);
   }
 
   printDrawer(): void {

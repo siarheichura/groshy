@@ -46,28 +46,24 @@
 </form>
 
 <ng-template #usernameError let-control>
-  <ng-container *ngIf="control.hasError(controlErrors.Required)">
-    <small>This field is required</small>
-  </ng-container>
-  <ng-container *ngIf="control.hasError(controlErrors.Minlength)">
-    <small>Username must be at least 3 characters</small>
+  <ng-container
+    *ngIf="control.errors.required || control.errors.invalidUsername"
+  >
+    <small> Min length is 3 characters. You can use a-z, _ </small>
   </ng-container>
 </ng-template>
 
 <ng-template #emailError let-control>
-  <ng-container *ngIf="control.hasError(controlErrors.Required)">
+  <ng-container *ngIf="control.errors.required">
     <small>This field is required</small>
   </ng-container>
-  <ng-container *ngIf="control.hasError(controlErrors.Email)">
+  <ng-container *ngIf="control.errors.email">
     <small>Incorrect email</small>
   </ng-container>
 </ng-template>
 
 <ng-template #passwordError let-control>
-  <ng-container *ngIf="control.hasError(controlErrors.Required)">
-    <small>This field is required</small>
-  </ng-container>
-  <ng-container *ngIf="control.hasError(controlErrors.Minlength)">
-    <small>Password must be at least 8 characters</small>
+  <ng-container *ngIf="control.errors.invalidPassword">
+    <small>Min length is 8 characters (includes A-Z, a-z and number)</small>
   </ng-container>
 </ng-template>

@@ -1,17 +1,14 @@
 import { Request, Response } from 'express';
-import { UserModel } from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import { config } from '../config';
+import { UserModel } from '../models/User';
 
-const generateAccessToken = (id: string, username: string) => {
-  const payload = {
-    id,
-    username,
-  };
-
-  return jwt.sign(payload, config.tokenSecretKey, { expiresIn: '24h' });
+const generateToken = (id: string, username: string) => {
+  return jwt.sign({ id, username }, config.TOKEN_SECRET_KEY, {
+    expiresIn: config.TOKEN_EXPIRE_TIME,
+  });
 };
 
 export class AuthController {
@@ -29,8 +26,7 @@ export class AuthController {
       if (candidate) {
         return res.status(400).json({ message: 'This email is already taken' });
       }
-
-      const hashPassword = bcrypt.hashSync(password, 7);
+      const hashPassword = UserModel.schema.methods.hashPassword(password);
       const user = new UserModel({ username, email, password: hashPassword });
 
       await user.save();
@@ -44,7 +40,6 @@ export class AuthController {
   async login(req: Request, res: Response) {
     try {
       const { username, password } = req.body;
-
       const user = await UserModel.findOne({ username });
 
       if (!user) {
@@ -53,14 +48,15 @@ export class AuthController {
           .json({ message: `User ${username} is not found` });
       }
 
-      const validPassword = bcrypt.compareSync(password, user.password);
-
+      const validPassword = UserModel.schema.methods.checkPassword(
+        password,
+        user.password
+      );
       if (!validPassword) {
         return res.status(400).json({ message: 'Incorrect password' });
       }
 
-      const token = generateAccessToken(user._id, user.username);
-
+      const token = generateToken(user._id, user.username);
       return res.json({ token });
     } catch (err) {
       console.log(err);

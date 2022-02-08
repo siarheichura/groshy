@@ -1,4 +1,3 @@
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +14,11 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -22,6 +26,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { ListComponent } from './components/list/list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WalletSettingComponent } from './components/wallet-setting/wallet-setting.component';
+import { WalletAmountComponent } from './components/wallet-amount/wallet-amount.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +36,7 @@ import { WalletSettingComponent } from './components/wallet-setting/wallet-setti
     ListComponent,
     UserProfileComponent,
     WalletSettingComponent,
+    WalletAmountComponent,
   ],
 
   imports: [
@@ -54,6 +60,10 @@ import { WalletSettingComponent } from './components/wallet-setting/wallet-setti
     NzPopconfirmModule,
     NzDrawerModule,
     NzTabsModule,
+    NzInputNumberModule,
+    NzIconModule,
+    NzCardModule,
+    NzPopoverModule,
     ListComponent,
   ],
   providers: [],

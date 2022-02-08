@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { environment } from './../../environments/environment';
 import { User } from '../shared/interfaces/User';
@@ -11,6 +11,10 @@ enum AuthUrlEnum {
 }
 
 const LocalStorageUserKey = 'user';
+
+interface Token {
+  token: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -29,10 +33,10 @@ export class AuthService {
     );
   }
 
-  login(user: User): Observable<{}> {
+  login(user: User): Observable<Token> {
     return this.http
-      .post(`${environment.apiUrl}${AuthUrlEnum.Login}`, user)
-      .pipe(tap(this.setToken));
+      .post<Token>(`${environment.apiUrl}${AuthUrlEnum.Login}`, user)
+      .pipe(tap((token) => this.setToken(token)));
   }
 
   logout(): void {
@@ -43,8 +47,7 @@ export class AuthService {
     return !!this.token;
   }
 
-  // ??? {token: string}
-  setToken(response: any): void {
+  setToken(response: Token): void {
     localStorage.setItem(LocalStorageUserKey, response.token);
   }
 

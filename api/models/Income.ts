@@ -1,16 +1,20 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 export interface Income {
   _id: string;
   category: string;
   date: Date;
   amount: number;
+  comment: string;
+  wallet: Types.ObjectId;
 }
 
 const IncomeSchema = new Schema<Income>({
-  category: { type: String },
-  date: { type: Date, default: Date.now },
-  amount: { type: Number },
+  category: { type: String, required: true },
+  date: { type: Date, default: Date.now, required: true },
+  amount: { type: Number, required: true },
+  comment: { type: String },
+  wallet: { type: Schema.Types.ObjectId, ref: 'Wallet', required: true },
 });
 
-export const Income = model('Income', IncomeSchema);
+export const IncomeModel = model('Income', IncomeSchema);

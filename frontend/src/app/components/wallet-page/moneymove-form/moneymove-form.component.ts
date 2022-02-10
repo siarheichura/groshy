@@ -1,6 +1,17 @@
+import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
+import {
+  AddExpense,
+  AddIncome,
+} from './../../../store/wallets/wallets.actions';
 import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
 
 @Component({
@@ -10,9 +21,12 @@ import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneymoveFormComponent implements OnInit {
+  @Input() walletId: string;
+  @Input() tabName: string;
+
   moneymoveForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.moneymoveForm = this.fb.group({
@@ -24,6 +38,25 @@ export class MoneymoveFormComponent implements OnInit {
 
   submitForm(): void {
     if (this.moneymoveForm.valid) {
+      if (this.tabName === TabsEnum.Expenses) {
+        this.store.dispatch(
+          AddExpense({
+            payload: {
+              expense: this.moneymoveForm.value,
+              walletId: this.walletId,
+            },
+          })
+        );
+      } else {
+        this.store.dispatch(
+          AddIncome({
+            payload: {
+              income: this.moneymoveForm.value,
+              walletId: this.walletId,
+            },
+          })
+        );
+      }
     } else {
       markFormControlsDirty(this.moneymoveForm);
     }

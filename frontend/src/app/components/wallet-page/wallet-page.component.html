@@ -1,9 +1,15 @@
 <nz-tabset nzType="card" nzCentered>
-  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab">
+  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzSelect)="onTabClick(tab)">
     <div class="tab">
       <div class="tab__container">
-        <app-moneymove-form></app-moneymove-form>
-        <app-moneymove-body></app-moneymove-body>
+        <app-moneymove-form
+          [walletId]="walletId"
+          [tabName]="tab"
+        ></app-moneymove-form>
+        <app-moneymove-body
+          [items]="itemsForDisplay$ | async"
+          [walletCurrency]="walletCurrency$ | async"
+        ></app-moneymove-body>
       </div>
     </div>
   </nz-tab>

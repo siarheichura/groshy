@@ -13,7 +13,21 @@ export const walletSelector = createSelector(
   (state: WalletsState) => state.wallet
 );
 
+export const walletCurrencySelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.wallet.currency
+);
+
 export const walletsLoadingSelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.loading
+);
+
+export const walletInitExpensesSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.initialExpenses
+);
+export const walletInitIncomeSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.initialIncome
 );

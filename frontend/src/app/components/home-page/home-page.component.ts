@@ -43,8 +43,7 @@ export class HomePageComponent implements OnInit {
   constructor(
     private modal: NzModalService,
     private router: Router,
-    private store: Store,
-    private authService: AuthService
+    private store: Store
   ) {}
 
   ngOnInit(): void {

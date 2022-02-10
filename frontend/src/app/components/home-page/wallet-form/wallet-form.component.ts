@@ -9,7 +9,11 @@ import {
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Wallet } from '../../../shared/interfaces/Wallet';
-import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
+
+interface FormValue {
+  username: string;
+  password: string;
+}
 
 enum FormEnum {
   Name = 'name',

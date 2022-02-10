@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+
+import { InitWalletExpenses } from 'src/app/shared/interfaces/Expense';
+import { InitWalletIncome } from 'src/app/shared/interfaces/Income';
 
 @Component({
   selector: 'app-moneymove-body',
@@ -7,6 +15,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneymoveBodyComponent implements OnInit {
+  @Input() items: InitWalletExpenses | InitWalletIncome | null;
+  @Input() walletCurrency: string | null;
+
   constructor() {}
 
   ngOnInit(): void {}

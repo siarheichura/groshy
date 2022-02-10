@@ -8,7 +8,4 @@ export enum RouterEnum {
   Income = '/income',
   ByDay = '/day',
   ByMonth = '/month',
-  // remove
-  InitialExpenses = '/initialExpenses',
-  InitialIncome = '/initialIncome',
 }

@@ -5,8 +5,3 @@ export interface Income {
   date: Date;
   comment?: string;
 }
-
-export interface InitWalletIncome {
-  today: Income[];
-  yesterday: Income[];
-}

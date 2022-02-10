@@ -5,8 +5,3 @@ export interface Expense {
   date: Date;
   comment?: string;
 }
-
-export interface InitWalletExpenses {
-  today: Expense[];
-  yesterday: Expense[];
-}

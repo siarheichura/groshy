@@ -1,4 +1,3 @@
-import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +6,8 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+
+import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 
 import {
   AddExpense,
@@ -23,6 +24,7 @@ import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
 export class MoneymoveFormComponent implements OnInit {
   @Input() walletId: string;
   @Input() tabName: string;
+  @Input() categories: string[];
 
   moneymoveForm: FormGroup;
 
@@ -47,6 +49,7 @@ export class MoneymoveFormComponent implements OnInit {
             },
           })
         );
+        this.moneymoveForm.reset();
       } else {
         this.store.dispatch(
           AddIncome({
@@ -56,6 +59,7 @@ export class MoneymoveFormComponent implements OnInit {
             },
           })
         );
+        this.moneymoveForm.reset();
       }
     } else {
       markFormControlsDirty(this.moneymoveForm);

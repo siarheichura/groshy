@@ -4,12 +4,10 @@ import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 
 import { Wallet } from '../shared/interfaces/Wallet';
-import { Income, InitWalletIncome } from '../shared/interfaces/Income';
-import { Expense, InitWalletExpenses } from 'src/app/shared/interfaces/Expense';
+import { Income } from '../shared/interfaces/Income';
+import { Expense } from 'src/app/shared/interfaces/Expense';
 
 const API_PATH_WALLETS = '/wallets';
-const API_PATH_INITIAL_EXPENSES = '/initialExpenses';
-const API_PATH_INITIAL_INCOME = '/initialIncome';
 const API_PATH_EXPENSES = '/expenses';
 const API_PATH_INCOME = '/income';
 
@@ -47,27 +45,37 @@ export class WalletService {
     );
   }
 
-  getInitialWalletExpenses(walletId: string): Observable<InitWalletExpenses> {
-    return this.http.get<InitWalletExpenses>(
-      `${environment.apiUrl}${API_PATH_INITIAL_EXPENSES}/${walletId}`
+  // preiod = 'day' || 'month'
+  getExpensesByPeriod(
+    walletId: string,
+    date: Date,
+    period: string
+  ): Observable<Expense[]> {
+    return this.http.get<Expense[]>(
+      `${environment.apiUrl}${API_PATH_EXPENSES}/${period}/${walletId}/${date}`
     );
   }
 
-  getInitialWalletIncome(walletId: string): Observable<InitWalletIncome> {
-    return this.http.get<InitWalletIncome>(
-      `${environment.apiUrl}${API_PATH_INITIAL_INCOME}/${walletId}`
+  // preiod = 'day' || 'month'
+  getIncomeByPeriod(
+    walletId: string,
+    date: Date,
+    period: string
+  ): Observable<Expense[]> {
+    return this.http.get<Expense[]>(
+      `${environment.apiUrl}${API_PATH_INCOME}/${period}/${walletId}/${date}`
     );
   }
 
-  addExpense(walletId: string, body: Expense): Observable<Expense[]> {
-    return this.http.post<Expense[]>(
+  addExpense(walletId: string, body: Expense): Observable<Expense> {
+    return this.http.post<Expense>(
       `${environment.apiUrl}${API_PATH_EXPENSES}/${walletId}`,
       body
     );
   }
 
-  addIncome(walletId: string, body: Income): Observable<Income[]> {
-    return this.http.post<Income[]>(
+  addIncome(walletId: string, body: Income): Observable<Income> {
+    return this.http.post<Income>(
       `${environment.apiUrl}${API_PATH_INCOME}/${walletId}`,
       body
     );

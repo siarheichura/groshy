@@ -4,30 +4,6 @@ import { Income, IncomeModel } from './../models/Income';
 import { WalletModel } from '../models/Wallet';
 
 export class IncomeController {
-  // remove
-  async getIncomeForInitialDisplay(req: Request, res: Response) {
-    const walletId = req.params.id;
-    const today = dayjs();
-    const yesterday = dayjs(dayjs().date(today.date() - 1));
-
-    try {
-      const walletIncome = await IncomeModel.find({ wallet: walletId });
-      const todayIncome = walletIncome.filter((income) => {
-        return dayjs(income.date).isSame(today, 'day');
-      });
-      const yesterdayIncome = walletIncome.filter((income) => {
-        return dayjs(income.date).isSame(yesterday, 'day');
-      });
-
-      res.send({
-        today: todayIncome,
-        yesterday: yesterdayIncome,
-      });
-    } catch (err) {
-      res.status(404).send({ message: 'Cannot get init income' });
-    }
-  }
-
   async getIncomeByDay(req: Request, res: Response) {
     const walletId = req.params.id;
     const date = dayjs(req.params.date);

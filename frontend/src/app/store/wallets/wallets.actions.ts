@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Wallet } from './../../shared/interfaces/Wallet';
-import { Income, InitWalletIncome } from './../../shared/interfaces/Income';
-import { Expense, InitWalletExpenses } from 'src/app/shared/interfaces/Expense';
+import { Income } from 'src/app/shared/interfaces/Income';
+import { Expense } from 'src/app/shared/interfaces/Expense';
 import { getActionNameFn } from 'src/app/shared/helpers/action-name.helper';
 
 const MODULE_NAME = '[WALLETS]';
@@ -15,12 +15,14 @@ enum WalletsActionsEnum {
   AddWallet = 'ADD_WALLET',
   RemoveWallet = 'REMOVE_WALLET',
   EditWallet = 'EDIT_WALLET',
-  GetInitWalletExpenses = 'GET_INIT_WALLET_EXPENSES',
-  GetInitWalletExpensesSuccess = 'GET_INIT_WALLET_EXPENSES_SUCCESS',
-  GetInitWalletIncome = 'GET_INIT_WALLET_INCOME',
-  GetInitWalletIncomeSuccess = 'GET_INIT_WALLET_INCOME_SUCCESS',
+  GetExpensesByPeriod = 'GET_EXPENSES_BY_PERIOD',
+  GetExpensesByPeriodSuccess = 'GET_EXPENSES_BY_PERIOD_SUCCESS',
+  GetIncomeByPeriod = 'GET_INCOME_BY_PERIOD',
+  GetIncomeByPeriodSuccess = 'GET_INCOME_BY_PERIOD_SUCCESS',
   AddExpense = 'ADD_EXPENSE',
+  AddExpenseSuccess = 'ADD_EXPENSE_SUCCESS',
   AddIncome = 'ADD_INCOME',
+  AddIncomeSuccess = 'ADD_INCOME_SUCCESS',
 }
 
 export const GetWallets = createAction(
@@ -50,28 +52,35 @@ export const EditWallet = createAction(
   getFullActionName(WalletsActionsEnum.EditWallet),
   props<{ payload: { id: string; updatedWallet: Wallet } }>()
 );
-
-export const GetInitWalletExpenses = createAction(
-  getFullActionName(WalletsActionsEnum.GetInitWalletExpenses),
-  props<{ payload: { walletId: string } }>()
+export const GetExpensesByPeriod = createAction(
+  getFullActionName(WalletsActionsEnum.GetExpensesByPeriod),
+  props<{ payload: { walletId: string; date: Date; period: string } }>()
 );
-export const GetInitWalletExpensesSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetInitWalletExpensesSuccess),
-  props<{ payload: InitWalletExpenses }>()
+export const GetExpensesByPeriodSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.GetExpensesByPeriodSuccess),
+  props<{ payload: Expense[] }>()
 );
-export const GetInitWalletIncome = createAction(
-  getFullActionName(WalletsActionsEnum.GetInitWalletIncome),
-  props<{ payload: { walletId: string } }>()
+export const GetIncomeByPeriod = createAction(
+  getFullActionName(WalletsActionsEnum.GetIncomeByPeriod),
+  props<{ payload: { walletId: string; date: Date; period: string } }>()
 );
-export const GetInitWalletIncomeSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetInitWalletIncomeSuccess),
-  props<{ payload: InitWalletIncome }>()
+export const GetIncomeByPeriodSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.GetIncomeByPeriodSuccess),
+  props<{ payload: Income[] }>()
 );
 export const AddExpense = createAction(
   getFullActionName(WalletsActionsEnum.AddExpense),
   props<{ payload: { expense: Expense; walletId: string } }>()
 );
+export const AddExpenseSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.AddExpenseSuccess),
+  props<{ payload: Expense }>()
+);
 export const AddIncome = createAction(
   getFullActionName(WalletsActionsEnum.AddIncome),
   props<{ payload: { income: Income; walletId: string } }>()
+);
+export const AddIncomeSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.AddIncomeSuccess),
+  props<{ payload: Income }>()
 );

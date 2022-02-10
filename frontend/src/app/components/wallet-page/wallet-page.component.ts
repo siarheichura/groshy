@@ -3,17 +3,17 @@ import { Store } from '@ngrx/store';
 import { Observable, reduce, map, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
-import { InitWalletExpenses } from './../../shared/interfaces/Expense';
-import { InitWalletIncome } from 'src/app/shared/interfaces/Income';
+import { Expense } from './../../shared/interfaces/Expense';
+import { Income } from 'src/app/shared/interfaces/Income';
+import {
+  GetExpensesByPeriod,
+  GetIncomeByPeriod,
+} from './../../store/wallets/wallets.actions';
 import {
   walletCurrencySelector,
-  walletInitExpensesSelector,
-  walletInitIncomeSelector,
+  walletExpensesSelector,
+  walletIncomeSelector,
 } from 'src/app/store/wallets/wallets.selectros';
-import {
-  GetInitWalletExpenses,
-  GetInitWalletIncome,
-} from 'src/app/store/wallets/wallets.actions';
 import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 
 @Component({
@@ -26,40 +26,49 @@ export class WalletPageComponent implements OnInit {
   tabs = [TabsEnum.Expenses, TabsEnum.Income];
   expenseCategories = ['Food', 'Car', 'Clothes', 'Sport'];
   incomeCategories = ['Salary', 'Busines', 'Gifts'];
+  today: Date = new Date();
 
   walletId: string = (this.route.snapshot.params as { id: string }).id;
   walletCurrency$: Observable<string> = this.store.select(
     walletCurrencySelector
   );
-  initExpenses$: Observable<InitWalletExpenses> = this.store.select(
-    walletInitExpensesSelector
+  expenses$: Observable<Expense[]> = this.store.select(walletExpensesSelector);
+  income$: Observable<Income[]> = this.store.select(walletIncomeSelector);
+  expensesAmount$: Observable<number> = this.expenses$.pipe(
+    map((expenses) => expenses.reduce((prev, curr) => prev + curr.amount, 0))
   );
-  initIncome$: Observable<InitWalletIncome> = this.store.select(
-    walletInitIncomeSelector
+  incomeAmount$: Observable<number> = this.income$.pipe(
+    map((expenses) => expenses.reduce((prev, curr) => prev + curr.amount, 0))
   );
-  itemsForDisplay$:
-    | Observable<InitWalletExpenses>
-    | Observable<InitWalletIncome> = this.initExpenses$;
 
-  yesterdayMoneyMove: number;
+  displayCategories: string[] = this.expenseCategories;
+  displayItems$: Observable<Expense[]> | Observable<Income[]> = this.expenses$;
+  displayAmount$: Observable<number> = this.expensesAmount$;
 
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(
-      GetInitWalletExpenses({ payload: { walletId: this.walletId } })
+      GetExpensesByPeriod({
+        payload: { walletId: this.walletId, date: this.today, period: 'day' },
+      })
     );
-
     this.store.dispatch(
-      GetInitWalletIncome({ payload: { walletId: this.walletId } })
+      GetIncomeByPeriod({
+        payload: { walletId: this.walletId, date: this.today, period: 'day' },
+      })
     );
   }
 
   onTabClick(tabName: string) {
     if (tabName === TabsEnum.Expenses) {
-      this.itemsForDisplay$ = this.initExpenses$;
+      this.displayItems$ = this.expenses$;
+      this.displayAmount$ = this.expensesAmount$;
+      this.displayCategories = this.expenseCategories;
     } else {
-      this.itemsForDisplay$ = this.initIncome$;
+      this.displayItems$ = this.income$;
+      this.displayAmount$ = this.incomeAmount$;
+      this.displayCategories = this.incomeCategories;
     }
   }
 }

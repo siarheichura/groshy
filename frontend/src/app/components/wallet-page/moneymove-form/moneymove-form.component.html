@@ -14,9 +14,11 @@
     <nz-form-item>
       <nz-form-control>
         <nz-select formControlName="category" nzPlaceHolder="Select category">
-          <nz-option nzValue="some" nzLabel="some"></nz-option>
-          <nz-option nzValue="basic" nzLabel="basic"></nz-option>
-          <nz-option nzValue="categories" nzLabel="categories"></nz-option>
+          <nz-option
+            *ngFor="let categorie of categories"
+            [nzValue]="categorie"
+            [nzLabel]="categorie"
+          ></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>

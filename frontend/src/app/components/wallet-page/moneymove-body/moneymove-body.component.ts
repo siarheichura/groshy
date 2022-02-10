@@ -5,8 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { InitWalletExpenses } from 'src/app/shared/interfaces/Expense';
-import { InitWalletIncome } from 'src/app/shared/interfaces/Income';
+import { Expense } from 'src/app/shared/interfaces/Expense';
+import { Income } from 'src/app/shared/interfaces/Income';
 
 @Component({
   selector: 'app-moneymove-body',
@@ -15,8 +15,11 @@ import { InitWalletIncome } from 'src/app/shared/interfaces/Income';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneymoveBodyComponent implements OnInit {
-  @Input() items: InitWalletExpenses | InitWalletIncome | null;
+  @Input() items: Expense[] | Income[] | null;
+  @Input() amount: number | null;
   @Input() walletCurrency: string | null;
+
+  sum: number | undefined;
 
   constructor() {}
 

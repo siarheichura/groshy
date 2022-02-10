@@ -5,12 +5,6 @@ import { RouterEnum } from '../shared/enums/RouterEnum';
 export const incomeRouter = express.Router();
 const controller = new IncomeController();
 
-// remove
-incomeRouter.get(
-  `${RouterEnum.InitialIncome}/:id`,
-  controller.getIncomeForInitialDisplay
-);
-
 incomeRouter.get(
   `${RouterEnum.Income}${RouterEnum.ByDay}/:id/:date`,
   controller.getIncomeByDay

@@ -1,20 +1,8 @@
 <div class="card-body">
-  <div class="card-body__title">Today: ... {{ walletCurrency }}</div>
-  <div *ngIf="!items!.today.length" class="card-body__empty">
-    No expenses today
-  </div>
+  <div class="card-body__title">Today: {{ amount }} {{ walletCurrency }}</div>
+  <div *ngIf="!items!.length" class="card-body__empty">No data today</div>
   <app-moneymove-card
-    *ngFor="let item of items!.today"
-    [item]="item"
-    [walletCurrency]="walletCurrency"
-  ></app-moneymove-card>
-
-  <div class="card-body__title">Yesterday: ... {{ walletCurrency }}</div>
-  <div *ngIf="!items!.yesterday.length" class="card-body__empty">
-    No expenses yesterday
-  </div>
-  <app-moneymove-card
-    *ngFor="let item of items!.yesterday"
+    *ngFor="let item of items"
     [item]="item"
     [walletCurrency]="walletCurrency"
   ></app-moneymove-card>

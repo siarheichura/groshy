@@ -4,30 +4,6 @@ import { Expense, ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
 
 export class ExpensesController {
-  // remove
-  async getExpensesForInitialDisplay(req: Request, res: Response) {
-    const walletId = req.params.id;
-    const today = dayjs();
-    const yesterday = dayjs(dayjs().date(today.date() - 1));
-
-    try {
-      const walletExpenses = await ExpenseModel.find({ wallet: walletId });
-      const todayExpenses = walletExpenses.filter((expense) => {
-        return dayjs(expense.date).isSame(today, 'day');
-      });
-      const yesterdayExpenses = walletExpenses.filter((expense) => {
-        return dayjs(expense.date).isSame(yesterday, 'day');
-      });
-
-      res.send({
-        today: todayExpenses,
-        yesterday: yesterdayExpenses,
-      });
-    } catch (err) {
-      res.status(404).send({ message: 'Cannot get init expenses', err });
-    }
-  }
-
   async getExpensesByDay(req: Request, res: Response) {
     const walletId = req.params.id;
     const date = dayjs(req.params.date);

@@ -5,9 +5,11 @@
         <app-moneymove-form
           [walletId]="walletId"
           [tabName]="tab"
+          [categories]="displayCategories"
         ></app-moneymove-form>
         <app-moneymove-body
-          [items]="itemsForDisplay$ | async"
+          [amount]="displayAmount$ | async"
+          [items]="displayItems$ | async"
           [walletCurrency]="walletCurrency$ | async"
         ></app-moneymove-body>
       </div>

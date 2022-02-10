@@ -1,22 +1,22 @@
 import { Schema, model, Types } from 'mongoose';
-import { Expense } from './Expense';
-import { Income } from './Income';
 
 interface Wallet {
   _id: string;
   name: string;
   currency: string;
   amount: number;
-  expenses: Expense[] | undefined;
-  income: Income[] | undefined;
+  expenses: Types.ObjectId[];
+  income: Types.ObjectId[];
+  user: Types.ObjectId;
 }
 
 const WalletSchema = new Schema<Wallet>({
   name: { type: String, required: true },
   currency: { type: String, required: true },
   amount: { type: Number, required: true },
-  expenses: { type: Array, ref: 'Expense', required: true, default: [] },
-  income: { type: Array, ref: 'Income', default: [] },
+  expenses: [{ type: Schema.Types.ObjectId, ref: 'Expense' }],
+  income: [{ type: Schema.Types.ObjectId, ref: 'Income' }],
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
 export const WalletModel = model('Wallet', WalletSchema);

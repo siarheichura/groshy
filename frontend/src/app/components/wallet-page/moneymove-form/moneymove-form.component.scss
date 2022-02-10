@@ -20,16 +20,12 @@
   }
 
   .form__comment {
-    width: 85%;
-  }
-
-  .form__bottom {
-    display: flex;
-    gap: 10px;
+    width: 100%;
   }
 
   .form__button {
     width: 15%;
+    align-self: flex-end;
   }
 
   button {

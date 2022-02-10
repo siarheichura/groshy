@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './../../shared/shared.module';
 
-import { MoneymovePageComponent } from './moneymove-page.component';
+import { WalletPageComponent } from './wallet-page.component';
 import { MoneymoveCardComponent } from './moneymove-card/moneymove-card.component';
 import { MoneymoveBodyComponent } from './moneymove-body/moneymove-body.component';
 import { MoneymoveFormComponent } from './moneymove-form/moneymove-form.component';
@@ -12,9 +12,9 @@ import { MoneymoveFormComponent } from './moneymove-form/moneymove-form.componen
     MoneymoveFormComponent,
     MoneymoveBodyComponent,
     MoneymoveCardComponent,
-    MoneymovePageComponent,
+    WalletPageComponent,
   ],
   imports: [CommonModule, SharedModule],
   providers: [],
 })
-export class MoneymovePageModule {}
+export class WalletPageModule {}

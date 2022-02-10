@@ -6,6 +6,7 @@ export interface Wallet {
   name: string;
   currency: string;
   amount: number;
-  expenses?: Expense[];
-  income?: Income[];
+  expenses: Expense[];
+  income: Income[];
+  userId: string;
 }

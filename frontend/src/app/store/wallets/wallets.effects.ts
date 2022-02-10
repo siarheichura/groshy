@@ -74,4 +74,66 @@ export class WalletsEffects {
       )
     );
   });
+
+  getInitExpenses$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetInitWalletExpenses),
+      switchMap((action) =>
+        this.walletService
+          .getInitialWalletExpenses(action.payload.walletId)
+          .pipe(
+            map((initExpenses) =>
+              WalletsActions.GetInitWalletExpensesSuccess({
+                payload: initExpenses,
+              })
+            )
+          )
+      )
+    );
+  });
+
+  getInitIncome$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetInitWalletIncome),
+      switchMap((action) =>
+        this.walletService.getInitialWalletIncome(action.payload.walletId).pipe(
+          map((initIncome) =>
+            WalletsActions.GetInitWalletIncomeSuccess({
+              payload: initIncome,
+            })
+          )
+        )
+      )
+    );
+  });
+
+  addExpense$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(WalletsActions.AddExpense),
+        switchMap((action) =>
+          this.walletService.addExpense(
+            action.payload.walletId,
+            action.payload.expense
+          )
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
+  addIncome$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(WalletsActions.AddIncome),
+        switchMap((action) =>
+          this.walletService.addIncome(
+            action.payload.walletId,
+            action.payload.income
+          )
+        )
+      );
+    },
+    { dispatch: false }
+  );
 }

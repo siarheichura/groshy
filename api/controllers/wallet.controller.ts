@@ -1,11 +1,22 @@
+import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { WalletModel } from '../models/Wallet';
+import { UserModel } from './../models/User';
+
+interface JwtPayload {
+  id: string;
+  username: string;
+  iat: number;
+  exp: number;
+}
 
 export class WalletController {
-  async getWallets(req: Request, res: Response) {
+  async getUserWallets(req: Request, res: Response) {
     try {
-      const wallets = await WalletModel.find();
-      res.json(wallets);
+      const jwtPayload: any = await jwt.decode(req.header('token')!); // ??? type
+      const userId = await jwtPayload!.id;
+      const userWallets = await WalletModel.find({ user: userId });
+      res.json(userWallets);
     } catch (err) {
       res.status(500).json({ message: 'Cannot get wallets' });
     }
@@ -13,7 +24,6 @@ export class WalletController {
 
   async getWallet(req: Request, res: Response) {
     const id = req.params.id;
-
     try {
       const wallet = await WalletModel.findById(id);
       res.send(wallet);
@@ -24,9 +34,19 @@ export class WalletController {
 
   async addWallet(req: Request, res: Response) {
     try {
+      const jwtPayload: any = await jwt.decode(req.header('token')!); // ??? type
+      const userId = await jwtPayload.id;
       const { name, currency, amount } = req.body;
-      const wallet = new WalletModel({ name, currency, amount });
+      const wallet = new WalletModel({ name, currency, amount, user: userId });
       await wallet.save();
+      await UserModel.updateOne(
+        { _id: userId },
+        {
+          $push: {
+            wallets: wallet,
+          },
+        }
+      );
       return res.json({ message: 'Wallet has been created' });
     } catch (err) {
       res.status(500).json({ message: 'Cannot create wallet' });
@@ -35,7 +55,6 @@ export class WalletController {
 
   async removeWallet(req: Request, res: Response) {
     const id = req.params.id;
-
     try {
       WalletModel.findByIdAndDelete(id, (err: Error) => {
         if (err) {

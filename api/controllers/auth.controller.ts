@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator';
 import { config } from '../config';
@@ -14,25 +13,24 @@ const generateToken = (id: string, username: string) => {
 export class AuthController {
   async registration(req: Request, res: Response) {
     try {
-      const errors = validationResult(req);
       const { username, password, email } = req.body;
 
+      const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ message: 'Registration error', errors });
       }
 
       const candidate = await UserModel.findOne({ email });
-
       if (candidate) {
         return res.status(400).json({ message: 'This email is already taken' });
       }
+
       const hashPassword = UserModel.schema.methods.hashPassword(password);
       const user = new UserModel({ username, email, password: hashPassword });
 
       await user.save();
       return res.json({ message: 'Registration success' });
     } catch (err) {
-      console.log(err);
       res.status(400).json({ message: 'Registration error' });
     }
   }
@@ -59,7 +57,6 @@ export class AuthController {
       const token = generateToken(user._id, user.username);
       return res.json({ token });
     } catch (err) {
-      console.log(err);
       res.status(400).json({ message: 'Login error' });
     }
   }

@@ -30,7 +30,6 @@ enum FormEnum {
 export class RegistrationFormComponent implements OnInit {
   formControls = FormEnum;
   routes = RouterEnum;
-
   registrationForm: FormGroup;
 
   get formValue(): FormValue {
@@ -46,7 +45,10 @@ export class RegistrationFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({
-      [FormEnum.Username]: ['', [Validators.required, FormValidators.username]],
+      [FormEnum.Username]: [
+        '',
+        [Validators.required, Validators.minLength(3), FormValidators.username],
+      ],
       [FormEnum.Email]: ['', [Validators.required, Validators.email]],
       [FormEnum.Password]: ['', [Validators.required, FormValidators.password]],
     });

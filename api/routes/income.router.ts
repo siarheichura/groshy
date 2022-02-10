@@ -5,8 +5,18 @@ import { RouterEnum } from '../shared/enums/RouterEnum';
 export const incomeRouter = express.Router();
 const controller = new IncomeController();
 
+// remove
 incomeRouter.get(
   `${RouterEnum.InitialIncome}/:id`,
   controller.getIncomeForInitialDisplay
 );
-incomeRouter.post(`${RouterEnum.Income}/:id`, controller.addWalletIncome);
+
+incomeRouter.get(
+  `${RouterEnum.Income}${RouterEnum.ByDay}/:id/:date`,
+  controller.getIncomeByDay
+);
+incomeRouter.get(
+  `${RouterEnum.Income}${RouterEnum.ByMonth}/:id/:date`,
+  controller.getIncomeByMonth
+);
+incomeRouter.post(`${RouterEnum.Income}/:id`, controller.addIncome);

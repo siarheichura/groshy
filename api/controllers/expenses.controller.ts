@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import dayjs from 'dayjs';
-import { ExpenseModel } from './../models/Expense';
+import { Expense, ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
 
 export class ExpensesController {
+  // remove
   async getExpensesForInitialDisplay(req: Request, res: Response) {
     const walletId = req.params.id;
     const today = dayjs();
@@ -24,6 +25,41 @@ export class ExpensesController {
       });
     } catch (err) {
       res.status(404).send({ message: 'Cannot get init expenses', err });
+    }
+  }
+
+  async getExpensesByDay(req: Request, res: Response) {
+    const walletId = req.params.id;
+    const date = dayjs(req.params.date);
+
+    try {
+      const walletExpenses: Expense[] = await ExpenseModel.find({
+        wallet: walletId,
+      });
+      const expensesByDay = walletExpenses.filter((expense) =>
+        dayjs(expense.date).isSame(date, 'day')
+      );
+
+      res.send(expensesByDay);
+    } catch (err) {
+      res.status(404).send({ message: 'Cannot get expenses by day', err });
+    }
+  }
+
+  async getExpensesByMonth(req: Request, res: Response) {
+    const walletId = req.params.id;
+    const date = dayjs(req.params.date);
+
+    try {
+      const walletExpenses: Expense[] = await ExpenseModel.find({
+        wallet: walletId,
+      });
+      const expensesByMonth = walletExpenses.filter((expense) =>
+        dayjs(expense.date).isSame(date, 'month')
+      );
+      res.send(expensesByMonth);
+    } catch (err) {
+      res.status(404).send({ message: 'Cannot get expenses by month', err });
     }
   }
 

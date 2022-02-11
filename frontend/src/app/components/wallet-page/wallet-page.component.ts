@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, reduce, map, switchMap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Expense } from './../../shared/interfaces/Expense';
 import { Income } from 'src/app/shared/interfaces/Income';
@@ -15,6 +15,7 @@ import {
   walletIncomeSelector,
 } from 'src/app/store/wallets/wallets.selectros';
 import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
+import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
 
 @Component({
   selector: 'app-wallet-page',
@@ -23,6 +24,7 @@ import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletPageComponent implements OnInit {
+  routes = RouterEnum;
   tabs = [TabsEnum.Expenses, TabsEnum.Income];
   expenseCategories = ['Food', 'Car', 'Clothes', 'Sport'];
   incomeCategories = ['Salary', 'Busines', 'Gifts'];
@@ -45,7 +47,11 @@ export class WalletPageComponent implements OnInit {
   displayItems$: Observable<Expense[]> | Observable<Income[]> = this.expenses$;
   displayAmount$: Observable<number> = this.expensesAmount$;
 
-  constructor(private route: ActivatedRoute, private store: Store) {}
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -70,5 +76,11 @@ export class WalletPageComponent implements OnInit {
       this.displayAmount$ = this.incomeAmount$;
       this.displayCategories = this.incomeCategories;
     }
+  }
+
+  handleRouteClick(param: string): void {
+    void this.router.navigate([param], {
+      relativeTo: this.route,
+    });
   }
 }

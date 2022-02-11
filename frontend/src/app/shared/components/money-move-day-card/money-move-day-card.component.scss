@@ -1,0 +1,73 @@
+:host {
+  .title {
+    padding: 5px 0;
+    background-color: #abe8ff;
+    font-weight: 500;
+    text-align: center;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .card {
+    position: relative;
+    padding: 15px 35px;
+    border-bottom: 1px solid #abe8ff;
+
+    &__title {
+      width: 100%;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    &__btns {
+      position: absolute;
+      right: 5px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 12px;
+      color: #999;
+      transition: 0.3s;
+
+      .btn-delete {
+        height: 12px;
+        width: 12px;
+        background: none;
+        background: url('/assets/images/delete-btn.svg') no-repeat center center;
+        background-size: contain;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          filter: brightness(0.7);
+        }
+      }
+
+      .btn-edit {
+        height: 12px;
+        width: 12px;
+        background: none;
+        background: url('/assets/images/edit-btn.svg') no-repeat center center;
+        background-size: contain;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          filter: brightness(0.7);
+        }
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}

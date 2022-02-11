@@ -5,5 +5,6 @@ export enum RouterEnum {
   Registration = 'registration',
   Wallet = 'wallet',
   Statistics = 'statistics',
+  History = 'history',
   Error = 'error',
 }

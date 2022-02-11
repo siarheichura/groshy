@@ -6,6 +6,7 @@ import { LoginFormComponent } from './components/auth-page/login-form/login-form
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
 import { WalletAmountComponent } from './shared/components/wallet-amount/wallet-amount.component';
 import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
+import { HistoryPageComponent } from './components/history-page/history-page.component';
 import { WalletPageComponent } from './components/wallet-page/wallet-page.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ErrorPageComponent } from './shared/components/error-page/error-page.component';
@@ -39,6 +40,7 @@ const routes: Routes = [
           { path: `${RouterEnum.Wallet}/:id`, redirectTo: '' },
           { path: RouterEnum.Index, component: WalletPageComponent },
           { path: RouterEnum.Statistics, component: StatisticsPageComponent },
+          { path: RouterEnum.History, component: HistoryPageComponent },
         ],
       },
     ],

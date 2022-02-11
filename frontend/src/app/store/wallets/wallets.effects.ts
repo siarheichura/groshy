@@ -78,7 +78,7 @@ export class WalletsEffects {
     );
   });
 
-  getExpensesByPeriod = createEffect(() => {
+  getExpensesByPeriod$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetExpensesByPeriod),
       switchMap((action) =>
@@ -97,7 +97,7 @@ export class WalletsEffects {
     );
   });
 
-  getIncomeByPeriod = createEffect(() => {
+  getIncomeByPeriod$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetIncomeByPeriod),
       switchMap((action) =>

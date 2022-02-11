@@ -37,10 +37,10 @@ export const walletsReducer = createReducer(
   })),
   on(AddExpenseSuccess, (state, { payload }) => ({
     ...state,
-    expenses: [...state.expenses, payload],
+    expenses: [...state.expensesByDay, payload],
   })),
   on(AddIncomeSuccess, (state, { payload }) => ({
     ...state,
-    income: [...state.income, payload],
+    income: [...state.incomeByDay, payload],
   }))
 );

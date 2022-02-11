@@ -7,11 +7,10 @@ export interface WalletsState {
   wallet: Wallet;
   walletCurrency: string;
   loading: boolean;
-  expenses: Expense[];
-  income: Income[];
-
   expensesByDay: Expense[];
   incomeByDay: Income[];
+  expensesByMonth: Expense[];
+  incomeByMonth: Income[];
 }
 
 export const initialWalletsState: WalletsState = {
@@ -24,9 +23,8 @@ export const initialWalletsState: WalletsState = {
   },
   walletCurrency: '',
   loading: false,
-  expenses: [],
-  income: [],
-
   expensesByDay: [],
   incomeByDay: [],
+  expensesByMonth: [],
+  incomeByMonth: [],
 };

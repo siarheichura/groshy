@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import dayjs from 'dayjs';
 import { Expense, ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
+import { WalletController } from './wallet.controller';
 
 export class ExpensesController {
   async getExpensesByDay(req: Request, res: Response) {
@@ -41,6 +42,7 @@ export class ExpensesController {
 
   async addExpense(req: Request, res: Response) {
     const walletId = req.params.id;
+    const walletAmount = (await WalletModel.findById(walletId)).amount;
 
     try {
       const { category, amount, comment, date } = req.body;
@@ -59,8 +61,10 @@ export class ExpensesController {
           $push: {
             expenses: expense,
           },
+          $set: { amount: walletAmount - amount },
         }
       );
+
       return res.json({ message: 'Expense has been added' });
     } catch (err) {
       res.status(500).json({ message: 'Cannot add expense' });

@@ -9,6 +9,9 @@ export interface WalletsState {
   loading: boolean;
   expenses: Expense[];
   income: Income[];
+
+  expensesByDay: Expense[];
+  incomeByDay: Income[];
 }
 
 export const initialWalletsState: WalletsState = {
@@ -23,4 +26,7 @@ export const initialWalletsState: WalletsState = {
   loading: false,
   expenses: [],
   income: [],
+
+  expensesByDay: [],
+  incomeByDay: [],
 };

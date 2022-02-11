@@ -4,8 +4,8 @@ import {
   GetWallets,
   GetWalletsSuccess,
   GetWalletSuccess,
-  GetExpensesByPeriodSuccess,
-  GetIncomeByPeriodSuccess,
+  GetExpensesByDaySuccess,
+  GetIncomeByDaySuccess,
   AddExpenseSuccess,
   AddIncomeSuccess,
 } from './wallets.actions';
@@ -27,13 +27,13 @@ export const walletsReducer = createReducer(
     loading: false,
     walletCurrency: payload.currency,
   })),
-  on(GetExpensesByPeriodSuccess, (state, { payload }) => ({
+  on(GetExpensesByDaySuccess, (state, { payload }) => ({
     ...state,
-    expenses: payload,
+    expensesByDay: payload,
   })),
-  on(GetIncomeByPeriodSuccess, (state, { payload }) => ({
+  on(GetIncomeByDaySuccess, (state, { payload }) => ({
     ...state,
-    income: payload,
+    incomeByDay: payload,
   })),
   on(AddExpenseSuccess, (state, { payload }) => ({
     ...state,

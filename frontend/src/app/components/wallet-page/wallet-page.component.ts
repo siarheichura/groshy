@@ -6,13 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Expense } from './../../shared/interfaces/Expense';
 import { Income } from 'src/app/shared/interfaces/Income';
 import {
-  GetExpensesByPeriod,
-  GetIncomeByPeriod,
+  GetExpensesByDay,
+  GetIncomeByDay,
 } from './../../store/wallets/wallets.actions';
 import {
   walletCurrencySelector,
-  walletExpensesSelector,
-  walletIncomeSelector,
+  walletExpensesByDaySelector,
+  walletIncomeByDaySelector,
 } from 'src/app/store/wallets/wallets.selectros';
 import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
@@ -34,8 +34,10 @@ export class WalletPageComponent implements OnInit {
   walletCurrency$: Observable<string> = this.store.select(
     walletCurrencySelector
   );
-  expenses$: Observable<Expense[]> = this.store.select(walletExpensesSelector);
-  income$: Observable<Income[]> = this.store.select(walletIncomeSelector);
+  expenses$: Observable<Expense[]> = this.store.select(
+    walletExpensesByDaySelector
+  );
+  income$: Observable<Income[]> = this.store.select(walletIncomeByDaySelector);
   expensesAmount$: Observable<number> = this.expenses$.pipe(
     map((expenses) => expenses.reduce((prev, curr) => prev + curr.amount, 0))
   );
@@ -55,12 +57,12 @@ export class WalletPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(
-      GetExpensesByPeriod({
+      GetExpensesByDay({
         payload: { walletId: this.walletId, date: this.today, period: 'day' },
       })
     );
     this.store.dispatch(
-      GetIncomeByPeriod({
+      GetIncomeByDay({
         payload: { walletId: this.walletId, date: this.today, period: 'day' },
       })
     );

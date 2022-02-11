@@ -1,18 +1,20 @@
 <nz-tabset nzType="card" nzCentered>
   <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzSelect)="onTabClick(tab)">
     <div class="tab">
-      <div class="tab__container">
-        <app-moneymove-form
-          [walletId]="walletId"
-          [tabName]="tab"
-          [categories]="displayCategories"
-        ></app-moneymove-form>
-        <app-moneymove-body
-          [amount]="displayAmount$ | async"
-          [items]="displayItems$ | async"
-          [walletCurrency]="walletCurrency$ | async"
-        ></app-moneymove-body>
-      </div>
+      <app-money-move-form
+        [walletId]="walletId"
+        [tabName]="tab"
+        [categories]="displayCategories"
+      ></app-money-move-form>
+
+      <!-- *ngFor='let day of days' -->
+      <app-money-move-day-card
+        [amount]="displayAmount$ | async"
+        [items]="displayItems$ | async"
+        [walletCurrency]="walletCurrency$ | async"
+      ></app-money-move-day-card>
+
+      <p class="history" (click)="handleRouteClick(routes.History)">History</p>
     </div>
   </nz-tab>
 </nz-tabset>

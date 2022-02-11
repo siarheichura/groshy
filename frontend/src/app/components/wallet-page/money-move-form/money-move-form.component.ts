@@ -9,19 +9,16 @@ import { Store } from '@ngrx/store';
 
 import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 
-import {
-  AddExpense,
-  AddIncome,
-} from './../../../store/wallets/wallets.actions';
+import { AddExpense, AddIncome } from '../../../store/wallets/wallets.actions';
 import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
 
 @Component({
-  selector: 'app-moneymove-form',
-  templateUrl: './moneymove-form.component.html',
-  styleUrls: ['./moneymove-form.component.scss'],
+  selector: 'app-money-move-form',
+  templateUrl: './money-move-form.component.html',
+  styleUrls: ['./money-move-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoneymoveFormComponent implements OnInit {
+export class MoneyMoveFormComponent implements OnInit {
   @Input() walletId: string;
   @Input() tabName: string;
   @Input() categories: string[];

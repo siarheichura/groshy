@@ -19,6 +19,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -27,6 +28,7 @@ import { ListComponent } from './components/list/list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WalletSettingComponent } from './components/wallet-setting/wallet-setting.component';
 import { WalletAmountComponent } from './components/wallet-amount/wallet-amount.component';
+import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { WalletAmountComponent } from './components/wallet-amount/wallet-amount.
     UserProfileComponent,
     WalletSettingComponent,
     WalletAmountComponent,
+    MoneyMoveDayCardComponent,
   ],
 
   imports: [
@@ -64,7 +67,9 @@ import { WalletAmountComponent } from './components/wallet-amount/wallet-amount.
     NzIconModule,
     NzCardModule,
     NzPopoverModule,
+    NzDatePickerModule,
     ListComponent,
+    MoneyMoveDayCardComponent,
   ],
   providers: [],
 })

@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="title">
+    {{ '11.02:' }} <span> {{ amount }} {{ walletCurrency }} </span>
+  </div>
+
+  <div class="card" *ngFor="let item of items">
+    <div class="card__title">
+      <p class="card__type">{{ item.category }}</p>
+      <p class="card__sum">{{ item.amount }} {{ walletCurrency }}</p>
+    </div>
+
+    <p class="card__comment">
+      {{ item.comment }}
+    </p>
+
+    <div class="card__btns">
+      <button class="btn-delete"></button>
+      <button class="btn-edit"></button>
+    </div>
+  </div>
+</div>

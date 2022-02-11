@@ -41,6 +41,7 @@ export class IncomeController {
 
   async addIncome(req: Request, res: Response) {
     const walletId = req.params.id;
+    const walletAmount = (await WalletModel.findById(walletId)).amount;
 
     try {
       const { category, amount, comment, date } = req.body;
@@ -59,6 +60,7 @@ export class IncomeController {
           $push: {
             income: income,
           },
+          $set: { amount: walletAmount + amount },
         }
       );
       return res.json({ message: 'Income has been added' });

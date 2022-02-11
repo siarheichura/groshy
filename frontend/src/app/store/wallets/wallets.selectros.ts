@@ -19,11 +19,11 @@ export const walletsLoadingSelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.loading
 );
-export const walletExpensesSelector = createSelector(
+export const walletExpensesByDaySelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.expenses
+  (state: WalletsState) => state.expensesByDay
 );
-export const walletIncomeSelector = createSelector(
+export const walletIncomeByDaySelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.income
+  (state: WalletsState) => state.incomeByDay
 );

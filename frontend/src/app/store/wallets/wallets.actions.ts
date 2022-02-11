@@ -15,10 +15,10 @@ enum WalletsActionsEnum {
   AddWallet = 'ADD_WALLET',
   RemoveWallet = 'REMOVE_WALLET',
   EditWallet = 'EDIT_WALLET',
-  GetExpensesByPeriod = 'GET_EXPENSES_BY_PERIOD',
-  GetExpensesByPeriodSuccess = 'GET_EXPENSES_BY_PERIOD_SUCCESS',
-  GetIncomeByPeriod = 'GET_INCOME_BY_PERIOD',
-  GetIncomeByPeriodSuccess = 'GET_INCOME_BY_PERIOD_SUCCESS',
+  GetExpensesByDay = 'GET_EXPENSES_BY_PERIOD',
+  GetExpensesByDaySuccess = 'GET_EXPENSES_BY_PERIOD_SUCCESS',
+  GetIncomeByDay = 'GET_INCOME_BY_PERIOD',
+  GetIncomeByDaySuccess = 'GET_INCOME_BY_PERIOD_SUCCESS',
   AddExpense = 'ADD_EXPENSE',
   AddExpenseSuccess = 'ADD_EXPENSE_SUCCESS',
   AddIncome = 'ADD_INCOME',
@@ -52,20 +52,20 @@ export const EditWallet = createAction(
   getFullActionName(WalletsActionsEnum.EditWallet),
   props<{ payload: { id: string; updatedWallet: Wallet } }>()
 );
-export const GetExpensesByPeriod = createAction(
-  getFullActionName(WalletsActionsEnum.GetExpensesByPeriod),
+export const GetExpensesByDay = createAction(
+  getFullActionName(WalletsActionsEnum.GetExpensesByDay),
   props<{ payload: { walletId: string; date: Date; period: string } }>()
 );
-export const GetExpensesByPeriodSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetExpensesByPeriodSuccess),
+export const GetExpensesByDaySuccess = createAction(
+  getFullActionName(WalletsActionsEnum.GetExpensesByDaySuccess),
   props<{ payload: Expense[] }>()
 );
-export const GetIncomeByPeriod = createAction(
-  getFullActionName(WalletsActionsEnum.GetIncomeByPeriod),
+export const GetIncomeByDay = createAction(
+  getFullActionName(WalletsActionsEnum.GetIncomeByDay),
   props<{ payload: { walletId: string; date: Date; period: string } }>()
 );
-export const GetIncomeByPeriodSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetIncomeByPeriodSuccess),
+export const GetIncomeByDaySuccess = createAction(
+  getFullActionName(WalletsActionsEnum.GetIncomeByDaySuccess),
   props<{ payload: Income[] }>()
 );
 export const AddExpense = createAction(

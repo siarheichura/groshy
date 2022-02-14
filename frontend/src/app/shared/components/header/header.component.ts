@@ -1,8 +1,11 @@
+import { map, take, tap } from 'rxjs';
+import { GetUserInfo } from './../../../store/user/user.actions';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { Store } from '@ngrx/store';
 
-import { UserService } from './../../../services/user.service';
+import { userInfoSelector } from './../../../store/user/user.selectros';
 import { UserProfileComponent } from './../user-profile/user-profile.component';
 import { RouterEnum } from '../../enums/RouterEnum';
 
@@ -16,14 +19,18 @@ export class HeaderComponent implements OnInit {
   routes = RouterEnum;
   username: string;
 
+  user$ = this.store
+    .select(userInfoSelector)
+    .pipe(tap((user) => (this.username = user.username)));
+
   constructor(
     private router: Router,
     private drawerService: NzDrawerService,
-    private userService: UserService
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.username = this.userService.user.username;
+    this.store.dispatch(GetUserInfo());
   }
 
   handleRouteClick(param: string): void {

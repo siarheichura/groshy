@@ -1,3 +1,6 @@
+import { authLoadingSelector } from './../../store/user/user.selectros';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,15 +10,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth-page.component.scss'],
 })
 export class AuthPageComponent implements OnInit {
-  authLoading: boolean;
+  loading$: Observable<boolean> = this.store.select(authLoadingSelector);
 
-  constructor(private authService: AuthService) {}
+  constructor(private store: Store) {}
 
-  ngOnInit(): void {
-    this.authService.authLoading$.subscribe({
-      next: (response) => {
-        this.authLoading = response;
-      },
-    });
-  }
+  ngOnInit(): void {}
 }

@@ -3,16 +3,16 @@ import { User } from './../../shared/interfaces/User';
 export interface UserState {
   user: User;
   loading: boolean;
-  login: boolean;
+  isLogin: boolean;
+  isRegistrate: boolean;
 }
 
 export const initialUserState: UserState = {
   user: {
-    _id: '',
-    email: '',
+    id: '',
     username: '',
-    password: '',
   },
   loading: false,
-  login: false,
+  isLogin: false,
+  isRegistrate: false,
 };

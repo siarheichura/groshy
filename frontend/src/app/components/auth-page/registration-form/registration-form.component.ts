@@ -1,13 +1,12 @@
+import { Store } from '@ngrx/store';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { AuthService } from './../../../services/auth.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
-import { NzMessageEnum } from 'src/app/shared/enums/NzMessagesEnum';
 import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
 import { FormValidators } from './../../../shared/validators/form-validators';
+import { Registration } from './../../../store/user/user.actions';
 
 interface FormValue {
   username: string;
@@ -38,9 +37,8 @@ export class RegistrationFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
     private router: Router,
-    private message: NzMessageService
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -56,20 +54,7 @@ export class RegistrationFormComponent implements OnInit {
 
   submitForm(): void {
     if (this.registrationForm.valid) {
-      this.authService.authLoading$.next(true);
-
-      this.authService.registration(this.formValue).subscribe({
-        next: () => {
-          this.registrationForm.reset();
-          this.message.success(NzMessageEnum.REGISTRATION_SUCCESS);
-          this.authService.authLoading$.next(false);
-          this.router.navigate([RouterEnum.Auth]);
-        },
-        error: (err) => {
-          this.message.error(err.error.message);
-          this.authService.authLoading$.next(false);
-        },
-      });
+      this.store.dispatch(Registration({ payload: this.formValue }));
     } else {
       markFormControlsDirty(this.registrationForm);
     }

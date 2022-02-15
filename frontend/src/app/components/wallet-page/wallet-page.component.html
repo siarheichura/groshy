@@ -1,18 +1,39 @@
 <nz-tabset nzType="card" nzCentered>
-  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzSelect)="onTabClick(tab)">
+  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab">
     <div class="tab">
-      <app-money-move-form
-        [walletId]="walletId"
-        [tabName]="tab"
-        [categories]="displayCategories"
-      ></app-money-move-form>
+      <ng-container [ngSwitch]="tab">
+        <ng-container *ngSwitchCase="'Expenses'">
+          <app-money-move-form
+            [walletId]="walletId"
+            [categories]="expenseCategories"
+            (onSubmit)="addExpense($event)"
+          ></app-money-move-form>
+
+          <app-money-move-day-card
+            [items]="expenses$ | async"
+            [walletCurrency]="walletCurrency$ | async"
+            [amount]="expensesAmount$ | async"
+            [title]="'Today'"
+          ></app-money-move-day-card>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Income'">
+          <app-money-move-form
+            [walletId]="walletId"
+            [categories]="incomeCategories"
+            (onSubmit)="addIncome($event)"
+          ></app-money-move-form>
+
+          <app-money-move-day-card
+            [items]="income$ | async"
+            [amount]="incomeAmount$ | async"
+            [walletCurrency]="walletCurrency$ | async"
+            [title]="'Today'"
+          ></app-money-move-day-card>
+        </ng-container>
+      </ng-container>
 
       <!-- *ngFor='let day of days' -->
-      <app-money-move-day-card
-        [amount]="displayAmount$ | async"
-        [items]="displayItems$ | async"
-        [walletCurrency]="walletCurrency$ | async"
-      ></app-money-move-day-card>
 
       <p class="history" (click)="handleRouteClick(routes.History)">History</p>
     </div>

@@ -78,7 +78,7 @@ export class WalletsEffects {
     );
   });
 
-  getExpensesByPeriod$ = createEffect(() => {
+  getExpensesByDay$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetExpensesByDay),
       switchMap((action) =>
@@ -86,7 +86,7 @@ export class WalletsEffects {
           .getExpensesByPeriod(
             action.payload.walletId,
             action.payload.date,
-            action.payload.period
+            'day'
           )
           .pipe(
             map((expense) =>
@@ -97,7 +97,7 @@ export class WalletsEffects {
     );
   });
 
-  getIncomeByPeriod$ = createEffect(() => {
+  getIncomeByDay$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetIncomeByDay),
       switchMap((action) =>
@@ -105,7 +105,7 @@ export class WalletsEffects {
           .getIncomeByPeriod(
             action.payload.walletId,
             action.payload.date,
-            action.payload.period
+            'day'
           )
           .pipe(
             map((income) =>
@@ -123,8 +123,13 @@ export class WalletsEffects {
         this.walletService
           .addExpense(action.payload.walletId, action.payload.expense)
           .pipe(
-            map((expense) =>
-              WalletsActions.AddExpenseSuccess({ payload: expense })
+            map(() =>
+              WalletsActions.GetExpensesByDay({
+                payload: {
+                  walletId: action.payload.walletId,
+                  date: new Date(),
+                },
+              })
             )
           )
       )
@@ -138,8 +143,13 @@ export class WalletsEffects {
         this.walletService
           .addIncome(action.payload.walletId, action.payload.income)
           .pipe(
-            map((income) =>
-              WalletsActions.AddExpenseSuccess({ payload: income })
+            map(() =>
+              WalletsActions.GetIncomeByDay({
+                payload: {
+                  walletId: action.payload.walletId,
+                  date: new Date(),
+                },
+              })
             )
           )
       )

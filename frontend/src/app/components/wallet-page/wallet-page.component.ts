@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, reduce, map, switchMap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Expense } from './../../shared/interfaces/Expense';
 import { Income } from 'src/app/shared/interfaces/Income';
 import {
+  AddExpense,
+  AddIncome,
   GetExpensesByDay,
   GetIncomeByDay,
 } from './../../store/wallets/wallets.actions';
@@ -24,6 +26,7 @@ import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletPageComponent implements OnInit {
+  TabsEnum: any;
   routes = RouterEnum;
   tabs = [TabsEnum.Expenses, TabsEnum.Income];
   expenseCategories = ['Food', 'Car', 'Clothes', 'Sport'];
@@ -45,10 +48,6 @@ export class WalletPageComponent implements OnInit {
     map((expenses) => expenses.reduce((prev, curr) => prev + curr.amount, 0))
   );
 
-  displayCategories: string[] = this.expenseCategories;
-  displayItems$: Observable<Expense[]> | Observable<Income[]> = this.expenses$;
-  displayAmount$: Observable<number> = this.expensesAmount$;
-
   constructor(
     private route: ActivatedRoute,
     private store: Store,
@@ -58,26 +57,36 @@ export class WalletPageComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(
       GetExpensesByDay({
-        payload: { walletId: this.walletId, date: this.today, period: 'day' },
+        payload: { walletId: this.walletId, date: this.today },
       })
     );
     this.store.dispatch(
       GetIncomeByDay({
-        payload: { walletId: this.walletId, date: this.today, period: 'day' },
+        payload: { walletId: this.walletId, date: this.today },
       })
     );
   }
 
-  onTabClick(tabName: string) {
-    if (tabName === TabsEnum.Expenses) {
-      this.displayItems$ = this.expenses$;
-      this.displayAmount$ = this.expensesAmount$;
-      this.displayCategories = this.expenseCategories;
-    } else {
-      this.displayItems$ = this.income$;
-      this.displayAmount$ = this.incomeAmount$;
-      this.displayCategories = this.incomeCategories;
-    }
+  addExpense(formValue: Expense) {
+    this.store.dispatch(
+      AddExpense({
+        payload: {
+          expense: formValue,
+          walletId: this.walletId,
+        },
+      })
+    );
+  }
+
+  addIncome(formValue: Expense) {
+    this.store.dispatch(
+      AddIncome({
+        payload: {
+          income: formValue,
+          walletId: this.walletId,
+        },
+      })
+    );
   }
 
   handleRouteClick(param: string): void {

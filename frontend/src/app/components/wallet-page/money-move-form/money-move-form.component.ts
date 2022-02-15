@@ -3,13 +3,12 @@ import {
   Component,
   Input,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
-
-import { AddExpense, AddIncome } from '../../../store/wallets/wallets.actions';
 import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
 
 @Component({
@@ -22,6 +21,8 @@ export class MoneyMoveFormComponent implements OnInit {
   @Input() walletId: string;
   @Input() tabName: string;
   @Input() categories: string[];
+
+  @Output() onSubmit = new EventEmitter();
 
   moneymoveForm: FormGroup;
 
@@ -37,27 +38,8 @@ export class MoneyMoveFormComponent implements OnInit {
 
   submitForm(): void {
     if (this.moneymoveForm.valid) {
-      if (this.tabName === TabsEnum.Expenses) {
-        this.store.dispatch(
-          AddExpense({
-            payload: {
-              expense: this.moneymoveForm.value,
-              walletId: this.walletId,
-            },
-          })
-        );
-        this.moneymoveForm.reset();
-      } else {
-        this.store.dispatch(
-          AddIncome({
-            payload: {
-              income: this.moneymoveForm.value,
-              walletId: this.walletId,
-            },
-          })
-        );
-        this.moneymoveForm.reset();
-      }
+      this.onSubmit.emit(this.moneymoveForm.value);
+      this.moneymoveForm.reset();
     } else {
       markFormControlsDirty(this.moneymoveForm);
     }

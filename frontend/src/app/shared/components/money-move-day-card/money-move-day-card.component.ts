@@ -11,6 +11,7 @@ export class MoneyMoveDayCardComponent implements OnInit {
   @Input() items: Expense[] | Income[] | null;
   @Input() amount: number | null;
   @Input() walletCurrency: string | null;
+  @Input() title: string;
 
   constructor() {}
 

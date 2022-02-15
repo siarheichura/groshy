@@ -20,9 +20,7 @@ enum WalletsActionsEnum {
   GetIncomeByDay = 'GET_INCOME_BY_PERIOD',
   GetIncomeByDaySuccess = 'GET_INCOME_BY_PERIOD_SUCCESS',
   AddExpense = 'ADD_EXPENSE',
-  AddExpenseSuccess = 'ADD_EXPENSE_SUCCESS',
   AddIncome = 'ADD_INCOME',
-  AddIncomeSuccess = 'ADD_INCOME_SUCCESS',
 }
 
 export const GetWallets = createAction(
@@ -54,7 +52,7 @@ export const EditWallet = createAction(
 );
 export const GetExpensesByDay = createAction(
   getFullActionName(WalletsActionsEnum.GetExpensesByDay),
-  props<{ payload: { walletId: string; date: Date; period: string } }>()
+  props<{ payload: { walletId: string; date: Date } }>()
 );
 export const GetExpensesByDaySuccess = createAction(
   getFullActionName(WalletsActionsEnum.GetExpensesByDaySuccess),
@@ -62,7 +60,7 @@ export const GetExpensesByDaySuccess = createAction(
 );
 export const GetIncomeByDay = createAction(
   getFullActionName(WalletsActionsEnum.GetIncomeByDay),
-  props<{ payload: { walletId: string; date: Date; period: string } }>()
+  props<{ payload: { walletId: string; date: Date } }>()
 );
 export const GetIncomeByDaySuccess = createAction(
   getFullActionName(WalletsActionsEnum.GetIncomeByDaySuccess),
@@ -72,15 +70,7 @@ export const AddExpense = createAction(
   getFullActionName(WalletsActionsEnum.AddExpense),
   props<{ payload: { expense: Expense; walletId: string } }>()
 );
-export const AddExpenseSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.AddExpenseSuccess),
-  props<{ payload: Expense }>()
-);
 export const AddIncome = createAction(
   getFullActionName(WalletsActionsEnum.AddIncome),
   props<{ payload: { income: Income; walletId: string } }>()
-);
-export const AddIncomeSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.AddIncomeSuccess),
-  props<{ payload: Income }>()
 );

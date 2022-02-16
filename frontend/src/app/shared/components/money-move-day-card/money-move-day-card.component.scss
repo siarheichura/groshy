@@ -1,4 +1,6 @@
 :host {
+  width: 100%;
+
   .title {
     padding: 5px 0;
     background-color: #abe8ff;
@@ -8,6 +10,11 @@
     span {
       font-weight: 600;
     }
+  }
+
+  .empty {
+    padding: 5px 0;
+    text-align: center;
   }
 
   .card {

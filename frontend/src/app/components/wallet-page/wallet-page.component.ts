@@ -26,7 +26,6 @@ import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletPageComponent implements OnInit {
-  TabsEnum: any;
   routes = RouterEnum;
   tabs = [TabsEnum.Expenses, TabsEnum.Income];
   expenseCategories = ['Food', 'Car', 'Clothes', 'Sport'];
@@ -48,11 +47,7 @@ export class WalletPageComponent implements OnInit {
     map((expenses) => expenses.reduce((prev, curr) => prev + curr.amount, 0))
   );
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store,
-    private router: Router
-  ) {}
+  constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -87,11 +82,5 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
-  }
-
-  handleRouteClick(param: string): void {
-    void this.router.navigate([param], {
-      relativeTo: this.route,
-    });
   }
 }

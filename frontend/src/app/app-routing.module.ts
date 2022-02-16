@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegistrationFormComponent } from './components/auth-page/registration-form/registration-form.component';
 import { LoginFormComponent } from './components/auth-page/login-form/login-form.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
-import { WalletAmountComponent } from './shared/components/wallet-amount/wallet-amount.component';
+import { WalletHeaderComponent } from './shared/components/wallet-header/wallet-header.component';
 import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
 import { HistoryPageComponent } from './components/history-page/history-page.component';
 import { WalletPageComponent } from './components/wallet-page/wallet-page.component';
@@ -35,7 +35,7 @@ const routes: Routes = [
       { path: RouterEnum.Index, component: HomePageComponent },
       {
         path: `${RouterEnum.Wallet}/:id`,
-        component: WalletAmountComponent,
+        component: WalletHeaderComponent,
         children: [
           { path: `${RouterEnum.Wallet}/:id`, redirectTo: '' },
           { path: RouterEnum.Index, component: WalletPageComponent },

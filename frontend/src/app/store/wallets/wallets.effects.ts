@@ -97,6 +97,25 @@ export class WalletsEffects {
     );
   });
 
+  getExpensesByMonth$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetExpensesByMonth),
+      switchMap((action) =>
+        this.walletService
+          .getExpensesByPeriod(
+            action.payload.walletId,
+            action.payload.date,
+            'month'
+          )
+          .pipe(
+            map((expense) =>
+              WalletsActions.GetExpensesByMonthSuccess({ payload: expense })
+            )
+          )
+      )
+    );
+  });
+
   getIncomeByDay$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetIncomeByDay),
@@ -110,6 +129,25 @@ export class WalletsEffects {
           .pipe(
             map((income) =>
               WalletsActions.GetIncomeByDaySuccess({ payload: income })
+            )
+          )
+      )
+    );
+  });
+
+  getIncomeByMonth$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetIncomeByMonth),
+      switchMap((action) =>
+        this.walletService
+          .getIncomeByPeriod(
+            action.payload.walletId,
+            action.payload.date,
+            'month'
+          )
+          .pipe(
+            map((income) =>
+              WalletsActions.GetIncomeByMonthSuccess({ payload: income })
             )
           )
       )

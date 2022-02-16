@@ -1,11 +1,18 @@
 <div class="amount" *ngIf="wallet$ | async as wallet">
   <div class="amount__name">
-    <div (click)="handleWalletRouteClick()">
+    <div (click)="handleRouteClick([routes.Wallet, walletId])">
       {{ wallet.name }}
     </div>
 
     <div class="amount__nav">
-      <div class="amount__nav-stat" (click)="handleStatRouteClick()"></div>
+      <div
+        class="amount__nav-history"
+        (click)="handleRouteClick([routes.History])"
+      ></div>
+      <div
+        class="amount__nav-stat"
+        (click)="handleRouteClick([routes.Statistics])"
+      ></div>
       <div class="amount__nav-sett" (click)="printDrawer()"></div>
     </div>
   </div>

@@ -27,3 +27,11 @@ export const walletIncomeByDaySelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.incomeByDay
 );
+export const walletExpensesByMonthSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.expensesByMonth
+);
+export const walletIncomeByMonthSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.incomeByMonth
+);

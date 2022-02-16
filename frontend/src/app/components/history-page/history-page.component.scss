@@ -1,11 +1,18 @@
 :host {
-  .wrap {
+  .tab {
     width: 700px;
     margin: 0 auto;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .date-picker {
     width: 300px;
+  }
+
+  nz-date-picker {
+    margin-bottom: 20px;
   }
 }

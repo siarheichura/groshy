@@ -8,6 +8,8 @@ import {
   GetIncomeByDaySuccess,
   AddExpense,
   AddIncome,
+  GetExpensesByMonthSuccess,
+  GetIncomeByMonthSuccess,
 } from './wallets.actions';
 
 export const walletsReducer = createReducer(
@@ -34,6 +36,14 @@ export const walletsReducer = createReducer(
   on(GetIncomeByDaySuccess, (state, { payload }) => ({
     ...state,
     incomeByDay: payload,
+  })),
+  on(GetExpensesByMonthSuccess, (state, { payload }) => ({
+    ...state,
+    expensesByMonth: payload,
+  })),
+  on(GetIncomeByMonthSuccess, (state, { payload }) => ({
+    ...state,
+    incomeByMonth: payload,
   })),
   on(AddExpense, (state, { payload }) => ({
     ...state,

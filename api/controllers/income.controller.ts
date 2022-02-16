@@ -68,4 +68,43 @@ export class IncomeController {
       res.status(500).json({ message: 'Cannot add income' });
     }
   }
+
+  async removeIncome(req: Request, res: Response) {
+    const incomeId = req.params.incomeId;
+    const walletId = req.params.walletId;
+    const incomeAmount = (await IncomeModel.findById(incomeId)).amount;
+    const walletAmount = (await WalletModel.findById(walletId)).amount;
+
+    try {
+      await IncomeModel.findByIdAndDelete(incomeId);
+      await WalletModel.findByIdAndUpdate(walletId, {
+        $pull: { income: incomeId },
+        $set: { amount: walletAmount - incomeAmount },
+      });
+      res.send({ message: 'success' });
+    } catch (err) {
+      res.send(err);
+    }
+  }
+
+  async editIncome(req: Request, res: Response) {
+    const incomeId = req.params.incomeId;
+    const walletId = req.params.walletId;
+    const incomeAmount = (await IncomeModel.findById(incomeId)).amount;
+    const walletAmount = (await WalletModel.findById(walletId)).amount;
+
+    try {
+      await IncomeModel.findByIdAndUpdate(incomeId, req.body);
+
+      if (req.body.amount !== incomeAmount) {
+        await WalletModel.findByIdAndUpdate(walletId, {
+          $set: { amount: walletAmount - incomeAmount + req.body.amount },
+        });
+      }
+
+      res.send(req.body);
+    } catch (err) {
+      res.send(err);
+    }
+  }
 }

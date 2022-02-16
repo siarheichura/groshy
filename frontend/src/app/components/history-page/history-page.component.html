@@ -19,7 +19,7 @@
           ></app-money-move-day-card>
         </ng-container>
 
-        <ng-container *ngSwitchCase="tabNames.Expenses">
+        <ng-container *ngSwitchCase="tabNames.Income">
           <app-money-move-day-card
             *ngFor="let day of monthMoneyMove"
             [items]="day.income"

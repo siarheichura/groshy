@@ -70,4 +70,43 @@ export class ExpensesController {
       res.status(500).json({ message: 'Cannot add expense' });
     }
   }
+
+  async removeExpense(req: Request, res: Response) {
+    const expenseId = req.params.expenseId;
+    const walletId = req.params.walletId;
+    const expenseAmount = (await ExpenseModel.findById(expenseId)).amount;
+    const walletAmount = (await WalletModel.findById(walletId)).amount;
+
+    try {
+      await ExpenseModel.findByIdAndDelete(expenseId);
+      await WalletModel.findByIdAndUpdate(walletId, {
+        $pull: { expenses: expenseId },
+        $set: { amount: walletAmount + expenseAmount },
+      });
+      res.send({ message: 'success' });
+    } catch (err) {
+      res.send(err);
+    }
+  }
+
+  async editExpense(req: Request, res: Response) {
+    const expenseId = req.params.expenseId;
+    const walletId = req.params.walletId;
+    const expenseAmount = (await ExpenseModel.findById(expenseId)).amount;
+    const walletAmount = (await WalletModel.findById(walletId)).amount;
+
+    try {
+      await ExpenseModel.findByIdAndUpdate(expenseId, req.body);
+
+      if (req.body.amount !== expenseAmount) {
+        await WalletModel.findByIdAndUpdate(walletId, {
+          $set: { amount: walletAmount + expenseAmount - req.body.amount },
+        });
+      }
+
+      res.send(req.body);
+    } catch (err) {
+      res.send(err);
+    }
+  }
 }

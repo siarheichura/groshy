@@ -26,7 +26,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { ListComponent } from './components/list/list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { WalletSettingsComponent } from './components/wallet-settings/wallet-settings.component';
 import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
 import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
 
@@ -37,7 +36,6 @@ import { MoneyMoveDayCardComponent } from './components/money-move-day-card/mone
     MainLayoutComponent,
     ListComponent,
     UserProfileComponent,
-    WalletSettingsComponent,
     WalletHeaderComponent,
     MoneyMoveDayCardComponent,
   ],

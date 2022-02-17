@@ -14,3 +14,8 @@ expensesRouter.get(
   controller.getExpensesByMonth
 );
 expensesRouter.post(`${RouterEnum.Expenses}/:id`, controller.addExpense);
+expensesRouter.delete(
+  `${RouterEnum.Expenses}/:expenseId`,
+  controller.removeExpense
+);
+expensesRouter.put(`${RouterEnum.Expenses}/:expenseId`, controller.editExpense);

@@ -10,6 +10,7 @@ import {
   AddIncome,
   GetExpensesByDay,
   GetIncomeByDay,
+  RemoveExpense,
 } from './../../store/wallets/wallets.actions';
 import {
   walletCurrencySelector,
@@ -72,6 +73,12 @@ export class WalletPageComponent implements OnInit {
       })
     );
   }
+
+  deleteExpense(id: string) {
+    this.store.dispatch(RemoveExpense({ payload: { expenseId: id } }));
+  }
+
+  editExpense(id: string) {}
 
   addIncome(formValue: Expense) {
     this.store.dispatch(

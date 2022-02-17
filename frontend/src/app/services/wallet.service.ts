@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 
@@ -45,22 +45,20 @@ export class WalletService {
     );
   }
 
-  // preiod = 'day' || 'month'
   getExpensesByPeriod(
     walletId: string,
     date: Date,
-    period: string
+    period: 'day' | 'month'
   ): Observable<Expense[]> {
     return this.http.get<Expense[]>(
       `${environment.apiUrl}${API_PATH_EXPENSES}/${period}/${walletId}/${date}`
     );
   }
 
-  // preiod = 'day' || 'month'
   getIncomeByPeriod(
     walletId: string,
     date: Date,
-    period: string
+    period: 'day' | 'month'
   ): Observable<Expense[]> {
     return this.http.get<Expense[]>(
       `${environment.apiUrl}${API_PATH_INCOME}/${period}/${walletId}/${date}`
@@ -74,9 +72,35 @@ export class WalletService {
     );
   }
 
+  removeExpense(expenseId: string): Observable<Expense> {
+    return this.http.delete<Expense>(
+      `${environment.apiUrl}${API_PATH_EXPENSES}/${expenseId}`
+    );
+  }
+
+  editExpense(expenseId: string, body: Expense): Observable<Expense> {
+    return this.http.post<Expense>(
+      `${environment.apiUrl}${API_PATH_EXPENSES}/${expenseId}`,
+      body
+    );
+  }
+
   addIncome(walletId: string, body: Income): Observable<Income> {
     return this.http.post<Income>(
       `${environment.apiUrl}${API_PATH_INCOME}/${walletId}`,
+      body
+    );
+  }
+
+  removeIncome(incomeId: string): Observable<Income> {
+    return this.http.delete<Income>(
+      `${environment.apiUrl}${API_PATH_INCOME}/${incomeId}`
+    );
+  }
+
+  editIncome(incomeId: string, body: Expense): Observable<Income> {
+    return this.http.post<Income>(
+      `${environment.apiUrl}${API_PATH_INCOME}/${incomeId}`,
       body
     );
   }

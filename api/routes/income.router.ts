@@ -14,11 +14,5 @@ incomeRouter.get(
   controller.getIncomeByMonth
 );
 incomeRouter.post(`${RouterEnum.Income}/:id`, controller.addIncome);
-incomeRouter.delete(
-  `${RouterEnum.Income}/:walletId/:incomeId`,
-  controller.removeIncome
-);
-incomeRouter.put(
-  `${RouterEnum.Income}/:walletId/:incomeId`,
-  controller.editIncome
-);
+incomeRouter.delete(`${RouterEnum.Income}/:incomeId`, controller.removeIncome);
+incomeRouter.put(`${RouterEnum.Income}/:incomeId`, controller.editIncome);

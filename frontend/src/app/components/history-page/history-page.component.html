@@ -6,27 +6,33 @@
         class="date-picker"
         [(ngModel)]="date"
         (ngModelChange)="onDateChange($event)"
+        [nzDisabledDate]="disabledDates"
       ></nz-date-picker>
+      <!-- nz-date-picker reacts only to (ngModelChange) ??? -->
 
       <ng-container [ngSwitch]="tab">
         <ng-container *ngSwitchCase="tabNames.Expenses">
-          <app-money-move-day-card
-            *ngFor="let day of monthMoneyMove"
-            [items]="day.expenses"
-            [title]="day.date.format('DD.MM')"
-            [walletCurrency]="walletCurrency$ | async"
-            [amount]="day.expensesSum"
-          ></app-money-move-day-card>
+          <div class="body" *ngFor="let day of monthMoneyMove$ | async">
+            <app-money-move-day-card
+              *ngIf="day.expenses.length"
+              [items]="day.expenses"
+              [title]="day.date.format('DD.MM')"
+              [walletCurrency]="walletCurrency$ | async"
+              [amount]="day.expensesSum"
+            ></app-money-move-day-card>
+          </div>
         </ng-container>
 
         <ng-container *ngSwitchCase="tabNames.Income">
-          <app-money-move-day-card
-            *ngFor="let day of monthMoneyMove"
-            [items]="day.income"
-            [title]="day.date.format('DD.MM')"
-            [walletCurrency]="walletCurrency$ | async"
-            [amount]="day.incomeSum"
-          ></app-money-move-day-card>
+          <div class="body" *ngFor="let day of monthMoneyMove$ | async">
+            <app-money-move-day-card
+              *ngIf="day.income.length"
+              [items]="day.income"
+              [title]="day.date.format('DD.MM')"
+              [walletCurrency]="walletCurrency$ | async"
+              [amount]="day.incomeSum"
+            ></app-money-move-day-card>
+          </div>
         </ng-container>
       </ng-container>
     </div>

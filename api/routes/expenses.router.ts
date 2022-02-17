@@ -15,10 +15,7 @@ expensesRouter.get(
 );
 expensesRouter.post(`${RouterEnum.Expenses}/:id`, controller.addExpense);
 expensesRouter.delete(
-  `${RouterEnum.Expenses}/:walletId/:expenseId`,
+  `${RouterEnum.Expenses}/:expenseId`,
   controller.removeExpense
 );
-expensesRouter.put(
-  `${RouterEnum.Expenses}/:walletId/:expenseId`,
-  controller.editExpense
-);
+expensesRouter.put(`${RouterEnum.Expenses}/:expenseId`, controller.editExpense);

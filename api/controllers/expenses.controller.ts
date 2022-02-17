@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import dayjs from 'dayjs';
 import { Expense, ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
-import { WalletController } from './wallet.controller';
 
 export class ExpensesController {
   async getExpensesByDay(req: Request, res: Response) {
@@ -19,7 +18,7 @@ export class ExpensesController {
 
       res.send(expensesByDay);
     } catch (err) {
-      res.status(404).send({ message: 'Cannot get expenses by day', err });
+      res.status(400).send({ message: 'Cannot get expenses by day' });
     }
   }
 
@@ -36,7 +35,7 @@ export class ExpensesController {
       );
       res.send(expensesByMonth);
     } catch (err) {
-      res.status(404).send({ message: 'Cannot get expenses by month', err });
+      res.status(400).send({ message: 'Cannot get expenses by month' });
     }
   }
 
@@ -55,27 +54,24 @@ export class ExpensesController {
       });
       await expense.save();
 
-      await WalletModel.updateOne(
-        { _id: walletId },
-        {
-          $push: {
-            expenses: expense,
-          },
-          $set: { amount: walletAmount - amount },
-        }
-      );
+      await WalletModel.findByIdAndUpdate(walletId, {
+        $push: {
+          expenses: expense,
+        },
+        $set: { amount: walletAmount - amount },
+      });
 
-      return res.json({ message: 'Expense has been added' });
+      return res.send({ message: 'Expense has been added' });
     } catch (err) {
-      res.status(500).json({ message: 'Cannot add expense' });
+      res.status(400).send({ message: 'Cannot add expense' });
     }
   }
 
   async removeExpense(req: Request, res: Response) {
     const expenseId = req.params.expenseId;
-    const walletId = req.params.walletId;
-    const expenseAmount = (await ExpenseModel.findById(expenseId)).amount;
-    const walletAmount = (await WalletModel.findById(walletId)).amount;
+    const expense = await ExpenseModel.findById(expenseId);
+    const { wallet: walletId, amount: expenseAmount } = expense;
+    const { amount: walletAmount } = await WalletModel.findById(walletId);
 
     try {
       await ExpenseModel.findByIdAndDelete(expenseId);
@@ -83,20 +79,22 @@ export class ExpensesController {
         $pull: { expenses: expenseId },
         $set: { amount: walletAmount + expenseAmount },
       });
-      res.send({ message: 'success' });
+
+      res.send(expense);
     } catch (err) {
-      res.send(err);
+      res.status(400).send({ message: 'Cannot remove expense' });
     }
   }
 
   async editExpense(req: Request, res: Response) {
     const expenseId = req.params.expenseId;
-    const walletId = req.params.walletId;
-    const expenseAmount = (await ExpenseModel.findById(expenseId)).amount;
-    const walletAmount = (await WalletModel.findById(walletId)).amount;
+    const { wallet: walletId, amount: expenseAmount } =
+      await ExpenseModel.findById(expenseId);
+    const { amount: walletAmount } = await WalletModel.findById(walletId);
 
     try {
       await ExpenseModel.findByIdAndUpdate(expenseId, req.body);
+      const updatedExpense = await ExpenseModel.findById(expenseId);
 
       if (req.body.amount !== expenseAmount) {
         await WalletModel.findByIdAndUpdate(walletId, {
@@ -104,9 +102,9 @@ export class ExpensesController {
         });
       }
 
-      res.send(req.body);
+      res.send(updatedExpense);
     } catch (err) {
-      res.send(err);
+      res.status(400).send({ message: 'Cannot edit expense' });
     }
   }
 }

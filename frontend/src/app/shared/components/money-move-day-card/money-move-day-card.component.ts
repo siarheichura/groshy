@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { Income } from './../../interfaces/Income';
 import { Expense } from './../../interfaces/Expense';
+import { RemoveExpense } from './../../../store/wallets/wallets.actions';
 
 @Component({
   selector: 'app-money-move-day-card',
@@ -13,7 +16,18 @@ export class MoneyMoveDayCardComponent implements OnInit {
   @Input() walletCurrency: string | null;
   @Input() title: string;
 
-  constructor() {}
+  @Output() onEdit = new EventEmitter();
+  @Output() onDelete = new EventEmitter();
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {}
+
+  onDeleteCard(id: string) {
+    this.onDelete.emit(id);
+  }
+
+  onEditCard(id: string) {
+    this.onEdit.emit(id);
+  }
 }

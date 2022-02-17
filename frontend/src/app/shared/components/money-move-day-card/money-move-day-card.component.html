@@ -16,8 +16,8 @@
     </p>
 
     <div class="card__btns">
-      <button class="btn-delete"></button>
-      <button class="btn-edit"></button>
+      <button class="btn-delete" (click)="onDeleteCard(item._id)"></button>
+      <button class="btn-edit" (click)="onEditCard(item._id)"></button>
     </div>
   </div>
 </div>

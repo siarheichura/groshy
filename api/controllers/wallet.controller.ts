@@ -13,17 +13,19 @@ interface JwtPayload {
 export class WalletController {
   async getUserWallets(req: Request, res: Response) {
     try {
-      const jwtPayload: any = await jwt.decode(req.header('token')!); // ??? type
-      const userId = await jwtPayload!.id;
-      const userWallets = await WalletModel.find({ user: userId });
-      res.json(userWallets);
+      const { id }: JwtPayload | { id: string } = jwt.decode(
+        req.header('token')
+      ) as JwtPayload;
+      const userWallets = await WalletModel.find({ user: id });
+      res.send(userWallets);
     } catch (err) {
-      res.status(500).json({ message: 'Cannot get wallets' });
+      res.status(400).send({ message: 'Cannot get wallets' });
     }
   }
 
   async getWallet(req: Request, res: Response) {
     const id = req.params.id;
+
     try {
       const wallet = await WalletModel.findById(id);
       res.send(wallet);
@@ -34,22 +36,20 @@ export class WalletController {
 
   async addWallet(req: Request, res: Response) {
     try {
-      const jwtPayload: any = await jwt.decode(req.header('token')!); // ??? type
-      const userId = await jwtPayload.id;
+      const { id }: JwtPayload | { id: string } = jwt.decode(
+        req.header('token')
+      ) as JwtPayload;
       const { name, currency, amount } = req.body;
-      const wallet = new WalletModel({ name, currency, amount, user: userId });
+      const wallet = new WalletModel({ name, currency, amount, user: id });
       await wallet.save();
-      await UserModel.updateOne(
-        { _id: userId },
-        {
-          $push: {
-            wallets: wallet,
-          },
-        }
-      );
-      return res.json({ message: 'Wallet has been created' });
+      await UserModel.findByIdAndUpdate(id, {
+        $push: {
+          wallets: wallet,
+        },
+      });
+      return res.send({ message: 'Wallet has been created' });
     } catch (err) {
-      res.status(500).json({ message: 'Cannot create wallet' });
+      res.status(400).send({ message: 'Cannot create wallet' });
     }
   }
 
@@ -68,7 +68,7 @@ export class WalletController {
         }
       });
     } catch (err) {
-      res.status(500).send({
+      res.status(400).send({
         message: `Cannot delete wallet with id=${id}`,
       });
     }
@@ -79,17 +79,17 @@ export class WalletController {
     try {
       WalletModel.findByIdAndUpdate(id, req.body, (err: Error) => {
         if (err) {
-          res.status(404).json({
+          res.status(404).send({
             message: `Cannot edit wallet with id=${id}. Maybe wallet was not found!`,
           });
         } else {
-          res.json({
+          res.send({
             message: `Wallet with id=${id} was edited successfully!`,
           });
         }
       });
     } catch (err) {
-      res.status(500).json({ message: `Cannot edit wallet with id=${id}` });
+      res.status(400).send({ message: `Cannot edit wallet with id=${id}` });
     }
   }
 }

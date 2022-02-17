@@ -9,22 +9,20 @@ interface User {
   wallets: Types.ObjectId[];
 }
 
-const UserSchema = new Schema<User>({
-  username: { type: String, required: true },
-  email: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  wallets: [{ type: Schema.Types.ObjectId, ref: 'Wallet' }],
-});
-
-UserSchema.methods.hashPassword = function (password: string) {
+const hashPassword = (password: string) => {
   return bcrypt.hashSync(password, 7);
 };
 
-UserSchema.methods.checkPassword = function (
-  password: string,
+const UserSchema = new Schema<User>({
+  username: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true, set: hashPassword },
+  wallets: [{ type: Schema.Types.ObjectId, ref: 'Wallet' }],
+});
+
+UserSchema.methods.checkPassword = (
+  incomingPassword: string,
   userPassword: string
-) {
-  return bcrypt.compareSync(password, userPassword);
-};
+) => bcrypt.compareSync(incomingPassword, userPassword);
 
 export const UserModel = model<User>('User', UserSchema);

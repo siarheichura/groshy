@@ -174,6 +174,36 @@ export class WalletsEffects {
     );
   });
 
+  removeExpense$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.RemoveExpense),
+      switchMap((action) =>
+        this.walletService
+          .removeExpense(action.payload.expenseId)
+          .pipe(
+            map((expense) =>
+              WalletsActions.RemoveExpenseSuccess({ payload: expense })
+            )
+          )
+      )
+    );
+  });
+
+  editExpense$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(WalletsActions.EditExpense),
+        switchMap((action) =>
+          this.walletService.editExpense(
+            action.payload.expenseId,
+            action.payload.updatedExpense
+          )
+        )
+      );
+    },
+    { dispatch: false }
+  );
+
   addIncome$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.AddIncome),

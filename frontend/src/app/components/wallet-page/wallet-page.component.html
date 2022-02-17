@@ -14,6 +14,8 @@
             [walletCurrency]="walletCurrency$ | async"
             [amount]="expensesAmount$ | async"
             [title]="'Today'"
+            (onDelete)="deleteExpense($event)"
+            (onEdit)="editExpense($event)"
           ></app-money-move-day-card>
         </ng-container>
 

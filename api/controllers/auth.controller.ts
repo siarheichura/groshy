@@ -17,21 +17,20 @@ export class AuthController {
 
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ message: 'Registration error', errors });
+        return res.status(400).send({ message: 'Registration error', errors });
       }
 
       const candidate = await UserModel.findOne({ email });
       if (candidate) {
-        return res.status(400).json({ message: 'This email is already taken' });
+        return res.status(409).send({ message: 'This email is already taken' });
       }
 
-      const hashPassword = UserModel.schema.methods.hashPassword(password);
-      const user = new UserModel({ username, email, password: hashPassword });
+      const user = new UserModel({ username, email, password });
 
       await user.save();
-      return res.json({ message: 'Registration success' });
+      return res.send({ message: 'Registration success' });
     } catch (err) {
-      res.status(400).json({ message: 'Registration error' });
+      res.status(400).send({ message: 'Registration error' });
     }
   }
 
@@ -42,8 +41,8 @@ export class AuthController {
 
       if (!user) {
         return res
-          .status(400)
-          .json({ message: `User ${username} is not found` });
+          .status(404)
+          .send({ message: `User ${username} is not found` });
       }
 
       const validPassword = UserModel.schema.methods.checkPassword(
@@ -51,22 +50,13 @@ export class AuthController {
         user.password
       );
       if (!validPassword) {
-        return res.status(400).json({ message: 'Incorrect password' });
+        return res.status(400).send({ message: 'Incorrect password' });
       }
 
       const token = generateToken(user._id, user.username);
-      return res.json({ token });
+      return res.send({ token });
     } catch (err) {
-      res.status(400).json({ message: 'Login error' });
-    }
-  }
-
-  async getUsers(req: Request, res: Response) {
-    try {
-      const users = await UserModel.find();
-      res.json(users);
-    } catch (err) {
-      console.log(err);
+      res.status(400).send({ message: 'Login error' });
     }
   }
 }

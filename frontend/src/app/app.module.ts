@@ -24,6 +24,7 @@ import { HistoryPageModule } from './components/history-page/history-page.module
 import { AppComponent } from './app.component';
 
 import { AuthInterceptor } from './services/auth.interceptor';
+
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,

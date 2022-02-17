@@ -2,9 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
-import { WalletSettingsComponent } from '../wallet-settings/wallet-settings.component';
 import { walletSelector } from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from '../../enums/RouterEnum';
 import { Wallet } from '../../interfaces/Wallet';
@@ -24,8 +22,7 @@ export class WalletHeaderComponent implements OnInit {
   constructor(
     private store: Store,
     private router: Router,
-    private route: ActivatedRoute,
-    private drawerService: NzDrawerService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -37,12 +34,5 @@ export class WalletHeaderComponent implements OnInit {
     settings = { relativeTo: this.route }
   ): void {
     void this.router.navigate(params, settings);
-  }
-
-  printDrawer(): void {
-    this.drawerService.create({
-      nzTitle: 'Wallet setting',
-      nzContent: WalletSettingsComponent,
-    });
   }
 }

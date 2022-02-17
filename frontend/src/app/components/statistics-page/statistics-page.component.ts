@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsPageComponent implements OnInit {
-  tabs = ['Expneses', 'Income'];
+  tabs = ['Expenses', 'Income'];
 
   constructor() {}
 

@@ -11,6 +11,7 @@ import { WalletPageComponent } from './components/wallet-page/wallet-page.compon
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ErrorPageComponent } from './shared/components/error-page/error-page.component';
 import { AuthPageComponent } from './components/auth-page/auth-page.component';
+import { WalletSettingsPageComponent } from './components/wallets-setting-page/wallet-settings-page.component';
 
 import { AuthGuard } from './services/auth.guard';
 
@@ -41,6 +42,7 @@ const routes: Routes = [
           { path: RouterEnum.Index, component: WalletPageComponent },
           { path: RouterEnum.Statistics, component: StatisticsPageComponent },
           { path: RouterEnum.History, component: HistoryPageComponent },
+          { path: RouterEnum.Settings, component: WalletSettingsPageComponent },
         ],
       },
     ],

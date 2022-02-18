@@ -36,7 +36,7 @@ export class HistoryPageComponent implements OnInit {
   tabs = [TabsEnum.Expenses, TabsEnum.Income];
   date = new Date();
   walletId: string = (this.route.parent?.snapshot.params as { id: string }).id;
-  disabledDates = (date: Date): boolean => dayjs(date).isAfter(this.date);
+  disabledDates = (date: Date): boolean => dayjs(date).isAfter(new Date());
 
   monthMoneyMove$: Observable<MonthMoneyMove[]> = this.store.select(
     monthMoneyMoveSelector

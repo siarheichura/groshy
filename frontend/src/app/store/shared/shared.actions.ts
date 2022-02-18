@@ -5,9 +5,6 @@ const MODULE_NAME = '[SHARED]';
 const getFullActionName = getActionNameFn(MODULE_NAME);
 
 export enum SharedActionsEnum {
-  StartLoading = 'START_LOADING',
-  StopLoading = 'STOP_LOADING',
-
   Loading = 'LOADING',
 }
 

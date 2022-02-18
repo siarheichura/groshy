@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { environment } from './../../environments/environment';
 
 import { Wallet } from '../shared/interfaces/Wallet';
@@ -16,13 +16,15 @@ export class WalletService {
   constructor(private http: HttpClient) {}
 
   getWallets(): Observable<Wallet[]> {
-    return this.http.get<Wallet[]>(`${environment.apiUrl}${API_PATH_WALLETS}`);
+    return this.http
+      .get<Wallet[]>(`${environment.apiUrl}${API_PATH_WALLETS}`)
+      .pipe(map((wallets) => wallets.map((wallet) => new Wallet(wallet))));
   }
 
   getWallet(id: string): Observable<Wallet> {
-    return this.http.get<Wallet>(
-      `${environment.apiUrl}${API_PATH_WALLETS}/${id}`
-    );
+    return this.http
+      .get<Wallet>(`${environment.apiUrl}${API_PATH_WALLETS}/${id}`)
+      .pipe(map((wallet) => new Wallet(wallet)));
   }
 
   addWallet(body: Wallet): Observable<{}> {

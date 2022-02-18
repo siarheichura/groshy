@@ -17,9 +17,6 @@ import dayjs from 'dayjs';
 
 const getMonthMoneyMoveTemplate = (date: Date) => {
   const result = [];
-
-  // check 'i' is not bigger than number of days in a month
-  // & not bigger than current day
   for (
     let i = 1;
     i <= dayjs(date).daysInMonth() && dayjs(date).date(i).isBefore(dayjs());

@@ -16,8 +16,8 @@ import {
 })
 export class ListComponent implements OnInit {
   @Input() title: string;
-  @Input() items: ListItem[] | null;
-  @Input() loading: boolean | null;
+  @Input() items: ListItem[];
+  @Input() loading: boolean;
 
   @Output() onAdd = new EventEmitter();
   @Output() onEdit = new EventEmitter();

@@ -12,24 +12,22 @@
 
       <ng-container [ngSwitch]="tab">
         <ng-container *ngSwitchCase="tabNames.Expenses">
-          <div class="body" *ngFor="let day of monthMoneyMove$ | async">
+          <div class="body" *ngFor="let day of moneyMove$ | async">
             <app-money-move-day-card
               *ngIf="day.expenses.length"
               [items]="day.expenses"
               [title]="day.date.format('DD.MM')"
-              [walletCurrency]="walletCurrency$ | async"
               [amount]="day.expensesSum"
             ></app-money-move-day-card>
           </div>
         </ng-container>
 
         <ng-container *ngSwitchCase="tabNames.Income">
-          <div class="body" *ngFor="let day of monthMoneyMove$ | async">
+          <div class="body" *ngFor="let day of moneyMove$ | async">
             <app-money-move-day-card
               *ngIf="day.income.length"
               [items]="day.income"
               [title]="day.date.format('DD.MM')"
-              [walletCurrency]="walletCurrency$ | async"
               [amount]="day.incomeSum"
             ></app-money-move-day-card>
           </div>

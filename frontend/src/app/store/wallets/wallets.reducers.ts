@@ -1,32 +1,28 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialWalletsState } from './wallets.state';
+import { DayMoneyMove, initialWalletsState } from './wallets.state';
 import {
   GetWallets,
   GetWalletsSuccess,
   GetWalletSuccess,
-  GetExpensesByDaySuccess,
-  GetIncomeByDaySuccess,
-  AddExpense,
   AddIncome,
-  GetExpensesByMonthSuccess,
-  GetIncomeByMonthSuccess,
-  RemoveExpenseSuccess,
-  GetMonthDays,
+  GetMoneyMoveByPeriodTemplate,
+  GetExpensesByPeriodSuccess,
+  GetIncomeByPeriodSuccess,
+  AddExpense,
+  RemoveExpense,
 } from './wallets.actions';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
-const getMonthMoneyMoveTemplate = (date: Date) => {
-  const result = [];
+const getMoneyMoveTemplateByPeriod = (
+  startDate: Dayjs,
+  finishDate: Dayjs = startDate
+) => {
+  const result: DayMoneyMove[] = [];
+  const daysDiff = finishDate.diff(startDate, 'day');
 
-  // check 'i' is not bigger than number of days in a month
-  // & not bigger than current day
-  for (
-    let i = 1;
-    i <= dayjs(date).daysInMonth() && dayjs(date).date(i).isBefore(dayjs());
-    i++
-  ) {
-    result.unshift({
-      date: dayjs(date).date(i),
+  for (let i = daysDiff; i >= 0; i--) {
+    result.push({
+      date: startDate.add(i, 'day'),
       expenses: [],
       income: [],
       expensesSum: 0,
@@ -53,21 +49,16 @@ export const walletsReducer = createReducer(
     loading: false,
     walletCurrency: payload.currency,
   })),
-  on(GetExpensesByDaySuccess, (state, { payload }) => ({
+  on(GetMoneyMoveByPeriodTemplate, (state, { payload }) => ({
     ...state,
-    expensesByDay: payload,
+    moneyMoveByPeriod: getMoneyMoveTemplateByPeriod(
+      payload.startDate,
+      payload.finishDate
+    ),
   })),
-  on(GetIncomeByDaySuccess, (state, { payload }) => ({
+  on(GetExpensesByPeriodSuccess, (state, { payload }) => ({
     ...state,
-    incomeByDay: payload,
-  })),
-  on(GetMonthDays, (state, { payload }) => ({
-    ...state,
-    monthMoneyMove: getMonthMoneyMoveTemplate(payload),
-  })),
-  on(GetExpensesByMonthSuccess, (state, { payload }) => ({
-    ...state,
-    monthMoneyMove: state.monthMoneyMove.map((day) => {
+    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
       return {
         ...day,
         expenses: payload.filter((expense) =>
@@ -76,13 +67,12 @@ export const walletsReducer = createReducer(
         expensesSum: payload
           .filter((expense) => dayjs(expense.date).isSame(day.date, 'day'))
           .reduce((prev, curr) => prev + curr.amount, 0),
-        // expensesSum: day.expenses.reduce((prev, curr) => prev + curr.amount, 0),  --- doesn't work :(
       };
     }),
   })),
-  on(GetIncomeByMonthSuccess, (state, { payload }) => ({
+  on(GetIncomeByPeriodSuccess, (state, { payload }) => ({
     ...state,
-    monthMoneyMove: state.monthMoneyMove.map((day) => {
+    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
       return {
         ...day,
         income: payload.filter((income) =>
@@ -91,7 +81,6 @@ export const walletsReducer = createReducer(
         incomeSum: payload
           .filter((income) => dayjs(income.date).isSame(day.date, 'day'))
           .reduce((prev, curr) => prev + curr.amount, 0),
-        // incomeSum: day.income.reduce((prev, curr) => prev + curr.amount, 0),  --- doesn't work :(
       };
     }),
   })),
@@ -101,16 +90,6 @@ export const walletsReducer = createReducer(
       ...state.wallet,
       amount: state.wallet.amount - payload.expense.amount,
     },
-  })),
-  on(RemoveExpenseSuccess, (state, { payload }) => ({
-    ...state,
-    wallet: {
-      ...state.wallet,
-      amount: state.wallet.amount + payload.amount,
-    },
-    expensesByDay: state.expensesByDay.filter(
-      (expense) => expense._id !== payload._id
-    ),
   })),
   on(AddIncome, (state, { payload }) => ({
     ...state,

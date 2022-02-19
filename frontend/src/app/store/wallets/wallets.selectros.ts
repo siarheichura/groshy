@@ -19,15 +19,7 @@ export const walletsLoadingSelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.loading
 );
-export const walletExpensesByDaySelector = createSelector(
+export const moneyMoveByPeriodSelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.expensesByDay
-);
-export const walletIncomeByDaySelector = createSelector(
-  featureSelector,
-  (state: WalletsState) => state.incomeByDay
-);
-export const monthMoneyMoveSelector = createSelector(
-  featureSelector,
-  (state: WalletsState) => state.monthMoneyMove
+  (state: WalletsState) => state.moneyMoveByPeriod
 );

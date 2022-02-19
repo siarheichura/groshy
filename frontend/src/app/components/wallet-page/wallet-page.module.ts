@@ -7,7 +7,7 @@ import { WalletPageComponent } from './wallet-page.component';
 import { MoneyMoveFormComponent } from './money-move-form/money-move-form.component';
 
 @NgModule({
-  declarations: [MoneyMoveFormComponent, WalletPageComponent],
+  declarations: [WalletPageComponent, MoneyMoveFormComponent],
   imports: [CommonModule, SharedModule],
   providers: [],
 })

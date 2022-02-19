@@ -14,11 +14,8 @@ export interface DayMoneyMove {
 export interface WalletsState {
   wallets: Wallet[];
   wallet: Wallet;
-  walletCurrency: string;
   loading: boolean;
-  expensesByDay: Expense[];
-  incomeByDay: Income[];
-  monthMoneyMove: DayMoneyMove[];
+  moneyMoveByPeriod: DayMoneyMove[];
 }
 
 export const initialWalletsState: WalletsState = {
@@ -29,9 +26,6 @@ export const initialWalletsState: WalletsState = {
     amount: 0,
     currency: '',
   },
-  walletCurrency: '',
   loading: false,
-  expensesByDay: [],
-  incomeByDay: [],
-  monthMoneyMove: [],
+  moneyMoveByPeriod: [],
 };

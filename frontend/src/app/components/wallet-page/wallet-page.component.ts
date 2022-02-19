@@ -1,24 +1,21 @@
+import { moneyMoveByPeriodSelector } from './../../store/wallets/wallets.selectros';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { ActivatedRoute } from '@angular/router';
 import { Expense } from './../../shared/interfaces/Expense';
-import { Income } from 'src/app/shared/interfaces/Income';
+
 import {
   AddExpense,
   AddIncome,
-  GetExpensesByDay,
-  GetIncomeByDay,
+  GetExpensesByPeriod,
+  GetIncomeByPeriod,
+  GetMoneyMoveByPeriodTemplate,
   RemoveExpense,
+  RemoveIncome,
 } from './../../store/wallets/wallets.actions';
-import {
-  walletCurrencySelector,
-  walletExpensesByDaySelector,
-  walletIncomeByDaySelector,
-} from 'src/app/store/wallets/wallets.selectros';
 import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
+import dayjs, { Dayjs } from 'dayjs';
 
 @Component({
   selector: 'app-wallet-page',
@@ -27,38 +24,44 @@ import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletPageComponent implements OnInit {
-  routes = RouterEnum;
-  tabs = [TabsEnum.Expenses, TabsEnum.Income];
   expenseCategories = ['Food', 'Car', 'Clothes', 'Sport'];
   incomeCategories = ['Salary', 'Busines', 'Gifts'];
-  today: Date = new Date();
-
+  routes = RouterEnum;
+  tabs = [TabsEnum.Expenses, TabsEnum.Income];
+  startDate: Dayjs = dayjs().subtract(2, 'day');
+  finishDate: Dayjs = dayjs();
   walletId: string = (this.route.snapshot.params as { id: string }).id;
-  walletCurrency$: Observable<string> = this.store.select(
-    walletCurrencySelector
-  );
-  expenses$: Observable<Expense[]> = this.store.select(
-    walletExpensesByDaySelector
-  );
-  income$: Observable<Income[]> = this.store.select(walletIncomeByDaySelector);
-  expensesAmount$: Observable<number> = this.expenses$.pipe(
-    map((expenses) => expenses.reduce((prev, curr) => prev + curr.amount, 0))
-  );
-  incomeAmount$: Observable<number> = this.income$.pipe(
-    map((expenses) => expenses.reduce((prev, curr) => prev + curr.amount, 0))
-  );
+  moneyMove$ = this.store.select(moneyMoveByPeriodSelector);
 
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(
-      GetExpensesByDay({
-        payload: { walletId: this.walletId, date: this.today },
+      GetMoneyMoveByPeriodTemplate({
+        payload: {
+          startDate: this.startDate,
+          finishDate: this.finishDate,
+        },
       })
     );
+
     this.store.dispatch(
-      GetIncomeByDay({
-        payload: { walletId: this.walletId, date: this.today },
+      GetExpensesByPeriod({
+        payload: {
+          walletId: this.walletId,
+          startDate: this.startDate,
+          finishDate: this.finishDate,
+        },
+      })
+    );
+
+    this.store.dispatch(
+      GetIncomeByPeriod({
+        payload: {
+          walletId: this.walletId,
+          startDate: this.startDate,
+          finishDate: this.finishDate,
+        },
       })
     );
   }
@@ -72,10 +75,34 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
+
+    setTimeout(() => {
+      this.store.dispatch(
+        GetExpensesByPeriod({
+          payload: {
+            walletId: this.walletId,
+            startDate: this.startDate,
+            finishDate: this.finishDate,
+          },
+        })
+      );
+    }, 500);
   }
 
-  deleteExpense(id: string) {
+  removeExpense(id: string) {
     this.store.dispatch(RemoveExpense({ payload: { expenseId: id } }));
+
+    setTimeout(() => {
+      this.store.dispatch(
+        GetExpensesByPeriod({
+          payload: {
+            walletId: this.walletId,
+            startDate: this.startDate,
+            finishDate: this.finishDate,
+          },
+        })
+      );
+    }, 500);
   }
 
   editExpense(id: string) {}
@@ -89,5 +116,33 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
+
+    setTimeout(() => {
+      this.store.dispatch(
+        GetIncomeByPeriod({
+          payload: {
+            walletId: this.walletId,
+            startDate: this.startDate,
+            finishDate: this.finishDate,
+          },
+        })
+      );
+    }, 500);
+  }
+
+  removeIncome(id: string) {
+    this.store.dispatch(RemoveIncome({ payload: { incomeId: id } }));
+
+    setTimeout(() => {
+      this.store.dispatch(
+        GetIncomeByPeriod({
+          payload: {
+            walletId: this.walletId,
+            startDate: this.startDate,
+            finishDate: this.finishDate,
+          },
+        })
+      );
+    }, 500);
   }
 }

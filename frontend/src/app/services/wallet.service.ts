@@ -6,6 +6,7 @@ import { environment } from './../../environments/environment';
 import { Wallet } from '../shared/interfaces/Wallet';
 import { Income } from '../shared/interfaces/Income';
 import { Expense } from 'src/app/shared/interfaces/Expense';
+import { Dayjs } from 'dayjs';
 
 const API_PATH_WALLETS = '/wallets';
 const API_PATH_EXPENSES = '/expenses';
@@ -49,21 +50,20 @@ export class WalletService {
 
   getExpensesByPeriod(
     walletId: string,
-    date: Date,
-    period: 'day' | 'month'
+    startDate: Dayjs,
+    finishDate?: Dayjs
   ): Observable<Expense[]> {
     return this.http.get<Expense[]>(
-      `${environment.apiUrl}${API_PATH_EXPENSES}/${period}/${walletId}/${date}`
+      `${environment.apiUrl}${API_PATH_EXPENSES}/${walletId}/${startDate}/${finishDate}`
     );
   }
-
   getIncomeByPeriod(
     walletId: string,
-    date: Date,
-    period: 'day' | 'month'
-  ): Observable<Expense[]> {
-    return this.http.get<Expense[]>(
-      `${environment.apiUrl}${API_PATH_INCOME}/${period}/${walletId}/${date}`
+    startDate: Dayjs,
+    finishDate?: Dayjs
+  ): Observable<Income[]> {
+    return this.http.get<Income[]>(
+      `${environment.apiUrl}${API_PATH_INCOME}/${walletId}/${startDate}/${finishDate}`
     );
   }
 

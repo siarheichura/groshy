@@ -4,38 +4,31 @@ import { Income, IncomeModel } from './../models/Income';
 import { WalletModel } from '../models/Wallet';
 
 export class IncomeController {
-  async getIncomeByDay(req: Request, res: Response) {
-    const walletId = req.params.id;
-    const date = dayjs(req.params.date);
-
+  async getIncomeByPeriod(req: Request, res: Response) {
     try {
-      const walletIncome: Income[] = await IncomeModel.find({
-        wallet: walletId,
-      });
-      const incomeByDay = walletIncome.filter((income) =>
-        dayjs(income.date).isSame(date, 'day')
-      );
+      const { walletId, startDate, finishDate } = req.params;
 
-      res.send(incomeByDay);
+      if (finishDate) {
+        const income = await IncomeModel.find({
+          wallet: walletId,
+          date: {
+            $gte: dayjs(req.params.startDate).startOf('day'),
+            $lt: dayjs(req.params.finishDate).endOf('day'),
+          },
+        });
+        res.send(income);
+      } else {
+        const income = await IncomeModel.find({
+          wallet: walletId,
+          date: {
+            $gte: dayjs(req.params.startDate).startOf('day'),
+            $lt: dayjs(req.params.startDate).endOf('day'),
+          },
+        });
+        res.send(income);
+      }
     } catch (err) {
-      res.status(400).send({ message: 'Cannot get income by day' });
-    }
-  }
-
-  async getIncomeByMonth(req: Request, res: Response) {
-    const walletId = req.params.id;
-    const date = dayjs(req.params.date);
-
-    try {
-      const walletIncome: Income[] = await IncomeModel.find({
-        wallet: walletId,
-      });
-      const incomeByMonth = walletIncome.filter((income) =>
-        dayjs(income.date).isSame(date, 'month')
-      );
-      res.send(incomeByMonth);
-    } catch (err) {
-      res.status(400).send({ message: 'Cannot get income by month' });
+      res.send('Cannot get income');
     }
   }
 

@@ -4,38 +4,31 @@ import { Expense, ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
 
 export class ExpensesController {
-  async getExpensesByDay(req: Request, res: Response) {
-    const walletId = req.params.id;
-    const date = dayjs(req.params.date);
-
+  async getExpensesByPeriod(req: Request, res: Response) {
     try {
-      const walletExpenses: Expense[] = await ExpenseModel.find({
-        wallet: walletId,
-      });
-      const expensesByDay = walletExpenses.filter((expense) =>
-        dayjs(expense.date).isSame(date, 'day')
-      );
+      const { walletId, startDate, finishDate } = req.params;
 
-      res.send(expensesByDay);
+      if (finishDate) {
+        const expenses = await ExpenseModel.find({
+          wallet: walletId,
+          date: {
+            $gte: dayjs(req.params.startDate).startOf('day'),
+            $lt: dayjs(req.params.finishDate).endOf('day'),
+          },
+        });
+        res.send(expenses);
+      } else {
+        const expenses = await ExpenseModel.find({
+          wallet: walletId,
+          date: {
+            $gte: dayjs(req.params.startDate).startOf('day'),
+            $lt: dayjs(req.params.startDate).endOf('day'),
+          },
+        });
+        res.send(expenses);
+      }
     } catch (err) {
-      res.status(400).send({ message: 'Cannot get expenses by day' });
-    }
-  }
-
-  async getExpensesByMonth(req: Request, res: Response) {
-    const walletId = req.params.id;
-    const date = dayjs(req.params.date);
-
-    try {
-      const walletExpenses: Expense[] = await ExpenseModel.find({
-        wallet: walletId,
-      });
-      const expensesByMonth = walletExpenses.filter((expense) =>
-        dayjs(expense.date).isSame(date, 'month')
-      );
-      res.send(expensesByMonth);
-    } catch (err) {
-      res.status(400).send({ message: 'Cannot get expenses by month' });
+      res.send('Cannot get expenses');
     }
   }
 
@@ -61,7 +54,7 @@ export class ExpensesController {
         $set: { amount: walletAmount - amount },
       });
 
-      return res.send({ message: 'Expense has been added' });
+      res.send(expense);
     } catch (err) {
       res.status(400).send({ message: 'Cannot add expense' });
     }

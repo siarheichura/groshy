@@ -9,14 +9,15 @@
             (onSubmit)="addExpense($event)"
           ></app-money-move-form>
 
-          <app-money-move-day-card
-            [items]="expenses$ | async"
-            [walletCurrency]="walletCurrency$ | async"
-            [amount]="expensesAmount$ | async"
-            [title]="'Today'"
-            (onDelete)="deleteExpense($event)"
-            (onEdit)="editExpense($event)"
-          ></app-money-move-day-card>
+          <div *ngFor="let day of moneyMove$ | async">
+            <app-money-move-day-card
+              [items]="day.expenses"
+              [amount]="day.expensesSum"
+              [title]="day.date.format('DD.MM')"
+              (onDelete)="removeExpense($event)"
+              (onEdit)="editExpense($event)"
+            ></app-money-move-day-card>
+          </div>
         </ng-container>
 
         <ng-container *ngSwitchCase="'Income'">
@@ -26,12 +27,14 @@
             (onSubmit)="addIncome($event)"
           ></app-money-move-form>
 
-          <app-money-move-day-card
-            [items]="income$ | async"
-            [amount]="incomeAmount$ | async"
-            [walletCurrency]="walletCurrency$ | async"
-            [title]="'Today'"
-          ></app-money-move-day-card>
+          <div *ngFor="let day of moneyMove$ | async">
+            <app-money-move-day-card
+              [items]="day.income"
+              [amount]="day.incomeSum"
+              [title]="day.date.format('DD.MM')"
+              (onDelete)="removeIncome($event)"
+            ></app-money-move-day-card>
+          </div>
         </ng-container>
       </ng-container>
     </div>

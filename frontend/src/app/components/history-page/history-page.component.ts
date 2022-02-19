@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import dayjs, { Dayjs } from 'dayjs';
@@ -8,14 +7,11 @@ import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 import { Income } from 'src/app/shared/interfaces/Income';
 import { Expense } from 'src/app/shared/interfaces/Expense';
 import {
-  GetExpensesByMonth,
-  GetIncomeByMonth,
-  GetMonthDays,
+  GetExpensesByPeriod,
+  GetIncomeByPeriod,
+  GetMoneyMoveByPeriodTemplate,
 } from './../../store/wallets/wallets.actions';
-import {
-  monthMoneyMoveSelector,
-  walletCurrencySelector,
-} from 'src/app/store/wallets/wallets.selectros';
+import { moneyMoveByPeriodSelector } from './../../store/wallets/wallets.selectros';
 
 interface MonthMoneyMove {
   date: Dayjs;
@@ -38,56 +34,46 @@ export class HistoryPageComponent implements OnInit {
   walletId: string = (this.route.parent?.snapshot.params as { id: string }).id;
   disabledDates = (date: Date): boolean => dayjs(date).isAfter(new Date());
 
-  monthMoneyMove$: Observable<MonthMoneyMove[]> = this.store.select(
-    monthMoneyMoveSelector
-  );
-  walletCurrency$: Observable<string> = this.store.select(
-    walletCurrencySelector
-  );
+  startDate: Dayjs = dayjs(this.date).startOf('month').add(1, 'day');
+  finishDate: Dayjs =
+    dayjs(this.date).endOf('month').add(1, 'day') > dayjs()
+      ? dayjs().endOf('day').add(1, 'day')
+      : dayjs(this.date).endOf('month').add(1, 'day');
+
+  moneyMove$ = this.store.select(moneyMoveByPeriodSelector);
 
   constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.store.dispatch(GetMonthDays({ payload: this.date }));
-
     this.store.dispatch(
-      GetExpensesByMonth({
+      GetMoneyMoveByPeriodTemplate({
         payload: {
-          walletId: this.walletId,
-          date: this.date,
+          startDate: this.startDate,
+          finishDate: this.finishDate,
         },
       })
     );
 
     this.store.dispatch(
-      GetIncomeByMonth({
+      GetExpensesByPeriod({
         payload: {
           walletId: this.walletId,
-          date: this.date,
-        },
-      })
-    );
-  }
-
-  onDateChange(date: Date) {
-    this.store.dispatch(GetMonthDays({ payload: date }));
-
-    this.store.dispatch(
-      GetExpensesByMonth({
-        payload: {
-          walletId: this.walletId,
-          date: date,
+          startDate: this.startDate,
+          finishDate: this.finishDate,
         },
       })
     );
 
     this.store.dispatch(
-      GetIncomeByMonth({
+      GetIncomeByPeriod({
         payload: {
           walletId: this.walletId,
-          date: date,
+          startDate: this.startDate,
+          finishDate: this.finishDate,
         },
       })
     );
   }
+
+  onDateChange(date: Date) {}
 }

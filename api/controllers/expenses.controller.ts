@@ -32,6 +32,16 @@ export class ExpensesController {
     }
   }
 
+  async getExpense(req: Request, res: Response) {
+    const expenseId = req.params.id;
+    try {
+      const expense = await ExpenseModel.findById(expenseId);
+      res.send(expense);
+    } catch (err) {
+      res.status(400).send({ message: `Cannot get expense` });
+    }
+  }
+
   async addExpense(req: Request, res: Response) {
     const walletId = req.params.id;
     const walletAmount = (await WalletModel.findById(walletId)).amount;

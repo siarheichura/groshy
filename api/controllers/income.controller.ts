@@ -32,6 +32,16 @@ export class IncomeController {
     }
   }
 
+  async getIncome(req: Request, res: Response) {
+    const incomeId = req.params.id;
+    try {
+      const income = await IncomeModel.findById(incomeId);
+      res.send(income);
+    } catch (err) {
+      res.status(400).send({ message: `Cannot get income` });
+    }
+  }
+
   async addIncome(req: Request, res: Response) {
     const walletId = req.params.id;
     const walletAmount = (await WalletModel.findById(walletId)).amount;

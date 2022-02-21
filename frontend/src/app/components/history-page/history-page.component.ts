@@ -1,3 +1,4 @@
+import { ChangeTab } from './../../store/shared/shared.actions';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -73,6 +74,10 @@ export class HistoryPageComponent implements OnInit {
         },
       })
     );
+  }
+
+  onTabClick(tabName: string): void {
+    this.store.dispatch(ChangeTab({ payload: tabName }));
   }
 
   onDateChange(date: Date) {}

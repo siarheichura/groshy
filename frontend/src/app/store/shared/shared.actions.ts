@@ -8,6 +8,7 @@ export enum SharedActionsEnum {
   Loading = 'LOADING',
   PrintNzMessageSuccess = 'PRINT_NZ_MESSAGE_SUCCESS',
   PrintNzMessageError = 'PRINT_NZ_MESSAGE_ERROR',
+  ChangeTab = 'CHANGE_TAB',
 }
 
 export const Loading = createAction(
@@ -20,5 +21,9 @@ export const PrintNzMessageSuccess = createAction(
 );
 export const PrintNzMessageError = createAction(
   getFullActionName(SharedActionsEnum.PrintNzMessageError),
+  props<{ payload: string }>()
+);
+export const ChangeTab = createAction(
+  getFullActionName(SharedActionsEnum.ChangeTab),
   props<{ payload: string }>()
 );

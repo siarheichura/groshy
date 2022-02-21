@@ -7,3 +7,7 @@ export const loadingSelector = createSelector(
   featureSelector,
   (state: SharedState) => state.loading
 );
+export const currentTabSelector = createSelector(
+  featureSelector,
+  (state: SharedState) => state.currentTab
+);

@@ -57,6 +57,7 @@ export class WalletService {
       `${environment.apiUrl}${API_PATH_EXPENSES}/${walletId}/${startDate}/${finishDate}`
     );
   }
+
   getIncomeByPeriod(
     walletId: string,
     startDate: Dayjs,
@@ -64,6 +65,18 @@ export class WalletService {
   ): Observable<Income[]> {
     return this.http.get<Income[]>(
       `${environment.apiUrl}${API_PATH_INCOME}/${walletId}/${startDate}/${finishDate}`
+    );
+  }
+
+  getExpense(expenseId: string): Observable<Expense> {
+    return this.http.get<Expense>(
+      `${environment.apiUrl}${API_PATH_EXPENSES}/${expenseId}`
+    );
+  }
+
+  getIncome(incomeId: string): Observable<Income> {
+    return this.http.get<Income>(
+      `${environment.apiUrl}${API_PATH_INCOME}/${incomeId}`
     );
   }
 

@@ -56,7 +56,6 @@ export const walletsReducer = createReducer(
     ...state,
     wallets: state.wallets.filter((wallet) => wallet._id !== payload.id),
   })),
-
   on(GetMoneyMoveByPeriodTemplate, (state, { payload }) => ({
     ...state,
     moneyMoveByPeriod: getMoneyMoveTemplateByPeriod(

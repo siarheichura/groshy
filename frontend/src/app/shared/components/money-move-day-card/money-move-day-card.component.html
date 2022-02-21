@@ -5,7 +5,7 @@
 
   <div *ngIf="!items!.length" class="empty">No data</div>
 
-  <div class="card" *ngFor="let item of items">
+  <div class="card" *ngFor="let item of items" (click)="printModal(item)">
     <div class="card__title">
       <p class="card__type">{{ item.category }}</p>
       <p class="card__sum">{{ item.amount }} {{ currency$ | async }}</p>

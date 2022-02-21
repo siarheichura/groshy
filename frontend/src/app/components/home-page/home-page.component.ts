@@ -1,4 +1,3 @@
-import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, take, map } from 'rxjs';
@@ -11,10 +10,7 @@ import {
   GetWallets,
   RemoveWallet,
 } from 'src/app/store/wallets/wallets.actions';
-import {
-  walletsLoadingSelector,
-  walletsSelector,
-} from 'src/app/store/wallets/wallets.selectros';
+import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Wallet } from './../../shared/interfaces/Wallet';
@@ -29,7 +25,6 @@ import { WalletFormComponent } from './wallet-form/wallet-form.component';
 })
 export class HomePageComponent implements OnInit {
   wallets$: Observable<Wallet[]> = this.store.select(walletsSelector);
-  loading$: Observable<boolean> = this.store.select(walletsLoadingSelector);
   walletsForList$: Observable<ListItem[]> = this.wallets$.pipe(
     map((wallets: Wallet[]) => {
       return wallets.map(({ _id, name, amount, currency }) => ({

@@ -1,18 +1,61 @@
-import { mergeMap, map } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { map } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import * as SharedActions from './shared.actions';
 import * as WalletsActions from '../wallets/wallets.actions';
+import * as UserActions from '../user/user.actions';
 
 @Injectable()
 export class SharedEffects {
-  constructor(private actions$: Actions) {}
+  constructor(private actions$: Actions, private nzMessage: NzMessageService) {}
 
-  loading$ = createEffect(() => {
+  loadingStart$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(WalletsActions.GetWallets),
+      ofType(
+        UserActions.Registration,
+        UserActions.Login
+        // WalletsActions.GetWallets,  ???? Error: NG0100 ????
+        // WalletsActions.GetWallet
+      ),
       map(() => SharedActions.Loading({ payload: true }))
     );
   });
+
+  loadingStop$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        UserActions.RegistrationSuccess,
+        UserActions.RegistrationError,
+        UserActions.LoginSuccess,
+        UserActions.LoginError
+        // WalletsActions.GetWalletsSuccess,
+        // WalletsActions.GetWalletSuccess
+      ),
+      map(() => SharedActions.Loading({ payload: false }))
+    );
+  });
+
+  printNzMessageSuccess$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(SharedActions.PrintNzMessageSuccess),
+        map((action) => {
+          return this.nzMessage.success(action.payload);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  printNzMessageError$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(SharedActions.PrintNzMessageError),
+        map((action) => this.nzMessage.error(action.payload))
+      );
+    },
+    { dispatch: false }
+  );
 }

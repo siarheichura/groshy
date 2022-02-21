@@ -28,7 +28,7 @@ export class WalletService {
       .pipe(map((wallet) => new Wallet(wallet)));
   }
 
-  addWallet(body: Wallet): Observable<{}> {
+  addWallet(body: Wallet): Observable<Wallet> {
     return this.http.post<Wallet>(
       `${environment.apiUrl}${API_PATH_WALLETS}`,
       body

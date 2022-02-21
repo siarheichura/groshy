@@ -1,3 +1,5 @@
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { ListItem } from './../../interfaces/ListItem';
 import {
   Component,
@@ -7,6 +9,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
+import { loadingSelector } from 'src/app/store/shared/shared.selectros';
 
 @Component({
   selector: 'app-list',
@@ -17,14 +20,15 @@ import {
 export class ListComponent implements OnInit {
   @Input() title: string;
   @Input() items: ListItem[];
-  @Input() loading: boolean;
 
   @Output() onAdd = new EventEmitter();
   @Output() onEdit = new EventEmitter();
   @Output() onDelete = new EventEmitter();
   @Output() onClick = new EventEmitter();
 
-  constructor() {}
+  loading$: Observable<boolean> = this.store.select(loadingSelector);
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {}
 

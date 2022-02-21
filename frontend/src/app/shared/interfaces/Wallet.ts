@@ -1,7 +1,7 @@
 import { Income } from './Income';
 import { Expense } from './Expense';
 
-export interface WalletI {
+interface WalletI {
   _id: string;
   name: string;
   currency: string;

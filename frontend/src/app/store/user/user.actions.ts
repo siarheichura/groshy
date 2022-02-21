@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { getActionNameFn } from 'src/app/shared/helpers/action-name.helper';
-import { User } from './../../shared/interfaces/User';
+import {
+  SignUpUser,
+  LoginUser,
+  UserInfo,
+} from './../../shared/interfaces/User';
 
 const MODULE_NAME = '[USER]';
 const getFullActionName = getActionNameFn(MODULE_NAME);
@@ -12,38 +16,39 @@ export enum UserActionsEnum {
   Registration = 'REGISTRATION',
   RegistrationSuccess = 'REGISTRATION_SUCCESS',
   RegistrationError = 'REGISTRATION_ERROR',
+  Logout = 'LOGOUT',
   GetUserInfo = 'GET_USER_INFO',
   GetUserInfoSuccess = 'GET_USER_INFO_SUCCESS',
 }
 
-export const Login = createAction(
-  getFullActionName(UserActionsEnum.Login),
-  props<{ payload: User }>()
-);
-export const LoginSuccess = createAction(
-  getFullActionName(UserActionsEnum.LoginSuccess),
-  props<{ payload: boolean }>()
-);
-export const LoginError = createAction(
-  getFullActionName(UserActionsEnum.LoginError),
-  props<{ payload: boolean }>()
-);
 export const Registration = createAction(
   getFullActionName(UserActionsEnum.Registration),
-  props<{ payload: User }>()
+  props<{ payload: SignUpUser }>()
 );
 export const RegistrationSuccess = createAction(
-  getFullActionName(UserActionsEnum.RegistrationSuccess),
-  props<{ payload: boolean }>()
+  getFullActionName(UserActionsEnum.RegistrationSuccess)
 );
 export const RegistrationError = createAction(
-  getFullActionName(UserActionsEnum.RegistrationError),
-  props<{ payload: boolean }>()
+  getFullActionName(UserActionsEnum.RegistrationError)
 );
+
+export const Login = createAction(
+  getFullActionName(UserActionsEnum.Login),
+  props<{ payload: LoginUser }>()
+);
+export const LoginSuccess = createAction(
+  getFullActionName(UserActionsEnum.LoginSuccess)
+);
+export const LoginError = createAction(
+  getFullActionName(UserActionsEnum.LoginError)
+);
+
+export const Logout = createAction(getFullActionName(UserActionsEnum.Logout));
+
 export const GetUserInfo = createAction(
   getFullActionName(UserActionsEnum.GetUserInfo)
 );
 export const GetUserInfoSuccess = createAction(
   getFullActionName(UserActionsEnum.GetUserInfoSuccess),
-  props<{ payload: User }>()
+  props<{ payload: UserInfo }>()
 );

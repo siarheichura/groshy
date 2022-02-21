@@ -75,34 +75,10 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetExpensesByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 
   removeExpense(id: string) {
     this.store.dispatch(RemoveExpense({ payload: { expenseId: id } }));
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetExpensesByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 
   editExpense(id: string) {}
@@ -116,33 +92,9 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetIncomeByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 
   removeIncome(id: string) {
     this.store.dispatch(RemoveIncome({ payload: { incomeId: id } }));
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetIncomeByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 }

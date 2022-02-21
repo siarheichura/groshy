@@ -13,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store';
 import { WalletsEffects } from './store/wallets/wallets.effects';
 import { UserEffects } from './store/user/user.effects';
+import { SharedEffects } from './store/shared/shared.effects';
 
 import { SharedModule } from './shared/shared.module';
 import { AuthPageModule } from './components/auth-page/auth-page.module';
@@ -51,7 +52,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([WalletsEffects, UserEffects]),
+    EffectsModule.forRoot([WalletsEffects, UserEffects, SharedEffects]),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],

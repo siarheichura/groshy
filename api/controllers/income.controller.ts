@@ -53,9 +53,9 @@ export class IncomeController {
         },
         $set: { amount: walletAmount + amount },
       });
-      return res.json({ message: 'Income has been added' });
+      return res.send(income);
     } catch (err) {
-      res.status(400).json({ message: 'Cannot add income' });
+      res.status(400).send({ message: 'Cannot add income' });
     }
   }
 

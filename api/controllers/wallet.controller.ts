@@ -47,7 +47,12 @@ export class WalletController {
           wallets: wallet,
         },
       });
-      return res.send({ message: 'Wallet has been created' });
+      res.send({
+        _id: wallet.id,
+        name: wallet.name,
+        currency: wallet.currency,
+        amount: wallet.amount,
+      });
     } catch (err) {
       res.status(400).send({ message: 'Cannot create wallet' });
     }

@@ -1,10 +1,7 @@
-import { User } from './../../shared/interfaces/User';
+import { UserInfo } from './../../shared/interfaces/User';
 
 export interface UserState {
-  user: User;
-  loading: boolean;
-  isLogin: boolean;
-  isRegistrate: boolean;
+  user: UserInfo;
 }
 
 export const initialUserState: UserState = {
@@ -12,7 +9,4 @@ export const initialUserState: UserState = {
     id: '',
     username: '',
   },
-  loading: false,
-  isLogin: false,
-  isRegistrate: false,
 };

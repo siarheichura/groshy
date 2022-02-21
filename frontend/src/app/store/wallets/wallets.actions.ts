@@ -14,12 +14,13 @@ enum WalletsActionsEnum {
   GetWallet = 'GET_WALLET',
   GetWalletSuccess = 'GET_WALLET_SUCCESS',
   AddWallet = 'ADD_WALLET',
+  AddWalletSuccess = 'ADD_WALLET_SUCCESS',
   RemoveWallet = 'REMOVE_WALLET',
+  RemoveWalletSuccess = 'REMOVE_WALLET_SUCCESS',
   EditWallet = 'EDIT_WALLET',
-  EditWalletAmount = 'EDIT_WALLET_AMOUNT', ///!!!!
 
-  GetMonthDays = 'GET_MONTH_DAYS',
   GetMoneyMoveByPeriodTemplate = 'GET_MONEY_MOVE_BY_PERIOD_TEMPLATE',
+
   // Expenses
   GetExpensesByPeriod = 'GET_EXPENSES_BY_PERIOD',
   GetExpensesByPeriodSuccess = 'GET_EXPENSES_BY_PERIOD_SUCCESS',
@@ -34,6 +35,7 @@ enum WalletsActionsEnum {
   GetIncomeByPeriod = 'GET_INCOME_BY_PERIOD',
   GetIncomeByPeriodSuccess = 'GET_INCOME_BY_PERIOD_SUCCESS',
   AddIncome = 'ADD_INCOME',
+  AddIncomeSuccess = 'ADD_INCOME_SUCCESS',
   RemoveIncome = 'REMOVE_INCOME',
   RemoveIncomeSuccess = 'REMOVE_INCOME_SUCCESS',
   EditIncome = 'EDIT_INCOME',
@@ -59,8 +61,16 @@ export const AddWallet = createAction(
   getFullActionName(WalletsActionsEnum.AddWallet),
   props<{ payload: Wallet }>()
 );
+export const AddWalletSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.AddWalletSuccess),
+  props<{ payload: Wallet }>()
+);
 export const RemoveWallet = createAction(
   getFullActionName(WalletsActionsEnum.RemoveWallet),
+  props<{ payload: { id: string } }>()
+);
+export const RemoveWalletSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.RemoveWalletSuccess),
   props<{ payload: { id: string } }>()
 );
 export const EditWallet = createAction(
@@ -97,9 +107,17 @@ export const AddExpense = createAction(
   getFullActionName(WalletsActionsEnum.AddExpense),
   props<{ payload: { expense: Expense; walletId: string } }>()
 );
+export const AddExpenseSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.AddExpenseSuccess),
+  props<{ payload: Expense }>()
+);
 export const RemoveExpense = createAction(
   getFullActionName(WalletsActionsEnum.RemoveExpense),
   props<{ payload: { expenseId: string } }>()
+);
+export const RemoveExpenseSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.RemoveExpenseSuccess),
+  props<{ payload: Expense }>()
 );
 export const EditExpense = createAction(
   getFullActionName(WalletsActionsEnum.EditExpense),
@@ -113,7 +131,15 @@ export const AddIncome = createAction(
   getFullActionName(WalletsActionsEnum.AddIncome),
   props<{ payload: { income: Income; walletId: string } }>()
 );
+export const AddIncomeSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.AddIncomeSuccess),
+  props<{ payload: Income }>()
+);
 export const RemoveIncome = createAction(
   getFullActionName(WalletsActionsEnum.RemoveIncome),
   props<{ payload: { incomeId: string } }>()
+);
+export const RemoveIncomeSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.RemoveIncomeSuccess),
+  props<{ payload: Income }>()
 );

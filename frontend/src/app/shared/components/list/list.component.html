@@ -1,4 +1,4 @@
-<div class="list" *ngIf="!loading">
+<div class="list" *ngIf="!(loading$ | async)">
   <h3 class="list__title">{{ title }}</h3>
 
   <div class="list__empty" *ngIf="!items!.length">Add your first wallet</div>

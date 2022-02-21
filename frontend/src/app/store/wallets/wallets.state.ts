@@ -1,31 +1,21 @@
-import { Dayjs } from 'dayjs';
+import { Income } from 'src/app/shared/interfaces/Income';
 import { Expense } from 'src/app/shared/interfaces/Expense';
-import { Income } from './../../shared/interfaces/Income';
 import { Wallet } from './../../shared/interfaces/Wallet';
-
-export interface DayMoneyMove {
-  date: Dayjs;
-  expenses: Expense[];
-  income: Income[];
-  expensesSum: number;
-  incomeSum: number;
-}
+import { DayMoneyMove } from 'src/app/shared/interfaces/DayMoneyMove';
 
 export interface WalletsState {
   wallets: Wallet[];
-  wallet: Wallet;
-  loading: boolean;
   moneyMoveByPeriod: DayMoneyMove[];
+  wallet: Wallet;
 }
 
 export const initialWalletsState: WalletsState = {
   wallets: [],
+  moneyMoveByPeriod: [],
   wallet: {
     _id: '',
     name: '',
     amount: 0,
     currency: '',
   },
-  loading: false,
-  moneyMoveByPeriod: [],
 };

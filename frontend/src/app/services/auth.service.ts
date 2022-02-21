@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { environment } from './../../environments/environment';
-import { User } from '../shared/interfaces/User';
 import { BehaviorSubject, tap, Observable } from 'rxjs';
+import { SignUpUser, LoginUser } from './../shared/interfaces/User';
 
 enum AuthUrlEnum {
   Registration = '/registration',
   Login = '/login',
 }
-
-const LocalStorageUserKey = 'user';
 
 interface Token {
   token: string;
@@ -23,24 +20,20 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   get token(): string {
-    return localStorage.getItem(LocalStorageUserKey)!;
+    return localStorage.getItem(environment.LocalStorageUserKey)!;
   }
 
-  registration(user: User): Observable<{}> {
+  registration(user: SignUpUser): Observable<{}> {
     return this.http.post(
       `${environment.apiUrl}${AuthUrlEnum.Registration}`,
       user
     );
   }
 
-  login(user: User): Observable<Token> {
+  login(user: LoginUser): Observable<Token> {
     return this.http
       .post<Token>(`${environment.apiUrl}${AuthUrlEnum.Login}`, user)
       .pipe(tap((token) => this.setToken(token)));
-  }
-
-  logout(): void {
-    localStorage.removeItem(LocalStorageUserKey);
   }
 
   isAuthenticated(): boolean {
@@ -48,7 +41,7 @@ export class AuthService {
   }
 
   setToken(response: Token): void {
-    localStorage.setItem(LocalStorageUserKey, response.token);
+    localStorage.setItem(environment.LocalStorageUserKey, response.token);
   }
 
   jwtDecode() {

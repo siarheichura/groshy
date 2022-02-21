@@ -22,7 +22,7 @@ export class WalletsEffects {
         this.walletService
           .getWallets()
           .pipe(
-            map((wallets: Wallet[]) =>
+            map((wallets) =>
               WalletsActions.GetWalletsSuccess({ payload: wallets })
             )
           )
@@ -37,7 +37,7 @@ export class WalletsEffects {
         this.walletService
           .getWallet(action.payload.id)
           .pipe(
-            map((wallet: Wallet) =>
+            map((wallet) =>
               WalletsActions.GetWalletSuccess({ payload: wallet })
             )
           )
@@ -51,7 +51,11 @@ export class WalletsEffects {
       switchMap((action) =>
         this.walletService
           .addWallet(action.payload)
-          .pipe(map(() => WalletsActions.GetWallets()))
+          .pipe(
+            map((wallet) =>
+              WalletsActions.AddWalletSuccess({ payload: wallet })
+            )
+          )
       )
     );
   });
@@ -60,9 +64,13 @@ export class WalletsEffects {
     return this.actions$.pipe(
       ofType(WalletsActions.RemoveWallet),
       switchMap((action) =>
-        this.walletService
-          .removeWallet(action.payload.id)
-          .pipe(map(() => WalletsActions.GetWallets()))
+        this.walletService.removeWallet(action.payload.id).pipe(
+          map(() =>
+            WalletsActions.RemoveWalletSuccess({
+              payload: { id: action.payload.id },
+            })
+          )
+        )
       )
     );
   });
@@ -116,59 +124,65 @@ export class WalletsEffects {
     );
   });
 
-  addExpense$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(WalletsActions.AddExpense),
-        switchMap((action) =>
-          this.walletService.addExpense(
-            action.payload.walletId,
-            action.payload.expense
+  addExpense$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.AddExpense),
+      switchMap((action) =>
+        this.walletService
+          .addExpense(action.payload.walletId, action.payload.expense)
+          .pipe(
+            map((expense) =>
+              WalletsActions.AddExpenseSuccess({ payload: expense })
+            )
           )
-        )
-      );
-    },
-    { dispatch: false }
-  );
+      )
+    );
+  });
 
-  addIncome$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(WalletsActions.AddIncome),
-        switchMap((action) =>
-          this.walletService.addIncome(
-            action.payload.walletId,
-            action.payload.income
+  addIncome$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.AddIncome),
+      switchMap((action) =>
+        this.walletService
+          .addIncome(action.payload.walletId, action.payload.income)
+          .pipe(
+            map((income) =>
+              WalletsActions.AddIncomeSuccess({ payload: income })
+            )
           )
-        )
-      );
-    },
-    { dispatch: false }
-  );
+      )
+    );
+  });
 
-  removeExpense$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(WalletsActions.RemoveExpense),
-        switchMap((action) =>
-          this.walletService.removeExpense(action.payload.expenseId)
-        )
-      );
-    },
-    { dispatch: false }
-  );
+  removeExpense$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.RemoveExpense),
+      switchMap((action) =>
+        this.walletService
+          .removeExpense(action.payload.expenseId)
+          .pipe(
+            map((expense) =>
+              WalletsActions.RemoveExpenseSuccess({ payload: expense })
+            )
+          )
+      )
+    );
+  });
 
-  removeIncome$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(WalletsActions.RemoveIncome),
-        switchMap((action) =>
-          this.walletService.removeIncome(action.payload.incomeId)
-        )
-      );
-    },
-    { dispatch: false }
-  );
+  removeIncome$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.RemoveIncome),
+      switchMap((action) =>
+        this.walletService
+          .removeIncome(action.payload.incomeId)
+          .pipe(
+            map((income) =>
+              WalletsActions.RemoveIncomeSuccess({ payload: income })
+            )
+          )
+      )
+    );
+  });
 
   editExpense$ = createEffect(
     () => {

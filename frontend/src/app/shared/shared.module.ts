@@ -28,6 +28,7 @@ import { ListComponent } from './components/list/list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
 import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
+import { MoneyMoveModalFormComponent } from './components/money-move-modal-form/money-move-modal-form.component';
 
 @NgModule({
   declarations: [
@@ -38,14 +39,21 @@ import { MoneyMoveDayCardComponent } from './components/money-move-day-card/mone
     UserProfileComponent,
     WalletHeaderComponent,
     MoneyMoveDayCardComponent,
+    MoneyMoveModalFormComponent,
   ],
 
   imports: [
+    ReactiveFormsModule,
+    FormsModule,
     CommonModule,
     RouterModule,
     NzResultModule,
     NzButtonModule,
     NzPopconfirmModule,
+    NzFormModule,
+    NzInputModule,
+    NzSelectModule,
+    NzDatePickerModule,
   ],
   exports: [
     ReactiveFormsModule,

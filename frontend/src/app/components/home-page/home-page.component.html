@@ -1,13 +1,10 @@
 <div class="home">
-  <nz-spin [nzSpinning]="loading$ | async">
-    <app-list
-      [title]="'Choose your wallet 💰'"
-      [items]="walletsForList$ | async"
-      [loading]="loading$ | async"
-      (onAdd)="printAddWalletModal()"
-      (onEdit)="printEditWalletModal($event)"
-      (onDelete)="removeWallet($event)"
-      (onClick)="onWalletClick($event)"
-    ></app-list>
-  </nz-spin>
+  <app-list
+    [title]="'Choose your wallet 💰'"
+    [items]="walletsForList$ | async"
+    (onAdd)="printAddWalletModal()"
+    (onEdit)="printEditWalletModal($event)"
+    (onDelete)="removeWallet($event)"
+    (onClick)="onWalletClick($event)"
+  ></app-list>
 </div>

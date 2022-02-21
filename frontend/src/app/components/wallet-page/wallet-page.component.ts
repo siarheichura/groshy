@@ -1,8 +1,12 @@
-import { moneyMoveByPeriodSelector } from './../../store/wallets/wallets.selectros';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
+import dayjs, { Dayjs } from 'dayjs';
+
+import { Income } from 'src/app/shared/interfaces/Income';
 import { Expense } from './../../shared/interfaces/Expense';
+import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
+import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
 
 import {
   AddExpense,
@@ -13,9 +17,8 @@ import {
   RemoveExpense,
   RemoveIncome,
 } from './../../store/wallets/wallets.actions';
-import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
-import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
-import dayjs, { Dayjs } from 'dayjs';
+import { ChangeTab } from 'src/app/store/shared/shared.actions';
+import { moneyMoveByPeriodSelector } from './../../store/wallets/wallets.selectros';
 
 @Component({
   selector: 'app-wallet-page',
@@ -66,6 +69,10 @@ export class WalletPageComponent implements OnInit {
     );
   }
 
+  onTabClick(tabName: string): void {
+    this.store.dispatch(ChangeTab({ payload: tabName }));
+  }
+
   addExpense(formValue: Expense) {
     this.store.dispatch(
       AddExpense({
@@ -75,39 +82,15 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetExpensesByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 
   removeExpense(id: string) {
     this.store.dispatch(RemoveExpense({ payload: { expenseId: id } }));
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetExpensesByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 
   editExpense(id: string) {}
 
-  addIncome(formValue: Expense) {
+  addIncome(formValue: Income) {
     this.store.dispatch(
       AddIncome({
         payload: {
@@ -116,33 +99,9 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetIncomeByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 
   removeIncome(id: string) {
     this.store.dispatch(RemoveIncome({ payload: { incomeId: id } }));
-
-    setTimeout(() => {
-      this.store.dispatch(
-        GetIncomeByPeriod({
-          payload: {
-            walletId: this.walletId,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-    }, 500);
   }
 }

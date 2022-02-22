@@ -4,8 +4,7 @@
       <ng-container [ngSwitch]="tab">
         <ng-container *ngSwitchCase="'Expenses'">
           <app-money-move-form
-            [walletId]="walletId"
-            [categories]="expenseCategories"
+            [categories]="(wallet$ | async).expenseCategories"
             (onSubmit)="addExpense($event)"
           ></app-money-move-form>
 
@@ -14,16 +13,13 @@
               [items]="day.expenses"
               [amount]="day.expensesSum"
               [title]="day.date.format('DD.MM')"
-              (onDelete)="removeExpense($event)"
-              (onEdit)="editExpense($event)"
             ></app-money-move-day-card>
           </div>
         </ng-container>
 
         <ng-container *ngSwitchCase="'Income'">
           <app-money-move-form
-            [walletId]="walletId"
-            [categories]="incomeCategories"
+            [categories]="(wallet$ | async).incomeCategories"
             (onSubmit)="addIncome($event)"
           ></app-money-move-form>
 
@@ -32,7 +28,6 @@
               [items]="day.income"
               [amount]="day.incomeSum"
               [title]="day.date.format('DD.MM')"
-              (onDelete)="removeIncome($event)"
             ></app-money-move-day-card>
           </div>
         </ng-container>

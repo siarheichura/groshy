@@ -1,5 +1,3 @@
-import { Income } from 'src/app/shared/interfaces/Income';
-import { Expense } from 'src/app/shared/interfaces/Expense';
 import { Wallet } from './../../shared/interfaces/Wallet';
 import { DayMoneyMove } from 'src/app/shared/interfaces/DayMoneyMove';
 
@@ -17,5 +15,7 @@ export const initialWalletsState: WalletsState = {
     name: '',
     amount: 0,
     currency: '',
+    expenseCategories: [],
+    incomeCategories: [],
   },
 };

@@ -121,11 +121,11 @@ export const RemoveExpenseSuccess = createAction(
 );
 export const EditExpense = createAction(
   getFullActionName(WalletsActionsEnum.EditExpense),
-  props<{ payload: { expenseId: string; updatedExpense: Expense } }>()
+  props<{ payload: { expense: Expense; updatedExpense: Expense } }>()
 );
 export const EditExpenseSuccess = createAction(
   getFullActionName(WalletsActionsEnum.EditExpenseSuccess),
-  props<{ payload: Expense }>()
+  props<{ payload: { expense: Expense; updatedExpense: Expense } }>()
 );
 export const AddIncome = createAction(
   getFullActionName(WalletsActionsEnum.AddIncome),
@@ -142,4 +142,12 @@ export const RemoveIncome = createAction(
 export const RemoveIncomeSuccess = createAction(
   getFullActionName(WalletsActionsEnum.RemoveIncomeSuccess),
   props<{ payload: Income }>()
+);
+export const EditIncome = createAction(
+  getFullActionName(WalletsActionsEnum.EditIncome),
+  props<{ payload: { income: Income; updatedIncome: Income } }>()
+);
+export const EditIncomeSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.EditIncomeSuccess),
+  props<{ payload: { income: Income; updatedIncome: Income } }>()
 );

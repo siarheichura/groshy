@@ -1,10 +1,12 @@
 import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
 import { currentTabSelector } from './../../../store/shared/shared.selectros';
 import {
+  EditExpense,
+  EditIncome,
   RemoveExpense,
   RemoveIncome,
 } from './../../../store/wallets/wallets.actions';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable, take, skip } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -12,7 +14,13 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Income } from './../../interfaces/Income';
 import { Expense } from './../../interfaces/Expense';
 import { MoneyMoveModalFormComponent } from './../money-move-modal-form/money-move-modal-form.component';
-import { walletCurrencySelector } from 'src/app/store/wallets/wallets.selectros';
+import {
+  walletCurrencySelector,
+  walletExpenseCategoriesSelector,
+  walletIncomeCategoriesSelector,
+  walletSelector,
+} from 'src/app/store/wallets/wallets.selectros';
+import { markFormControlsDirty } from '../../helpers/form.helper';
 
 @Component({
   selector: 'app-money-move-day-card',
@@ -25,9 +33,12 @@ export class MoneyMoveDayCardComponent implements OnInit {
   @Input() walletCurrency: string | null;
   @Input() title: string;
 
-  @Output() onEdit = new EventEmitter();
-  @Output() onDelete = new EventEmitter();
-
+  expenseCategories$: Observable<string[]> = this.store.select(
+    walletExpenseCategoriesSelector
+  );
+  incomeCategories$: Observable<string[]> = this.store.select(
+    walletIncomeCategoriesSelector
+  );
   currency$: Observable<string> = this.store.select(walletCurrencySelector);
   moneyMoveType$: Observable<string> = this.store
     .select(currentTabSelector)
@@ -36,14 +47,6 @@ export class MoneyMoveDayCardComponent implements OnInit {
   constructor(private store: Store, private modal: NzModalService) {}
 
   ngOnInit(): void {}
-
-  onDeleteCard(id: string): void {
-    this.onDelete.emit(id);
-  }
-
-  onEditCard(id: string): void {
-    this.onEdit.emit(id);
-  }
 
   removeMoneyMoveItem(item: Expense | Income) {
     this.moneyMoveType$.subscribe((response) => {
@@ -57,8 +60,20 @@ export class MoneyMoveDayCardComponent implements OnInit {
     });
   }
 
-  editMoneyMoveItem(item: Expense | Income) {
-    // TODO
+  editMoneyMoveItem(item: Expense | Income, updatedItem: Expense | Income) {
+    this.moneyMoveType$.subscribe((response) => {
+      response === TabsEnum.Expenses
+        ? this.store.dispatch(
+            EditExpense({
+              payload: { expense: item, updatedExpense: updatedItem },
+            })
+          )
+        : this.store.dispatch(
+            EditIncome({
+              payload: { income: item, updatedIncome: updatedItem },
+            })
+          );
+    });
   }
 
   printModal(item: Expense | Income) {
@@ -69,6 +84,10 @@ export class MoneyMoveDayCardComponent implements OnInit {
         nzContent: MoneyMoveModalFormComponent,
         nzComponentParams: {
           moneyMoveItem: item,
+          categories$:
+            response === TabsEnum.Expenses
+              ? this.expenseCategories$
+              : this.incomeCategories$,
         },
         nzFooter: [
           {
@@ -84,8 +103,13 @@ export class MoneyMoveDayCardComponent implements OnInit {
             label: 'Edit',
             type: 'primary',
             onClick: () => {
-              this.editMoneyMoveItem(item);
-              modal.close();
+              const form = modal.getContentComponent().moneyMoveForm;
+              if (form.valid) {
+                this.editMoneyMoveItem(item, form.value);
+                modal.close();
+              } else {
+                markFormControlsDirty(form);
+              }
             },
           },
         ],

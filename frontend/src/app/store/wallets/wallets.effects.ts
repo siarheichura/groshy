@@ -1,4 +1,3 @@
-import { Wallet } from './../../shared/interfaces/Wallet';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
 import { map, mergeMap, switchMap } from 'rxjs';
@@ -184,18 +183,46 @@ export class WalletsEffects {
     );
   });
 
-  editExpense$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(WalletsActions.EditExpense),
-        switchMap((action) =>
-          this.walletService.editExpense(
-            action.payload.expenseId,
+  editExpense$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.EditExpense),
+      switchMap((action) =>
+        this.walletService
+          .editExpense(
+            action.payload.expense._id,
             action.payload.updatedExpense
           )
-        )
-      );
-    },
-    { dispatch: false }
-  );
+          .pipe(
+            map((expense) =>
+              WalletsActions.EditExpenseSuccess({
+                payload: {
+                  expense: action.payload.expense,
+                  updatedExpense: expense,
+                },
+              })
+            )
+          )
+      )
+    );
+  });
+
+  editIncome$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.EditIncome),
+      switchMap((action) =>
+        this.walletService
+          .editIncome(action.payload.income._id, action.payload.updatedIncome)
+          .pipe(
+            map((income) =>
+              WalletsActions.EditIncomeSuccess({
+                payload: {
+                  income: action.payload.income,
+                  updatedIncome: income,
+                },
+              })
+            )
+          )
+      )
+    );
+  });
 }

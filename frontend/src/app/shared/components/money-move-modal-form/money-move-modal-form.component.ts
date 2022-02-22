@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Income } from 'src/app/shared/interfaces/Income';
@@ -26,6 +27,7 @@ enum FormEnum {
 })
 export class MoneyMoveModalFormComponent implements OnInit {
   @Input() moneyMoveItem: Expense | Income;
+  @Input() categories$: Observable<string[]>;
 
   moneyMoveForm: FormGroup;
   formControls = FormEnum;

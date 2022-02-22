@@ -6,6 +6,8 @@ interface WalletI {
   name: string;
   currency: string;
   amount: number;
+  expenseCategories: string[];
+  incomeCategories: string[];
   expenses?: Expense[];
   income?: Income[];
 }
@@ -15,6 +17,8 @@ export class Wallet implements WalletI {
   name: string = '';
   currency: string = '';
   amount: number = 0;
+  expenseCategories: string[] = [];
+  incomeCategories: string[] = [];
   expenses?: Expense[] = [];
   income?: Income[] = [];
 

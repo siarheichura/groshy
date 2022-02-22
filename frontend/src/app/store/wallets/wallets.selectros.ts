@@ -15,6 +15,14 @@ export const walletCurrencySelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.wallet.currency
 );
+export const walletExpenseCategoriesSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.wallet.expenseCategories
+);
+export const walletIncomeCategoriesSelector = createSelector(
+  featureSelector,
+  (state: WalletsState) => state.wallet.incomeCategories
+);
 export const moneyMoveByPeriodSelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.moneyMoveByPeriod

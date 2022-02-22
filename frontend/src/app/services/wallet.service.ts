@@ -94,7 +94,7 @@ export class WalletService {
   }
 
   editExpense(expenseId: string, body: Expense): Observable<Expense> {
-    return this.http.post<Expense>(
+    return this.http.put<Expense>(
       `${environment.apiUrl}${API_PATH_EXPENSES}/${expenseId}`,
       body
     );
@@ -114,7 +114,7 @@ export class WalletService {
   }
 
   editIncome(incomeId: string, body: Expense): Observable<Income> {
-    return this.http.post<Income>(
+    return this.http.put<Income>(
       `${environment.apiUrl}${API_PATH_INCOME}/${incomeId}`,
       body
     );

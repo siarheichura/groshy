@@ -3,17 +3,17 @@ import { initialWalletsState } from './wallets.state';
 import {
   GetWalletsSuccess,
   GetWalletSuccess,
-  AddIncome,
   GetMoneyMoveByPeriodTemplate,
   GetExpensesByPeriodSuccess,
   GetIncomeByPeriodSuccess,
-  AddExpense,
   AddWalletSuccess,
   RemoveWalletSuccess,
   AddExpenseSuccess,
   RemoveExpenseSuccess,
   AddIncomeSuccess,
   RemoveIncomeSuccess,
+  EditExpenseSuccess,
+  EditIncomeSuccess,
 } from './wallets.actions';
 import dayjs, { Dayjs } from 'dayjs';
 import { DayMoneyMove } from 'src/app/shared/interfaces/DayMoneyMove';
@@ -156,6 +156,60 @@ export const walletsReducer = createReducer(
           ...day,
           income: day.income.filter((income) => income._id !== payload._id),
           incomeSum: day.incomeSum - payload.amount,
+        };
+      }
+      return day;
+    }),
+  })),
+  on(EditExpenseSuccess, (state, { payload }) => ({
+    ...state,
+    wallet: {
+      ...state.wallet,
+      amount:
+        state.wallet.amount +
+        payload.expense.amount -
+        payload.updatedExpense.amount,
+    },
+    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
+      if (day.date.isSame(payload.expense.date, 'day')) {
+        return {
+          ...day,
+          expenses: [
+            ...day.expenses.filter(
+              (expense) => expense._id !== payload.expense._id
+            ),
+            payload.updatedExpense,
+          ],
+          expensesSum:
+            day.expensesSum -
+            payload.expense.amount +
+            payload.updatedExpense.amount,
+        };
+      }
+      return day;
+    }),
+  })),
+  on(EditIncomeSuccess, (state, { payload }) => ({
+    ...state,
+    wallet: {
+      ...state.wallet,
+      amount:
+        state.wallet.amount -
+        payload.income.amount +
+        payload.updatedIncome.amount,
+    },
+    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
+      if (day.date.isSame(payload.income.date, 'day')) {
+        return {
+          ...day,
+          income: [
+            ...day.income.filter((income) => income._id !== payload.income._id),
+            payload.updatedIncome,
+          ],
+          incomeSum:
+            day.incomeSum -
+            payload.income.amount +
+            payload.updatedIncome.amount,
         };
       }
       return day;

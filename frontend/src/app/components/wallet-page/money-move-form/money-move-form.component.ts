@@ -18,8 +18,6 @@ import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyMoveFormComponent implements OnInit {
-  @Input() walletId: string;
-  @Input() tabName: string;
   @Input() categories: string[];
 
   @Output() onSubmit = new EventEmitter();

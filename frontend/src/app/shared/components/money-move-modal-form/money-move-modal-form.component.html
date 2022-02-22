@@ -17,7 +17,7 @@
         nzPlaceHolder="Select category"
       >
         <nz-option
-          *ngFor="let category of ['lol', 'kek', 'cheburek', 'Car']"
+          *ngFor="let category of categories$ | async"
           [nzValue]="category"
           [nzLabel]="category"
         ></nz-option>

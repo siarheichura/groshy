@@ -6,6 +6,5 @@ export enum RouterEnum {
   Wallets = '/wallets',
   Expenses = '/expenses',
   Income = '/income',
-  ByDay = '/day',
-  ByMonth = '/month',
+  Categories = '/categories',
 }

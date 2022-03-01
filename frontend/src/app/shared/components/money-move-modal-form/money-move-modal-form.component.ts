@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { Income } from 'src/app/shared/interfaces/Income';
-import { Expense } from 'src/app/shared/interfaces/Expense';
+import {
+  MoneyMoveItem,
+  MoneyMoveCategory,
+} from './../../interfaces/DayMoneyMove';
 
 interface FormValue {
   amount: number;
@@ -26,8 +27,8 @@ enum FormEnum {
   styleUrls: ['./money-move-modal-form.component.scss'],
 })
 export class MoneyMoveModalFormComponent implements OnInit {
-  @Input() moneyMoveItem: Expense | Income;
-  @Input() categories$: Observable<string[]>;
+  @Input() moneyMoveItem: MoneyMoveItem;
+  @Input() categories: MoneyMoveCategory[];
 
   moneyMoveForm: FormGroup;
   formControls = FormEnum;

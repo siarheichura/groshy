@@ -1,25 +1,41 @@
-import { ChangeTab } from './../../store/shared/shared.actions';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import dayjs, { Dayjs } from 'dayjs';
+import { Observable, Subscription, take } from 'rxjs';
 
-import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
-import { Income } from 'src/app/shared/interfaces/Income';
-import { Expense } from 'src/app/shared/interfaces/Expense';
+import { MoneyMoveItem } from './../../shared/interfaces/DayMoneyMove';
 import {
-  GetExpensesByPeriod,
-  GetIncomeByPeriod,
-  GetMoneyMoveByPeriodTemplate,
+  GetMoneyMoveByPeriod,
+  GetCategories,
+  RemoveMoneyMoveItem,
+  EditMoneyMoveItem,
 } from './../../store/wallets/wallets.actions';
-import { moneyMoveByPeriodSelector } from './../../store/wallets/wallets.selectros';
+import { ChangeTab } from './../../store/shared/shared.actions';
+import {
+  periodMoneyMoveSelector,
+  walletCategoriesSelector,
+  walletCurrencySelector,
+} from './../../store/wallets/wallets.selectros';
+import { currentTabSelector } from 'src/app/store/shared/shared.selectros';
+import {
+  DayMoneyMoveItem,
+  MoneyMoveCategory,
+} from 'src/app/shared/interfaces/DayMoneyMove';
+import { MoneyMoveTypes } from './../../shared/enums/MoneyMoveTypes';
 
-interface MonthMoneyMove {
-  date: Dayjs;
-  expenses: Expense[];
-  income: Income[];
-  expensesSum: number;
-  incomeSum: number;
+interface FormValue {
+  date: Date;
+}
+
+enum FormEnum {
+  Date = 'date',
 }
 
 @Component({
@@ -28,57 +44,132 @@ interface MonthMoneyMove {
   styleUrls: ['./history-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HistoryPageComponent implements OnInit {
-  tabNames = TabsEnum;
-  tabs = [TabsEnum.Expenses, TabsEnum.Income];
-  date = new Date();
+export class HistoryPageComponent implements OnInit, OnDestroy {
+  today = dayjs();
+  form: FormGroup;
+  formControls = FormEnum;
+  MoneyMoveTypes = MoneyMoveTypes;
+  tabs = [MoneyMoveTypes.Expenses, MoneyMoveTypes.Income];
   walletId: string = (this.route.parent?.snapshot.params as { id: string }).id;
-  disabledDates = (date: Date): boolean => dayjs(date).isAfter(new Date());
+  disabledDates = (date: Date): boolean =>
+    dayjs(date).isAfter(dayjs(), 'month');
 
-  startDate: Dayjs = dayjs(this.date).startOf('month').add(1, 'day');
+  startDate: Dayjs = dayjs().startOf('month');
   finishDate: Dayjs =
-    dayjs(this.date).endOf('month').add(1, 'day') > dayjs()
-      ? dayjs().endOf('day').add(1, 'day')
-      : dayjs(this.date).endOf('month').add(1, 'day');
+    dayjs().endOf('month') > dayjs()
+      ? dayjs().endOf('day')
+      : dayjs().endOf('month');
 
-  moneyMove$ = this.store.select(moneyMoveByPeriodSelector);
+  moneyMove$: Observable<DayMoneyMoveItem[]> = this.store.select(
+    periodMoneyMoveSelector
+  );
+  categories$: Observable<MoneyMoveCategory[]> = this.store.select(
+    walletCategoriesSelector
+  );
+  currency$: Observable<string> = this.store.select(walletCurrencySelector);
+  currentTab$: Observable<string> = this.store.select(currentTabSelector);
+  curentTabSubs: Subscription = this.currentTab$.subscribe((tabName) => {
+    this.store.dispatch(
+      GetMoneyMoveByPeriod({
+        payload: {
+          walletId: this.walletId,
+          type: tabName.toLowerCase(),
+          startDate: this.startDate,
+          finishDate: this.finishDate,
+        },
+      })
+    );
+    this.store.dispatch(
+      GetCategories({
+        payload: { walletId: this.walletId, type: tabName.toLowerCase() },
+      })
+    );
+  });
 
-  constructor(private store: Store, private route: ActivatedRoute) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(
-      GetMoneyMoveByPeriodTemplate({
-        payload: {
-          startDate: this.startDate,
-          finishDate: this.finishDate,
-        },
-      })
-    );
-
-    this.store.dispatch(
-      GetExpensesByPeriod({
-        payload: {
-          walletId: this.walletId,
-          startDate: this.startDate,
-          finishDate: this.finishDate,
-        },
-      })
-    );
-
-    this.store.dispatch(
-      GetIncomeByPeriod({
-        payload: {
-          walletId: this.walletId,
-          startDate: this.startDate,
-          finishDate: this.finishDate,
-        },
-      })
-    );
+    this.form = this.fb.group({
+      [FormEnum.Date]: [''],
+    });
   }
 
   onTabClick(tabName: string): void {
     this.store.dispatch(ChangeTab({ payload: tabName }));
   }
 
-  onDateChange(date: Date) {}
+  removeMoneyMoveItem(id: string) {
+    this.currentTab$.pipe(take(1)).subscribe((tabName) => {
+      this.store.dispatch(
+        RemoveMoneyMoveItem({
+          payload: {
+            type: tabName,
+            itemId: id,
+            walletId: this.walletId,
+          },
+        })
+      );
+    });
+  }
+
+  editMoneyMoveItem(
+    {
+      itemId: itemId,
+      updatedItem: updatedItem,
+    }: {
+      itemId: string;
+      updatedItem: MoneyMoveItem;
+    },
+    date: Date
+  ) {
+    const startDate = dayjs(date).startOf('month');
+    const finishDate: Dayjs =
+      dayjs(date).endOf('month') > dayjs()
+        ? dayjs(date).endOf('day')
+        : dayjs(date).endOf('month');
+
+    this.currentTab$.pipe(take(1)).subscribe((tabName) => {
+      this.store.dispatch(
+        EditMoneyMoveItem({
+          payload: {
+            type: tabName,
+            itemId: itemId,
+            updatedItem: updatedItem,
+            walletId: this.walletId,
+            startDate: startDate,
+            finishDate: finishDate,
+          },
+        })
+      );
+    });
+  }
+
+  onDateChange(date: Date) {
+    const startDate = dayjs(date).startOf('month');
+    const finishDate: Dayjs =
+      dayjs(date).endOf('month') > dayjs()
+        ? dayjs(date).endOf('day')
+        : dayjs(date).endOf('month');
+
+    this.currentTab$.pipe(take(1)).subscribe((tabName) => {
+      this.store.dispatch(
+        GetMoneyMoveByPeriod({
+          payload: {
+            walletId: this.walletId,
+            type: tabName.toLowerCase(),
+            startDate: startDate,
+            finishDate: finishDate,
+          },
+        })
+      );
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.curentTabSubs.unsubscribe();
+  }
 }

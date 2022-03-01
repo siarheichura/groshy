@@ -1,48 +1,55 @@
+import { Expense } from './Expense';
+import { Income } from './Income';
 import { Schema, model, Types } from 'mongoose';
 
-const baseExpenseCategories = [
-  'House',
-  'Car',
-  'Health',
-  'Clothes',
-  'Food',
-  'Gifts',
-  'Sport',
-  'Others',
-];
-const baseIncomeCategories = ['Salary', 'Gifts', 'Busines', 'Others'];
-
 interface Wallet {
-  _id: string;
   date: Date;
   name: string;
   currency: string;
-  amount: number;
+  initialAmount: number;
+  balance: number;
   expenses: Types.ObjectId[];
   income: Types.ObjectId[];
-  expenseCategories: string[];
-  incomeCategories: string[];
+  expenseCategories: Types.ObjectId[];
+  incomeCategories: Types.ObjectId[];
+  expensesSum: number;
+  incomeSum: number;
   user: Types.ObjectId;
+}
+
+function getBalance(this: Wallet) {
+  return this.initialAmount - this.expensesSum + this.incomeSum;
 }
 
 const WalletSchema = new Schema<Wallet>({
   name: { type: String, required: true },
   date: { type: Date, required: true, default: new Date() },
   currency: { type: String, required: true },
-  amount: { type: Number, required: true },
+  initialAmount: { type: Number },
+  balance: { type: Number, get: getBalance },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   expenses: [{ type: Schema.Types.ObjectId, ref: 'Expense' }],
   income: [{ type: Schema.Types.ObjectId, ref: 'Income' }],
-  expenseCategories: {
-    type: [String],
-    required: true,
-    default: baseExpenseCategories,
-  },
-  incomeCategories: {
-    type: [String],
-    required: true,
-    default: baseIncomeCategories,
-  },
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  expenseCategories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+  incomeCategories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+});
+
+WalletSchema.virtual('expensesSum', {
+  ref: 'Expense',
+  localField: '_id',
+  foreignField: 'wallet',
+}).get(function (this: Wallet, data: Expense[]) {
+  const result = data.reduce((prev, curr) => prev + curr.amount, 0);
+  return result;
+});
+
+WalletSchema.virtual('incomeSum', {
+  ref: 'Income',
+  localField: '_id',
+  foreignField: 'wallet',
+}).get(function (this: Wallet, data: Income[]) {
+  const result = data.reduce((prev, curr) => prev + curr.amount, 0);
+  return result;
 });
 
 export const WalletModel = model('Wallet', WalletSchema);

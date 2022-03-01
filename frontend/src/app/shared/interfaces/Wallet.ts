@@ -1,28 +1,27 @@
-import { Income } from './Income';
-import { Expense } from './Expense';
+import { MoneyMoveItem } from './DayMoneyMove';
 
 interface WalletI {
-  _id: string;
+  id: string;
   name: string;
   currency: string;
-  amount: number;
-  expenseCategories: string[];
-  incomeCategories: string[];
-  expenses?: Expense[];
-  income?: Income[];
+  balance: number;
+  // expenseCategories?: string[];
+  // incomeCategories?: string[];
+  // expenses?: MoneyMoveItem[];
+  // income?: MoneyMoveItem[];
 }
 
 export class Wallet implements WalletI {
-  _id: string = '';
+  id: string = '';
   name: string = '';
   currency: string = '';
-  amount: number = 0;
-  expenseCategories: string[] = [];
-  incomeCategories: string[] = [];
-  expenses?: Expense[] = [];
-  income?: Income[] = [];
+  balance: number = 0;
+  // expenseCategories?: string[] = [];
+  // incomeCategories?: string[] = [];
+  // expenses?: MoneyMoveItem[] = [];
+  // income?: MoneyMoveItem[] = [];
 
-  constructor(init: WalletI) {
-    Object.assign(this, init);
+  constructor(wallet: WalletI) {
+    Object.assign(this, wallet);
   }
 }

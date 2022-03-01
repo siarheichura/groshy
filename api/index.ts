@@ -10,6 +10,7 @@ import { walletRouter } from './routes/wallet.routes';
 import { userRouter } from './routes/auth.router';
 import { expensesRouter } from './routes/expenses.router';
 import { incomeRouter } from './routes/income.router';
+import { categoryRouter } from './routes/categoty.routes';
 
 app.use(cors(config.CORS_OPTIONS));
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(
   RouterEnum.Base,
   userRouter,
   walletRouter,
+  categoryRouter,
   expensesRouter,
   incomeRouter
 );

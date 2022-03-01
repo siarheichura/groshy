@@ -17,9 +17,9 @@
         nzPlaceHolder="Select category"
       >
         <nz-option
-          *ngFor="let category of categories$ | async"
-          [nzValue]="category"
-          [nzLabel]="category"
+          *ngFor="let category of categories"
+          [nzValue]="category.name"
+          [nzLabel]="category.name"
         ></nz-option>
       </nz-select>
     </nz-form-control>

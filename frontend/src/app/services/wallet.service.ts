@@ -3,36 +3,63 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from './../../environments/environment';
 
+// export interface HTTPData<T> {
+//   data: T;
+// }
+
+export interface HTTP<T> {
+  // data: HTTPData<T>;
+  data: T;
+  error?: string;
+  message?: string;
+}
+
+import {
+  PeriodMoneyMove,
+  MoneyMoveItem,
+  MoneyMoveCategory,
+} from './../shared/interfaces/DayMoneyMove';
 import { Wallet } from '../shared/interfaces/Wallet';
-import { Income } from '../shared/interfaces/Income';
-import { Expense } from 'src/app/shared/interfaces/Expense';
 import { Dayjs } from 'dayjs';
 
 const API_PATH_WALLETS = '/wallets';
-const API_PATH_EXPENSES = '/expenses';
-const API_PATH_INCOME = '/income';
+const API_PATH_CATEGORIES = '/categories';
 
 @Injectable({ providedIn: 'root' })
 export class WalletService {
   constructor(private http: HttpClient) {}
 
-  getWallets(): Observable<Wallet[]> {
+  getWallets(): Observable<HTTP<Wallet[]>> {
     return this.http
-      .get<Wallet[]>(`${environment.apiUrl}${API_PATH_WALLETS}`)
-      .pipe(map((wallets) => wallets.map((wallet) => new Wallet(wallet))));
+      .get<HTTP<Wallet[]>>(`${environment.apiUrl}${API_PATH_WALLETS}`)
+      .pipe(
+        map((data) => {
+          data.data = data.data.map((wallet) => new Wallet(wallet));
+          return data;
+        })
+      );
   }
 
-  getWallet(id: string): Observable<Wallet> {
+  getWallet(id: string): Observable<HTTP<Wallet>> {
     return this.http
-      .get<Wallet>(`${environment.apiUrl}${API_PATH_WALLETS}/${id}`)
-      .pipe(map((wallet) => new Wallet(wallet)));
+      .get<HTTP<Wallet>>(`${environment.apiUrl}${API_PATH_WALLETS}/${id}`)
+      .pipe(
+        map((data) => {
+          data.data = new Wallet(data.data);
+          return data;
+        })
+      );
   }
 
-  addWallet(body: Wallet): Observable<Wallet> {
-    return this.http.post<Wallet>(
-      `${environment.apiUrl}${API_PATH_WALLETS}`,
-      body
-    );
+  addWallet(body: Wallet): Observable<HTTP<Wallet>> {
+    return this.http
+      .post<HTTP<Wallet>>(`${environment.apiUrl}${API_PATH_WALLETS}`, body)
+      .pipe(
+        map((data) => {
+          data.data = new Wallet(data.data);
+          return data;
+        })
+      );
   }
 
   removeWallet(id: string): Observable<{}> {
@@ -48,74 +75,52 @@ export class WalletService {
     );
   }
 
-  getExpensesByPeriod(
+  getCategories(
     walletId: string,
+    type: string
+  ): Observable<MoneyMoveCategory[]> {
+    return this.http.get<MoneyMoveCategory[]>(
+      `${environment.apiUrl}${API_PATH_CATEGORIES}/${walletId}/${type}`
+    );
+  }
+
+  getMoneyMoveByPeriod(
+    walletId: string,
+    type: string,
     startDate: Dayjs,
     finishDate?: Dayjs
-  ): Observable<Expense[]> {
-    return this.http.get<Expense[]>(
-      `${environment.apiUrl}${API_PATH_EXPENSES}/${walletId}/${startDate}/${finishDate}`
-    );
+  ): Observable<PeriodMoneyMove> {
+    return this.http
+      .get<MoneyMoveItem[]>(
+        `${environment.apiUrl}/${type}/${walletId}/${startDate}/${finishDate}`
+      )
+      .pipe(map((items) => new PeriodMoneyMove(items, startDate, finishDate)));
   }
 
-  getIncomeByPeriod(
+  addMoneyMoveItem(
+    type: string,
     walletId: string,
-    startDate: Dayjs,
-    finishDate?: Dayjs
-  ): Observable<Income[]> {
-    return this.http.get<Income[]>(
-      `${environment.apiUrl}${API_PATH_INCOME}/${walletId}/${startDate}/${finishDate}`
-    );
-  }
-
-  getExpense(expenseId: string): Observable<Expense> {
-    return this.http.get<Expense>(
-      `${environment.apiUrl}${API_PATH_EXPENSES}/${expenseId}`
-    );
-  }
-
-  getIncome(incomeId: string): Observable<Income> {
-    return this.http.get<Income>(
-      `${environment.apiUrl}${API_PATH_INCOME}/${incomeId}`
-    );
-  }
-
-  addExpense(walletId: string, body: Expense): Observable<Expense> {
-    return this.http.post<Expense>(
-      `${environment.apiUrl}${API_PATH_EXPENSES}/${walletId}`,
+    body: MoneyMoveItem
+  ): Observable<MoneyMoveItem> {
+    return this.http.post<MoneyMoveItem>(
+      `${environment.apiUrl}/${type}/${walletId}`,
       body
     );
   }
 
-  removeExpense(expenseId: string): Observable<Expense> {
-    return this.http.delete<Expense>(
-      `${environment.apiUrl}${API_PATH_EXPENSES}/${expenseId}`
+  removeMoneyMoveItem(type: string, id: string): Observable<MoneyMoveItem> {
+    return this.http.delete<MoneyMoveItem>(
+      `${environment.apiUrl}/${type}/${id}`
     );
   }
 
-  editExpense(expenseId: string, body: Expense): Observable<Expense> {
-    return this.http.put<Expense>(
-      `${environment.apiUrl}${API_PATH_EXPENSES}/${expenseId}`,
-      body
-    );
-  }
-
-  addIncome(walletId: string, body: Income): Observable<Income> {
-    return this.http.post<Income>(
-      `${environment.apiUrl}${API_PATH_INCOME}/${walletId}`,
-      body
-    );
-  }
-
-  removeIncome(incomeId: string): Observable<Income> {
-    return this.http.delete<Income>(
-      `${environment.apiUrl}${API_PATH_INCOME}/${incomeId}`
-    );
-  }
-
-  editIncome(incomeId: string, body: Expense): Observable<Income> {
-    return this.http.put<Income>(
-      `${environment.apiUrl}${API_PATH_INCOME}/${incomeId}`,
+  editMoneyMoveItem(
+    type: string,
+    id: string,
+    body: MoneyMoveItem
+  ): Observable<MoneyMoveItem> {
+    return this.http.put<MoneyMoveItem>(
+      `${environment.apiUrl}/${type}/${id}`,
       body
     );
   }

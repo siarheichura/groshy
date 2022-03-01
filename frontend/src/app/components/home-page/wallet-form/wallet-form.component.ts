@@ -52,7 +52,7 @@ export class WalletFormComponent implements OnInit {
         Validators.required,
       ],
       [this.formControls.Amount]: [
-        walletForEdit ? walletForEdit.amount : '',
+        walletForEdit ? walletForEdit.balance : '',
         Validators.required,
       ],
       [this.formControls.Currency]: [

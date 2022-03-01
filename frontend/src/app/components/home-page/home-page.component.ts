@@ -27,10 +27,10 @@ export class HomePageComponent implements OnInit {
   wallets$: Observable<Wallet[]> = this.store.select(walletsSelector);
   walletsForList$: Observable<ListItem[]> = this.wallets$.pipe(
     map((wallets: Wallet[]) => {
-      return wallets.map(({ _id, name, amount, currency }) => ({
-        id: _id,
+      return wallets.map(({ id, name, balance, currency }) => ({
+        id,
         name,
-        description: `${amount} ${currency}`,
+        description: `${balance} ${currency}`,
       }));
     })
   );
@@ -84,7 +84,7 @@ export class HomePageComponent implements OnInit {
   printEditWalletModal(walletId: string) {
     const walletForEdit$ = this.wallets$.pipe(
       map((result) => {
-        return result.find((wallet) => wallet._id === walletId);
+        return result.find((wallet) => wallet.id === walletId);
       }),
       take(1)
     );

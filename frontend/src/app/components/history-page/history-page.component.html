@@ -1,38 +1,36 @@
 <nz-tabset nzType="card" nzCentered>
   <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="onTabClick(tab)">
     <div class="tab">
-      <nz-date-picker
-        nzMode="month"
-        class="date-picker"
-        [(ngModel)]="date"
-        (ngModelChange)="onDateChange($event)"
-        [nzDisabledDate]="disabledDates"
-      ></nz-date-picker>
-      <!-- nz-date-picker reacts only to (ngModelChange) ??? -->
+      <form nz-form [formGroup]="form">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-date-picker
+              [formControlName]="formControls.Date"
+              nzMode="month"
+              class="date-picker"
+              (ngModelChange)="onDateChange($event)"
+              [nzDisabledDate]="disabledDates"
+              [nzPlaceHolder]="today.format('MM.YYYY')"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
 
-      <ng-container [ngSwitch]="tab">
-        <ng-container *ngSwitchCase="tabNames.Expenses">
-          <div class="body" *ngFor="let day of moneyMove$ | async">
-            <app-money-move-day-card
-              *ngIf="day.expenses.length"
-              [items]="day.expenses"
-              [title]="day.date.format('DD.MM')"
-              [amount]="day.expensesSum"
-            ></app-money-move-day-card>
-          </div>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="tabNames.Income">
-          <div class="body" *ngFor="let day of moneyMove$ | async">
-            <app-money-move-day-card
-              *ngIf="day.income.length"
-              [items]="day.income"
-              [title]="day.date.format('DD.MM')"
-              [amount]="day.incomeSum"
-            ></app-money-move-day-card>
-          </div>
-        </ng-container>
-      </ng-container>
+      <div
+        class="body"
+        *ngFor="let day of (moneyMove$ | async).slice().reverse()"
+      >
+        <app-money-move-day-card
+          *ngIf="day.moneyMove.length"
+          [title]="day.date.format('DD.MM')"
+          [amount]="day.moneyMoveSum"
+          [items]="day.moneyMove"
+          [categories]="categories$ | async"
+          [currency]="currency$ | async"
+          (onRemoveItem)="removeMoneyMoveItem($event)"
+          (onEditItem)="editMoneyMoveItem($event, form.value.date)"
+        ></app-money-move-day-card>
+      </div>
     </div>
   </nz-tab>
 </nz-tabset>

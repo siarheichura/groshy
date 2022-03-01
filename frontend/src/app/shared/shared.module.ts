@@ -54,6 +54,7 @@ import { MoneyMoveModalFormComponent } from './components/money-move-modal-form/
     NzInputModule,
     NzSelectModule,
     NzDatePickerModule,
+    NzTabsModule,
   ],
   exports: [
     ReactiveFormsModule,

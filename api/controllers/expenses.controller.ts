@@ -44,7 +44,6 @@ export class ExpensesController {
 
   async addExpense(req: Request, res: Response) {
     const walletId = req.params.id;
-    const walletAmount = (await WalletModel.findById(walletId)).amount;
 
     try {
       const { category, amount, comment, date } = req.body;
@@ -61,7 +60,6 @@ export class ExpensesController {
         $push: {
           expenses: expense,
         },
-        $set: { amount: walletAmount - amount },
       });
 
       res.send(expense);
@@ -73,14 +71,12 @@ export class ExpensesController {
   async removeExpense(req: Request, res: Response) {
     const expenseId = req.params.expenseId;
     const expense = await ExpenseModel.findById(expenseId);
-    const { wallet: walletId, amount: expenseAmount } = expense;
-    const { amount: walletAmount } = await WalletModel.findById(walletId);
+    const { wallet: walletId } = expense;
 
     try {
       await ExpenseModel.findByIdAndDelete(expenseId);
       await WalletModel.findByIdAndUpdate(walletId, {
         $pull: { expenses: expenseId },
-        $set: { amount: walletAmount + expenseAmount },
       });
 
       res.send(expense);
@@ -91,20 +87,10 @@ export class ExpensesController {
 
   async editExpense(req: Request, res: Response) {
     const expenseId = req.params.expenseId;
-    const { wallet: walletId, amount: expenseAmount } =
-      await ExpenseModel.findById(expenseId);
-    const { amount: walletAmount } = await WalletModel.findById(walletId);
 
     try {
       await ExpenseModel.findByIdAndUpdate(expenseId, req.body);
       const updatedExpense = await ExpenseModel.findById(expenseId);
-
-      if (req.body.amount !== expenseAmount) {
-        await WalletModel.findByIdAndUpdate(walletId, {
-          $set: { amount: walletAmount + expenseAmount - req.body.amount },
-        });
-      }
-
       res.send(updatedExpense);
     } catch (err) {
       res.status(400).send({ message: 'Cannot edit expense' });

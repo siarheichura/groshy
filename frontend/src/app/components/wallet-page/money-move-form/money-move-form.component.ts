@@ -7,9 +7,21 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 
+import { MoneyMoveCategory } from './../../../shared/interfaces/DayMoneyMove';
 import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
+
+interface FormValue {
+  amount: number;
+  category: string;
+  comment: string;
+}
+
+enum FormEnum {
+  Amount = 'amount',
+  Category = 'category',
+  Comment = 'comment',
+}
 
 @Component({
   selector: 'app-money-move-form',
@@ -18,25 +30,29 @@ import { markFormControlsDirty } from '../../../shared/helpers/form.helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyMoveFormComponent implements OnInit {
-  @Input() categories: string[];
-
+  @Input() categories: MoneyMoveCategory[];
   @Output() onSubmit = new EventEmitter();
 
   moneymoveForm: FormGroup;
+  formControls = FormEnum;
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  get formValue(): FormValue {
+    return this.moneymoveForm.value as FormValue;
+  }
+
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.moneymoveForm = this.fb.group({
-      amount: ['', [Validators.required]],
-      category: ['', [Validators.required]],
-      comment: [''],
+      [FormEnum.Amount]: ['', [Validators.required]],
+      [FormEnum.Category]: ['', [Validators.required]],
+      [FormEnum.Comment]: [''],
     });
   }
 
   submitForm(): void {
     if (this.moneymoveForm.valid) {
-      this.onSubmit.emit(this.moneymoveForm.value);
+      this.onSubmit.emit(this.formValue);
       this.moneymoveForm.reset();
     } else {
       markFormControlsDirty(this.moneymoveForm);

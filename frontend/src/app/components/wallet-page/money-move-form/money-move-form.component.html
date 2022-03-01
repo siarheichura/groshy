@@ -5,7 +5,7 @@
         <input
           type="number"
           nz-input
-          formControlName="amount"
+          [formControlName]="formControls.Amount"
           placeholder="Enter amount"
         />
       </nz-form-control>
@@ -13,11 +13,14 @@
 
     <nz-form-item>
       <nz-form-control>
-        <nz-select formControlName="category" nzPlaceHolder="Select category">
+        <nz-select
+          [formControlName]="formControls.Category"
+          nzPlaceHolder="Select category"
+        >
           <nz-option
             *ngFor="let category of categories"
-            [nzValue]="category"
-            [nzLabel]="category"
+            [nzValue]="category.name"
+            [nzLabel]="category.name"
           ></nz-option>
         </nz-select>
       </nz-form-control>
@@ -29,7 +32,7 @@
       <input
         type="text"
         nz-input
-        formControlName="comment"
+        [formControlName]="formControls.Comment"
         placeholder="Add comment"
       />
     </nz-form-control>

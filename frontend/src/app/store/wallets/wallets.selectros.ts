@@ -1,5 +1,5 @@
-import { WalletsState } from './wallets.state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { WalletsState } from './wallets.state';
 
 export const featureSelector = createFeatureSelector<WalletsState>('wallets');
 
@@ -15,15 +15,11 @@ export const walletCurrencySelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.wallet.currency
 );
-export const walletExpenseCategoriesSelector = createSelector(
+export const walletCategoriesSelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.wallet.expenseCategories
+  (state: WalletsState) => state.categories
 );
-export const walletIncomeCategoriesSelector = createSelector(
+export const periodMoneyMoveSelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.wallet.incomeCategories
-);
-export const moneyMoveByPeriodSelector = createSelector(
-  featureSelector,
-  (state: WalletsState) => state.moneyMoveByPeriod
+  (state: WalletsState) => state.periodMoneyMove
 );

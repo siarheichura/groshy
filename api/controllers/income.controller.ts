@@ -44,7 +44,6 @@ export class IncomeController {
 
   async addIncome(req: Request, res: Response) {
     const walletId = req.params.id;
-    const walletAmount = (await WalletModel.findById(walletId)).amount;
 
     try {
       const { category, amount, comment, date } = req.body;
@@ -61,7 +60,6 @@ export class IncomeController {
         $push: {
           income: income,
         },
-        $set: { amount: walletAmount + amount },
       });
       return res.send(income);
     } catch (err) {
@@ -72,14 +70,12 @@ export class IncomeController {
   async removeIncome(req: Request, res: Response) {
     const incomeId = req.params.incomeId;
     const income = await IncomeModel.findById(incomeId);
-    const { wallet: walletId, amount: incomeAmount } = income;
-    const { amount: walletAmount } = await WalletModel.findById(walletId);
+    const { wallet: walletId } = income;
 
     try {
       await IncomeModel.findByIdAndDelete(incomeId);
       await WalletModel.findByIdAndUpdate(walletId, {
         $pull: { income: incomeId },
-        $set: { amount: walletAmount - incomeAmount },
       });
 
       res.send(income);
@@ -90,19 +86,10 @@ export class IncomeController {
 
   async editIncome(req: Request, res: Response) {
     const incomeId = req.params.incomeId;
-    const { wallet: walletId, amount: incomeAmount } =
-      await IncomeModel.findById(incomeId);
-    const { amount: walletAmount } = await WalletModel.findById(walletId);
 
     try {
       await IncomeModel.findByIdAndUpdate(incomeId, req.body);
       const updatedExpense = await IncomeModel.findById(incomeId);
-
-      if (req.body.amount !== incomeAmount) {
-        await WalletModel.findByIdAndUpdate(walletId, {
-          $set: { amount: walletAmount - incomeAmount + req.body.amount },
-        });
-      }
 
       res.send(updatedExpense);
     } catch (err) {

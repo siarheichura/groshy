@@ -16,7 +16,7 @@
         nz-input
         type="number"
         placeholder="Initial amount"
-        [formControlName]="formControls.Amount"
+        [formControlName]="formControls.Balance"
       />
     </nz-form-control>
   </nz-form-item>
@@ -32,6 +32,36 @@
           [nzValue]="currency"
           [nzLabel]="currency"
         ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="requiredError">
+      <nz-select
+        [formControlName]="formControls.ExpenseCategories"
+        nzMode="tags"
+        [nzTokenSeparators]="[',']"
+      >
+        <!-- [nzTokenSeparators]="[',']"
+        nzPlaceHolder="Appoint expense categories" -->
+        <!-- <nz-option
+          *ngFor="let option of categories$ | async"
+          [nzLabel]="option.name"
+          [nzValue]="option._id"
+        ></nz-option> -->
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="requiredError">
+      <nz-select
+        [formControlName]="formControls.IncomeCategories"
+        nzMode="tags"
+        nzPlaceHolder="Appoint expense categories"
+        [nzTokenSeparators]="[',']"
+      >
       </nz-select>
     </nz-form-control>
   </nz-form-item>

@@ -1,37 +1,43 @@
 <nz-tabset nzType="card" nzCentered>
   <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="onTabClick(tab)">
     <div class="tab">
-      <ng-container [ngSwitch]="tab">
-        <ng-container *ngSwitchCase="'Expenses'">
-          <app-money-move-form
-            [categories]="(wallet$ | async).expenseCategories"
-            (onSubmit)="addExpense($event)"
-          ></app-money-move-form>
+      <div class="header">
+        <form nz-form [formGroup]="form">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-date-picker
+                nzMode="month"
+                class="date-picker"
+                nzFormat="MM.YYYY"
+                [nzDisabledDate]="disabledDates"
+                [formControlName]="formControls.Date"
+                [nzPlaceHolder]="today.format('MM.YYYY')"
+                (ngModelChange)="onDateChange($event)"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
 
-          <div *ngFor="let day of moneyMove$ | async">
-            <app-money-move-day-card
-              [items]="day.expenses"
-              [amount]="day.expensesSum"
-              [title]="day.date.format('DD.MM')"
-            ></app-money-move-day-card>
-          </div>
-        </ng-container>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="printAddMoneyMoveItemModal()"
+        >
+          Add {{ currentTab$ | async }}
+        </button>
+      </div>
 
-        <ng-container *ngSwitchCase="'Income'">
-          <app-money-move-form
-            [categories]="(wallet$ | async).incomeCategories"
-            (onSubmit)="addIncome($event)"
-          ></app-money-move-form>
-
-          <div *ngFor="let day of moneyMove$ | async">
-            <app-money-move-day-card
-              [items]="day.income"
-              [amount]="day.incomeSum"
-              [title]="day.date.format('DD.MM')"
-            ></app-money-move-day-card>
-          </div>
-        </ng-container>
-      </ng-container>
+      <div *ngFor="let day of (moneyMove$ | async).slice().reverse()">
+        <app-money-move-day-card
+          [title]="day.date.format('DD.MM')"
+          [amount]="day.moneyMoveSum"
+          [items]="day.moneyMoveItems"
+          [categories]="categories$ | async"
+          [currency]="currency$ | async"
+          (onRemoveItem)="removeMoneyMoveItem($event)"
+          (onItemClick)="printEditMoneyMoveItemModal($event)"
+        ></app-money-move-day-card>
+      </div>
     </div>
   </nz-tab>
 </nz-tabset>

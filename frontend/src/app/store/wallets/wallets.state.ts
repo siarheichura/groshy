@@ -1,21 +1,22 @@
-import { Wallet } from './../../shared/interfaces/Wallet';
-import { DayMoneyMove } from 'src/app/shared/interfaces/DayMoneyMove';
+import { Wallet } from 'src/app/shared/classes/Wallet';
+import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
+import { MoneyMoveCategory } from './../../shared/interfaces/DayMoneyMove';
 
 export interface WalletsState {
   wallets: Wallet[];
-  moneyMoveByPeriod: DayMoneyMove[];
   wallet: Wallet;
+  periodMoneyMove: MoneyMoveDayItem[];
+  categories: MoneyMoveCategory[];
 }
 
 export const initialWalletsState: WalletsState = {
   wallets: [],
-  moneyMoveByPeriod: [],
   wallet: {
-    _id: '',
+    id: '',
     name: '',
-    amount: 0,
+    balance: 0,
     currency: '',
-    expenseCategories: [],
-    incomeCategories: [],
   },
+  periodMoneyMove: [],
+  categories: [],
 };

@@ -4,6 +4,10 @@ import { validationResult } from 'express-validator';
 import { config } from '../config';
 import { UserModel } from '../models/User';
 
+// interface RequestBody<T> extends Express.Request {
+//   body: T;
+// }
+
 const generateToken = (id: string, username: string) => {
   return jwt.sign({ id, username }, config.TOKEN_SECRET_KEY, {
     expiresIn: config.TOKEN_EXPIRE_TIME,
@@ -17,12 +21,15 @@ export class AuthController {
 
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).send({ message: 'Registration error', errors });
+        return res.status(400).send({
+          message: 'Incorrect data',
+          errors,
+        });
       }
 
       const candidate = await UserModel.findOne({ email });
       if (candidate) {
-        return res.status(409).send({ message: 'This email is already taken' });
+        return res.status(400).send({ message: 'This email is already taken' });
       }
 
       const user = new UserModel({ username, email, password });
@@ -42,7 +49,7 @@ export class AuthController {
       if (!user) {
         return res
           .status(404)
-          .send({ message: `User ${username} is not found` });
+          .send({ message: `User '${username}' is not found` });
       }
 
       const validPassword = UserModel.schema.methods.checkPassword(

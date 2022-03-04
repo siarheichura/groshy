@@ -1,7 +1,6 @@
 import { Schema, model, Types } from 'mongoose';
 
 export interface Income {
-  _id: string;
   category: string;
   date: Date;
   amount: number;

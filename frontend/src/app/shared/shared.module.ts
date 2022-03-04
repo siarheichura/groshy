@@ -3,6 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { ListComponent } from './components/list/list.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
+import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
+
 // NgZorro
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -21,15 +29,6 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { HeaderComponent } from './components/header/header.component';
-import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { ListComponent } from './components/list/list.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
-import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
-import { MoneyMoveModalFormComponent } from './components/money-move-modal-form/money-move-modal-form.component';
-
 @NgModule({
   declarations: [
     ErrorPageComponent,
@@ -39,7 +38,6 @@ import { MoneyMoveModalFormComponent } from './components/money-move-modal-form/
     UserProfileComponent,
     WalletHeaderComponent,
     MoneyMoveDayCardComponent,
-    MoneyMoveModalFormComponent,
   ],
 
   imports: [
@@ -54,6 +52,7 @@ import { MoneyMoveModalFormComponent } from './components/money-move-modal-form/
     NzInputModule,
     NzSelectModule,
     NzDatePickerModule,
+    NzTabsModule,
   ],
   exports: [
     ReactiveFormsModule,

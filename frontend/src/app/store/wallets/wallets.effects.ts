@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
 import { map, mergeMap, switchMap } from 'rxjs';
+
 import { WalletService } from './../../services/wallet.service';
 import * as WalletsActions from './wallets.actions';
+import { getMoneyMoveItemsByPeriod } from 'src/app/shared/helpers/money-move.helper';
 
 @Injectable()
 export class WalletsEffects {
-  today: Date = new Date();
-  yesterday: Date = new Date(new Date().setDate(new Date().getDate() - 1));
-
   constructor(
     private walletService: WalletService,
     private actions$: Actions
@@ -21,8 +20,8 @@ export class WalletsEffects {
         this.walletService
           .getWallets()
           .pipe(
-            map((wallets) =>
-              WalletsActions.GetWalletsSuccess({ payload: wallets })
+            map((data) =>
+              WalletsActions.GetWalletsSuccess({ payload: data.data })
             )
           )
       )
@@ -36,8 +35,8 @@ export class WalletsEffects {
         this.walletService
           .getWallet(action.payload.id)
           .pipe(
-            map((wallet) =>
-              WalletsActions.GetWalletSuccess({ payload: wallet })
+            map((data) =>
+              WalletsActions.GetWalletSuccess({ payload: data.data })
             )
           )
       )
@@ -51,8 +50,8 @@ export class WalletsEffects {
         this.walletService
           .addWallet(action.payload)
           .pipe(
-            map((wallet) =>
-              WalletsActions.AddWalletSuccess({ payload: wallet })
+            map((data) =>
+              WalletsActions.AddWalletSuccess({ payload: data.data })
             )
           )
       )
@@ -85,120 +84,51 @@ export class WalletsEffects {
     );
   });
 
-  getExpensesByPeriod$ = createEffect(() => {
+  getBasicCategories$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(WalletsActions.GetExpensesByPeriod),
+      ofType(WalletsActions.GetBasicCategories),
+      switchMap(() =>
+        this.walletService
+          .getBasicCategories()
+          .pipe(
+            map((data) =>
+              WalletsActions.GetBasicCategoriesSuccess({ payload: data.data })
+            )
+          )
+      )
+    );
+  });
+
+  getCategories$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetWalletCategories),
       switchMap(({ payload }) =>
         this.walletService
-          .getExpensesByPeriod(
+          .getWalletCategories(payload.walletId, payload.type)
+          .pipe(
+            map((data) =>
+              WalletsActions.GetWalletCategoriesSuccess({ payload: data.data })
+            )
+          )
+      )
+    );
+  });
+
+  getMoneyMoveByPeriod$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetMoneyMoveByPeriod),
+      switchMap(({ payload }) =>
+        this.walletService
+          .getMoneyMoveByPeriod(
             payload.walletId,
+            payload.type,
             payload.startDate,
             payload.finishDate
           )
           .pipe(
-            map((expense) =>
-              WalletsActions.GetExpensesByPeriodSuccess({ payload: expense })
-            )
-          )
-      )
-    );
-  });
-
-  getIncomeByPeriod$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.GetIncomeByPeriod),
-      switchMap(({ payload }) =>
-        this.walletService
-          .getIncomeByPeriod(
-            payload.walletId,
-            payload.startDate,
-            payload.finishDate
-          )
-          .pipe(
-            map((expense) =>
-              WalletsActions.GetIncomeByPeriodSuccess({ payload: expense })
-            )
-          )
-      )
-    );
-  });
-
-  addExpense$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.AddExpense),
-      switchMap((action) =>
-        this.walletService
-          .addExpense(action.payload.walletId, action.payload.expense)
-          .pipe(
-            map((expense) =>
-              WalletsActions.AddExpenseSuccess({ payload: expense })
-            )
-          )
-      )
-    );
-  });
-
-  addIncome$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.AddIncome),
-      switchMap((action) =>
-        this.walletService
-          .addIncome(action.payload.walletId, action.payload.income)
-          .pipe(
-            map((income) =>
-              WalletsActions.AddIncomeSuccess({ payload: income })
-            )
-          )
-      )
-    );
-  });
-
-  removeExpense$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.RemoveExpense),
-      switchMap((action) =>
-        this.walletService
-          .removeExpense(action.payload.expenseId)
-          .pipe(
-            map((expense) =>
-              WalletsActions.RemoveExpenseSuccess({ payload: expense })
-            )
-          )
-      )
-    );
-  });
-
-  removeIncome$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.RemoveIncome),
-      switchMap((action) =>
-        this.walletService
-          .removeIncome(action.payload.incomeId)
-          .pipe(
-            map((income) =>
-              WalletsActions.RemoveIncomeSuccess({ payload: income })
-            )
-          )
-      )
-    );
-  });
-
-  editExpense$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.EditExpense),
-      switchMap((action) =>
-        this.walletService
-          .editExpense(
-            action.payload.expense._id,
-            action.payload.updatedExpense
-          )
-          .pipe(
-            map((expense) =>
-              WalletsActions.EditExpenseSuccess({
-                payload: {
-                  expense: action.payload.expense,
-                  updatedExpense: expense,
-                },
+            map((items) =>
+              WalletsActions.GetMoneyMoveByPeriodSuccess({
+                payload: getMoneyMoveItemsByPeriod(items),
               })
             )
           )
@@ -206,21 +136,56 @@ export class WalletsEffects {
     );
   });
 
-  editIncome$ = createEffect(() => {
+  addMoneyMoveItem$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(WalletsActions.EditIncome),
-      switchMap((action) =>
+      ofType(WalletsActions.AddMoneyMoveItem),
+      switchMap(({ payload }) =>
         this.walletService
-          .editIncome(action.payload.income._id, action.payload.updatedIncome)
+          .addMoneyMoveItem(payload.type, payload.walletId, payload.item)
           .pipe(
-            map((income) =>
-              WalletsActions.EditIncomeSuccess({
+            mergeMap((item) => [
+              WalletsActions.AddMoneyMoveItemSuccess({ payload: item }),
+              WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
+            ])
+          )
+      )
+    );
+  });
+
+  removeMoneyMoveItem$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.RemoveMoneyMoveItem),
+      switchMap(({ payload }) =>
+        this.walletService
+          .removeMoneyMoveItem(payload.type, payload.itemId)
+          .pipe(
+            mergeMap((item) => [
+              WalletsActions.RemoveMoneyMoveItemSuccess({ payload: item }),
+              WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
+            ])
+          )
+      )
+    );
+  });
+
+  editMoneyMoveItem$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.EditMoneyMoveItem),
+      switchMap(({ payload }) =>
+        this.walletService
+          .editMoneyMoveItem(payload.type, payload.itemId, payload.updatedItem)
+          .pipe(
+            mergeMap((item) => [
+              WalletsActions.GetMoneyMoveByPeriod({
                 payload: {
-                  income: action.payload.income,
-                  updatedIncome: income,
+                  walletId: payload.walletId,
+                  type: payload.type,
+                  startDate: payload.startDate,
+                  finishDate: payload.finishDate,
                 },
-              })
-            )
+              }),
+              WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
+            ])
           )
       )
     );

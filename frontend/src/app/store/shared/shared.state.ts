@@ -1,4 +1,4 @@
-import { TabsEnum } from 'src/app/shared/enums/TabsEnum';
+import { MoneyMoveTypes } from 'src/app/shared/enums/MoneyMoveTypes';
 
 export interface SharedState {
   loading: boolean;
@@ -7,5 +7,5 @@ export interface SharedState {
 
 export const initialSharedState: SharedState = {
   loading: false,
-  currentTab: TabsEnum.Expenses,
+  currentTab: MoneyMoveTypes.Expense,
 };

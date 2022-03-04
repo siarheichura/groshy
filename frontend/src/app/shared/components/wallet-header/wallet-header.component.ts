@@ -5,8 +5,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { walletSelector } from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from '../../enums/RouterEnum';
-import { Wallet } from '../../interfaces/Wallet';
 import { GetWallet } from 'src/app/store/wallets/wallets.actions';
+import { Wallet } from '../../classes/Wallet';
 
 @Component({
   selector: 'app-wallet-header',
@@ -17,7 +17,7 @@ import { GetWallet } from 'src/app/store/wallets/wallets.actions';
 export class WalletHeaderComponent implements OnInit {
   routes = RouterEnum;
   walletId: string = (this.route.snapshot.params as { id: string }).id;
-  wallet$: Observable<Wallet | null> = this.store.select(walletSelector);
+  wallet$: Observable<Wallet> = this.store.select(walletSelector);
 
   constructor(
     private store: Store,

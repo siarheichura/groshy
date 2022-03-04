@@ -1,11 +1,13 @@
-import { Dayjs } from 'dayjs';
-import { Expense } from './Expense';
-import { Income } from './Income';
+export interface MoneyMoveCategory {
+  _id: string;
+  name: string;
+  type: string;
+}
 
-export interface DayMoneyMove {
-  date: Dayjs;
-  expenses: Expense[];
-  income: Income[];
-  expensesSum: number;
-  incomeSum: number;
+export interface MoneyMoveItem {
+  _id: string;
+  category: string;
+  amount: number;
+  date: Date;
+  comment?: string;
 }

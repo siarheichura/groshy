@@ -1,3 +1,4 @@
+import { GetBasicCategories } from './../../store/wallets/wallets.actions';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, take, map } from 'rxjs';
@@ -13,9 +14,10 @@ import {
 import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Wallet } from './../../shared/interfaces/Wallet';
+
 import { ListItem } from './../../shared/interfaces/ListItem';
 import { WalletFormComponent } from './wallet-form/wallet-form.component';
+import { Wallet } from 'src/app/shared/classes/Wallet';
 
 @Component({
   selector: 'app-home-page',
@@ -25,15 +27,17 @@ import { WalletFormComponent } from './wallet-form/wallet-form.component';
 })
 export class HomePageComponent implements OnInit {
   wallets$: Observable<Wallet[]> = this.store.select(walletsSelector);
-  walletsForList$: Observable<ListItem[]> = this.wallets$.pipe(
-    map((wallets: Wallet[]) => {
-      return wallets.map(({ _id, name, amount, currency }) => ({
-        id: _id,
-        name,
-        description: `${amount} ${currency}`,
-      }));
-    })
-  );
+
+  // ??? При редактировании мне надо доставать отдельно balance и отдельно currency
+  // walletsForList$: Observable<ListItem[]> = this.wallets$.pipe(
+  //   map((wallets: Wallet[]) => {
+  //     return wallets.map(({ id, name, balance, currency }) => ({
+  //       id,
+  //       name,
+  //       description: `${balance} ${currency}`,
+  //     }));
+  //   })
+  // );
 
   constructor(
     private modal: NzModalService,
@@ -45,7 +49,7 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(GetWallets());
   }
 
-  createWallet(wallet: Wallet): void {
+  addWallet(wallet: Wallet): void {
     this.store.dispatch(AddWallet({ payload: wallet }));
   }
 
@@ -64,6 +68,8 @@ export class HomePageComponent implements OnInit {
   }
 
   printAddWalletModal() {
+    this.store.dispatch(GetBasicCategories());
+
     const modal = this.modal.create({
       nzTitle: 'Create Wallet',
       nzWidth: '400px',
@@ -71,7 +77,7 @@ export class HomePageComponent implements OnInit {
       nzOnOk: () => {
         const form = modal.getContentComponent().walletForm;
         if (form.valid) {
-          this.createWallet(form.value);
+          this.addWallet(form.value);
         } else {
           markFormControlsDirty(form);
           return false;
@@ -81,10 +87,10 @@ export class HomePageComponent implements OnInit {
     });
   }
 
-  printEditWalletModal(walletId: string) {
+  printEditWalletModal(wallet: Wallet) {
     const walletForEdit$ = this.wallets$.pipe(
       map((result) => {
-        return result.find((wallet) => wallet._id === walletId);
+        return result.find((item) => item.id === wallet.id);
       }),
       take(1)
     );
@@ -94,13 +100,14 @@ export class HomePageComponent implements OnInit {
       nzWidth: '400px',
       nzContent: WalletFormComponent,
       nzComponentParams: {
-        walletForEdit$: walletForEdit$,
+        walletForEdit: wallet,
+        // walletForEdit$: walletForEdit$,
       },
       nzOnOk: () => {
         const form = modal.getContentComponent().walletForm;
 
         if (form.valid) {
-          this.editWallet(walletId, form.value);
+          this.editWallet(wallet.id, form.value);
         } else {
           markFormControlsDirty(form);
           return false;

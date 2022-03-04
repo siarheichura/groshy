@@ -6,13 +6,13 @@ export const expensesRouter = express.Router();
 const controller = new ExpensesController();
 
 expensesRouter.get(
-  `${RouterEnum.Expenses}/:walletId/:startDate/:finishDate?`,
+  `${RouterEnum.Expense}/:walletId/:startDate/:finishDate?`,
   controller.getExpensesByPeriod
 );
-expensesRouter.get(`${RouterEnum.Expenses}/:id`, controller.getExpense);
-expensesRouter.post(`${RouterEnum.Expenses}/:id`, controller.addExpense);
+expensesRouter.get(`${RouterEnum.Expense}/:id`, controller.getExpense);
+expensesRouter.post(`${RouterEnum.Expense}/:id`, controller.addExpense);
 expensesRouter.delete(
-  `${RouterEnum.Expenses}/:expenseId`,
+  `${RouterEnum.Expense}/:expenseId`,
   controller.removeExpense
 );
-expensesRouter.put(`${RouterEnum.Expenses}/:expenseId`, controller.editExpense);
+expensesRouter.put(`${RouterEnum.Expense}/:expenseId`, controller.editExpense);

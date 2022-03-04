@@ -6,10 +6,6 @@
 
     <div class="amount__nav">
       <div
-        class="amount__nav-history"
-        (click)="handleRouteClick([routes.History])"
-      ></div>
-      <div
         class="amount__nav-stat"
         (click)="handleRouteClick([routes.Statistics])"
       ></div>
@@ -20,7 +16,7 @@
     </div>
   </div>
 
-  <div class="amount__sum">{{ wallet.amount }} {{ wallet.currency }}</div>
+  <div class="amount__sum">{{ wallet.balance }} {{ wallet.currency }}</div>
 </div>
 
 <router-outlet></router-outlet>

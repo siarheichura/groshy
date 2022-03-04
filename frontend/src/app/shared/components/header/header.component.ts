@@ -1,10 +1,10 @@
-import { map, take, tap } from 'rxjs';
-import { GetUserInfo } from './../../../store/user/user.actions';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { Store } from '@ngrx/store';
+import { tap } from 'rxjs';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
+import { GetUserInfo } from './../../../store/user/user.actions';
 import { userInfoSelector } from './../../../store/user/user.selectros';
 import { UserProfileComponent } from './../user-profile/user-profile.component';
 import { RouterEnum } from '../../enums/RouterEnum';

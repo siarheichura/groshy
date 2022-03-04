@@ -31,6 +31,30 @@
       font-size: 17px;
       font-weight: 600;
     }
+
+    &__btn-del {
+      position: absolute;
+      right: 0;
+      top: 10px;
+      height: 12px;
+      width: 12px;
+      background: none;
+      background: url('/assets/images/delete-btn.svg') no-repeat center center;
+      background-size: contain;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      opacity: 0;
+    }
+
+    &__btn-del:hover {
+      filter: brightness(0.7);
+    }
+  }
+
+  .card:hover .card__btn-del {
+    opacity: 1;
+    right: 10px;
   }
 
   p {

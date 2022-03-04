@@ -1,24 +1,25 @@
-import { Observable } from 'rxjs';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { MoneyMoveTypes } from './../../../shared/enums/MoneyMoveTypes';
+import { Observable, map, take, Subscription, skip } from 'rxjs';
 import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
   Input,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 
-import { Wallet } from '../../../shared/interfaces/Wallet';
-
-interface FormValue {
-  username: string;
-  password: string;
-}
+import { categoriesSelector } from './../../../store/wallets/wallets.selectros';
+import { MoneyMoveCategory } from './../../../shared/interfaces/DayMoneyMove';
+import { Wallet } from 'src/app/shared/classes/Wallet';
 
 enum FormEnum {
   Name = 'name',
-  Amount = 'amount',
+  Balance = 'balance',
   Currency = 'currency',
+  ExpenseCategories = 'expenseCategories',
+  IncomeCategories = 'incomeCategories',
 }
 
 @Component({
@@ -27,38 +28,55 @@ enum FormEnum {
   styleUrls: ['./wallet-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletFormComponent implements OnInit {
+export class WalletFormComponent implements OnInit, OnDestroy {
+  @Input() walletForEdit: Wallet;
   currencies: string[] = ['USD', 'EUR', 'BYN', 'RUB'];
 
-  @Input() walletForEdit$: Observable<Wallet | undefined>;
-
-  walletForEdit: Wallet | undefined;
   walletForm: FormGroup;
   formControls = FormEnum;
 
-  constructor(private fb: FormBuilder, private modalRef: NzModalRef) {}
+  categories$: Observable<MoneyMoveCategory[]> =
+    this.store.select(categoriesSelector);
+  incomeCategories: MoneyMoveCategory[];
+  expenseCategories: MoneyMoveCategory[];
+
+  categoriesSubs: Subscription = this.categories$.subscribe((resp) => {
+    this.incomeCategories = resp.filter(
+      (item) => item.type.toLowerCase() === MoneyMoveTypes.Income
+    );
+    this.expenseCategories = resp.filter(
+      (item) => item.type.toLowerCase() === MoneyMoveTypes.Expense
+    );
+  });
+
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    if (this.walletForEdit$) {
-      this.walletForEdit$.subscribe((resp) => (this.walletForEdit = resp));
-    }
-    this.initFormGroup(this.walletForEdit);
-  }
-
-  initFormGroup(walletForEdit?: Wallet): void {
     this.walletForm = this.fb.group({
       [this.formControls.Name]: [
-        walletForEdit ? walletForEdit.name : '',
+        this.walletForEdit ? this.walletForEdit.name : '',
         Validators.required,
       ],
-      [this.formControls.Amount]: [
-        walletForEdit ? walletForEdit.amount : '',
+      [this.formControls.Balance]: [
+        this.walletForEdit ? this.walletForEdit.balance : '',
         Validators.required,
       ],
       [this.formControls.Currency]: [
-        walletForEdit ? walletForEdit.currency : '',
+        this.walletForEdit ? this.walletForEdit.currency : '',
         Validators.required,
       ],
+
+      [this.formControls.ExpenseCategories]: [
+        this.expenseCategories.map((item) => item.name),
+        [Validators.required],
+      ],
+      [this.formControls.IncomeCategories]: [
+        this.incomeCategories.map((item) => item.name),
+        [Validators.required],
+      ],
     });
+  }
+  ngOnDestroy(): void {
+    this.categoriesSubs.unsubscribe();
   }
 }

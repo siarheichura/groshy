@@ -1,18 +1,25 @@
-<div>
+<div *ngIf="items.length">
   <div class="title">
-    {{ title }}: <span> {{ amount }} {{ currency$ | async }} </span>
+    {{ title }}: <span> {{ amount }} {{ currency }} </span>
   </div>
 
-  <div *ngIf="!items!.length" class="empty">No data</div>
-
-  <div class="card" *ngFor="let item of items" (click)="printModal(item)">
+  <div
+    class="card"
+    *ngFor="let item of items"
+    (click)="onMoneyMoveItemClick(item)"
+  >
     <div class="card__title">
       <p class="card__type">{{ item.category }}</p>
-      <p class="card__sum">{{ item.amount }} {{ currency$ | async }}</p>
+      <p class="card__sum">{{ item.amount }} {{ currency }}</p>
     </div>
 
     <p class="card__comment">
       {{ item.comment }}
     </p>
+
+    <button
+      class="card__btn-del"
+      (click)="removeMoneyMoveItem($event, item._id)"
+    ></button>
   </div>
 </div>

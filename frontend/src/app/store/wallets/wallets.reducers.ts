@@ -3,39 +3,14 @@ import { initialWalletsState } from './wallets.state';
 import {
   GetWalletsSuccess,
   GetWalletSuccess,
-  GetMoneyMoveByPeriodTemplate,
-  GetExpensesByPeriodSuccess,
-  GetIncomeByPeriodSuccess,
   AddWalletSuccess,
   RemoveWalletSuccess,
-  AddExpenseSuccess,
-  RemoveExpenseSuccess,
-  AddIncomeSuccess,
-  RemoveIncomeSuccess,
-  EditExpenseSuccess,
-  EditIncomeSuccess,
+  GetWalletCategoriesSuccess,
+  GetMoneyMoveByPeriodSuccess,
+  AddMoneyMoveItemSuccess,
+  RemoveMoneyMoveItemSuccess,
+  GetBasicCategoriesSuccess,
 } from './wallets.actions';
-import dayjs, { Dayjs } from 'dayjs';
-import { DayMoneyMove } from 'src/app/shared/interfaces/DayMoneyMove';
-
-const getMoneyMoveTemplateByPeriod = (
-  startDate: Dayjs,
-  finishDate: Dayjs = startDate
-) => {
-  const result: DayMoneyMove[] = [];
-  const daysDiff = finishDate.diff(startDate, 'day');
-
-  for (let i = daysDiff; i >= 0; i--) {
-    result.push({
-      date: startDate.add(i, 'day'),
-      expenses: [],
-      income: [],
-      expensesSum: 0,
-      incomeSum: 0,
-    });
-  }
-  return result;
-};
 
 export const walletsReducer = createReducer(
   initialWalletsState,
@@ -54,162 +29,43 @@ export const walletsReducer = createReducer(
   })),
   on(RemoveWalletSuccess, (state, { payload }) => ({
     ...state,
-    wallets: state.wallets.filter((wallet) => wallet._id !== payload.id),
+    wallets: state.wallets.filter((wallet) => wallet.id !== payload.id),
   })),
-  on(GetMoneyMoveByPeriodTemplate, (state, { payload }) => ({
+  on(GetBasicCategoriesSuccess, (state, { payload }) => ({
     ...state,
-    moneyMoveByPeriod: getMoneyMoveTemplateByPeriod(
-      payload.startDate,
-      payload.finishDate
-    ),
+    categories: payload,
   })),
-  on(GetExpensesByPeriodSuccess, (state, { payload }) => ({
+  on(GetWalletCategoriesSuccess, (state, { payload }) => ({
     ...state,
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
-      return {
-        ...day,
-        expenses: payload.filter((expense) =>
-          dayjs(expense.date).isSame(day.date, 'day')
-        ),
-        expensesSum: payload
-          .filter((expense) => dayjs(expense.date).isSame(day.date, 'day'))
-          .reduce((prev, curr) => prev + curr.amount, 0),
-      };
-    }),
+    categories: payload,
   })),
-  on(GetIncomeByPeriodSuccess, (state, { payload }) => ({
+  on(GetMoneyMoveByPeriodSuccess, (state, { payload }) => ({
     ...state,
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
-      return {
-        ...day,
-        income: payload.filter((income) =>
-          dayjs(income.date).isSame(day.date, 'day')
-        ),
-        incomeSum: payload
-          .filter((income) => dayjs(income.date).isSame(day.date, 'day'))
-          .reduce((prev, curr) => prev + curr.amount, 0),
-      };
-    }),
+    periodMoneyMove: payload,
   })),
-  on(AddExpenseSuccess, (state, { payload }) => ({
+  on(AddMoneyMoveItemSuccess, (state, { payload }) => ({
     ...state,
-    wallet: {
-      ...state.wallet,
-      amount: state.wallet.amount - payload.amount,
-    },
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
+    periodMoneyMove: state.periodMoneyMove.map((day) => {
       if (day.date.isSame(payload.date, 'day')) {
         return {
           ...day,
-          expenses: [...day.expenses, payload],
-          expensesSum: day.expensesSum + payload.amount,
+          moneyMoveItems: [...day.moneyMoveItems, payload],
+          moneyMoveSum: day.moneyMoveSum + payload.amount,
         };
       }
       return day;
     }),
   })),
-  on(RemoveExpenseSuccess, (state, { payload }) => ({
+  on(RemoveMoneyMoveItemSuccess, (state, { payload }) => ({
     ...state,
-    wallet: {
-      ...state.wallet,
-      amount: state.wallet.amount + payload.amount,
-    },
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
+    periodMoneyMove: state.periodMoneyMove.map((day) => {
       if (day.date.isSame(payload.date, 'day')) {
         return {
           ...day,
-          expenses: day.expenses.filter(
-            (expense) => expense._id !== payload._id
+          moneyMoveItems: day.moneyMoveItems.filter(
+            (item) => item._id !== payload._id
           ),
-          expensesSum: day.expensesSum - payload.amount,
-        };
-      }
-      return day;
-    }),
-  })),
-  on(AddIncomeSuccess, (state, { payload }) => ({
-    ...state,
-    wallet: {
-      ...state.wallet,
-      amount: state.wallet.amount + payload.amount,
-    },
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
-      if (day.date.isSame(payload.date, 'day')) {
-        return {
-          ...day,
-          income: [...day.income, payload],
-          incomeSum: day.incomeSum + payload.amount,
-        };
-      }
-      return day;
-    }),
-  })),
-  on(RemoveIncomeSuccess, (state, { payload }) => ({
-    ...state,
-    wallet: {
-      ...state.wallet,
-      amount: state.wallet.amount - payload.amount,
-    },
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
-      if (day.date.isSame(payload.date, 'day')) {
-        return {
-          ...day,
-          income: day.income.filter((income) => income._id !== payload._id),
-          incomeSum: day.incomeSum - payload.amount,
-        };
-      }
-      return day;
-    }),
-  })),
-  on(EditExpenseSuccess, (state, { payload }) => ({
-    ...state,
-    wallet: {
-      ...state.wallet,
-      amount:
-        state.wallet.amount +
-        payload.expense.amount -
-        payload.updatedExpense.amount,
-    },
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
-      if (day.date.isSame(payload.expense.date, 'day')) {
-        return {
-          ...day,
-          expenses: [
-            ...day.expenses.filter(
-              (expense) => expense._id !== payload.expense._id
-            ),
-            payload.updatedExpense,
-          ],
-          expensesSum:
-            day.expensesSum -
-            payload.expense.amount +
-            payload.updatedExpense.amount,
-        };
-      }
-      return day;
-    }),
-  })),
-  on(EditIncomeSuccess, (state, { payload }) => ({
-    ...state,
-    wallet: {
-      ...state.wallet,
-      amount:
-        state.wallet.amount -
-        payload.income.amount +
-        payload.updatedIncome.amount,
-    },
-    moneyMoveByPeriod: state.moneyMoveByPeriod.map((day) => {
-      if (day.date.isSame(payload.income.date, 'day')) {
-        return {
-          ...day,
-          income: [
-            ...day.income.filter((income) => income._id !== payload.income._id),
-            payload.updatedIncome,
-          ],
-          incomeSum:
-            day.incomeSum -
-            payload.income.amount +
-            payload.updatedIncome.amount,
+          moneyMoveSum: day.moneyMoveSum - payload.amount,
         };
       }
       return day;

@@ -1,7 +1,7 @@
 <div class="home">
   <app-list
     [title]="'Choose your wallet 💰'"
-    [items]="walletsForList$ | async"
+    [items]="wallets$ | async"
     (onAdd)="printAddWalletModal()"
     (onEdit)="printEditWalletModal($event)"
     (onDelete)="removeWallet($event)"

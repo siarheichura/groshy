@@ -1,20 +1,41 @@
 <nz-tabset nzType="card" nzCentered>
   <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="onTabClick(tab)">
     <div class="tab">
-      <app-money-move-form
-        [categories]="categories$ | async"
-        (onSubmit)="addMoneyMoveItem($event)"
-      ></app-money-move-form>
+      <div class="header">
+        <form nz-form [formGroup]="form">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-date-picker
+                nzMode="month"
+                class="date-picker"
+                nzFormat="MM.YYYY"
+                [nzDisabledDate]="disabledDates"
+                [formControlName]="formControls.Date"
+                [nzPlaceHolder]="today.format('MM.YYYY')"
+                (ngModelChange)="onDateChange($event)"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+
+        <button
+          nz-button
+          nzType="primary"
+          (click)="printAddMoneyMoveItemModal()"
+        >
+          Add {{ currentTab$ | async }}
+        </button>
+      </div>
 
       <div *ngFor="let day of (moneyMove$ | async).slice().reverse()">
         <app-money-move-day-card
           [title]="day.date.format('DD.MM')"
           [amount]="day.moneyMoveSum"
-          [items]="day.moneyMove"
+          [items]="day.moneyMoveItems"
           [categories]="categories$ | async"
           [currency]="currency$ | async"
           (onRemoveItem)="removeMoneyMoveItem($event)"
-          (onEditItem)="editMoneyMoveItem($event)"
+          (onItemClick)="printEditMoneyMoveItemModal($event)"
         ></app-money-move-day-card>
       </div>
     </div>

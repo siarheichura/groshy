@@ -54,14 +54,6 @@
         color: #999;
         transition: 0.3s;
       }
-
-      &:hover {
-        background-color: #f0f0f0;
-      }
-
-      &:hover .list__item-btns {
-        opacity: 1;
-      }
     }
 
     .btn-delete {

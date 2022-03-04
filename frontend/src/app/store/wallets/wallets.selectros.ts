@@ -15,7 +15,7 @@ export const walletCurrencySelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.wallet.currency
 );
-export const walletCategoriesSelector = createSelector(
+export const categoriesSelector = createSelector(
   featureSelector,
   (state: WalletsState) => state.categories
 );

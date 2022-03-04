@@ -5,7 +5,7 @@
   <div class="list__item" *ngFor="let item of items">
     <div class="list__item-info" (click)="onItemClick(item.id)">
       <p>{{ item.name }}</p>
-      <p>{{ item.description }}</p>
+      <p>{{ item.balance }} {{ item.currency }}</p>
     </div>
 
     <div class="list__item-btns">
@@ -17,7 +17,7 @@
         (nzOnConfirm)="onDeleteItem(item.id)"
       ></button>
 
-      <button class="btn-edit" (click)="onEditItem(item.id)"></button>
+      <button class="btn-edit" (click)="onEditItem(item)"></button>
     </div>
   </div>
 

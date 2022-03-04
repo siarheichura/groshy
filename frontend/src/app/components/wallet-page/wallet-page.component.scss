@@ -1,4 +1,10 @@
 :host {
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .tab {
     width: 700px;
     margin: 0 auto;

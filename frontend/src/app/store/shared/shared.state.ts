@@ -7,5 +7,5 @@ export interface SharedState {
 
 export const initialSharedState: SharedState = {
   loading: false,
-  currentTab: MoneyMoveTypes.Expenses,
+  currentTab: MoneyMoveTypes.Expense,
 };

@@ -1,13 +1,11 @@
-import {
-  DayMoneyMoveItem,
-  MoneyMoveCategory,
-} from './../../shared/interfaces/DayMoneyMove';
-import { Wallet } from './../../shared/interfaces/Wallet';
+import { Wallet } from 'src/app/shared/classes/Wallet';
+import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
+import { MoneyMoveCategory } from './../../shared/interfaces/DayMoneyMove';
 
 export interface WalletsState {
   wallets: Wallet[];
   wallet: Wallet;
-  periodMoneyMove: DayMoneyMoveItem[];
+  periodMoneyMove: MoneyMoveDayItem[];
   categories: MoneyMoveCategory[];
 }
 

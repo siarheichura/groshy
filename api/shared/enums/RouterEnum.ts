@@ -4,7 +4,7 @@ export enum RouterEnum {
   Login = '/login',
   Users = '/users',
   Wallets = '/wallets',
-  Expenses = '/expenses',
+  Expense = '/expense',
   Income = '/income',
   Categories = '/categories',
 }

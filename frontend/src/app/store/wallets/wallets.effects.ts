@@ -1,17 +1,16 @@
-import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { ofType, Actions, createEffect, act } from '@ngrx/effects';
-import { map, mergeMap, switchMap, Observable, take } from 'rxjs';
+import { ofType, Actions, createEffect } from '@ngrx/effects';
+import { map, mergeMap, switchMap } from 'rxjs';
 
 import { WalletService } from './../../services/wallet.service';
 import * as WalletsActions from './wallets.actions';
+import { getMoneyMoveItemsByPeriod } from 'src/app/shared/helpers/money-move.helper';
 
 @Injectable()
 export class WalletsEffects {
   constructor(
     private walletService: WalletService,
-    private actions$: Actions,
-    private store: Store
+    private actions$: Actions
   ) {}
 
   getWallets$ = createEffect(() => {
@@ -85,15 +84,30 @@ export class WalletsEffects {
     );
   });
 
+  getBasicCategories$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetBasicCategories),
+      switchMap(() =>
+        this.walletService
+          .getBasicCategories()
+          .pipe(
+            map((data) =>
+              WalletsActions.GetBasicCategoriesSuccess({ payload: data.data })
+            )
+          )
+      )
+    );
+  });
+
   getCategories$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(WalletsActions.GetCategories),
+      ofType(WalletsActions.GetWalletCategories),
       switchMap(({ payload }) =>
         this.walletService
-          .getCategories(payload.walletId, payload.type)
+          .getWalletCategories(payload.walletId, payload.type)
           .pipe(
-            map((categories) =>
-              WalletsActions.GetCategoriesSuccess({ payload: categories })
+            map((data) =>
+              WalletsActions.GetWalletCategoriesSuccess({ payload: data.data })
             )
           )
       )
@@ -112,9 +126,9 @@ export class WalletsEffects {
             payload.finishDate
           )
           .pipe(
-            map((moneyMoveItems) =>
+            map((items) =>
               WalletsActions.GetMoneyMoveByPeriodSuccess({
-                payload: moneyMoveItems.periodMoneyMove,
+                payload: getMoneyMoveItemsByPeriod(items),
               })
             )
           )
@@ -129,8 +143,8 @@ export class WalletsEffects {
         this.walletService
           .addMoneyMoveItem(payload.type, payload.walletId, payload.item)
           .pipe(
-            mergeMap((items) => [
-              WalletsActions.AddMoneyMoveItemSuccess({ payload: items }),
+            mergeMap((item) => [
+              WalletsActions.AddMoneyMoveItemSuccess({ payload: item }),
               WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
             ])
           )
@@ -176,145 +190,4 @@ export class WalletsEffects {
       )
     );
   });
-
-  // getExpensesByPeriod$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.GetExpensesByPeriod),
-  //     switchMap(({ payload }) =>
-  //       this.walletService
-  //         .getExpensesByPeriod(
-  //           payload.walletId,
-  //           payload.startDate,
-  //           payload.finishDate
-  //         )
-  //         .pipe(
-  //           map((expense) =>
-  //             WalletsActions.GetExpensesByPeriodSuccess({ payload: expense })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
-
-  // getIncomeByPeriod$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.GetIncomeByPeriod),
-  //     switchMap(({ payload }) =>
-  //       this.walletService
-  //         .getIncomeByPeriod(
-  //           payload.walletId,
-  //           payload.startDate,
-  //           payload.finishDate
-  //         )
-  //         .pipe(
-  //           map((expense) =>
-  //             WalletsActions.GetIncomeByPeriodSuccess({ payload: expense })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
-
-  // addExpense$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.AddExpense),
-  //     switchMap((action) =>
-  //       this.walletService
-  //         .addExpense(action.payload.walletId, action.payload.expense)
-  //         .pipe(
-  //           map((expense) =>
-  //             WalletsActions.AddExpenseSuccess({ payload: expense })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
-
-  // addIncome$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.AddIncome),
-  //     switchMap((action) =>
-  //       this.walletService
-  //         .addIncome(action.payload.walletId, action.payload.income)
-  //         .pipe(
-  //           map((income) =>
-  //             WalletsActions.AddIncomeSuccess({ payload: income })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
-
-  // removeExpense$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.RemoveExpense),
-  //     switchMap((action) =>
-  //       this.walletService
-  //         .removeExpense(action.payload.expenseId)
-  //         .pipe(
-  //           map((expense) =>
-  //             WalletsActions.RemoveExpenseSuccess({ payload: expense })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
-
-  // removeIncome$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.RemoveIncome),
-  //     switchMap((action) =>
-  //       this.walletService
-  //         .removeIncome(action.payload.incomeId)
-  //         .pipe(
-  //           map((income) =>
-  //             WalletsActions.RemoveIncomeSuccess({ payload: income })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
-
-  // editExpense$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.EditExpense),
-  //     switchMap((action) =>
-  //       this.walletService
-  //         .editExpense(
-  //           action.payload.expense._id,
-  //           action.payload.updatedExpense
-  //         )
-  //         .pipe(
-  //           map((expense) =>
-  //             WalletsActions.EditExpenseSuccess({
-  //               payload: {
-  //                 expense: action.payload.expense,
-  //                 updatedExpense: expense,
-  //               },
-  //             })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
-
-  // editIncome$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(WalletsActions.EditIncome),
-  //     switchMap((action) =>
-  //       this.walletService
-  //         .editIncome(action.payload.income._id, action.payload.updatedIncome)
-  //         .pipe(
-  //           map((income) =>
-  //             WalletsActions.EditIncomeSuccess({
-  //               payload: {
-  //                 income: action.payload.income,
-  //                 updatedIncome: income,
-  //               },
-  //             })
-  //           )
-  //         )
-  //     )
-  //   );
-  // });
 }

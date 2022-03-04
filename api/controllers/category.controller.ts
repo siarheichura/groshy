@@ -4,23 +4,25 @@ import { WalletModel } from '../models/Wallet';
 import { CategoryModel } from './../models/Category';
 
 export class CategoryController {
+  async getBasicCategories(req: Request, res: Response) {
+    try {
+      const categories = await CategoryModel.find({ basic: true }, 'name type');
+
+      res.send({ data: categories });
+    } catch (err) {
+      res.status(400).send({ message: 'Cannot get basic categories' });
+    }
+  }
+
   async getWalletCategories(req: Request, res: Response) {
     const { walletId, type } = req.params;
 
     try {
-      if (type === MoneyMoveTypes.Expenses) {
-        const wallet = await WalletModel.findById(walletId).populate(
-          'expenseCategories',
-          'name'
-        );
-        res.send(wallet.expenseCategories);
-      } else if (type === MoneyMoveTypes.Income) {
-        const wallet = await WalletModel.findById(walletId).populate(
-          'incomeCategories',
-          'name'
-        );
-        res.send(wallet.incomeCategories);
-      }
+      const categories = await CategoryModel.find({
+        type: type,
+        wallet: walletId,
+      });
+      res.send({ data: categories });
     } catch (err) {
       res.status(400).send({ message: 'Cannot get wallet categories' });
     }

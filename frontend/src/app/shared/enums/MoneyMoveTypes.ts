@@ -1,4 +1,4 @@
 export enum MoneyMoveTypes {
-  Expenses = 'expenses',
+  Expense = 'expense',
   Income = 'income',
 }

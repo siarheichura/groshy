@@ -1,19 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { MoneyMoveModalFormComponent } from './../money-move-modal-form/money-move-modal-form.component';
 import {
   MoneyMoveItem,
   MoneyMoveCategory,
 } from './../../interfaces/DayMoneyMove';
-import { markFormControlsDirty } from '../../helpers/form.helper';
-
-interface Item {
-  category: string;
-  amount: number;
-  comment: string;
-}
 
 @Component({
   selector: 'app-money-move-day-card',
@@ -27,55 +18,19 @@ export class MoneyMoveDayCardComponent implements OnInit {
   @Input() currency: string;
   @Input() categories: MoneyMoveCategory[];
 
+  @Output() onItemClick = new EventEmitter();
   @Output() onRemoveItem = new EventEmitter();
-  @Output() onEditItem = new EventEmitter();
 
-  constructor(private store: Store, private modal: NzModalService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {}
 
-  removeMoneyMoveItem(id: string) {
+  onMoneyMoveItemClick(item: MoneyMoveItem) {
+    this.onItemClick.emit(item);
+  }
+
+  removeMoneyMoveItem(event: MouseEvent, id: string) {
+    console.log(event.stopPropagation());
     this.onRemoveItem.emit(id);
-  }
-
-  editMoneyMoveItem(id: string, updatedItem: MoneyMoveItem) {
-    this.onEditItem.emit({ itemId: id, updatedItem: updatedItem });
-  }
-
-  printModal(item: MoneyMoveItem) {
-    const modal = this.modal.create({
-      nzTitle: 'Title',
-      nzWidth: '400px',
-      nzContent: MoneyMoveModalFormComponent,
-      nzComponentParams: {
-        moneyMoveItem: item,
-        categories: this.categories,
-      },
-      nzFooter: [
-        {
-          label: 'Remove',
-          danger: true,
-          type: 'primary',
-          onClick: () => {
-            this.removeMoneyMoveItem(item._id);
-            modal.close();
-          },
-        },
-        {
-          label: 'Edit',
-          type: 'primary',
-          onClick: () => {
-            const form = modal.getContentComponent().moneyMoveForm;
-            if (form.valid) {
-              this.editMoneyMoveItem(item._id, form.value);
-              console.log(item);
-              modal.close();
-            } else {
-              markFormControlsDirty(form);
-            }
-          },
-        },
-      ],
-    });
   }
 }

@@ -1,6 +1,3 @@
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { ListItem } from './../../interfaces/ListItem';
 import {
   Component,
   OnInit,
@@ -9,6 +6,10 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { ListItem } from './../../interfaces/ListItem';
 import { loadingSelector } from 'src/app/store/shared/shared.selectros';
 
 @Component({
@@ -40,8 +41,8 @@ export class ListComponent implements OnInit {
     this.onAdd.emit();
   }
 
-  onEditItem(id: string): void {
-    this.onEdit.emit(id);
+  onEditItem(item: ListItem): void {
+    this.onEdit.emit(item);
   }
 
   onDeleteItem(id: string): void {

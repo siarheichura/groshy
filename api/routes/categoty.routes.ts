@@ -9,4 +9,8 @@ categoryRouter.get(
   `${RouterEnum.Categories}/:walletId/:type`,
   controller.getWalletCategories
 );
+categoryRouter.get(
+  `${RouterEnum.Categories}/basic`,
+  controller.getBasicCategories
+);
 categoryRouter.post(RouterEnum.Categories, controller.addCategory);

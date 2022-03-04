@@ -66,34 +66,34 @@ export class WalletController {
       const { id }: JwtPayload | { id: string } = jwt.decode(
         req.header('token')
       ) as JwtPayload;
-      const { name, currency, amount } = req.body;
-
-      const basicExpenseCategories = await CategoryModel.find(
-        {
-          basic: true,
-          type: MoneyMoveTypes.Expenses,
-        },
-        'id'
-      );
-      const basicIncomeCategories = await CategoryModel.find(
-        {
-          basic: true,
-          type: MoneyMoveTypes.Income,
-        },
-        'id'
-      );
+      const { name, currency, balance, expenseCategories, incomeCategories } =
+        req.body;
 
       const wallet = new WalletModel({
         name,
         currency,
-        initialAmount: amount,
+        initialAmount: balance,
         user: id,
-        expenseCategories: basicExpenseCategories,
-        incomeCategories: basicIncomeCategories,
       });
       wallet.populate('expensesSum incomeSum');
-
       await wallet.save();
+
+      expenseCategories.forEach((category: string) => {
+        new CategoryModel({
+          type: MoneyMoveTypes.Expense,
+          name: category,
+          wallet: wallet.id,
+          user: id,
+        }).save();
+      });
+      incomeCategories.forEach((category: string) => {
+        new CategoryModel({
+          type: MoneyMoveTypes.Income,
+          name: category,
+          wallet: wallet.id,
+          user: id,
+        }).save();
+      });
 
       await UserModel.findByIdAndUpdate(id, {
         $push: {

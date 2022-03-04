@@ -7,8 +7,8 @@ export const sharedReducer = createReducer(
   initialSharedState,
   on(Loading, (state, { payload }) => ({ ...state, loading: payload })),
   on(ChangeTab, (state, { payload }) => {
-    return payload === MoneyMoveTypes.Expenses
-      ? { ...state, currentTab: MoneyMoveTypes.Expenses }
+    return payload === MoneyMoveTypes.Expense
+      ? { ...state, currentTab: MoneyMoveTypes.Expense }
       : { ...state, currentTab: MoneyMoveTypes.Income };
   })
 );

@@ -20,7 +20,6 @@ import { AuthPageModule } from './components/auth-page/auth-page.module';
 import { HomePageModule } from './components/home-page/home-page.module';
 import { WalletPageModule } from './components/wallet-page/wallet-page.module';
 import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
-import { HistoryPageModule } from './components/history-page/history-page.module';
 
 import { AppComponent } from './app.component';
 
@@ -46,7 +45,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
     HomePageModule,
     WalletPageModule,
     StatisticsPageModule,
-    HistoryPageModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

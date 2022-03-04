@@ -3,24 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from './../../environments/environment';
 
-// export interface HTTPData<T> {
-//   data: T;
-// }
-
 export interface HTTP<T> {
-  // data: HTTPData<T>;
   data: T;
   error?: string;
   message?: string;
 }
 
 import {
-  PeriodMoneyMove,
   MoneyMoveItem,
   MoneyMoveCategory,
 } from './../shared/interfaces/DayMoneyMove';
-import { Wallet } from '../shared/interfaces/Wallet';
+
 import { Dayjs } from 'dayjs';
+import { Wallet } from '../shared/classes/Wallet';
 
 const API_PATH_WALLETS = '/wallets';
 const API_PATH_CATEGORIES = '/categories';
@@ -75,11 +70,17 @@ export class WalletService {
     );
   }
 
-  getCategories(
+  getBasicCategories(): Observable<HTTP<MoneyMoveCategory[]>> {
+    return this.http.get<HTTP<MoneyMoveCategory[]>>(
+      `${environment.apiUrl}${API_PATH_CATEGORIES}/basic`
+    );
+  }
+
+  getWalletCategories(
     walletId: string,
     type: string
-  ): Observable<MoneyMoveCategory[]> {
-    return this.http.get<MoneyMoveCategory[]>(
+  ): Observable<HTTP<MoneyMoveCategory[]>> {
+    return this.http.get<HTTP<MoneyMoveCategory[]>>(
       `${environment.apiUrl}${API_PATH_CATEGORIES}/${walletId}/${type}`
     );
   }
@@ -89,12 +90,10 @@ export class WalletService {
     type: string,
     startDate: Dayjs,
     finishDate?: Dayjs
-  ): Observable<PeriodMoneyMove> {
-    return this.http
-      .get<MoneyMoveItem[]>(
-        `${environment.apiUrl}/${type}/${walletId}/${startDate}/${finishDate}`
-      )
-      .pipe(map((items) => new PeriodMoneyMove(items, startDate, finishDate)));
+  ): Observable<MoneyMoveItem[]> {
+    return this.http.get<MoneyMoveItem[]>(
+      `${environment.apiUrl}/${type}/${walletId}/${startDate}/${finishDate}`
+    );
   }
 
   addMoneyMoveItem(

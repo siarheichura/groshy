@@ -15,7 +15,7 @@
     &__nav {
       position: absolute;
       top: 0;
-      right: -80px;
+      right: -60px;
 
       display: flex;
       align-items: center;
@@ -34,15 +34,6 @@
         width: 20px;
         height: 20px;
         background: url('/assets/images/settings-btn.svg') no-repeat center
-          center;
-        background-size: contain;
-        cursor: pointer;
-      }
-
-      &-history {
-        width: 20px;
-        height: 20px;
-        background: url('/assets/images/history-btn.svg') no-repeat center
           center;
         background-size: contain;
         cursor: pointer;

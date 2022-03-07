@@ -1,4 +1,3 @@
-import { MoneyMoveCategory } from './../interfaces/DayMoneyMove';
 interface WalletI {
   id: string;
   name: string;

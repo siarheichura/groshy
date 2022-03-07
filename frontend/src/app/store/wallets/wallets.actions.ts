@@ -80,7 +80,7 @@ export const GetBasicCategoriesSuccess = createAction(
 );
 export const GetWalletCategories = createAction(
   getFullActionName(WalletsActionsEnum.GetWalletCategories),
-  props<{ payload: { walletId: string; type: string } }>()
+  props<{ payload: { walletId: string } }>()
 );
 export const GetWalletCategoriesSuccess = createAction(
   getFullActionName(WalletsActionsEnum.GetWalletCategoriesSuccess),

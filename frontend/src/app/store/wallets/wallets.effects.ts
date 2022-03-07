@@ -63,9 +63,9 @@ export class WalletsEffects {
       ofType(WalletsActions.RemoveWallet),
       switchMap((action) =>
         this.walletService.removeWallet(action.payload.id).pipe(
-          map(() =>
+          map((data) =>
             WalletsActions.RemoveWalletSuccess({
-              payload: { id: action.payload.id },
+              payload: { id: data.data },
             })
           )
         )
@@ -99,12 +99,12 @@ export class WalletsEffects {
     );
   });
 
-  getCategories$ = createEffect(() => {
+  getWalletCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWalletCategories),
       switchMap(({ payload }) =>
         this.walletService
-          .getWalletCategories(payload.walletId, payload.type)
+          .getWalletCategories(payload.walletId)
           .pipe(
             map((data) =>
               WalletsActions.GetWalletCategoriesSuccess({ payload: data.data })
@@ -126,9 +126,9 @@ export class WalletsEffects {
             payload.finishDate
           )
           .pipe(
-            map((items) =>
+            map((data) =>
               WalletsActions.GetMoneyMoveByPeriodSuccess({
-                payload: getMoneyMoveItemsByPeriod(items),
+                payload: getMoneyMoveItemsByPeriod(data.data),
               })
             )
           )
@@ -143,8 +143,8 @@ export class WalletsEffects {
         this.walletService
           .addMoneyMoveItem(payload.type, payload.walletId, payload.item)
           .pipe(
-            mergeMap((item) => [
-              WalletsActions.AddMoneyMoveItemSuccess({ payload: item }),
+            mergeMap((data) => [
+              WalletsActions.AddMoneyMoveItemSuccess({ payload: data.data }),
               WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
             ])
           )
@@ -159,8 +159,8 @@ export class WalletsEffects {
         this.walletService
           .removeMoneyMoveItem(payload.type, payload.itemId)
           .pipe(
-            mergeMap((item) => [
-              WalletsActions.RemoveMoneyMoveItemSuccess({ payload: item }),
+            mergeMap((data) => [
+              WalletsActions.RemoveMoneyMoveItemSuccess({ payload: data.data }),
               WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
             ])
           )
@@ -175,7 +175,7 @@ export class WalletsEffects {
         this.walletService
           .editMoneyMoveItem(payload.type, payload.itemId, payload.updatedItem)
           .pipe(
-            mergeMap((item) => [
+            mergeMap(() => [
               WalletsActions.GetMoneyMoveByPeriod({
                 payload: {
                   walletId: payload.walletId,

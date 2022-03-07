@@ -1,21 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
+import { Dayjs } from 'dayjs';
 import { environment } from './../../environments/environment';
-
-export interface HTTP<T> {
-  data: T;
-  error?: string;
-  message?: string;
-}
 
 import {
   MoneyMoveItem,
   MoneyMoveCategory,
 } from './../shared/interfaces/DayMoneyMove';
-
-import { Dayjs } from 'dayjs';
 import { Wallet } from '../shared/classes/Wallet';
+import { HTTP } from '../shared/interfaces/Http';
 
 const API_PATH_WALLETS = '/wallets';
 const API_PATH_CATEGORIES = '/categories';
@@ -57,14 +51,14 @@ export class WalletService {
       );
   }
 
-  removeWallet(id: string): Observable<{}> {
-    return this.http.delete<Wallet>(
+  removeWallet(id: string): Observable<HTTP<string>> {
+    return this.http.delete<HTTP<string>>(
       `${environment.apiUrl}${API_PATH_WALLETS}/${id}`
     );
   }
 
-  editWallet(id: string, body: Wallet): Observable<{}> {
-    return this.http.put<Wallet>(
+  editWallet(id: string, body: Wallet): Observable<HTTP<string>> {
+    return this.http.put<HTTP<string>>(
       `${environment.apiUrl}${API_PATH_WALLETS}/${id}`,
       body
     );
@@ -76,12 +70,9 @@ export class WalletService {
     );
   }
 
-  getWalletCategories(
-    walletId: string,
-    type: string
-  ): Observable<HTTP<MoneyMoveCategory[]>> {
+  getWalletCategories(walletId: string): Observable<HTTP<MoneyMoveCategory[]>> {
     return this.http.get<HTTP<MoneyMoveCategory[]>>(
-      `${environment.apiUrl}${API_PATH_CATEGORIES}/${walletId}/${type}`
+      `${environment.apiUrl}${API_PATH_CATEGORIES}/${walletId}`
     );
   }
 
@@ -90,8 +81,8 @@ export class WalletService {
     type: string,
     startDate: Dayjs,
     finishDate?: Dayjs
-  ): Observable<MoneyMoveItem[]> {
-    return this.http.get<MoneyMoveItem[]>(
+  ): Observable<HTTP<MoneyMoveItem[]>> {
+    return this.http.get<HTTP<MoneyMoveItem[]>>(
       `${environment.apiUrl}/${type}/${walletId}/${startDate}/${finishDate}`
     );
   }
@@ -100,15 +91,18 @@ export class WalletService {
     type: string,
     walletId: string,
     body: MoneyMoveItem
-  ): Observable<MoneyMoveItem> {
-    return this.http.post<MoneyMoveItem>(
+  ): Observable<HTTP<MoneyMoveItem>> {
+    return this.http.post<HTTP<MoneyMoveItem>>(
       `${environment.apiUrl}/${type}/${walletId}`,
       body
     );
   }
 
-  removeMoneyMoveItem(type: string, id: string): Observable<MoneyMoveItem> {
-    return this.http.delete<MoneyMoveItem>(
+  removeMoneyMoveItem(
+    type: string,
+    id: string
+  ): Observable<HTTP<MoneyMoveItem>> {
+    return this.http.delete<HTTP<MoneyMoveItem>>(
       `${environment.apiUrl}/${type}/${id}`
     );
   }
@@ -117,8 +111,8 @@ export class WalletService {
     type: string,
     id: string,
     body: MoneyMoveItem
-  ): Observable<MoneyMoveItem> {
-    return this.http.put<MoneyMoveItem>(
+  ): Observable<HTTP<MoneyMoveItem>> {
+    return this.http.put<HTTP<MoneyMoveItem>>(
       `${environment.apiUrl}/${type}/${id}`,
       body
     );

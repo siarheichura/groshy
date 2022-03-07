@@ -1,7 +1,10 @@
-import { GetBasicCategories } from './../../store/wallets/wallets.actions';
+import {
+  GetBasicCategories,
+  GetWalletCategories,
+} from './../../store/wallets/wallets.actions';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, take, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
 
@@ -15,8 +18,7 @@ import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from './../../shared/enums/RouterEnum';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { ListItem } from './../../shared/interfaces/ListItem';
-import { WalletFormComponent } from './wallet-form/wallet-form.component';
+import { WalletFormComponent } from '../../shared/components/wallet-form/wallet-form.component';
 import { Wallet } from 'src/app/shared/classes/Wallet';
 
 @Component({
@@ -68,11 +70,9 @@ export class HomePageComponent implements OnInit {
   }
 
   printAddWalletModal() {
-    this.store.dispatch(GetBasicCategories());
-
     const modal = this.modal.create({
       nzTitle: 'Create Wallet',
-      nzWidth: '400px',
+      nzWidth: '450px',
       nzContent: WalletFormComponent,
       nzOnOk: () => {
         const form = modal.getContentComponent().walletForm;
@@ -88,20 +88,12 @@ export class HomePageComponent implements OnInit {
   }
 
   printEditWalletModal(wallet: Wallet) {
-    const walletForEdit$ = this.wallets$.pipe(
-      map((result) => {
-        return result.find((item) => item.id === wallet.id);
-      }),
-      take(1)
-    );
-
     const modal = this.modal.create({
       nzTitle: 'Edit Wallet',
-      nzWidth: '400px',
+      nzWidth: '450px',
       nzContent: WalletFormComponent,
       nzComponentParams: {
         walletForEdit: wallet,
-        // walletForEdit$: walletForEdit$,
       },
       nzOnOk: () => {
         const form = modal.getContentComponent().walletForm;

@@ -7,7 +7,7 @@ import {
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, take, map } from 'rxjs';
+import { Observable, Subscription, take, map, filter } from 'rxjs';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -86,7 +86,7 @@ export class WalletPageComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch(
       GetWalletCategories({
-        payload: { walletId: this.walletId, type: tabName },
+        payload: { walletId: this.walletId },
       })
     );
   });
@@ -154,45 +154,61 @@ export class WalletPageComponent implements OnInit, OnDestroy {
   }
 
   printEditMoneyMoveItemModal(item: MoneyMoveItem) {
-    const modal = this.modal.create({
-      nzTitle: 'Edit',
-      nzWidth: '400px',
-      nzContent: MoneyMoveFormComponent,
-      nzComponentParams: {
-        categories$: this.categories$,
-        moneyMoveItem: item,
-      },
-      nzOnOk: () => {
-        const form = modal.getContentComponent().moneyMoveForm;
-        if (form.valid) {
-          this.editMoneyMoveItem(item, form.value);
-        } else {
-          markFormControlsDirty(form);
-          return false;
-        }
-        return true;
-      },
+    this.currentTab$.pipe(take(1)).subscribe((tabName) => {
+      const modal = this.modal.create({
+        nzTitle: 'Edit',
+        nzWidth: '400px',
+        nzContent: MoneyMoveFormComponent,
+        nzComponentParams: {
+          moneyMoveItem: item,
+          categories$: this.categories$.pipe(
+            map((categories) =>
+              categories.filter(
+                (category) => category.type.toLowerCase() === tabName
+              )
+            )
+          ),
+        },
+        nzOnOk: () => {
+          const form = modal.getContentComponent().moneyMoveForm;
+          if (form.valid) {
+            this.editMoneyMoveItem(item, form.value);
+          } else {
+            markFormControlsDirty(form);
+            return false;
+          }
+          return true;
+        },
+      });
     });
   }
 
   printAddMoneyMoveItemModal() {
-    const modal = this.modal.create({
-      nzTitle: 'Add',
-      nzWidth: '400px',
-      nzContent: MoneyMoveFormComponent,
-      nzComponentParams: {
-        categories$: this.categories$,
-      },
-      nzOnOk: () => {
-        const form = modal.getContentComponent().moneyMoveForm;
-        if (form.valid) {
-          this.addMoneyMoveItem(form.value);
-        } else {
-          markFormControlsDirty(form);
-          return false;
-        }
-        return true;
-      },
+    this.currentTab$.pipe(take(1)).subscribe((tabName) => {
+      const modal = this.modal.create({
+        nzTitle: 'Add',
+        nzWidth: '400px',
+        nzContent: MoneyMoveFormComponent,
+        nzComponentParams: {
+          categories$: this.categories$.pipe(
+            map((categories) =>
+              categories.filter(
+                (category) => category.type.toLowerCase() === tabName
+              )
+            )
+          ),
+        },
+        nzOnOk: () => {
+          const form = modal.getContentComponent().moneyMoveForm;
+          if (form.valid) {
+            this.addMoneyMoveItem(form.value);
+          } else {
+            markFormControlsDirty(form);
+            return false;
+          }
+          return true;
+        },
+      });
     });
   }
 

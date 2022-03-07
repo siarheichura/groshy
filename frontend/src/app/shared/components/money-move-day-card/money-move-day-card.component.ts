@@ -30,7 +30,7 @@ export class MoneyMoveDayCardComponent implements OnInit {
   }
 
   removeMoneyMoveItem(event: MouseEvent, id: string) {
-    console.log(event.stopPropagation());
+    event.stopPropagation();
     this.onRemoveItem.emit(id);
   }
 }

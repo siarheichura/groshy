@@ -10,6 +10,8 @@ import { ListComponent } from './components/list/list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
 import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
+import { WalletSettingsComponent } from './components/wallet-settings/wallet-settings.component';
+import { WalletFormComponent } from './components/wallet-form/wallet-form.component';
 
 // NgZorro
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -28,6 +30,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [
@@ -38,6 +42,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     UserProfileComponent,
     WalletHeaderComponent,
     MoneyMoveDayCardComponent,
+    WalletSettingsComponent,
+    WalletFormComponent,
   ],
 
   imports: [
@@ -53,6 +59,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzSelectModule,
     NzDatePickerModule,
     NzTabsModule,
+    NzDividerModule,
+    NzTagModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -75,6 +83,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzDatePickerModule,
     ListComponent,
     MoneyMoveDayCardComponent,
+    WalletFormComponent,
   ],
   providers: [],
 })

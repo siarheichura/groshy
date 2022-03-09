@@ -16,7 +16,7 @@ export class IncomeController {
             $lt: dayjs(req.params.finishDate).endOf('day'),
           },
         });
-        res.send(income);
+        res.send({ data: income });
       } else {
         const income = await IncomeModel.find({
           wallet: walletId,
@@ -25,20 +25,10 @@ export class IncomeController {
             $lt: dayjs(req.params.startDate).endOf('day'),
           },
         });
-        res.send(income);
+        res.send({ data: income });
       }
     } catch (err) {
       res.send('Cannot get income');
-    }
-  }
-
-  async getIncome(req: Request, res: Response) {
-    const incomeId = req.params.id;
-    try {
-      const income = await IncomeModel.findById(incomeId);
-      res.send(income);
-    } catch (err) {
-      res.status(400).send({ message: `Cannot get income` });
     }
   }
 
@@ -61,7 +51,7 @@ export class IncomeController {
           income: income,
         },
       });
-      return res.send(income);
+      return res.send({ data: income });
     } catch (err) {
       res.status(400).send({ message: 'Cannot add income' });
     }
@@ -78,7 +68,7 @@ export class IncomeController {
         $pull: { income: incomeId },
       });
 
-      res.send(income);
+      res.send({ data: income });
     } catch (err) {
       res.status(400).send({ message: 'Cannot remove income' });
     }
@@ -91,7 +81,7 @@ export class IncomeController {
       await IncomeModel.findByIdAndUpdate(incomeId, req.body);
       const updatedExpense = await IncomeModel.findById(incomeId);
 
-      res.send(updatedExpense);
+      res.send({ data: updatedExpense });
     } catch (err) {
       res.status(400).send({ message: 'Cannot edit income' });
     }

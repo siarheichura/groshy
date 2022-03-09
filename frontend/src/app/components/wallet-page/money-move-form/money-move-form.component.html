@@ -25,7 +25,7 @@
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item class="form__comment">
+  <nz-form-item>
     <nz-form-control>
       <input
         type="text"
@@ -36,12 +36,25 @@
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item class="form__comment">
+  <nz-form-item>
     <nz-form-control>
       <nz-date-picker
         [formControlName]="formControls.Date"
+        [nzDisabledDate]="disabledDates"
         nzFormat="dd.MM.YYYY"
       ></nz-date-picker>
     </nz-form-control>
   </nz-form-item>
+
+  <div class="form__footer">
+    <button nz-button (click)="onCancelButtonClick()">Cancel</button>
+
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" (click)="onSubmitButtonClick()">
+          OK
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
 </form>

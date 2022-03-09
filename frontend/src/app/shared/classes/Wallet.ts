@@ -6,10 +6,10 @@ interface WalletI {
 }
 
 export class Wallet implements WalletI {
-  id: string = '';
-  name: string = '';
-  currency: string = '';
-  balance: number = 0;
+  id: string;
+  name: string;
+  currency: string;
+  balance: number;
 
   constructor(wallet: WalletI) {
     Object.assign(this, wallet);

@@ -10,6 +10,8 @@ import {
   AddMoneyMoveItemSuccess,
   RemoveMoneyMoveItemSuccess,
   GetBasicCategoriesSuccess,
+  AddCategorySuccess,
+  RemoveCategorySuccess,
 } from './wallets.actions';
 
 export const walletsReducer = createReducer(
@@ -38,6 +40,16 @@ export const walletsReducer = createReducer(
   on(GetWalletCategoriesSuccess, (state, { payload }) => ({
     ...state,
     categories: payload,
+  })),
+  on(AddCategorySuccess, (state, { payload }) => ({
+    ...state,
+    categories: [...state.categories, payload],
+  })),
+  on(RemoveCategorySuccess, (state, { payload }) => ({
+    ...state,
+    categories: state.categories.filter(
+      (category) => category._id !== payload.id
+    ),
   })),
   on(GetMoneyMoveByPeriodSuccess, (state, { payload }) => ({
     ...state,

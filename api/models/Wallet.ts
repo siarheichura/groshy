@@ -3,18 +3,17 @@ import { Income } from './Income';
 import { Schema, model, Types } from 'mongoose';
 
 interface Wallet {
-  date: Date;
   name: string;
+  date: Date;
   currency: string;
   initialAmount: number;
   balance: number;
+  user: Types.ObjectId;
   expenses: Types.ObjectId[];
   income: Types.ObjectId[];
-  expenseCategories: Types.ObjectId[];
-  incomeCategories: Types.ObjectId[];
+  categories: Types.ObjectId[];
   expensesSum: number;
   incomeSum: number;
-  user: Types.ObjectId;
 }
 
 function getBalance(this: Wallet) {
@@ -30,8 +29,6 @@ const WalletSchema = new Schema<Wallet>({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   expenses: [{ type: Schema.Types.ObjectId, ref: 'Expense' }],
   income: [{ type: Schema.Types.ObjectId, ref: 'Income' }],
-  expenseCategories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-  incomeCategories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
 });
 
 WalletSchema.virtual('expensesSum', {

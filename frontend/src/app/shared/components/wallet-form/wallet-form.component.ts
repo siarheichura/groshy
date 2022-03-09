@@ -3,17 +3,24 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Input,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Wallet } from 'src/app/shared/classes/Wallet';
+import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
+
+interface FormValue {
+  Name: string;
+  Balance: number;
+  Currency: string;
+}
 
 enum FormEnum {
   Name = 'name',
   Balance = 'balance',
   Currency = 'currency',
-  ExpenseCategories = 'expenseCategories',
-  IncomeCategories = 'incomeCategories',
 }
 
 @Component({
@@ -23,13 +30,19 @@ enum FormEnum {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WalletFormComponent implements OnInit {
-  @Input() walletForEdit: Wallet;
   @Input() wallet: Wallet;
+  @Input() submitButtonName: string;
+  @Output() onSubmit = new EventEmitter();
+  @Output() onCancel = new EventEmitter();
 
   currencies: string[] = ['USD', 'EUR', 'BYN', 'RUB'];
 
   walletForm: FormGroup;
   formControls = FormEnum;
+
+  get formValue(): FormValue {
+    return this.walletForm.value as FormValue;
+  }
 
   constructor(private fb: FormBuilder) {}
 
@@ -48,5 +61,17 @@ export class WalletFormComponent implements OnInit {
         Validators.required,
       ],
     });
+  }
+
+  onSubmitButtonClick() {
+    if (this.walletForm.valid) {
+      this.onSubmit.emit(this.formValue);
+    } else {
+      markFormControlsDirty(this.walletForm);
+    }
+  }
+
+  onCancelButtonClick() {
+    this.onCancel.emit();
   }
 }

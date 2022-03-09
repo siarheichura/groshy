@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { FormControlErrorsEnum } from './../../../shared/enums/FormControlErrorsEnum';
-import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
+import { FormControlErrors } from './../../../shared/enums/FormControlErrors.enum';
+import { RouterEnum } from 'src/app/shared/enums/Router.enum';
 import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
 import { Login } from 'src/app/store/user/user.actions';
 
@@ -27,7 +27,7 @@ enum FormEnum {
 export class LoginFormComponent implements OnInit {
   formControls = FormEnum;
   routes = RouterEnum;
-  controlErrors = FormControlErrorsEnum;
+  controlErrors = FormControlErrors;
 
   loginForm: FormGroup;
 

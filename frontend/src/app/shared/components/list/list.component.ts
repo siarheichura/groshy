@@ -23,11 +23,7 @@ export class ListComponent implements OnInit {
   @Input() items: ListItem[];
 
   @Output() onAdd = new EventEmitter();
-  @Output() onEdit = new EventEmitter();
-  @Output() onDelete = new EventEmitter();
   @Output() onClick = new EventEmitter();
-
-  loading$: Observable<boolean> = this.store.select(loadingSelector);
 
   constructor(private store: Store) {}
 
@@ -39,13 +35,5 @@ export class ListComponent implements OnInit {
 
   onAddItem(): void {
     this.onAdd.emit();
-  }
-
-  onEditItem(item: ListItem): void {
-    this.onEdit.emit(item);
-  }
-
-  onDeleteItem(id: string): void {
-    this.onDelete.emit(id);
   }
 }

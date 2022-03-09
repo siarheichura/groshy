@@ -1,12 +1,14 @@
+import { Store } from '@ngrx/store';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import dayjs from 'dayjs';
 
-import {
-  MoneyMoveItem,
-  MoneyMoveCategory,
-} from '../../../shared/interfaces/DayMoneyMove';
+import { MoneyMoveCategory } from './../../../shared/interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
+import { categoriesSelector } from 'src/app/store/wallets/wallets.selectros';
+import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
 
 interface FormValue {
   amount: number;
@@ -28,19 +30,32 @@ enum FormEnum {
   styleUrls: ['./money-move-form.component.scss'],
 })
 export class MoneyMoveFormComponent implements OnInit {
+  @Input() moneyMoveType: string;
   @Input() moneyMoveItem: MoneyMoveItem;
-  @Input() categories$: Observable<MoneyMoveCategory[]>;
+
+  disabledDates = (date: Date): boolean => dayjs(date).isAfter(dayjs(), 'day');
 
   moneyMoveForm: FormGroup;
   formControls = FormEnum;
+
+  // ??? Property 'moneyMoveType' is used before its initialization.ts(2729)
+  categories$: Observable<MoneyMoveCategory[]>;
 
   get formValue(): FormValue {
     return this.moneyMoveForm.value as FormValue;
   }
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private modal: NzModalRef,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
+    this.categories$ = this.store.select(
+      categoriesSelector({ type: this.moneyMoveType })
+    );
+
     this.moneyMoveForm = this.fb.group({
       [this.formControls.Amount]: [
         this.moneyMoveItem ? this.moneyMoveItem.amount : '',
@@ -58,5 +73,17 @@ export class MoneyMoveFormComponent implements OnInit {
         Validators.required,
       ],
     });
+  }
+
+  onSubmitButtonClick() {
+    if (this.moneyMoveForm.valid) {
+      this.modal.close(this.formValue);
+    } else {
+      markFormControlsDirty(this.moneyMoveForm);
+    }
+  }
+
+  onCancelButtonClick() {
+    this.modal.close();
   }
 }

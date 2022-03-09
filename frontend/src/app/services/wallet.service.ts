@@ -4,12 +4,10 @@ import { Observable, map, tap } from 'rxjs';
 import { Dayjs } from 'dayjs';
 import { environment } from './../../environments/environment';
 
-import {
-  MoneyMoveItem,
-  MoneyMoveCategory,
-} from './../shared/interfaces/DayMoneyMove';
+import { MoneyMoveCategory } from './../shared/interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveItem } from './../shared/interfaces/MoneyMoveItem.interface';
+import { HTTP } from '../shared/interfaces/Http.interface';
 import { Wallet } from '../shared/classes/Wallet';
-import { HTTP } from '../shared/interfaces/Http';
 
 const API_PATH_WALLETS = '/wallets';
 const API_PATH_CATEGORIES = '/categories';
@@ -73,6 +71,22 @@ export class WalletService {
   getWalletCategories(walletId: string): Observable<HTTP<MoneyMoveCategory[]>> {
     return this.http.get<HTTP<MoneyMoveCategory[]>>(
       `${environment.apiUrl}${API_PATH_CATEGORIES}/${walletId}`
+    );
+  }
+
+  addCategory(
+    walletId: string,
+    body: MoneyMoveCategory
+  ): Observable<HTTP<MoneyMoveCategory>> {
+    return this.http.post<HTTP<MoneyMoveCategory>>(
+      `${environment.apiUrl}${API_PATH_CATEGORIES}/${walletId}`,
+      body
+    );
+  }
+
+  removeCategory(id: string): Observable<HTTP<string>> {
+    return this.http.delete<HTTP<string>>(
+      `${environment.apiUrl}${API_PATH_CATEGORIES}/${id}`
     );
   }
 

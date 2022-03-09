@@ -1,4 +1,4 @@
-import { MoneyMoveTypes } from './../../shared/enums/MoneyMoveTypes';
+import { MoneyMoveTypes } from './../../shared/enums/MoneyMoveTypes.enum';
 import { initialSharedState } from './shared.state';
 import { createReducer, on } from '@ngrx/store';
 import { ChangeTab, Loading } from './shared.actions';

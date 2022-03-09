@@ -2,10 +2,9 @@ import { createAction, props } from '@ngrx/store';
 import { Dayjs } from 'dayjs';
 
 import { Wallet } from 'src/app/shared/classes/Wallet';
-import {
-  MoneyMoveItem,
-  MoneyMoveCategory,
-} from './../../shared/interfaces/DayMoneyMove';
+
+import { MoneyMoveItem } from './../../shared/interfaces/MoneyMoveItem.interface';
+import { MoneyMoveCategory } from './../../shared/interfaces/MoneyMoveCategory.interface';
 import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
 import { getActionNameFn } from 'src/app/shared/helpers/action-name.helper';
 
@@ -26,6 +25,10 @@ enum WalletsActionsEnum {
   GetBasicCategoriesSuccess = 'GET_BASIC_CATEGORIES_SUCCESS',
   GetWalletCategories = 'GET_WALLET_CATEGORIES',
   GetWalletCategoriesSuccess = 'GET_WALLET_CATEGORIES_SUCCESS',
+  AddCategory = 'ADD_CATEGORY',
+  AddCategorySuccess = 'ADD_CATEGORY_SUCCESS',
+  RemoveCategory = 'REMOVE_CATEGORY',
+  RemoveCategorySuccess = 'REMOVE_CATEGORY_SUCCESS',
   GetMoneyMoveByPeriod = 'GET_MONEY_MOVE_BY_PERIOD',
   GetMoneyMoveByPeriodSuccess = 'GET_MONEY_MOVE_BY_PERIOD_SUCCESS',
   AddMoneyMoveItem = 'ADD_MONEY_MOVE_ITEM',
@@ -86,6 +89,26 @@ export const GetWalletCategoriesSuccess = createAction(
   getFullActionName(WalletsActionsEnum.GetWalletCategoriesSuccess),
   props<{
     payload: MoneyMoveCategory[];
+  }>()
+);
+export const AddCategory = createAction(
+  getFullActionName(WalletsActionsEnum.AddCategory),
+  props<{ payload: { walletId: string; category: MoneyMoveCategory } }>()
+);
+export const AddCategorySuccess = createAction(
+  getFullActionName(WalletsActionsEnum.AddCategorySuccess),
+  props<{
+    payload: MoneyMoveCategory;
+  }>()
+);
+export const RemoveCategory = createAction(
+  getFullActionName(WalletsActionsEnum.RemoveCategory),
+  props<{ payload: { id: string } }>()
+);
+export const RemoveCategorySuccess = createAction(
+  getFullActionName(WalletsActionsEnum.RemoveCategorySuccess),
+  props<{
+    payload: { id: string };
   }>()
 );
 export const GetMoneyMoveByPeriod = createAction(

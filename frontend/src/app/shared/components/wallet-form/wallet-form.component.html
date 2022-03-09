@@ -35,6 +35,20 @@
       </nz-select>
     </nz-form-control>
   </nz-form-item>
+
+  <div class="form__footer">
+    <button nz-button *ngIf="!wallet" (click)="onCancelButtonClick()">
+      Cancel
+    </button>
+
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" (click)="onSubmitButtonClick()">
+          {{ submitButtonName }}
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
 </form>
 
 <ng-template #requiredError>

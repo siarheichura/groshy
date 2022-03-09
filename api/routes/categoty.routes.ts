@@ -6,11 +6,18 @@ export const categoryRouter = express.Router();
 const controller = new CategoryController();
 
 categoryRouter.get(
-  `${RouterEnum.Categories}/:walletId/:type`,
+  `${RouterEnum.Categories}/:walletId`,
   controller.getWalletCategories
 );
 categoryRouter.get(
   `${RouterEnum.Categories}/basic`,
   controller.getBasicCategories
 );
-categoryRouter.post(RouterEnum.Categories, controller.addCategory);
+categoryRouter.post(
+  `${RouterEnum.Categories}/:walletId`,
+  controller.addCategory
+);
+categoryRouter.delete(
+  `${RouterEnum.Categories}/:id`,
+  controller.removeCategory
+);

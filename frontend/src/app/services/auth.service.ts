@@ -4,10 +4,8 @@ import { environment } from './../../environments/environment';
 import { tap, Observable } from 'rxjs';
 import { SignUpUser, LoginUser } from './../shared/interfaces/User';
 
-enum AuthUrlEnum {
-  Registration = '/registration',
-  Login = '/login',
-}
+const API_PATH_REGISTRATION = '/registration';
+const API_PATH_LOGIN = '/login';
 
 interface Token {
   token: string;
@@ -23,14 +21,14 @@ export class AuthService {
 
   registration(user: SignUpUser) {
     return this.http.post(
-      `${environment.apiUrl}${AuthUrlEnum.Registration}`,
+      `${environment.apiUrl}${API_PATH_REGISTRATION}`,
       user
     );
   }
 
   login(user: LoginUser): Observable<Token> {
     return this.http
-      .post<Token>(`${environment.apiUrl}${AuthUrlEnum.Login}`, user)
+      .post<Token>(`${environment.apiUrl}${API_PATH_LOGIN}`, user)
       .pipe(tap((token) => this.setToken(token)));
   }
 

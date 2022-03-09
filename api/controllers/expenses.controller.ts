@@ -16,7 +16,7 @@ export class ExpensesController {
             $lt: dayjs(req.params.finishDate).endOf('day'),
           },
         });
-        res.send(expenses);
+        res.send({ data: expenses });
       } else {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
@@ -25,20 +25,10 @@ export class ExpensesController {
             $lt: dayjs(req.params.startDate).endOf('day'),
           },
         });
-        res.send(expenses);
+        res.send({ data: expenses });
       }
     } catch (err) {
       res.send('Cannot get expenses');
-    }
-  }
-
-  async getExpense(req: Request, res: Response) {
-    const expenseId = req.params.id;
-    try {
-      const expense = await ExpenseModel.findById(expenseId);
-      res.send(expense);
-    } catch (err) {
-      res.status(400).send({ message: `Cannot get expense` });
     }
   }
 
@@ -62,7 +52,7 @@ export class ExpensesController {
         },
       });
 
-      res.send(expense);
+      res.send({ data: expense });
     } catch (err) {
       res.status(400).send({ message: 'Cannot add expense' });
     }
@@ -79,7 +69,7 @@ export class ExpensesController {
         $pull: { expenses: expenseId },
       });
 
-      res.send(expense);
+      res.send({ data: expense });
     } catch (err) {
       res.status(400).send({ message: 'Cannot remove expense' });
     }
@@ -91,7 +81,7 @@ export class ExpensesController {
     try {
       await ExpenseModel.findByIdAndUpdate(expenseId, req.body);
       const updatedExpense = await ExpenseModel.findById(expenseId);
-      res.send(updatedExpense);
+      res.send({ data: updatedExpense });
     } catch (err) {
       res.status(400).send({ message: 'Cannot edit expense' });
     }

@@ -22,11 +22,6 @@ const CategorySchema = new Schema<Category>({
     ref: 'Wallet',
     required: true,
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
 });
 
 export const CategoryModel = model('Category', CategorySchema);

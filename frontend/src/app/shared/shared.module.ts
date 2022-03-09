@@ -3,14 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { ListComponent } from './components/list/list.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
 import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
-import { WalletSettingsComponent } from './components/wallet-settings/wallet-settings.component';
 import { WalletFormComponent } from './components/wallet-form/wallet-form.component';
 
 // NgZorro
@@ -37,12 +33,8 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
   declarations: [
     ErrorPageComponent,
     HeaderComponent,
-    MainLayoutComponent,
     ListComponent,
-    UserProfileComponent,
-    WalletHeaderComponent,
     MoneyMoveDayCardComponent,
-    WalletSettingsComponent,
     WalletFormComponent,
   ],
 
@@ -59,8 +51,6 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzSelectModule,
     NzDatePickerModule,
     NzTabsModule,
-    NzDividerModule,
-    NzTagModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -79,8 +69,11 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzInputNumberModule,
     NzIconModule,
     NzCardModule,
+    NzDividerModule,
+    NzTagModule,
     NzPopoverModule,
     NzDatePickerModule,
+    HeaderComponent,
     ListComponent,
     MoneyMoveDayCardComponent,
     WalletFormComponent,

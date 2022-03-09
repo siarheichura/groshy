@@ -3,18 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RegistrationFormComponent } from './components/auth-page/registration-form/registration-form.component';
 import { LoginFormComponent } from './components/auth-page/login-form/login-form.component';
-import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
-import { WalletHeaderComponent } from './shared/components/wallet-header/wallet-header.component';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
 import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
 import { WalletPageComponent } from './components/wallet-page/wallet-page.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ErrorPageComponent } from './shared/components/error-page/error-page.component';
 import { AuthPageComponent } from './components/auth-page/auth-page.component';
-import { WalletSettingsPageComponent } from './components/wallets-setting-page/wallet-settings-page.component';
 
 import { AuthGuard } from './services/auth.guard';
 
-import { RouterEnum } from './shared/enums/RouterEnum';
+import { RouterEnum } from './shared/enums/Router.enum';
 
 const routes: Routes = [
   {
@@ -40,7 +39,6 @@ const routes: Routes = [
           { path: `${RouterEnum.Wallet}/:id`, redirectTo: '' },
           { path: RouterEnum.Index, component: WalletPageComponent },
           { path: RouterEnum.Statistics, component: StatisticsPageComponent },
-          { path: RouterEnum.Settings, component: WalletSettingsPageComponent },
         ],
       },
     ],

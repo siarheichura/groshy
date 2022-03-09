@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="upd-section">
+    <p class="title">Update wallet</p>
+    <app-wallet-form
+      [wallet]="wallet"
+      [submitButtonName]="'Update'"
+      (onSubmit)="editWallet($event)"
+    ></app-wallet-form>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <div class="tags-section">
+    <p class="title">Update categories</p>
+    <div class="subtitle">Expense</div>
+    <div class="tags">
+      <nz-tag
+        class="tag"
+        nzMode="closeable"
+        *ngFor="let category of expenseCategories$ | async"
+        (nzOnClose)="removeCategory(category._id)"
+      >
+        {{ category.name }}
+      </nz-tag>
+
+      <nz-tag
+        class="editable-tag"
+        nzNoAnimation
+        *ngIf="!expenseCategoryInputVisible"
+        (click)="showExpenseCategoryInput()"
+      >
+        + New category
+      </nz-tag>
+      <input
+        #expenseInputElement
+        nz-input
+        nzSize="small"
+        *ngIf="expenseCategoryInputVisible"
+        type="text"
+        [formControl]="expenseCategoryControl"
+        (blur)="
+          addCategory(expenseCategoryControl.value, moneyMoveTypes.Expense)
+        "
+        (keydown.enter)="
+          addCategory(expenseCategoryControl.value, moneyMoveTypes.Expense)
+        "
+      />
+    </div>
+    <div class="subtitle">Income</div>
+    <div class="tags">
+      <nz-tag
+        class="tag"
+        nzMode="closeable"
+        *ngFor="let category of incomeCategories$ | async"
+        (nzOnClose)="removeCategory(category._id)"
+      >
+        {{ category.name }}
+      </nz-tag>
+
+      <nz-tag
+        class="editable-tag"
+        nzNoAnimation
+        *ngIf="!incomeCategoryInputVisible"
+        (click)="showIncomeCategoryInput()"
+      >
+        + New category
+      </nz-tag>
+      <input
+        #incomeInputElement
+        nz-input
+        nzSize="small"
+        *ngIf="incomeCategoryInputVisible"
+        type="text"
+        [formControl]="incomeCategoryControl"
+        (blur)="addCategory(incomeCategoryControl.value, moneyMoveTypes.Income)"
+        (keydown.enter)="
+          addCategory(incomeCategoryControl.value, moneyMoveTypes.Income)
+        "
+      />
+    </div>
+  </div>
+
+  <nz-divider></nz-divider>
+  <button
+    class="delete-btn"
+    nz-button
+    nzType="primary"
+    nzDanger="true"
+    nz-popconfirm
+    nzPopconfirmTitle="Are you sure?"
+    nzPopconfirmPlacement="top"
+    (nzOnConfirm)="removeWallet()"
+  >
+    Delete wallet
+  </button>
+</div>

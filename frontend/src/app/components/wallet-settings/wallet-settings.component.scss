@@ -19,12 +19,16 @@
     }
 
     input {
-      width: 78px;
+      width: 110px;
     }
 
     .editable-tag {
       background: rgb(255, 255, 255);
       border-style: dashed;
     }
+  }
+
+  .delete-btn {
+    width: 100%;
   }
 }

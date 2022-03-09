@@ -6,8 +6,8 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 import { GetUserInfo } from './../../../store/user/user.actions';
 import { userInfoSelector } from './../../../store/user/user.selectros';
-import { UserProfileComponent } from './../user-profile/user-profile.component';
-import { RouterEnum } from '../../enums/RouterEnum';
+import { UserProfileComponent } from '../../../components/user-profile/user-profile.component';
+import { RouterEnum } from '../../enums/Router.enum';
 
 @Component({
   selector: 'app-header',

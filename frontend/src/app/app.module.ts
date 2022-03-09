@@ -22,9 +22,12 @@ import { WalletPageModule } from './components/wallet-page/wallet-page.module';
 import { StatisticsPageModule } from './components/statistics-page/statistics-page.module';
 
 import { AppComponent } from './app.component';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
+import { WalletSettingsComponent } from './components/wallet-settings/wallet-settings.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 import { AuthInterceptor } from './services/auth.interceptor';
-
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
@@ -32,7 +35,13 @@ const INTERCEPTOR_PROVIDER: Provider = {
 };
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    MainLayoutComponent,
+    WalletHeaderComponent,
+    WalletSettingsComponent,
+    UserProfileComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

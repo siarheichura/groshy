@@ -1,4 +1,4 @@
-import { MoneyMoveTypes } from 'src/app/shared/enums/MoneyMoveTypes';
+import { MoneyMoveTypes } from 'src/app/shared/enums/MoneyMoveTypes.enum';
 
 export interface SharedState {
   loading: boolean;

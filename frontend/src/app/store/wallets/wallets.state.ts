@@ -1,6 +1,6 @@
 import { Wallet } from 'src/app/shared/classes/Wallet';
 import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
-import { MoneyMoveCategory } from './../../shared/interfaces/DayMoneyMove';
+import { MoneyMoveCategory } from './../../shared/interfaces/MoneyMoveCategory.interface';
 
 export interface WalletsState {
   wallets: Wallet[];

@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { ListComponent } from './components/list/list.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
 import { MoneyMoveDayCardComponent } from './components/money-move-day-card/money-move-day-card.component';
+import { WalletFormComponent } from './components/wallet-form/wallet-form.component';
 
 // NgZorro
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -28,16 +26,16 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @NgModule({
   declarations: [
     ErrorPageComponent,
     HeaderComponent,
-    MainLayoutComponent,
     ListComponent,
-    UserProfileComponent,
-    WalletHeaderComponent,
     MoneyMoveDayCardComponent,
+    WalletFormComponent,
   ],
 
   imports: [
@@ -71,10 +69,14 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzInputNumberModule,
     NzIconModule,
     NzCardModule,
+    NzDividerModule,
+    NzTagModule,
     NzPopoverModule,
     NzDatePickerModule,
+    HeaderComponent,
     ListComponent,
     MoneyMoveDayCardComponent,
+    WalletFormComponent,
   ],
   providers: [],
 })

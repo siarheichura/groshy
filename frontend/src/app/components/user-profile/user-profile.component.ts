@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 
-import { AuthService } from './../../../services/auth.service';
-import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
+import { AuthService } from '../../services/auth.service';
+import { RouterEnum } from 'src/app/shared/enums/Router.enum';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { Logout } from 'src/app/store/user/user.actions';
 

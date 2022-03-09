@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { RouterEnum } from 'src/app/shared/enums/RouterEnum';
+import { RouterEnum } from 'src/app/shared/enums/Router.enum';
 import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
 import { FormValidators } from './../../../shared/validators/form-validators';
 import { Registration } from './../../../store/user/user.actions';

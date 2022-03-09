@@ -66,8 +66,7 @@ export class WalletController {
       const { id }: JwtPayload | { id: string } = jwt.decode(
         req.header('token')
       ) as JwtPayload;
-      const { name, currency, balance, expenseCategories, incomeCategories } =
-        req.body;
+      const { name, currency, balance } = req.body;
 
       const wallet = new WalletModel({
         name,
@@ -78,20 +77,12 @@ export class WalletController {
       wallet.populate('expensesSum incomeSum');
       await wallet.save();
 
-      expenseCategories.forEach((category: string) => {
-        new CategoryModel({
-          type: MoneyMoveTypes.Expense,
-          name: category,
+      const categories = await CategoryModel.find({ basic: true });
+      categories.forEach(async (category) => {
+        await new CategoryModel({
+          type: category.type.toLowerCase(),
+          name: category.name,
           wallet: wallet.id,
-          user: id,
-        }).save();
-      });
-      incomeCategories.forEach((category: string) => {
-        new CategoryModel({
-          type: MoneyMoveTypes.Income,
-          name: category,
-          wallet: wallet.id,
-          user: id,
         }).save();
       });
 
@@ -115,27 +106,26 @@ export class WalletController {
   }
 
   async removeWallet(req: Request, res: Response) {
-    const walletId = req.params.id;
+    const { id } = req.params;
     try {
       const { id: userId }: JwtPayload | { id: string } = jwt.decode(
         req.header('token')
       ) as JwtPayload;
 
-      WalletModel.findByIdAndDelete(walletId, async (err: Error) => {
+      WalletModel.findByIdAndDelete(id, async (err: Error) => {
         if (err) {
           res.status(404).send({
             message: 'Cannot remove wallet. Maybe wallet was not found!',
           });
         } else {
-          await ExpenseModel.deleteMany({ wallet: walletId });
-          await IncomeModel.deleteMany({ wallet: walletId });
+          await ExpenseModel.deleteMany({ wallet: id });
+          await IncomeModel.deleteMany({ wallet: id });
+          await CategoryModel.deleteMany({ wallet: id });
           await UserModel.findByIdAndUpdate(userId, {
-            $pull: { wallets: walletId },
+            $pull: { wallets: id },
           });
 
-          res.send({
-            message: 'Wallet was deleted successfully!',
-          });
+          res.send({ data: id });
         }
       });
     } catch (err) {
@@ -146,7 +136,7 @@ export class WalletController {
   }
 
   async editWallet(req: Request, res: Response) {
-    const id = req.params.id;
+    const { id } = req.params;
     try {
       WalletModel.findByIdAndUpdate(id, req.body, (err: Error) => {
         if (err) {
@@ -154,9 +144,7 @@ export class WalletController {
             message: 'Cannot edit wallet. Maybe wallet was not found!',
           });
         } else {
-          res.send({
-            message: 'Wallet was edited successfully!',
-          });
+          res.send({ data: id });
         }
       });
     } catch (err) {

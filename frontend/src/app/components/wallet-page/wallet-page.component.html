@@ -2,21 +2,14 @@
   <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="onTabClick(tab)">
     <div class="tab">
       <div class="header">
-        <form nz-form [formGroup]="form">
-          <nz-form-item>
-            <nz-form-control>
-              <nz-date-picker
-                nzMode="month"
-                class="date-picker"
-                nzFormat="MM.YYYY"
-                [nzDisabledDate]="disabledDates"
-                [formControlName]="formControls.Date"
-                [nzPlaceHolder]="today.format('MM.YYYY')"
-                (ngModelChange)="onDateChange($event)"
-              ></nz-date-picker>
-            </nz-form-control>
-          </nz-form-item>
-        </form>
+        <nz-date-picker
+          nzMode="month"
+          class="date-picker"
+          nzFormat="MM.YYYY"
+          [formControl]="datePicker"
+          [nzDisabledDate]="disabledDates"
+          (ngModelChange)="onDateChange($event)"
+        ></nz-date-picker>
 
         <button
           nz-button
@@ -32,7 +25,6 @@
           [title]="day.date.format('DD.MM')"
           [amount]="day.moneyMoveSum"
           [items]="day.moneyMoveItems"
-          [categories]="categories$ | async"
           [currency]="currency$ | async"
           (onRemoveItem)="removeMoneyMoveItem($event)"
           (onItemClick)="printEditMoneyMoveItemModal($event)"

@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import {
-  MoneyMoveItem,
-  MoneyMoveCategory,
-} from './../../interfaces/DayMoneyMove';
+import { MoneyMoveCategory } from './../../interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveItem } from './../../interfaces/MoneyMoveItem.interface';
 
 @Component({
   selector: 'app-money-move-day-card',
@@ -30,7 +28,7 @@ export class MoneyMoveDayCardComponent implements OnInit {
   }
 
   removeMoneyMoveItem(event: MouseEvent, id: string) {
-    console.log(event.stopPropagation());
+    event.stopPropagation();
     this.onRemoveItem.emit(id);
   }
 }

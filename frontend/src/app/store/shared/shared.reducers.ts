@@ -1,10 +1,15 @@
-import { MoneyMoveTypes } from './../../shared/enums/MoneyMoveTypes.enum';
-import { initialSharedState } from './shared.state';
 import { createReducer, on } from '@ngrx/store';
-import { ChangeTab, Loading } from './shared.actions';
+import { initialSharedState } from './shared.state';
+import { ChangeTab, Loading, ResetSharedState } from './shared.actions';
+import { MoneyMoveTypes } from './../../shared/enums/MoneyMoveTypes.enum';
 
 export const sharedReducer = createReducer(
   initialSharedState,
+  on(ResetSharedState, (state) => ({
+    ...state,
+    loading: false,
+    currentTab: MoneyMoveTypes.Expense,
+  })),
   on(Loading, (state, { payload }) => ({ ...state, loading: payload })),
   on(ChangeTab, (state, { payload }) => {
     return payload === MoneyMoveTypes.Expense

@@ -1,11 +1,21 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { WalletModalComponent } from './wallet-modal/wallet-modal.component';
-import { AddWallet, GetWallets } from 'src/app/store/wallets/wallets.actions';
+import {
+  AddWallet,
+  GetWallets,
+  ResetWalletState,
+} from 'src/app/store/wallets/wallets.actions';
+import { ResetSharedState } from './../../store/shared/shared.actions';
 import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from './../../shared/enums/Router.enum';
 import { ListItem } from './../../shared/interfaces/ListItem';
@@ -18,7 +28,7 @@ import { MODAL_WIDTH } from 'src/app/shared/constants/constants';
   styleUrls: ['./home-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnDestroy {
   wallets$: Observable<Wallet[]> = this.store.select(walletsSelector);
   walletsForList$: Observable<ListItem[]> = this.wallets$.pipe(
     map((wallets: Wallet[]) => {
@@ -61,5 +71,10 @@ export class HomePageComponent implements OnInit {
         this.addWallet(res);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(ResetWalletState());
+    this.store.dispatch(ResetSharedState());
   }
 }

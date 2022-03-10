@@ -19,6 +19,7 @@ import {
   GetWalletCategories,
   GetMoneyMoveByPeriod,
   RemoveMoneyMoveItem,
+  ResetWalletState,
 } from './../../store/wallets/wallets.actions';
 import {
   periodMoneyMoveSelector,
@@ -39,7 +40,7 @@ import { MODAL_WIDTH } from './../../shared/constants/constants';
   styleUrls: ['./wallet-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletPageComponent implements OnInit {
+export class WalletPageComponent implements OnInit, OnDestroy {
   MoneyMoveTypes = MoneyMoveTypes;
   tabs = [MoneyMoveTypes.Expense, MoneyMoveTypes.Income];
   datePicker = new FormControl(new Date());
@@ -195,5 +196,9 @@ export class WalletPageComponent implements OnInit {
         },
       })
     );
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(ResetWalletState());
   }
 }

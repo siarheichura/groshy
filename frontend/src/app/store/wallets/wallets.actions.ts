@@ -12,6 +12,7 @@ const MODULE_NAME = '[WALLETS]';
 const getFullActionName = getActionNameFn(MODULE_NAME);
 
 enum WalletsActionsEnum {
+  ResetWalletState = 'RESET_WALLET_STATE',
   GetWallets = 'GET_WALLETS',
   GetWalletsSuccess = 'GET_WALLETS_SUCCESS',
   GetWallet = 'GET_WALLET',
@@ -39,6 +40,9 @@ enum WalletsActionsEnum {
   EditMoneyMoveItemSuccess = 'EDIT_MONEY_MOVE_ITEM_SUCCESS',
 }
 
+export const ResetWalletState = createAction(
+  getFullActionName(WalletsActionsEnum.ResetWalletState)
+);
 export const GetWallets = createAction(
   getFullActionName(WalletsActionsEnum.GetWallets)
 );

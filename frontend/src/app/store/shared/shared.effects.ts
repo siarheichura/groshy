@@ -15,9 +15,16 @@ export class SharedEffects {
     return this.actions$.pipe(
       ofType(
         UserActions.Registration,
-        UserActions.Login
-        // WalletsActions.GetWallets,  ???? Error: NG0100 ????
-        // WalletsActions.GetWallet
+        UserActions.Login,
+        WalletsActions.GetWallets,
+        WalletsActions.GetWallet,
+        WalletsActions.AddWallet,
+        WalletsActions.EditWallet,
+        WalletsActions.RemoveWallet,
+        WalletsActions.GetMoneyMoveByPeriod,
+        WalletsActions.AddMoneyMoveItem,
+        WalletsActions.RemoveMoneyMoveItem,
+        WalletsActions.EditMoneyMoveItem
       ),
       map(() => SharedActions.Loading({ payload: true }))
     );
@@ -29,9 +36,13 @@ export class SharedEffects {
         UserActions.RegistrationSuccess,
         UserActions.RegistrationError,
         UserActions.LoginSuccess,
-        UserActions.LoginError
-        // WalletsActions.GetWalletsSuccess,
-        // WalletsActions.GetWalletSuccess
+        UserActions.LoginError,
+        WalletsActions.GetWalletsSuccess,
+        WalletsActions.GetWalletSuccess,
+        WalletsActions.AddWalletSuccess,
+        WalletsActions.GetMoneyMoveByPeriodSuccess,
+        WalletsActions.AddMoneyMoveItemSuccess,
+        WalletsActions.AddMoneyMoveItemSuccess
       ),
       map(() => SharedActions.Loading({ payload: false }))
     );

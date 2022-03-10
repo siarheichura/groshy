@@ -5,12 +5,16 @@ const MODULE_NAME = '[SHARED]';
 const getFullActionName = getActionNameFn(MODULE_NAME);
 
 export enum SharedActionsEnum {
+  ResetSharedState = 'RESET_SHARED_STATE',
   Loading = 'LOADING',
   PrintNzMessageSuccess = 'PRINT_NZ_MESSAGE_SUCCESS',
   PrintNzMessageError = 'PRINT_NZ_MESSAGE_ERROR',
   ChangeTab = 'CHANGE_TAB',
 }
 
+export const ResetSharedState = createAction(
+  getFullActionName(SharedActionsEnum.ResetSharedState)
+);
 export const Loading = createAction(
   getFullActionName(SharedActionsEnum.Loading),
   props<{ payload: boolean }>()

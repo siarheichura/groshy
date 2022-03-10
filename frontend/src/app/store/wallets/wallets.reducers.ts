@@ -12,10 +12,23 @@ import {
   GetBasicCategoriesSuccess,
   AddCategorySuccess,
   RemoveCategorySuccess,
+  ResetWalletState,
 } from './wallets.actions';
 
 export const walletsReducer = createReducer(
   initialWalletsState,
+  on(ResetWalletState, (state) => ({
+    ...state,
+    wallets: [],
+    wallet: {
+      id: '',
+      name: '',
+      balance: 0,
+      currency: '',
+    },
+    periodMoneyMove: [],
+    categories: [],
+  })),
   on(GetWalletsSuccess, (state, { payload }) => ({
     ...state,
     wallets: payload,

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -12,14 +7,12 @@ import { Observable, Subscription } from 'rxjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { ChangeTab } from 'src/app/store/shared/shared.actions';
 import {
   AddMoneyMoveItem,
   EditMoneyMoveItem,
   GetWalletCategories,
   GetMoneyMoveByPeriod,
   RemoveMoneyMoveItem,
-  ResetWalletState,
 } from './../../store/wallets/wallets.actions';
 import {
   periodMoneyMoveSelector,
@@ -40,9 +33,8 @@ import { MODAL_WIDTH } from './../../shared/constants/constants';
   styleUrls: ['./wallet-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletPageComponent implements OnInit, OnDestroy {
+export class WalletPageComponent implements OnInit {
   MoneyMoveTypes = MoneyMoveTypes;
-  tabs = [MoneyMoveTypes.Expense, MoneyMoveTypes.Income];
   datePicker = new FormControl(new Date());
 
   startDate: Dayjs = dayjs(this.datePicker.value).startOf('month');
@@ -92,10 +84,6 @@ export class WalletPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {}
-
-  onTabClick(tabName: string): void {
-    this.store.dispatch(ChangeTab({ payload: tabName }));
-  }
 
   printAddMoneyMoveItemModal() {
     const modal = this.modal.create({
@@ -196,9 +184,5 @@ export class WalletPageComponent implements OnInit, OnDestroy {
         },
       })
     );
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(ResetWalletState());
   }
 }

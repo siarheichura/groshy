@@ -1,7 +1,11 @@
 :host {
-  .tab {
+  .container {
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  .chart {
+    height: 400px;
   }
 }

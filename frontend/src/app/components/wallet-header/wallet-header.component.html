@@ -1,19 +1,24 @@
-<div class="amount" *ngIf="wallet$ | async as wallet">
-  <div class="amount__name">
+<div class="wallet" *ngIf="wallet$ | async as wallet">
+  <div class="wallet__name">
     <div (click)="handleRouteClick([routes.Wallet, walletId])">
       {{ wallet.name }}
     </div>
 
-    <div class="amount__nav">
+    <div class="wallet__nav">
       <div
-        class="amount__nav-stat"
+        class="wallet__nav-stat"
         (click)="handleRouteClick([routes.Statistics])"
       ></div>
-      <div class="amount__nav-sett" (click)="printDrawer()"></div>
+      <div class="wallet__nav-sett" (click)="printDrawer()"></div>
     </div>
   </div>
 
-  <div class="amount__sum">{{ wallet.balance }} {{ wallet.currency }}</div>
+  <div class="wallet__sum">{{ wallet.balance }} {{ wallet.currency }}</div>
 </div>
+
+<nz-tabset nzType="card" nzCentered>
+  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab" (nzClick)="onTabClick(tab)">
+  </nz-tab>
+</nz-tabset>
 
 <router-outlet></router-outlet>

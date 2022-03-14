@@ -1,40 +1,27 @@
-import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 
-import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
 import { CategoryModel } from './../models/Category';
 import { IncomeModel } from './../models/Income';
 import { ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
 import { UserModel } from './../models/User';
 
-interface JwtPayload {
-  id: string;
-  username: string;
-  iat: number;
-  exp: number;
-}
+import { UserDto } from './../dtos/user.dto';
+import { WalletDto } from '../dtos/wallet.dto';
+import { tokenService } from './../services/token.service';
 
 export class WalletController {
-  async getUserWallets(req: Request, res: Response) {
+  async getUserWallets(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id }: JwtPayload | { id: string } = jwt.decode(
-        req.header('token')
-      ) as JwtPayload;
-
+      const token = req.headers.authorization.split(' ')[1];
+      const { id }: UserDto = tokenService.validateAccessToken(
+        token
+      ) as UserDto;
       const userWallets = await WalletModel.find({ user: id }).populate(
         'expensesSum incomeSum'
       );
-      const walletsToSend = userWallets.map((wallet) => {
-        return {
-          id: wallet.id,
-          name: wallet.name,
-          currency: wallet.currency,
-          balance: wallet.balance,
-        };
-      });
-
-      res.send({ data: walletsToSend });
+      const wallets = userWallets.map((wallet) => new WalletDto(wallet));
+      res.send({ data: wallets });
     } catch (err) {
       res.status(400).send({ message: 'Cannot get wallets' });
     }
@@ -48,14 +35,7 @@ export class WalletController {
         'expensesSum incomeSum'
       );
 
-      const walletToSend = {
-        id: wallet.id,
-        name: wallet.name,
-        currency: wallet.currency,
-        balance: wallet.balance,
-      };
-
-      res.send({ data: walletToSend });
+      res.send({ data: new WalletDto(wallet) });
     } catch (err) {
       res.status(400).send({ message: `Cannot get wallet with id=${id}` });
     }
@@ -63,9 +43,10 @@ export class WalletController {
 
   async addWallet(req: Request, res: Response) {
     try {
-      const { id }: JwtPayload | { id: string } = jwt.decode(
-        req.header('token')
-      ) as JwtPayload;
+      const token = req.headers.authorization.split(' ')[1];
+      const { id }: UserDto = tokenService.validateAccessToken(
+        token
+      ) as UserDto;
       const { name, currency, balance } = req.body;
 
       const wallet = new WalletModel({
@@ -92,25 +73,20 @@ export class WalletController {
         },
       });
 
-      res.send({
-        data: {
-          id: wallet.id,
-          name: wallet.name,
-          currency: wallet.currency,
-          balance: wallet.balance,
-        },
-      });
+      res.send({ data: new WalletDto(wallet) });
     } catch (err) {
       res.status(400).send({ message: 'Cannot create wallet' });
     }
   }
 
   async removeWallet(req: Request, res: Response) {
-    const { id } = req.params;
     try {
-      const { id: userId }: JwtPayload | { id: string } = jwt.decode(
-        req.header('token')
-      ) as JwtPayload;
+      const { id } = req.params;
+
+      const token = req.headers.authorization.split(' ')[1];
+      const { id: userId }: UserDto = tokenService.validateAccessToken(
+        token
+      ) as UserDto;
 
       WalletModel.findByIdAndDelete(id, async (err: Error) => {
         if (err) {

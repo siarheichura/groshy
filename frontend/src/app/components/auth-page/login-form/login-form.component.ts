@@ -9,12 +9,12 @@ import { markFormControlsDirty } from './../../../shared/helpers/form.helper';
 import { Login } from 'src/app/store/user/user.actions';
 
 interface FormValue {
-  username: string;
+  email: string;
   password: string;
 }
 
 enum FormEnum {
-  Username = 'username',
+  Email = 'email',
   Password = 'password',
 }
 
@@ -43,8 +43,8 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      [this.formControls.Username]: ['username', [Validators.required]],
-      [this.formControls.Password]: ['Username1', [Validators.required]],
+      [this.formControls.Email]: ['chura14@yandex.ru', [Validators.required]],
+      [this.formControls.Password]: ['Qwerty12', [Validators.required]],
     });
   }
 

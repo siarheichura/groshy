@@ -4,10 +4,13 @@ export const config = {
 
   PORT: process.env.PORT || 5000,
 
-  CORS_OPTIONS: {
-    origin: 'http://localhost:4200',
-  },
+  ACCESS_TOKEN_SECRET_KEY: 'ACCESS_TOKEN_SECRET_KEY',
+  REFRESH_TOKEN_SECRET_KEY: 'REFRESH_TOKEN_SECRET_KEY',
+  ACCESS_TOKEN_EXPIRE_TIME: '30m',
+  REFRESH_TOKEN_EXPIRE_TIME: '10d',
 
-  TOKEN_SECRET_KEY: 'TOKEN_SECRET_KEY',
-  TOKEN_EXPIRE_TIME: '1h',
+  SMTP_HOST: 'smtp.gmail.com',
+  SMTP_PORT: 587,
+  SMTP_USER: 'groshy.info@gmail.com',
+  SMTP_PASSWORD: 'groshy123',
 };

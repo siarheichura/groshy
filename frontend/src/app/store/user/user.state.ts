@@ -1,12 +1,15 @@
-import { UserInfo } from './../../shared/interfaces/User';
+import { User } from './../../shared/interfaces/User';
 
 export interface UserState {
-  user: UserInfo;
+  user: User;
+  isAuth: boolean;
+
+  testUser: User;
 }
 
 export const initialUserState: UserState = {
-  user: {
-    id: '',
-    username: '',
-  },
+  user: {} as User,
+  isAuth: false,
+
+  testUser: {} as User,
 };

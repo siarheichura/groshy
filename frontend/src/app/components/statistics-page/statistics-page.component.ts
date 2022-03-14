@@ -1,6 +1,17 @@
+import { MoneyMoveDayItem } from './../../shared/classes/MoneyMoveDayItem';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
+import dayjs, { Dayjs } from 'dayjs';
 
+import { currentTabSelector } from 'src/app/store/shared/shared.selectros';
+import { GetMoneyMoveByPeriod } from 'src/app/store/wallets/wallets.actions';
+import { periodMoneyMoveSelector } from 'src/app/store/wallets/wallets.selectros';
+
+@UntilDestroy()
 @Component({
   selector: 'app-statistics-page',
   templateUrl: './statistics-page.component.html',
@@ -8,76 +19,75 @@ import { EChartsOption } from 'echarts';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsPageComponent implements OnInit {
-  chartInstance: any;
-  options = {
-    backgroundColor: '#2c343c',
-    title: {
-      text: 'Customized Pie',
-      left: 'center',
-      top: 20,
-      textStyle: {
-        color: '#ccc',
-      },
-    },
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)',
-    },
-    visualMap: {
-      show: false,
-      min: 80,
-      max: 600,
-      inRange: {
-        colorLightness: [0, 1],
-      },
-    },
-    series: [
-      {
-        name: 'Counters',
-        type: 'pie',
-        radius: '55%',
-        center: ['50%', '50%'],
-        data: [
-          { value: 335, name: 'C-1' },
-          { value: 310, name: 'C-2' },
-          { value: 274, name: 'C-3' },
-          { value: 235, name: 'C-4' },
-          { value: 400, name: 'C-5' },
-        ].sort((a, b) => a.value - b.value),
-        roseType: 'radius',
-        label: {
-          normal: {
-            textStyle: {
-              color: 'rgba(255, 255, 255, 0.3)',
-            },
-          },
-        },
-        labelLine: {
-          normal: {
-            lineStyle: {
-              color: 'rgba(255, 255, 255, 0.3)',
-            },
-            smooth: 0.2,
-            length: 10,
-            length2: 20,
-          },
-        },
-        itemStyle: {
-          normal: {
-            color: '#c23531',
-            shadowBlur: 200,
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
-          },
-        },
-
-        animationType: 'scale',
-        animationEasing: 'elasticOut',
-        animationDelay: () => Math.random() * 200,
-      },
-    ],
+  initOpts = {
+    renderer: 'svg',
+    width: 500,
+    height: 500,
   };
 
-  constructor() {}
+  options: EChartsOption;
+
+  startDate: Dayjs = dayjs().startOf('month');
+  finishDate: Dayjs =
+    dayjs().endOf('month') > dayjs()
+      ? dayjs().endOf('day')
+      : dayjs().endOf('month');
+
+  walletId: string = (this.route.parent.snapshot.params as { id: string }).id;
+
+  currentTab$: Observable<string> = this.store.select(currentTabSelector);
+  curentTabSubs: Subscription = this.currentTab$
+    .pipe(untilDestroyed(this))
+    .subscribe((resp) => {
+      this.store.dispatch(
+        GetMoneyMoveByPeriod({
+          payload: {
+            walletId: this.walletId,
+            type: resp,
+            startDate: this.startDate,
+            finishDate: this.finishDate,
+          },
+        })
+      );
+    });
+
+  moneyMove$: Observable<MoneyMoveDayItem[]> = this.store.select(
+    periodMoneyMoveSelector
+  );
+  moneyMoveSubs: Subscription = this.moneyMove$
+    .pipe(untilDestroyed(this))
+    .subscribe((resp) => {
+      this.options.series;
+    });
+
+  constructor(private store: Store, private route: ActivatedRoute) {}
 
   ngOnInit(): void {}
+
+  setChartOptions(data: MoneyMoveDayItem[]) {
+    this.options = {
+      tooltip: {
+        trigger: 'item',
+      },
+      series: [
+        {
+          name: 'Medicare Plan Type',
+          type: 'pie',
+          radius: '80%',
+          itemStyle: {
+            borderRadius: 7,
+            borderColor: '#fff',
+            borderWidth: 2,
+          },
+          label: {
+            show: false,
+          },
+          data: [
+            { value: 1048, name: 'STCOB Secondary' },
+            { value: 735, name: 'Part B Medial Only (MA)' },
+          ],
+        },
+      ],
+    };
+  }
 }

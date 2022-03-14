@@ -2,7 +2,8 @@ import { Expense } from './Expense';
 import { Income } from './Income';
 import { Schema, model, Types } from 'mongoose';
 
-interface Wallet {
+export interface Wallet {
+  id: string;
   name: string;
   date: Date;
   currency: string;

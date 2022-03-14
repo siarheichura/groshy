@@ -8,10 +8,8 @@ const getFullActionName = getActionNameFn(MODULE_NAME);
 export enum UserActionsEnum {
   Login = 'LOGIN',
   LoginSuccess = 'LOGIN_SUCCESS',
-  LoginError = 'LOGIN_ERROR',
   Registration = 'REGISTRATION',
   RegistrationSuccess = 'REGISTRATION_SUCCESS',
-  RegistrationError = 'REGISTRATION_ERROR',
   Logout = 'LOGOUT',
   CheckAuth = 'CHECK_AUTH',
   CheckAuthSuccess = 'CHECK_AUTH_SUCCESS',
@@ -27,9 +25,6 @@ export const RegistrationSuccess = createAction(
   getFullActionName(UserActionsEnum.RegistrationSuccess),
   props<{ payload: User }>()
 );
-export const RegistrationError = createAction(
-  getFullActionName(UserActionsEnum.RegistrationError)
-);
 export const Login = createAction(
   getFullActionName(UserActionsEnum.Login),
   props<{ payload: UserLogin }>()
@@ -37,9 +32,6 @@ export const Login = createAction(
 export const LoginSuccess = createAction(
   getFullActionName(UserActionsEnum.LoginSuccess),
   props<{ payload: User }>()
-);
-export const LoginError = createAction(
-  getFullActionName(UserActionsEnum.LoginError)
 );
 export const Logout = createAction(getFullActionName(UserActionsEnum.Logout));
 export const CheckAuth = createAction(

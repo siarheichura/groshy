@@ -47,7 +47,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.store.dispatch(GetWallets());
+    this.store.dispatch(GetWallets());
   }
 
   addWallet(wallet: Wallet): void {

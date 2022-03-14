@@ -12,12 +12,22 @@ interface TokenPayload {
 class TokenService {
   generateTokens(payload: TokenPayload) {
     const accessToken = jwt.sign(payload, config.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: '10s',
+      expiresIn: '15d',
     });
     const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN_SECRET_KEY, {
       expiresIn: '15d',
     });
     return { accessToken, refreshToken };
+  }
+
+  async saveToken(userId: string, refreshToken: string) {
+    const tokenData = await TokenModel.findOne({ user: userId });
+    if (tokenData) {
+      tokenData.refreshToken = refreshToken;
+      return tokenData.save();
+    }
+    const token = await TokenModel.create({ user: userId, refreshToken });
+    return token;
   }
 
   validateAccessToken(token: string) {
@@ -41,23 +51,7 @@ class TokenService {
     }
   }
 
-  async saveToken(userId: string, refreshToken: string) {
-    const tokenData = await TokenModel.findOne({ user: userId });
-    if (tokenData) {
-      tokenData.refreshToken = refreshToken;
-      return tokenData.save();
-    }
-    const token = await TokenModel.create({ user: userId, refreshToken });
-    return token;
-  }
-
-  async removeToken(refreshToken: string) {
-    const tokenData = await TokenModel.deleteOne({ refreshToken });
-    return tokenData;
-  }
-
   async findToken(refreshToken: string) {
-    console.log('token service', refreshToken);
     const tokenData = await TokenModel.findOne({ refreshToken });
     return tokenData;
   }

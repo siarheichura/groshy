@@ -1,3 +1,4 @@
+import { HTTP } from './../shared/interfaces/Http.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { environment } from './../../environments/environment';
@@ -28,17 +29,17 @@ export class AuthService {
     return localStorage.getItem(environment.LocalStorageUserKey)!;
   }
 
-  registration(user: SignUpUser): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(
+  registration(user: SignUpUser): Observable<HTTP<User>> {
+    return this.http.post<HTTP<User>>(
       `${environment.apiUrl}${API_PATH_REGISTRATION}`,
       user
     );
   }
 
-  login(user: UserLogin): Observable<AuthResponse> {
+  login(user: UserLogin): Observable<HTTP<AuthResponse>> {
     return this.http
-      .post<AuthResponse>(`${environment.apiUrl}${API_PATH_LOGIN}`, user)
-      .pipe(tap((resp) => this.setToken(resp.accessToken)));
+      .post<HTTP<AuthResponse>>(`${environment.apiUrl}${API_PATH_LOGIN}`, user)
+      .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
   }
 
   logout() {

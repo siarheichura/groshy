@@ -34,9 +34,7 @@ export class SharedEffects {
     return this.actions$.pipe(
       ofType(
         UserActions.RegistrationSuccess,
-        UserActions.RegistrationError,
         UserActions.LoginSuccess,
-        UserActions.LoginError,
         WalletsActions.GetWalletsSuccess,
         WalletsActions.GetWalletSuccess,
         WalletsActions.AddWalletSuccess,

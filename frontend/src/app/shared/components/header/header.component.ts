@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(GetUser({ payload: '622f2bf5ef7a443e0224550b' }));
+    this.store.dispatch(GetUser({ payload: '622f96cc9285ecc9be4a90df' }));
   }
 
   handleRouteClick(param: string): void {

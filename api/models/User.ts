@@ -10,6 +10,7 @@ export interface User {
   wallets: Types.ObjectId[];
   isActivated: boolean;
   activationLink: string;
+  checkPassword: (password: string) => boolean;
 }
 
 const hashPassword = (password: string) => {
@@ -25,9 +26,11 @@ const UserSchema = new Schema<User>({
   activationLink: { type: String, default: uuid.v4() },
 });
 
-UserSchema.methods.checkPassword = (
-  incomingPassword: string,
-  userPassword: string
-) => bcrypt.compareSync(incomingPassword, userPassword);
+UserSchema.methods.checkPassword = function (
+  this: User,
+  incomingPassword: string
+) {
+  return bcrypt.compareSync(incomingPassword, this.password);
+};
 
 export const UserModel = model<User>('User', UserSchema);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, switchMap, catchError, of } from 'rxjs';
+import { map, switchMap, catchError, of, mergeMap } from 'rxjs';
 import { ofType, Actions, createEffect, act } from '@ngrx/effects';
 
 import { RouterEnum } from 'src/app/shared/enums/Router.enum';
@@ -22,18 +22,17 @@ export class UserEffects {
       ofType(UserActions.Registration),
       switchMap((action) =>
         this.authService.registration(action.payload).pipe(
-          switchMap((data) => {
+          mergeMap((data) => {
             this.router.navigate([RouterEnum.Auth]);
             return [
-              UserActions.RegistrationSuccess({ payload: data.user }),
+              UserActions.RegistrationSuccess({ payload: data.data }),
               SharedActions.PrintNzMessageSuccess({
-                payload: NzMessage.REGISTRATION_SUCCESS,
+                payload: data.message,
               }),
             ];
           }),
           catchError((err) => {
             return of(
-              UserActions.RegistrationError(),
               SharedActions.PrintNzMessageError({
                 payload: err.error.message,
               })
@@ -49,12 +48,12 @@ export class UserEffects {
       ofType(UserActions.Login),
       switchMap((action) =>
         this.authService.login(action.payload).pipe(
-          switchMap((data) => {
+          mergeMap((data) => {
             this.router.navigate([RouterEnum.Index]);
             return [
-              UserActions.LoginSuccess({ payload: data.user }),
+              UserActions.LoginSuccess({ payload: data.data.user }),
               SharedActions.PrintNzMessageSuccess({
-                payload: NzMessage.LOGIN_SUCCESS,
+                payload: data.message,
               }),
             ];
           }),
@@ -62,8 +61,7 @@ export class UserEffects {
             return of(
               SharedActions.PrintNzMessageError({
                 payload: err.error.message,
-              }),
-              UserActions.LoginError()
+              })
             );
           })
         )

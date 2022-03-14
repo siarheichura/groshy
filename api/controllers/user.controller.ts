@@ -1,9 +1,9 @@
-import { UserDto } from './../dtos/user.dto';
-import { ApiError } from './../shared/api.error';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 
+import { ApiError } from './../shared/api.error';
 import { userService } from './../services/user.service';
+import { UserDto } from './../dtos/user.dto';
 import { RouterEnum } from '../shared/enums/RouterEnum';
 
 export class UserController {
@@ -19,11 +19,10 @@ export class UserController {
         email,
         password
       );
-      res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 15 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+      return res.json({
+        data: userData,
+        message: `Hey ${userData.username}! Please confirm your email and login.`,
       });
-      return res.json(userData);
     } catch (err) {
       next(err);
     }
@@ -43,22 +42,10 @@ export class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
-      res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 10 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+      return res.json({
+        data: userData,
+        message: 'Login success!',
       });
-      return res.json(userData);
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async logout(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
-      res.clearCookie('refreshToken');
-      return res.json(token);
     } catch (err) {
       next(err);
     }

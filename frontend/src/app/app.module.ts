@@ -15,7 +15,6 @@ import { WalletsEffects } from './store/wallets/wallets.effects';
 import { UserEffects } from './store/user/user.effects';
 import { SharedEffects } from './store/shared/shared.effects';
 
-import { NgxEchartsModule } from 'ngx-echarts';
 import { SharedModule } from './shared/shared.module';
 import { AuthPageModule } from './components/auth-page/auth-page.module';
 import { HomePageModule } from './components/home-page/home-page.module';
@@ -61,9 +60,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([WalletsEffects, UserEffects, SharedEffects]),
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],

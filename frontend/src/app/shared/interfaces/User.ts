@@ -10,14 +10,16 @@ export class SignUpUser {
   }
 }
 
-export class LoginUser {
-  username: string;
+export interface UserLogin {
+  email: string;
   password: string;
+}
 
-  constructor(username: string, password: string) {
-    this.username = username;
-    this.password = password;
-  }
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  isActivated: boolean;
 }
 
 export class UserInfo {

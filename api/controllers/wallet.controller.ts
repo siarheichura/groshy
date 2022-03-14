@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
 import { CategoryModel } from './../models/Category';
 import { IncomeModel } from './../models/Income';
 import { ExpenseModel } from './../models/Expense';

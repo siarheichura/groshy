@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { tap } from 'rxjs';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
-import { GetUserInfo } from './../../../store/user/user.actions';
+import { GetUser } from './../../../store/user/user.actions';
 import { userInfoSelector } from './../../../store/user/user.selectros';
 import { UserProfileComponent } from '../../../components/user-profile/user-profile.component';
 import { RouterEnum } from '../../enums/Router.enum';
@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(GetUserInfo());
+    this.store.dispatch(GetUser({ payload: '622f2bf5ef7a443e0224550b' }));
   }
 
   handleRouteClick(param: string): void {

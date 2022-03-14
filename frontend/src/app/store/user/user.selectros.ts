@@ -7,3 +7,13 @@ export const userInfoSelector = createSelector(
   featureSelector,
   (state: UserState) => state.user
 );
+
+export const isUserAuthSelector = createSelector(
+  featureSelector,
+  (state) => state.isAuth
+);
+
+export const userTestSelector = createSelector(
+  featureSelector,
+  (state: UserState) => state.testUser
+);

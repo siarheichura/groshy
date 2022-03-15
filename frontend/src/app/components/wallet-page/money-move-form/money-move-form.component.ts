@@ -38,7 +38,6 @@ export class MoneyMoveFormComponent implements OnInit {
   moneyMoveForm: FormGroup;
   formControls = FormEnum;
 
-  // ??? Property 'moneyMoveType' is used before its initialization.ts(2729)
   categories$: Observable<MoneyMoveCategory[]>;
 
   get formValue(): FormValue {

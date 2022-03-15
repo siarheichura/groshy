@@ -5,7 +5,7 @@ import { tap } from 'rxjs';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 import { GetUser } from './../../../store/user/user.actions';
-import { userInfoSelector } from './../../../store/user/user.selectros';
+import { userSelector } from './../../../store/user/user.selectros';
 import { UserProfileComponent } from '../../../components/user-profile/user-profile.component';
 import { RouterEnum } from '../../enums/Router.enum';
 
@@ -17,11 +17,8 @@ import { RouterEnum } from '../../enums/Router.enum';
 })
 export class HeaderComponent implements OnInit {
   routes = RouterEnum;
-  username: string;
 
-  user$ = this.store
-    .select(userInfoSelector)
-    .pipe(tap((user) => (this.username = user.username)));
+  user$ = this.store.select(userSelector);
 
   constructor(
     private router: Router,
@@ -39,7 +36,6 @@ export class HeaderComponent implements OnInit {
 
   printDrawer(): void {
     this.drawerService.create({
-      nzTitle: this.username,
       nzContent: UserProfileComponent,
     });
   }

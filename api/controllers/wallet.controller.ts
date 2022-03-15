@@ -1,3 +1,4 @@
+import { ApiError } from './../shared/api.error';
 import { Request, Response, NextFunction } from 'express';
 
 import { CategoryModel } from './../models/Category';
@@ -23,25 +24,23 @@ export class WalletController {
       const wallets = userWallets.map((wallet) => new WalletDto(wallet));
       res.send({ data: wallets });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot get wallets' });
+      next(err);
     }
   }
 
-  async getWallet(req: Request, res: Response) {
-    const id = req.params.id;
-
+  async getWallet(req: Request, res: Response, next: NextFunction) {
     try {
+      const id = req.params.id;
       const wallet = await WalletModel.findById(id).populate(
         'expensesSum incomeSum'
       );
-
       res.send({ data: new WalletDto(wallet) });
     } catch (err) {
-      res.status(400).send({ message: `Cannot get wallet with id=${id}` });
+      next(err);
     }
   }
 
-  async addWallet(req: Request, res: Response) {
+  async addWallet(req: Request, res: Response, next: NextFunction) {
     try {
       const token = req.headers.authorization.split(' ')[1];
       const { id }: UserDto = tokenService.validateAccessToken(
@@ -61,7 +60,7 @@ export class WalletController {
       const categories = await CategoryModel.find({ basic: true });
       categories.forEach(async (category) => {
         await new CategoryModel({
-          type: category.type.toLowerCase(),
+          type: category.type,
           name: category.name,
           wallet: wallet.id,
         }).save();
@@ -75,14 +74,13 @@ export class WalletController {
 
       res.send({ data: new WalletDto(wallet) });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot create wallet' });
+      next(err);
     }
   }
 
-  async removeWallet(req: Request, res: Response) {
+  async removeWallet(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-
       const token = req.headers.authorization.split(' ')[1];
       const { id: userId }: UserDto = tokenService.validateAccessToken(
         token
@@ -90,9 +88,7 @@ export class WalletController {
 
       WalletModel.findByIdAndDelete(id, async (err: Error) => {
         if (err) {
-          res.status(404).send({
-            message: 'Cannot remove wallet. Maybe wallet was not found!',
-          });
+          return next(ApiError.NotFound());
         } else {
           await ExpenseModel.deleteMany({ wallet: id });
           await IncomeModel.deleteMany({ wallet: id });
@@ -105,13 +101,11 @@ export class WalletController {
         }
       });
     } catch (err) {
-      res.status(400).send({
-        message: 'Cannot delete wallet',
-      });
+      next(err);
     }
   }
 
-  async editWallet(req: Request, res: Response) {
+  async editWallet(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
       WalletModel.findByIdAndUpdate(id, req.body, (err: Error) => {
@@ -124,6 +118,7 @@ export class WalletController {
         }
       });
     } catch (err) {
+      next(err);
       res.status(400).send({ message: 'Cannot edit wallet' });
     }
   }

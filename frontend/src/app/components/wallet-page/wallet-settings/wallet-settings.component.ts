@@ -16,13 +16,14 @@ import { FormControl } from '@angular/forms';
 import {
   AddCategory,
   EditWallet,
+  GetWalletCategories,
   RemoveCategory,
   RemoveWallet,
-} from '../../store/wallets/wallets.actions';
-import { categoriesSelector } from '../../store/wallets/wallets.selectros';
-import { MoneyMoveTypes } from '../../shared/enums/MoneyMoveTypes.enum';
-import { MoneyMoveCategory } from '../../shared/interfaces/MoneyMoveCategory.interface';
-import { Wallet } from '../../shared/classes/Wallet';
+} from '../../../store/wallets/wallets.actions';
+import { categoriesSelector } from '../../../store/wallets/wallets.selectros';
+import { MoneyMoveTypes } from '../../../shared/enums/MoneyMoveTypes.enum';
+import { MoneyMoveCategory } from '../../../shared/interfaces/MoneyMoveCategory.interface';
+import { Wallet } from '../../../shared/classes/Wallet';
 
 @Component({
   selector: 'app-wallet-settings',
@@ -44,23 +45,8 @@ export class WalletSettingsComponent implements OnInit {
   expenseCategoryInputVisible = false;
   incomeCategoryInputVisible = false;
 
-  categories$: Observable<MoneyMoveCategory[]> = this.store.select(
-    categoriesSelector()
-  );
-  expenseCategories$: Observable<MoneyMoveCategory[]> = this.categories$.pipe(
-    map((categories) =>
-      categories.filter(
-        (category) => category.type.toLowerCase() === MoneyMoveTypes.Expense
-      )
-    )
-  );
-  incomeCategories$: Observable<MoneyMoveCategory[]> = this.categories$.pipe(
-    map((categories) =>
-      categories.filter(
-        (category) => category.type.toLowerCase() === MoneyMoveTypes.Income
-      )
-    )
-  );
+  expenseCategories$: Observable<MoneyMoveCategory[]>;
+  incomeCategories$: Observable<MoneyMoveCategory[]>;
 
   constructor(
     private store: Store,
@@ -68,7 +54,14 @@ export class WalletSettingsComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.expenseCategories$ = this.store.select(
+      categoriesSelector({ type: this.moneyMoveTypes.Expense })
+    );
+    this.incomeCategories$ = this.store.select(
+      categoriesSelector({ type: this.moneyMoveTypes.Income })
+    );
+  }
 
   editWallet(wallet: Wallet) {
     this.store.dispatch(

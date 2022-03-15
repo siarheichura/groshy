@@ -31,6 +31,6 @@ export const userReducer = createReducer(
   }),
   on(UserActions.GetUserSuccess, (state, { payload }) => ({
     ...state,
-    testUser: payload,
+    user: payload,
   }))
 );

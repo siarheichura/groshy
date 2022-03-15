@@ -13,27 +13,27 @@ import {
   GetWalletCategories,
   GetMoneyMoveByPeriod,
   RemoveMoneyMoveItem,
-} from './../../store/wallets/wallets.actions';
+} from './../../../store/wallets/wallets.actions';
 import {
   periodMoneyMoveSelector,
   walletCurrencySelector,
 } from 'src/app/store/wallets/wallets.selectros';
-import { currentTabSelector } from './../../store/shared/shared.selectros';
+import { currentTabSelector } from './../../../store/shared/shared.selectros';
 
-import { MoneyMoveFormComponent } from './money-move-form/money-move-form.component';
-import { MoneyMoveItem } from './../../shared/interfaces/MoneyMoveItem.interface';
+import { MoneyMoveFormComponent } from './../money-move-form/money-move-form.component';
+import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
 import { MoneyMoveTypes } from 'src/app/shared/enums/MoneyMoveTypes.enum';
 import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
-import { MODAL_WIDTH } from './../../shared/constants/constants';
+import { MODAL_WIDTH } from './../../../shared/constants/constants';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-wallet-page',
-  templateUrl: './wallet-page.component.html',
-  styleUrls: ['./wallet-page.component.scss'],
+  selector: 'money-move',
+  templateUrl: './money-move.component.html',
+  styleUrls: ['./money-move.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletPageComponent implements OnInit {
+export class MoneyMoveComponent implements OnInit {
   MoneyMoveTypes = MoneyMoveTypes;
   datePicker = new FormControl(new Date());
 
@@ -67,12 +67,6 @@ export class WalletPageComponent implements OnInit {
             startDate: this.startDate,
             finishDate: this.finishDate,
           },
-        })
-      );
-
-      this.store.dispatch(
-        GetWalletCategories({
-          payload: { walletId: this.walletId },
         })
       );
     });

@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { catchError, Observable, throwError, tap, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import { CheckAuth, Logout } from './../store/user/user.actions';
+import { Logout } from './../store/user/user.actions';
 import { RouterEnum } from './../shared/enums/Router.enum';
 
 @Injectable()
@@ -38,9 +38,8 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          // this.store.dispatch(CheckAuth());
-          // this.store.dispatch(Logout());
-          // this.router.navigate([RouterEnum.Auth]);
+          this.store.dispatch(Logout());
+          this.router.navigate([RouterEnum.Auth]);
         }
         return throwError(() => err);
       })

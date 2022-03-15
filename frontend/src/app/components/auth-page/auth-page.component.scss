@@ -1,11 +1,11 @@
 :host {
-  .auth-page {
+  .auth {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    .auth-card {
+    &_card {
       width: 450px;
       padding: 15px 20px 25px;
       display: flex;
@@ -18,7 +18,7 @@
     .logo {
       width: 180px;
       height: 60px;
-      background: url("/assets/images/logo.svg") no-repeat center center;
+      background: url('/assets/images/logo.svg') no-repeat center center;
       background-size: contain;
     }
   }

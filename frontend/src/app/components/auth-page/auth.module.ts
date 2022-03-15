@@ -1,3 +1,4 @@
+import { AuthRoutingModule } from './auth-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +14,7 @@ import { RegistrationFormComponent } from './registration-form/registration-form
     LoginFormComponent,
     RegistrationFormComponent,
   ],
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, AuthRoutingModule],
   providers: [],
 })
-export class AuthPageModule {}
+export class AuthModule {}

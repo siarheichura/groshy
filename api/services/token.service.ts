@@ -12,10 +12,10 @@ interface TokenPayload {
 class TokenService {
   generateTokens(payload: TokenPayload) {
     const accessToken = jwt.sign(payload, config.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: '15d',
+      expiresIn: '10h',
     });
     const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN_SECRET_KEY, {
-      expiresIn: '15d',
+      expiresIn: '10d',
     });
     return { accessToken, refreshToken };
   }

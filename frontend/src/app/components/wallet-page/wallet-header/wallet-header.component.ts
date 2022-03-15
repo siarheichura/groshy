@@ -10,14 +10,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 import { WalletSettingsComponent } from '../wallet-settings/wallet-settings.component';
-import { RouterEnum } from '../../shared/enums/Router.enum';
+import { RouterEnum } from '../../../shared/enums/Router.enum';
 import { MoneyMoveTypes } from 'src/app/shared/enums/MoneyMoveTypes.enum';
-import { Wallet } from '../../shared/classes/Wallet';
-import { DRAWER_WIDTH } from './../../shared/constants/constants';
+import { Wallet } from '../../../shared/classes/Wallet';
+import { DRAWER_WIDTH } from '../../../shared/constants/constants';
 
 import { walletSelector } from 'src/app/store/wallets/wallets.selectros';
 import {
   GetWallet,
+  GetWalletCategories,
   ResetWalletState,
 } from 'src/app/store/wallets/wallets.actions';
 import { ChangeTab } from 'src/app/store/shared/shared.actions';
@@ -43,6 +44,11 @@ export class WalletHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(GetWallet({ payload: { id: this.walletId } }));
+    this.store.dispatch(
+      GetWalletCategories({
+        payload: { walletId: this.walletId },
+      })
+    );
   }
 
   onTabClick(tabName: string): void {

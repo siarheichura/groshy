@@ -1,31 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RegistrationFormComponent } from './components/auth-page/registration-form/registration-form.component';
-import { LoginFormComponent } from './components/auth-page/login-form/login-form.component';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { WalletHeaderComponent } from './components/wallet-header/wallet-header.component';
-import { StatisticsPageComponent } from './components/statistics-page/statistics-page.component';
-import { WalletPageComponent } from './components/wallet-page/wallet-page.component';
+import { WalletHeaderComponent } from './components/wallet-page/wallet-header/wallet-header.component';
+import { StatisticsComponent } from './components/wallet-page/statistics/statistics.component';
+import { MoneyMoveComponent } from './components/wallet-page/money-move/money-move.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ErrorPageComponent } from './shared/components/error-page/error-page.component';
-import { AuthPageComponent } from './components/auth-page/auth-page.component';
 
 import { AuthGuard } from './services/auth.guard';
 
 import { RouterEnum } from './shared/enums/Router.enum';
 
 const routes: Routes = [
-  {
-    path: RouterEnum.Auth,
-    component: AuthPageComponent,
-    children: [
-      { path: RouterEnum.Auth, redirectTo: '', pathMatch: 'full' },
-      { path: RouterEnum.Index, component: LoginFormComponent },
-      { path: RouterEnum.Registration, component: RegistrationFormComponent },
-    ],
-  },
-
   {
     path: RouterEnum.Index,
     component: MainLayoutComponent,
@@ -37,8 +24,8 @@ const routes: Routes = [
         component: WalletHeaderComponent,
         children: [
           { path: `${RouterEnum.Wallet}/:id`, redirectTo: '' },
-          { path: RouterEnum.Index, component: WalletPageComponent },
-          { path: RouterEnum.Statistics, component: StatisticsPageComponent },
+          { path: RouterEnum.Index, component: MoneyMoveComponent },
+          { path: RouterEnum.Statistics, component: StatisticsComponent },
         ],
       },
     ],

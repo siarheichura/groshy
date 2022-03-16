@@ -13,6 +13,7 @@ import {
   AddCategorySuccess,
   RemoveCategorySuccess,
   ResetWalletState,
+  GetMoneyMoveStatisticsSuccess,
 } from './wallets.actions';
 
 export const walletsReducer = createReducer(
@@ -95,5 +96,9 @@ export const walletsReducer = createReducer(
       }
       return day;
     }),
+  })),
+  on(GetMoneyMoveStatisticsSuccess, (state, { payload }) => ({
+    ...state,
+    statistics: payload.filter((item) => item.amount !== 0),
   }))
 );

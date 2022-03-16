@@ -1,3 +1,4 @@
+import { MoneyMoveStat } from './../../shared/interfaces/MoneyMoveStat.interface';
 import { createAction, props } from '@ngrx/store';
 import { Dayjs } from 'dayjs';
 
@@ -38,6 +39,8 @@ enum WalletsActionsEnum {
   RemoveMoneyMoveItemSuccess = 'REMOVE_MONEY_MOVE_ITEM_SUCCESS',
   EditMoneyMoveItem = 'EDIT_MONEY_MOVE_ITEM',
   EditMoneyMoveItemSuccess = 'EDIT_MONEY_MOVE_ITEM_SUCCESS',
+  GetMoneyMoveStatistics = 'GET_MONEY_MOVE_STATISTICS',
+  GetMoneyMoveStatisticsSuccess = 'GET_MONEY_MOVE_STAT_STATISTICS',
 }
 
 export const ResetWalletState = createAction(
@@ -157,5 +160,22 @@ export const EditMoneyMoveItem = createAction(
       startDate: Dayjs;
       finishDate?: Dayjs;
     };
+  }>()
+);
+export const GetMoneyMoveStatistics = createAction(
+  getFullActionName(WalletsActionsEnum.GetMoneyMoveStatistics),
+  props<{
+    payload: {
+      walletId: string;
+      type: string;
+      startDate: Dayjs;
+      finishDate?: Dayjs;
+    };
+  }>()
+);
+export const GetMoneyMoveStatisticsSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.GetMoneyMoveStatisticsSuccess),
+  props<{
+    payload: MoneyMoveStat[];
   }>()
 );

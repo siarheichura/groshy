@@ -5,24 +5,27 @@ export const featureSelector = createFeatureSelector<WalletsState>('wallets');
 
 export const walletsSelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.wallets
+  (state) => state.wallets
 );
 export const walletSelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.wallet
+  (state) => state.wallet
 );
 export const walletCurrencySelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.wallet.currency
+  (state) => state.wallet.currency
 );
-
 export const categoriesSelector = (props?: { type: string }) =>
-  createSelector(featureSelector, (state: WalletsState) =>
+  createSelector(featureSelector, (state) =>
     props
       ? state.categories.filter((category) => category.type === props.type)
       : state.categories
   );
 export const periodMoneyMoveSelector = createSelector(
   featureSelector,
-  (state: WalletsState) => state.periodMoneyMove
+  (state) => state.periodMoneyMove
+);
+export const moneyMoveStatisticsSelector = createSelector(
+  featureSelector,
+  (state) => state.statistics
 );

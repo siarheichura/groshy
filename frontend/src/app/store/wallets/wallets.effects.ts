@@ -224,4 +224,26 @@ export class WalletsEffects {
       )
     );
   });
+
+  getMoneyMoveStatistics$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WalletsActions.GetMoneyMoveStatistics),
+      switchMap(({ payload }) =>
+        this.walletService
+          .getMoneyMoveStatistic(
+            payload.walletId,
+            payload.type,
+            payload.startDate,
+            payload.finishDate
+          )
+          .pipe(
+            map((data) =>
+              WalletsActions.GetMoneyMoveStatisticsSuccess({
+                payload: data.data,
+              })
+            )
+          )
+      )
+    );
+  });
 }

@@ -8,9 +8,11 @@ import { MoneyMoveCategory } from './../shared/interfaces/MoneyMoveCategory.inte
 import { MoneyMoveItem } from './../shared/interfaces/MoneyMoveItem.interface';
 import { HTTP } from '../shared/interfaces/Http.interface';
 import { Wallet } from '../shared/classes/Wallet';
+import { MoneyMoveStat } from '../shared/interfaces/MoneyMoveStat.interface';
 
 const API_PATH_WALLETS = '/wallets';
 const API_PATH_CATEGORIES = '/categories';
+const API_PATH_STATISTICS = '/statistics';
 
 @Injectable({ providedIn: 'root' })
 export class WalletService {
@@ -98,6 +100,17 @@ export class WalletService {
   ): Observable<HTTP<MoneyMoveItem[]>> {
     return this.http.get<HTTP<MoneyMoveItem[]>>(
       `${environment.apiUrl}/${type}/${walletId}/${startDate}/${finishDate}`
+    );
+  }
+
+  getMoneyMoveStatistic(
+    walletId: string,
+    type: string,
+    startDate: Dayjs,
+    finishDate?: Dayjs
+  ): Observable<HTTP<MoneyMoveStat[]>> {
+    return this.http.get<HTTP<MoneyMoveStat[]>>(
+      `${environment.apiUrl}/${type}${API_PATH_STATISTICS}/${walletId}/${startDate}/${finishDate}`
     );
   }
 

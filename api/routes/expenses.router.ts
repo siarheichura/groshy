@@ -9,6 +9,10 @@ expensesRouter.get(
   `${RouterEnum.Expense}/:walletId/:startDate/:finishDate?`,
   controller.getExpensesByPeriod
 );
+expensesRouter.get(
+  `${RouterEnum.ExpenseStatistics}/:walletId/:startDate/:finishDate?`,
+  controller.getExpensesByCategories
+);
 expensesRouter.post(`${RouterEnum.Expense}/:id`, controller.addExpense);
 expensesRouter.delete(
   `${RouterEnum.Expense}/:expenseId`,

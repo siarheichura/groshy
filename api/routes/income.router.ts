@@ -9,6 +9,10 @@ incomeRouter.get(
   `${RouterEnum.Income}/:walletId/:startDate/:finishDate?`,
   controller.getIncomeByPeriod
 );
+incomeRouter.get(
+  `${RouterEnum.IncomeStatistics}/:walletId/:startDate/:finishDate?`,
+  controller.getIncomeByCategories
+);
 incomeRouter.post(`${RouterEnum.Income}/:id`, controller.addIncome);
 incomeRouter.delete(`${RouterEnum.Income}/:incomeId`, controller.removeIncome);
 incomeRouter.put(`${RouterEnum.Income}/:incomeId`, controller.editIncome);

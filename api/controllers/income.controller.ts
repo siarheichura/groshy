@@ -1,4 +1,6 @@
-import { Request, Response } from 'express';
+import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
+import { CategoryModel } from './../models/Category';
+import { NextFunction, Request, Response } from 'express';
 import dayjs from 'dayjs';
 import { Income, IncomeModel } from './../models/Income';
 import { WalletModel } from '../models/Wallet';
@@ -12,8 +14,8 @@ export class IncomeController {
         const income = await IncomeModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(req.params.startDate).startOf('day'),
-            $lt: dayjs(req.params.finishDate).endOf('day'),
+            $gte: dayjs(startDate).startOf('day'),
+            $lt: dayjs(finishDate).endOf('day'),
           },
         });
         res.send({ data: income });
@@ -21,14 +23,46 @@ export class IncomeController {
         const income = await IncomeModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(req.params.startDate).startOf('day'),
-            $lt: dayjs(req.params.startDate).endOf('day'),
+            $gte: dayjs(startDate).startOf('day'),
+            $lt: dayjs(startDate).endOf('day'),
           },
         });
         res.send({ data: income });
       }
     } catch (err) {
       res.send('Cannot get income');
+    }
+  }
+
+  async getIncomeByCategories(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { walletId, startDate, finishDate } = req.params;
+      const categories = await CategoryModel.find(
+        {
+          wallet: walletId,
+          type: MoneyMoveTypes.Income,
+        },
+        'name'
+      );
+      const income = await IncomeModel.find({
+        wallet: walletId,
+        date: {
+          $gte: dayjs(startDate).startOf('day'),
+          $lt: dayjs(finishDate).endOf('day'),
+        },
+      });
+
+      const result = categories.map((category) => {
+        const amount = income
+          .filter((item) => item.category === category.name)
+          .reduce((prev, curr) => prev + curr.amount, 0);
+
+        return { category, amount };
+      });
+
+      res.send({ data: result });
+    } catch (err) {
+      next(err);
     }
   }
 

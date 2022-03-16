@@ -1,3 +1,29 @@
-<div class="container">
-  <div echarts [initOpts]="initOpts" [options]="options"></div>
+<div class="stat">
+  <nz-date-picker
+    nzMode="month"
+    class="stat__date-picker"
+    nzFormat="MM.YYYY"
+    [formControl]="datePicker"
+    [nzDisabledDate]="disabledDates"
+    (ngModelChange)="onDateChange()"
+  ></nz-date-picker>
+
+  <div class="stat__pie">
+    <div echarts [options]="options"></div>
+  </div>
+
+  <div class="stat__list">
+    <div class="stat__item" *ngFor="let item of statistics$ | async">
+      <p class="stat__item-name">{{ item.category.name }}</p>
+      <div class="stat__item-numbers">
+        <div class="stat__item-sum">
+          <p>{{ item.amount }}</p>
+          <p>{{ currency$ | async }}</p>
+        </div>
+        <div>
+          {{ (item.amount / totalMoneyMoveSum) * 100 | number: '1.0-2' }}%
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -10,6 +10,8 @@ export enum RouterEnum {
   User = '/user',
   Wallets = '/wallets',
   Expense = '/expense',
+  ExpenseStatistics = '/expense/statistics',
   Income = '/income',
+  IncomeStatistics = '/income/statistics',
   Categories = '/categories',
 }

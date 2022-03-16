@@ -1,4 +1,6 @@
-import { Request, Response } from 'express';
+import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
+import { CategoryModel } from './../models/Category';
+import { Request, Response, NextFunction } from 'express';
 import dayjs from 'dayjs';
 import { Expense, ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
@@ -12,8 +14,8 @@ export class ExpensesController {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(req.params.startDate).startOf('day'),
-            $lt: dayjs(req.params.finishDate).endOf('day'),
+            $gte: dayjs(startDate).startOf('day'),
+            $lt: dayjs(finishDate).endOf('day'),
           },
         });
         res.send({ data: expenses });
@@ -21,14 +23,51 @@ export class ExpensesController {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(req.params.startDate).startOf('day'),
-            $lt: dayjs(req.params.startDate).endOf('day'),
+            $gte: dayjs(startDate).startOf('day'),
+            $lt: dayjs(startDate).endOf('day'),
           },
         });
         res.send({ data: expenses });
       }
     } catch (err) {
       res.send('Cannot get expenses');
+    }
+  }
+
+  async getExpensesByCategories(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { walletId, startDate, finishDate } = req.params;
+      const categories = await CategoryModel.find(
+        {
+          wallet: walletId,
+          type: MoneyMoveTypes.Expense,
+        },
+        'name'
+      );
+      const expenses = await ExpenseModel.find({
+        wallet: walletId,
+        date: {
+          $gte: dayjs(startDate).startOf('day'),
+          $lt: dayjs(finishDate).endOf('day'),
+        },
+      });
+
+      const result = categories
+        .map((category) => {
+          const amount = expenses
+            .filter((item) => item.category === category.name)
+            .reduce((prev, curr) => prev + curr.amount, 0);
+          return { category, amount };
+        })
+        .sort((a, b) => b.amount - a.amount);
+
+      res.send({ data: result });
+    } catch (err) {
+      next(err);
     }
   }
 

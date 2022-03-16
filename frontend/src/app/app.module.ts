@@ -34,7 +34,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
   declarations: [AppComponent, MainLayoutComponent, UserProfileComponent],
   imports: [
-    AppRoutingModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -50,6 +49,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
       logOnly: environment.production,
     }),
     EffectsModule.forRoot([WalletsEffects, UserEffects, SharedEffects]),
+    AppRoutingModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, INTERCEPTOR_PROVIDER],
   bootstrap: [AppComponent],

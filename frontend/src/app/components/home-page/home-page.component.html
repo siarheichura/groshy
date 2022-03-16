@@ -1,6 +1,10 @@
 <div class="container">
   <app-list
-    [title]="'Choose your wallet 💰'"
+    [title]="
+      (walletsForList$ | async).length
+        ? 'Choose your wallet 💰'
+        : 'Add your first wallet 💰'
+    "
     [items]="walletsForList$ | async"
     (onAdd)="printAddWalletModal()"
     (onClick)="onWalletClick($event)"

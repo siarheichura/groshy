@@ -1,8 +1,6 @@
-import { CheckAuth } from './store/user/user.actions';
-import { environment } from './../environments/environment';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { loadingSelector } from './store/shared/shared.selectros';
 
@@ -12,14 +10,8 @@ import { loadingSelector } from './store/shared/shared.selectros';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   loading$: Observable<boolean> = this.store.select(loadingSelector);
 
   constructor(private store: Store) {}
-
-  ngOnInit(): void {
-    if (localStorage.getItem(environment.LocalStorageUserKey)) {
-      // this.store.dispatch(CheckAuth());
-    }
-  }
 }

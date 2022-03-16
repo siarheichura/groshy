@@ -1,14 +1,14 @@
 :host {
   .wallet {
     width: 100%;
-    margin: 30px 0;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     &__name {
       position: relative;
-      font-size: 32px;
+      font-size: 2rem;
       cursor: pointer;
     }
 
@@ -41,7 +41,7 @@
     }
 
     &__sum {
-      font-size: 45px;
+      font-size: 2.5rem;
       font-weight: 700;
     }
   }

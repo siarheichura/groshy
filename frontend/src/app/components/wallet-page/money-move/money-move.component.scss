@@ -1,4 +1,6 @@
 :host {
+  font-size: 1rem;
+
   .header {
     width: 100%;
     margin-bottom: 20px;
@@ -12,5 +14,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  @media (max-width: 700px) {
+    .container {
+      width: 90%;
+    }
   }
 }

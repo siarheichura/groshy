@@ -6,11 +6,9 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { ListItem } from './../../interfaces/ListItem';
-import { loadingSelector } from 'src/app/store/shared/shared.selectros';
 
 @Component({
   selector: 'app-list',

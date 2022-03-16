@@ -2,14 +2,15 @@
   .header {
     max-width: 700px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 20px 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 1rem;
 
     &__logo {
-      width: 50px;
-      height: 50px;
+      width: 3.5rem;
+      height: 3.5rem;
       background: url('/assets/images/mini-logo.svg') no-repeat center center;
       background-size: contain;
       cursor: pointer;
@@ -21,8 +22,8 @@
       gap: 10px;
 
       &--profile {
-        width: 25px;
-        height: 25px;
+        width: 1.8rem;
+        height: 1.8rem;
         background: url('/assets/images/profile.svg') no-repeat center center;
         background-size: contain;
         cursor: pointer;

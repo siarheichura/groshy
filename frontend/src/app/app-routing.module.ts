@@ -31,7 +31,7 @@ const routes: Routes = [
     ],
   },
   { path: RouterEnum.Error, component: ErrorPageComponent },
-  // { path: '**', redirectTo: RouterEnum.Error },
+  { path: '**', redirectTo: RouterEnum.Error },
 ];
 
 @NgModule({

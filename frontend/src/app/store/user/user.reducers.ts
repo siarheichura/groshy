@@ -18,15 +18,15 @@ export const userReducer = createReducer(
   on(UserActions.Logout, (state) => {
     return {
       ...state,
-      isAuth: false,
       user: {} as User,
+      isAuth: false,
     };
   }),
-  on(UserActions.CheckAuthSuccess, (state, { payload }) => {
+  on(UserActions.RefreshSuccess, (state, { payload }) => {
     return {
       ...state,
-      isAuth: true,
       user: payload,
+      isAuth: true,
     };
   }),
   on(UserActions.GetUserSuccess, (state, { payload }) => ({

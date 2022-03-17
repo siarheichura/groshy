@@ -11,8 +11,8 @@ export enum UserActionsEnum {
   Registration = 'REGISTRATION',
   RegistrationSuccess = 'REGISTRATION_SUCCESS',
   Logout = 'LOGOUT',
-  CheckAuth = 'CHECK_AUTH',
-  CheckAuthSuccess = 'CHECK_AUTH_SUCCESS',
+  Refresh = 'REFRESH',
+  RefreshSuccess = 'REFRESH_SUCCESS',
   GetUser = 'GET_USER',
   GetUserSuccess = 'GET_USER_SUCCESS',
 }
@@ -34,11 +34,9 @@ export const LoginSuccess = createAction(
   props<{ payload: User }>()
 );
 export const Logout = createAction(getFullActionName(UserActionsEnum.Logout));
-export const CheckAuth = createAction(
-  getFullActionName(UserActionsEnum.CheckAuth)
-);
-export const CheckAuthSuccess = createAction(
-  getFullActionName(UserActionsEnum.CheckAuthSuccess),
+export const Refresh = createAction(getFullActionName(UserActionsEnum.Refresh));
+export const RefreshSuccess = createAction(
+  getFullActionName(UserActionsEnum.RefreshSuccess),
   props<{ payload: User }>()
 );
 

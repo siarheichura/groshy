@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { environment } from '../environments/environment';
 
@@ -39,6 +40,16 @@ const INTERCEPTOR_PROVIDER: Provider = {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {},
+    }),
+    // .forRoot({
+    //   config: {
+    //     tokenGetter: tokenGetter,
+    //     allowedDomains: ["example.com"],
+    //     disallowedRoutes: ["http://example.com/examplebadroute/"],
+    //   },
+    // }),
     SharedModule,
     AuthModule,
     HomePageModule,

@@ -11,10 +11,6 @@ const API_PATH_LOGOUT = '/logout';
 const API_PATH_USER = '/user';
 const API_PATH_REFRESH = '/refresh';
 
-interface Token {
-  token: string;
-}
-
 interface AuthResponse {
   accessToken: string;
   refreshToken: string;
@@ -38,7 +34,11 @@ export class AuthService {
 
   login(user: UserLogin): Observable<HTTP<AuthResponse>> {
     return this.http
-      .post<HTTP<AuthResponse>>(`${environment.apiUrl}${API_PATH_LOGIN}`, user)
+      .post<HTTP<AuthResponse>>(
+        `${environment.apiUrl}${API_PATH_LOGIN}`,
+        user,
+        { withCredentials: true }
+      )
       .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
   }
 
@@ -47,9 +47,11 @@ export class AuthService {
     return this.http.post(`${environment.apiUrl}${API_PATH_LOGOUT}`, null);
   }
 
-  checkAuth(): Observable<AuthResponse> {
+  refresh(): Observable<AuthResponse> {
     return this.http
-      .get<AuthResponse>(`${environment.apiUrl}${API_PATH_REFRESH}`)
+      .get<AuthResponse>(`${environment.apiUrl}${API_PATH_REFRESH}`, {
+        withCredentials: true,
+      })
       .pipe(tap((resp) => this.setToken(resp.accessToken)));
   }
 
@@ -64,14 +66,6 @@ export class AuthService {
   removeToken(): void {
     localStorage.removeItem(environment.LocalStorageUserKey);
   }
-
-  // jwtDecode() {
-  //   try {
-  //     return JSON.parse(atob(this.token!.split('.')[1]));
-  //   } catch (error) {
-  //     return null;
-  //   }
-  // }
 
   getUser(id: string): Observable<User> {
     return this.http.get<User>(`${environment.apiUrl}${API_PATH_USER}/${id}`);

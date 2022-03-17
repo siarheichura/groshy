@@ -15,9 +15,7 @@ export class WalletController {
   async getUserWallets(req: Request, res: Response, next: NextFunction) {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      const { id }: UserDto = tokenService.validateAccessToken(
-        token
-      ) as UserDto;
+      const { id } = tokenService.validateAccessToken(token) as UserDto;
       const userWallets = await WalletModel.find({ user: id }).populate(
         'expensesSum incomeSum'
       );

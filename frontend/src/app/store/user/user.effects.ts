@@ -69,14 +69,14 @@ export class UserEffects {
     );
   });
 
-  checkAuth$ = createEffect(() => {
+  refresh$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserActions.CheckAuth),
+      ofType(UserActions.Refresh),
       switchMap(() =>
         this.authService
-          .checkAuth()
+          .refresh()
           .pipe(
-            map((data) => UserActions.CheckAuthSuccess({ payload: data.user }))
+            map((data) => UserActions.RefreshSuccess({ payload: data.user }))
           )
       )
     );

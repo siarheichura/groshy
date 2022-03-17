@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { ListItem } from './../../interfaces/ListItem';
+import { ListItem } from './../../interfaces/ListItem.interface';
 
 @Component({
   selector: 'app-list',

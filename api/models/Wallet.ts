@@ -34,7 +34,7 @@ const WalletSchema = new Schema<Wallet>({
 
 WalletSchema.virtual('expensesSum', {
   ref: 'Expense',
-  localField: '_id',
+  localField: 'id',
   foreignField: 'wallet',
 }).get(function (this: Wallet, data: Expense[]) {
   const result = data.reduce((prev, curr) => prev + curr.amount, 0);
@@ -43,7 +43,7 @@ WalletSchema.virtual('expensesSum', {
 
 WalletSchema.virtual('incomeSum', {
   ref: 'Income',
-  localField: '_id',
+  localField: 'id',
   foreignField: 'wallet',
 }).get(function (this: Wallet, data: Income[]) {
   const result = data.reduce((prev, curr) => prev + curr.amount, 0);

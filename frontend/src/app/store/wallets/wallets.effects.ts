@@ -88,21 +88,6 @@ export class WalletsEffects {
     );
   });
 
-  getBasicCategories$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.GetBasicCategories),
-      switchMap(() =>
-        this.walletService
-          .getBasicCategories()
-          .pipe(
-            map((data) =>
-              WalletsActions.GetBasicCategoriesSuccess({ payload: data.data })
-            )
-          )
-      )
-    );
-  });
-
   getWalletCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWalletCategories),

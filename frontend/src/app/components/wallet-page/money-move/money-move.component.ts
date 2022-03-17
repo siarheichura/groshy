@@ -151,7 +151,7 @@ export class MoneyMoveComponent implements OnInit {
       EditMoneyMoveItem({
         payload: {
           type: this.moneyMoveType,
-          itemId: item._id,
+          itemId: item.id,
           updatedItem: updatedItem,
           walletId: this.walletId,
           startDate: startDate,

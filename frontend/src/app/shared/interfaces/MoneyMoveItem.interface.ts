@@ -1,5 +1,5 @@
 export interface MoneyMoveItem {
-  _id: string;
+  id: string;
   category: string;
   amount: number;
   date: Date;

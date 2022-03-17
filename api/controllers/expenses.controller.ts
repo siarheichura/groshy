@@ -1,12 +1,13 @@
-import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
-import { CategoryModel } from './../models/Category';
 import { Request, Response, NextFunction } from 'express';
 import dayjs from 'dayjs';
-import { Expense, ExpenseModel } from './../models/Expense';
+import { ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
+import { CategoryModel } from './../models/Category';
+import { MoneyMoveDto } from '../dtos/money-move.dto';
+import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
 
 export class ExpensesController {
-  async getExpensesByPeriod(req: Request, res: Response) {
+  async getExpensesByPeriod(req: Request, res: Response, next: NextFunction) {
     try {
       const { walletId, startDate, finishDate } = req.params;
 
@@ -18,7 +19,10 @@ export class ExpensesController {
             $lt: dayjs(finishDate).endOf('day'),
           },
         });
-        res.send({ data: expenses });
+        const expensesDto = expenses.map(
+          (expense) => new MoneyMoveDto(expense)
+        );
+        res.send({ data: expensesDto });
       } else {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
@@ -27,10 +31,13 @@ export class ExpensesController {
             $lt: dayjs(startDate).endOf('day'),
           },
         });
-        res.send({ data: expenses });
+        const expensesDto = expenses.map(
+          (expense) => new MoneyMoveDto(expense)
+        );
+        res.send({ data: expensesDto });
       }
     } catch (err) {
-      res.send('Cannot get expenses');
+      next(err);
     }
   }
 
@@ -51,8 +58,8 @@ export class ExpensesController {
       const expenses = await ExpenseModel.find({
         wallet: walletId,
         date: {
-          $gte: dayjs(startDate).startOf('day'),
-          $lt: dayjs(finishDate).endOf('day'),
+          $gte: dayjs(startDate),
+          $lt: dayjs(finishDate),
         },
       });
 
@@ -71,10 +78,9 @@ export class ExpensesController {
     }
   }
 
-  async addExpense(req: Request, res: Response) {
-    const walletId = req.params.id;
-
+  async addExpense(req: Request, res: Response, next: NextFunction) {
     try {
+      const walletId = req.params.id;
       const { category, amount, comment, date } = req.body;
       const expense = new ExpenseModel({
         category,
@@ -84,6 +90,7 @@ export class ExpensesController {
         wallet: walletId,
       });
       await expense.save();
+      const expenseDto = new MoneyMoveDto(expense);
 
       await WalletModel.findByIdAndUpdate(walletId, {
         $push: {
@@ -91,38 +98,37 @@ export class ExpensesController {
         },
       });
 
-      res.send({ data: expense });
+      res.send({ data: expenseDto });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot add expense' });
+      next(err);
     }
   }
 
-  async removeExpense(req: Request, res: Response) {
-    const expenseId = req.params.expenseId;
-    const expense = await ExpenseModel.findById(expenseId);
-    const { wallet: walletId } = expense;
-
+  async removeExpense(req: Request, res: Response, next: NextFunction) {
     try {
+      const expenseId = req.params.expenseId;
+      const expense = await ExpenseModel.findById(expenseId);
+      const { wallet: walletId } = expense;
       await ExpenseModel.findByIdAndDelete(expenseId);
       await WalletModel.findByIdAndUpdate(walletId, {
         $pull: { expenses: expenseId },
       });
-
-      res.send({ data: expense });
+      const expenseDto = new MoneyMoveDto(expense);
+      res.send({ data: expenseDto });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot remove expense' });
+      next(err);
     }
   }
 
-  async editExpense(req: Request, res: Response) {
-    const expenseId = req.params.expenseId;
-
+  async editExpense(req: Request, res: Response, next: NextFunction) {
     try {
+      const expenseId = req.params.expenseId;
       await ExpenseModel.findByIdAndUpdate(expenseId, req.body);
       const updatedExpense = await ExpenseModel.findById(expenseId);
-      res.send({ data: updatedExpense });
+      const expenseDto = new MoneyMoveDto(updatedExpense);
+      res.send({ data: expenseDto });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot edit expense' });
+      next(err);
     }
   }
 }

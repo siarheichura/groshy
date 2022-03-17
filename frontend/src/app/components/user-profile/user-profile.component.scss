@@ -1,20 +1,22 @@
 :host {
   .profile {
     font-size: 1rem;
-    // height: 100%;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: space-between;
-    // align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+
+    &__activate {
+      color: rgb(147, 14, 14);
+    }
 
     &__btn {
       padding-right: 30px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
       color: #999;
       border: none;
       background: none;
       background: url('/assets/images/logout-btn.svg') no-repeat center right;
-      background-size: contain;
+      background-size: 20px;
     }
   }
 }

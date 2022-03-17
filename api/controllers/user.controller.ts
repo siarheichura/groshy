@@ -60,9 +60,9 @@ export class UserController {
       const { refreshToken } = req.cookies;
       const token = await userService.logout(refreshToken);
       res.clearCookie(config.REFRESH_TOKEN_COOKIE_KEY);
-      return res.json(token);
-    } catch (e) {
-      next(e);
+      return res.json({ data: token });
+    } catch (err) {
+      next(err);
     }
   }
 
@@ -74,7 +74,7 @@ export class UserController {
         maxAge: config.REFRESH_TOKEN_COOKIE_MAX_AGE,
         httpOnly: true,
       });
-      return res.json(userData);
+      return res.json({ data: userData });
     } catch (err) {
       next(err);
     }

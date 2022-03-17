@@ -23,8 +23,6 @@ enum WalletsActionsEnum {
   RemoveWallet = 'REMOVE_WALLET',
   RemoveWalletSuccess = 'REMOVE_WALLET_SUCCESS',
   EditWallet = 'EDIT_WALLET',
-  GetBasicCategories = 'GET_BASIC_CATEGORIES',
-  GetBasicCategoriesSuccess = 'GET_BASIC_CATEGORIES_SUCCESS',
   GetWalletCategories = 'GET_WALLET_CATEGORIES',
   GetWalletCategoriesSuccess = 'GET_WALLET_CATEGORIES_SUCCESS',
   AddCategory = 'ADD_CATEGORY',
@@ -81,13 +79,6 @@ export const EditWallet = createAction(
   getFullActionName(WalletsActionsEnum.EditWallet),
   props<{ payload: { id: string; updatedWallet: Wallet } }>()
 );
-export const GetBasicCategories = createAction(
-  getFullActionName(WalletsActionsEnum.GetBasicCategories)
-);
-export const GetBasicCategoriesSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetBasicCategoriesSuccess),
-  props<{ payload: MoneyMoveCategory[] }>()
-);
 export const GetWalletCategories = createAction(
   getFullActionName(WalletsActionsEnum.GetWalletCategories),
   props<{ payload: { walletId: string } }>()
@@ -100,7 +91,9 @@ export const GetWalletCategoriesSuccess = createAction(
 );
 export const AddCategory = createAction(
   getFullActionName(WalletsActionsEnum.AddCategory),
-  props<{ payload: { walletId: string; category: MoneyMoveCategory } }>()
+  props<{
+    payload: { walletId: string; category: MoneyMoveCategory };
+  }>()
 );
 export const AddCategorySuccess = createAction(
   getFullActionName(WalletsActionsEnum.AddCategorySuccess),

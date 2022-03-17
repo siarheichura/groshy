@@ -1,12 +1,13 @@
-import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
-import { CategoryModel } from './../models/Category';
 import { NextFunction, Request, Response } from 'express';
 import dayjs from 'dayjs';
-import { Income, IncomeModel } from './../models/Income';
+import { IncomeModel } from './../models/Income';
 import { WalletModel } from '../models/Wallet';
+import { CategoryModel } from './../models/Category';
+import { MoneyMoveDto } from './../dtos/money-move.dto';
+import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
 
 export class IncomeController {
-  async getIncomeByPeriod(req: Request, res: Response) {
+  async getIncomeByPeriod(req: Request, res: Response, next: NextFunction) {
     try {
       const { walletId, startDate, finishDate } = req.params;
 
@@ -18,7 +19,8 @@ export class IncomeController {
             $lt: dayjs(finishDate).endOf('day'),
           },
         });
-        res.send({ data: income });
+        const incomeDto = income.map((income) => new MoneyMoveDto(income));
+        res.send({ data: incomeDto });
       } else {
         const income = await IncomeModel.find({
           wallet: walletId,
@@ -27,10 +29,11 @@ export class IncomeController {
             $lt: dayjs(startDate).endOf('day'),
           },
         });
-        res.send({ data: income });
+        const incomeDto = income.map((income) => new MoneyMoveDto(income));
+        res.send({ data: incomeDto });
       }
     } catch (err) {
-      res.send('Cannot get income');
+      next(err);
     }
   }
 
@@ -66,10 +69,9 @@ export class IncomeController {
     }
   }
 
-  async addIncome(req: Request, res: Response) {
-    const walletId = req.params.id;
-
+  async addIncome(req: Request, res: Response, next: NextFunction) {
     try {
+      const walletId = req.params.id;
       const { category, amount, comment, date } = req.body;
       const income = new IncomeModel({
         category,
@@ -79,45 +81,44 @@ export class IncomeController {
         wallet: walletId,
       });
       await income.save();
+      const incomeDto = new MoneyMoveDto(income);
 
       await WalletModel.findByIdAndUpdate(walletId, {
         $push: {
           income: income,
         },
       });
-      return res.send({ data: income });
+      return res.send({ data: incomeDto });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot add income' });
+      next(err);
     }
   }
 
-  async removeIncome(req: Request, res: Response) {
-    const incomeId = req.params.incomeId;
-    const income = await IncomeModel.findById(incomeId);
-    const { wallet: walletId } = income;
-
+  async removeIncome(req: Request, res: Response, next: NextFunction) {
     try {
+      const incomeId = req.params.incomeId;
+      const income = await IncomeModel.findById(incomeId);
+      const { wallet: walletId } = income;
       await IncomeModel.findByIdAndDelete(incomeId);
       await WalletModel.findByIdAndUpdate(walletId, {
         $pull: { income: incomeId },
       });
-
-      res.send({ data: income });
+      const incomeDto = new MoneyMoveDto(income);
+      res.send({ data: incomeDto });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot remove income' });
+      next(err);
     }
   }
 
-  async editIncome(req: Request, res: Response) {
-    const incomeId = req.params.incomeId;
-
+  async editIncome(req: Request, res: Response, next: NextFunction) {
     try {
+      const incomeId = req.params.incomeId;
       await IncomeModel.findByIdAndUpdate(incomeId, req.body);
       const updatedExpense = await IncomeModel.findById(incomeId);
-
-      res.send({ data: updatedExpense });
+      const incomeDto = new MoneyMoveDto(updatedExpense);
+      res.send({ data: incomeDto });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot edit income' });
+      next(err);
     }
   }
 }

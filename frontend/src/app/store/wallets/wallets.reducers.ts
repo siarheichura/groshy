@@ -9,7 +9,6 @@ import {
   GetMoneyMoveByPeriodSuccess,
   AddMoneyMoveItemSuccess,
   RemoveMoneyMoveItemSuccess,
-  GetBasicCategoriesSuccess,
   AddCategorySuccess,
   RemoveCategorySuccess,
   ResetWalletState,
@@ -47,10 +46,6 @@ export const walletsReducer = createReducer(
     ...state,
     wallets: state.wallets.filter((wallet) => wallet.id !== payload.id),
   })),
-  on(GetBasicCategoriesSuccess, (state, { payload }) => ({
-    ...state,
-    categories: payload,
-  })),
   on(GetWalletCategoriesSuccess, (state, { payload }) => ({
     ...state,
     categories: payload,
@@ -62,7 +57,7 @@ export const walletsReducer = createReducer(
   on(RemoveCategorySuccess, (state, { payload }) => ({
     ...state,
     categories: state.categories.filter(
-      (category) => category._id !== payload.id
+      (category) => category.id !== payload.id
     ),
   })),
   on(GetMoneyMoveByPeriodSuccess, (state, { payload }) => ({
@@ -89,7 +84,7 @@ export const walletsReducer = createReducer(
         return {
           ...day,
           moneyMoveItems: day.moneyMoveItems.filter(
-            (item) => item._id !== payload._id
+            (item) => item.id !== payload.id
           ),
           moneyMoveSum: day.moneyMoveSum - payload.amount,
         };

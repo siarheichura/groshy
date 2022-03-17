@@ -18,7 +18,7 @@ import {
 import { ResetSharedState } from './../../store/shared/shared.actions';
 import { walletsSelector } from 'src/app/store/wallets/wallets.selectros';
 import { RouterEnum } from './../../shared/enums/Router.enum';
-import { ListItem } from './../../shared/interfaces/ListItem';
+import { ListItem } from './../../shared/interfaces/ListItem.interface';
 import { Wallet } from 'src/app/shared/classes/Wallet';
 import { MODAL_WIDTH } from 'src/app/shared/constants/constants';
 

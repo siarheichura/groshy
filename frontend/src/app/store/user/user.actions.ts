@@ -39,7 +39,6 @@ export const RefreshSuccess = createAction(
   getFullActionName(UserActionsEnum.RefreshSuccess),
   props<{ payload: User }>()
 );
-
 export const GetUser = createAction(
   getFullActionName(UserActionsEnum.GetUser),
   props<{ payload: string }>()

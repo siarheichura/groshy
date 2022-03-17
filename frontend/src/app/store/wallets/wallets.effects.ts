@@ -88,21 +88,6 @@ export class WalletsEffects {
     );
   });
 
-  getBasicCategories$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.GetBasicCategories),
-      switchMap(() =>
-        this.walletService
-          .getBasicCategories()
-          .pipe(
-            map((data) =>
-              WalletsActions.GetBasicCategoriesSuccess({ payload: data.data })
-            )
-          )
-      )
-    );
-  });
-
   getWalletCategories$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWalletCategories),
@@ -162,7 +147,11 @@ export class WalletsEffects {
           .pipe(
             map((data) =>
               WalletsActions.GetMoneyMoveByPeriodSuccess({
-                payload: getMoneyMoveItemsByPeriod(data.data),
+                payload: getMoneyMoveItemsByPeriod(
+                  data.data,
+                  payload.startDate,
+                  payload.finishDate
+                ),
               })
             )
           )

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { CURRENCIES } from './../../constants/constants';
 import { Wallet } from 'src/app/shared/classes/Wallet';
 import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
 
@@ -35,7 +36,7 @@ export class WalletFormComponent implements OnInit {
   @Output() onSubmit = new EventEmitter();
   @Output() onCancel = new EventEmitter();
 
-  currencies: string[] = ['USD', 'EUR', 'BYN', 'RUB'];
+  currencies: string[] = CURRENCIES;
 
   walletForm: FormGroup;
   formControls = FormEnum;

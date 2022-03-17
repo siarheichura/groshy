@@ -18,7 +18,7 @@
         class="tag"
         nzMode="closeable"
         *ngFor="let category of expenseCategories$ | async"
-        (nzOnClose)="removeCategory(category._id)"
+        (nzOnClose)="removeCategory(category.id)"
       >
         {{ category.name }}
       </nz-tag>
@@ -52,7 +52,7 @@
         class="tag"
         nzMode="closeable"
         *ngFor="let category of incomeCategories$ | async"
-        (nzOnClose)="removeCategory(category._id)"
+        (nzOnClose)="removeCategory(category.id)"
       >
         {{ category.name }}
       </nz-tag>

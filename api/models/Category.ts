@@ -1,7 +1,8 @@
 import { Schema, model, Types } from 'mongoose';
 import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
 
-interface Category {
+export interface Category {
+  id: string;
   type: MoneyMoveTypes;
   name: string;
   basic: boolean;

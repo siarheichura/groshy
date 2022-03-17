@@ -1,6 +1,7 @@
 import { Schema, model, Types } from 'mongoose';
 
 export interface Expense {
+  id: string;
   category: string;
   date: Date;
   amount: number;

@@ -64,12 +64,6 @@ export class WalletService {
     );
   }
 
-  getBasicCategories(): Observable<HTTP<MoneyMoveCategory[]>> {
-    return this.http.get<HTTP<MoneyMoveCategory[]>>(
-      `${environment.apiUrl}${API_PATH_CATEGORIES}/basic`
-    );
-  }
-
   getWalletCategories(walletId: string): Observable<HTTP<MoneyMoveCategory[]>> {
     return this.http.get<HTTP<MoneyMoveCategory[]>>(
       `${environment.apiUrl}${API_PATH_CATEGORIES}/${walletId}`

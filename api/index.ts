@@ -5,6 +5,8 @@ dotenv.config();
 
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import { errorMiddleware } from './middleware/error.middleware';
 
 import { RouterEnum } from './shared/enums/RouterEnum';
 import { walletRouter } from './routes/wallet.routes';
@@ -12,7 +14,6 @@ import { userRouter } from './routes/user.router';
 import { expensesRouter } from './routes/expenses.router';
 import { incomeRouter } from './routes/income.router';
 import { categoryRouter } from './routes/categoty.routes';
-import { errorMiddleware } from './middleware/error.middleware';
 
 app.use(
   cors({
@@ -21,6 +22,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   RouterEnum.Base,
   userRouter,

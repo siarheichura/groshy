@@ -12,10 +12,10 @@ interface TokenPayload {
 class TokenService {
   generateTokens(payload: TokenPayload) {
     const accessToken = jwt.sign(payload, config.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: '10h',
+      expiresIn: config.ACCESS_TOKEN_EXPIRE_TIME,
     });
     const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN_SECRET_KEY, {
-      expiresIn: '10d',
+      expiresIn: config.REFRESH_TOKEN_EXPIRE_TIME,
     });
     return { accessToken, refreshToken };
   }
@@ -53,6 +53,11 @@ class TokenService {
 
   async findToken(refreshToken: string) {
     const tokenData = await TokenModel.findOne({ refreshToken });
+    return tokenData;
+  }
+
+  async removeToken(refreshToken: string) {
+    const tokenData = await TokenModel.deleteOne({ refreshToken });
     return tokenData;
   }
 }

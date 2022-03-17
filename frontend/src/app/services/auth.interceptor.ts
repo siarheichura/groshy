@@ -1,47 +1,55 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse,
 } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { catchError, Observable, throwError, tap, take } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 import { AuthService } from './auth.service';
-import { Logout } from './../store/user/user.actions';
+import { Logout, Refresh } from './../store/user/user.actions';
 import { RouterEnum } from './../shared/enums/Router.enum';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  retry: boolean = false;
+
   constructor(
     private authService: AuthService,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private jwtHelper: JwtHelperService
   ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const newReq = req.clone();
+
     if (this.authService.isAuthenticated()) {
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${this.authService.token}`,
         },
-        withCredentials: true,
       });
     }
 
+    const isJwtExpired = this.jwtHelper.isTokenExpired(this.authService.token);
+
     return next.handle(req).pipe(
-      catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
+      catchError((error) => {
+        if (error.status === 401 && isJwtExpired) {
+          this.store.dispatch(Refresh());
+        } else if (error.status === 401) {
           this.store.dispatch(Logout());
           this.router.navigate([RouterEnum.Auth]);
         }
-        return throwError(() => err);
+        return throwError(() => error);
       })
     );
   }

@@ -1,3 +1,4 @@
+import { config } from './../config';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 
@@ -42,12 +43,26 @@ export class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
+      res.cookie(config.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
+        maxAge: config.REFRESH_TOKEN_COOKIE_MAX_AGE,
+      });
       return res.json({
         data: userData,
-        message: 'Login success!',
+        message: `Hey, ${userData.user.username}`,
       });
     } catch (err) {
       next(err);
+    }
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { refreshToken } = req.cookies;
+      const token = await userService.logout(refreshToken);
+      res.clearCookie(config.REFRESH_TOKEN_COOKIE_KEY);
+      return res.json(token);
+    } catch (e) {
+      next(e);
     }
   }
 
@@ -55,8 +70,8 @@ export class UserController {
     try {
       const { refreshToken } = req.cookies;
       const userData = await userService.refresh(refreshToken);
-      res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 10 * 24 * 60 * 60 * 1000,
+      res.cookie(config.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
+        maxAge: config.REFRESH_TOKEN_COOKIE_MAX_AGE,
         httpOnly: true,
       });
       return res.json(userData);

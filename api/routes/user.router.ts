@@ -26,3 +26,4 @@ userRouter.post(
 userRouter.post(RouterEnum.Login, controller.login);
 userRouter.get(`${RouterEnum.Activate}/:link`, controller.activate);
 userRouter.get(`${RouterEnum.User}/:id`, controller.getUser);
+userRouter.get(RouterEnum.Refresh, controller.refresh);

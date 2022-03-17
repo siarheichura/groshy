@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, Subscription, map, tap } from 'rxjs';
-import { EChartsOption } from 'echarts';
+import { Observable, Subscription, map, tap, take } from 'rxjs';
 import dayjs from 'dayjs';
 
 import { MoneyMoveStat } from './../../../shared/interfaces/MoneyMoveStat.interface';
@@ -15,6 +14,11 @@ import {
   walletCurrencySelector,
 } from './../../../store/wallets/wallets.selectros';
 
+interface ChartOptions {
+  value: number;
+  name: string;
+}
+
 @UntilDestroy()
 @Component({
   selector: 'app-statistics',
@@ -23,12 +27,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsComponent implements OnInit {
-  options: EChartsOption = {
-    tooltip: {
-      trigger: 'item',
-      formatter: `<strong>{b}</strong> : {c} ({d}%)`,
-    },
-  };
+  results: ChartOptions[];
 
   datePicker = new FormControl(new Date());
   disabledDates = (date: Date): boolean =>
@@ -82,26 +81,14 @@ export class StatisticsComponent implements OnInit {
   }
 
   setPieOptions(data: MoneyMoveStat[]) {
-    this.options.series = {
-      type: 'pie',
-      radius: '95%',
-      itemStyle: {
-        borderRadius: 7,
-        borderColor: '#fff',
-        borderWidth: 2,
-      },
-      label: {
-        show: false,
-      },
-      data: data.map((item) => ({
-        value: item.amount,
-        name: item.category.name,
-      })),
-    };
+    this.results = data.map((item) => ({
+      value: item.amount,
+      name: item.category.name,
+    }));
   }
 
   onDateChange() {
-    this.statistics$.pipe(untilDestroyed(this)).subscribe((resp) => {
+    this.statistics$.pipe(take(1)).subscribe((resp) => {
       this.getStatistics(this.datePicker.value);
       this.setPieOptions(resp);
     });

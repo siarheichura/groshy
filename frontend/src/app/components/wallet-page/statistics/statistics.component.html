@@ -8,8 +8,23 @@
     (ngModelChange)="onDateChange()"
   ></nz-date-picker>
 
+  <nz-empty
+    nzNotFoundImage="simple"
+    *ngIf="!(statistics$ | async).length"
+    class="stat__empty"
+  ></nz-empty>
+
   <div class="stat__pie">
-    <div echarts [options]="options"></div>
+    <ngx-charts-pie-chart [results]="results" #tooltipTemplate>
+      <ng-template #tooltipTemplate let-model="model">
+        <div class="stat__tools">
+          <div>
+            {{ model.name }}
+          </div>
+          <div>{{ model.value }} {{ currency$ | async }}</div>
+        </div>
+      </ng-template>
+    </ngx-charts-pie-chart>
   </div>
 
   <div class="stat__list">

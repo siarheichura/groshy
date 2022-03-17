@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxEchartsModule } from 'ngx-echarts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { SharedModule } from './../../shared/shared.module';
 import { MoneyMoveComponent } from './money-move/money-move.component';
@@ -17,13 +17,7 @@ import { WalletSettingsComponent } from './wallet-settings/wallet-settings.compo
     StatisticsComponent,
     MoneyMoveFormComponent,
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
-  ],
+  imports: [CommonModule, SharedModule, NgxChartsModule],
   providers: [],
 })
 export class WalletModule {}

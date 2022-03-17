@@ -1,6 +1,6 @@
 :host {
   .stat {
-    max-width: 350px;
+    width: 350px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -14,6 +14,18 @@
     &__pie,
     &__list {
       width: 100%;
+    }
+
+    &__empty {
+      margin-top: 30px;
+    }
+
+    &__pie {
+      width: 350px;
+      height: 350px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     &__item:first-of-type {

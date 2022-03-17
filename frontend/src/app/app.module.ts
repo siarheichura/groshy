@@ -43,13 +43,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
     JwtModule.forRoot({
       config: {},
     }),
-    // .forRoot({
-    //   config: {
-    //     tokenGetter: tokenGetter,
-    //     allowedDomains: ["example.com"],
-    //     disallowedRoutes: ["http://example.com/examplebadroute/"],
-    //   },
-    // }),
     SharedModule,
     AuthModule,
     HomePageModule,

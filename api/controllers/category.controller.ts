@@ -15,11 +15,11 @@ export class CategoryController {
 
       res.send({ data: categoriesDto });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot get wallet categories' });
+      next(err);
     }
   }
 
-  async addCategory(req: Request, res: Response) {
+  async addCategory(req: Request, res: Response, next: NextFunction) {
     const { name, type } = req.body;
     const { walletId } = req.params;
 
@@ -28,18 +28,18 @@ export class CategoryController {
       category.save();
       res.send({ data: new CategoryDto(category) });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot add category' });
+      next(err);
     }
   }
 
-  async removeCategory(req: Request, res: Response) {
+  async removeCategory(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
 
     try {
       await CategoryModel.findByIdAndDelete(id);
       res.send({ data: id });
     } catch (err) {
-      res.status(400).send({ message: 'Cannot remove category' });
+      next(err);
     }
   }
 }

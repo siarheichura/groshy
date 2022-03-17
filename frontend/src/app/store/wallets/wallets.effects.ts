@@ -147,7 +147,11 @@ export class WalletsEffects {
           .pipe(
             map((data) =>
               WalletsActions.GetMoneyMoveByPeriodSuccess({
-                payload: getMoneyMoveItemsByPeriod(data.data),
+                payload: getMoneyMoveItemsByPeriod(
+                  data.data,
+                  payload.startDate,
+                  payload.finishDate
+                ),
               })
             )
           )

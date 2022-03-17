@@ -1,15 +1,12 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { MoneyMoveDayItem } from '../classes/MoneyMoveDayItem';
 import { MoneyMoveItem } from './../interfaces/MoneyMoveItem.interface';
 
 export function getMoneyMoveItemsByPeriod(
-  items: MoneyMoveItem[]
+  items: MoneyMoveItem[],
+  startDate: Dayjs,
+  finishDate?: Dayjs
 ): MoneyMoveDayItem[] {
-  const sortedDates = items
-    .map((item) => dayjs(item.date).valueOf())
-    .sort((a, b) => a - b);
-  const startDate = dayjs(sortedDates[0]);
-  const finishDate = dayjs(sortedDates[sortedDates.length - 1]);
   const templateArr = Array(finishDate.diff(startDate, 'day') + 1).fill(null);
 
   const result = templateArr.map((item, index) => {

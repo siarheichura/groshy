@@ -1,21 +1,7 @@
 <div class="profile">
-  <form nz-form [formGroup]="userForm">
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group>
-          <input
-            type="text"
-            nz-input
-            [formControlName]="userFormControls.Username"
-            placeholder="Username"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-
-    <button nz-button nzType="dashed">Update</button>
-  </form>
-
+  <p class="profile__activate" *ngIf="!(user$ | async).isActivated">
+    Activate your account!
+  </p>
   <div class="profile__footer">
     <button class="profile__btn" (click)="onLogoutBtnClick()">Logout</button>
   </div>

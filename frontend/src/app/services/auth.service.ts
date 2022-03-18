@@ -1,9 +1,9 @@
-import { HTTP } from './../shared/interfaces/Http.interface';
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent } from '@angular/common/http';
-import { environment } from './../../environments/environment';
-import { tap, Observable } from 'rxjs';
-import { SignUpUser, User, UserLogin } from './../shared/interfaces/User';
+import {HTTP} from './../shared/interfaces/Http.interface';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from './../../environments/environment';
+import {Observable, tap} from 'rxjs';
+import {SignUpUser, User, UserLogin} from './../shared/interfaces/User';
 
 const API_PATH_REGISTRATION = '/registration';
 const API_PATH_LOGIN = '/login';

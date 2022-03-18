@@ -1,22 +1,19 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-} from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { catchError, Observable, throwError } from 'rxjs';
-import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,} from '@angular/common/http';
+import {Store} from '@ngrx/store';
+import {BehaviorSubject, catchError, Observable, switchMap, throwError} from 'rxjs';
+import {Router} from '@angular/router';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
-import { AuthService } from './auth.service';
-import { Logout, Refresh } from './../store/user/user.actions';
-import { RouterEnum } from './../shared/enums/Router.enum';
+import {AuthService} from './auth.service';
+import {Logout} from "../store/user/user.actions";
+import {RouterEnum} from "../shared/enums/Router.enum";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   retry: boolean = false;
+
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
     private authService: AuthService,
@@ -29,28 +26,41 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const newReq = req.clone();
+    let newReq = req;
 
     if (this.authService.isAuthenticated()) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${this.authService.token}`,
-        },
-      });
+      newReq = this.addTokenHeader(req, this.authService.token);
     }
 
-    const isJwtExpired = this.jwtHelper.isTokenExpired(this.authService.token);
+    return next.handle(newReq).pipe(catchError((error) => {
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        return this.handle401Error(newReq, next);
+      }
+      return throwError(error);
+    }));
 
-    return next.handle(req).pipe(
-      catchError((error) => {
-        if (error.status === 401 && isJwtExpired) {
-          this.store.dispatch(Refresh());
-        } else if (error.status === 401) {
+  }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.refreshTokenSubject.next(null);
+      return this.authService.refresh().pipe(
+        switchMap((newToken) => {
+          return next.handle(this.addTokenHeader(request, this.authService.token));
+        }),
+        catchError((err) => {
           this.store.dispatch(Logout());
-          this.router.navigate([RouterEnum.Auth]);
-        }
-        return throwError(() => error);
-      })
-    );
+          void this.router.navigate([RouterEnum.Auth]);
+          return throwError(err);
+        })
+      );
+
+  }
+
+  private addTokenHeader(req: HttpRequest<any>, token: string) {
+    return req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }

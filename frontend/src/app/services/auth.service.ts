@@ -1,8 +1,10 @@
-import { HTTP } from './../shared/interfaces/Http.interface';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent } from '@angular/common/http';
-import { environment } from './../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap, Observable } from 'rxjs';
+
+import { environment } from './../../environments/environment';
+import { HTTP } from './../shared/interfaces/Http.interface';
 import { SignUpUser, User, UserLogin } from './../shared/interfaces/User';
 
 const API_PATH_REGISTRATION = '/registration';
@@ -19,10 +21,14 @@ interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   get token(): string {
     return localStorage.getItem(environment.LocalStorageUserKey)!;
+  }
+
+  get decodedToken(): User {
+    return this.jwtHelper.decodeToken(this.token);
   }
 
   registration(user: SignUpUser): Observable<HTTP<User>> {
@@ -53,10 +59,6 @@ export class AuthService {
         withCredentials: true,
       })
       .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.token;
   }
 
   setToken(token: string): void {

@@ -1,7 +1,4 @@
 <div class="profile">
-  <p class="profile__activate" *ngIf="!(user$ | async).isActivated">
-    Activate your account!
-  </p>
   <div class="profile__footer">
     <button class="profile__btn" (click)="onLogoutBtnClick()">Logout</button>
   </div>

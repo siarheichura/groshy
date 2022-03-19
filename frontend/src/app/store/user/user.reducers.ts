@@ -22,13 +22,6 @@ export const userReducer = createReducer(
       isAuth: false,
     };
   }),
-  on(UserActions.RefreshSuccess, (state, { payload }) => {
-    return {
-      ...state,
-      user: payload,
-      isAuth: true,
-    };
-  }),
   on(UserActions.GetUserSuccess, (state, { payload }) => ({
     ...state,
     user: payload,

@@ -1,13 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { tap } from 'rxjs';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
-import { GetUser } from './../../../store/user/user.actions';
-import { userSelector } from './../../../store/user/user.selectros';
 import { UserProfileComponent } from '../../../components/user-profile/user-profile.component';
 import { RouterEnum } from '../../enums/Router.enum';
+import { User } from '../../interfaces/User';
 
 @Component({
   selector: 'app-header',
@@ -16,9 +19,8 @@ import { RouterEnum } from '../../enums/Router.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
+  @Input() user: User;
   routes = RouterEnum;
-
-  user$ = this.store.select(userSelector);
 
   constructor(
     private router: Router,
@@ -26,9 +28,7 @@ export class HeaderComponent implements OnInit {
     private store: Store
   ) {}
 
-  ngOnInit(): void {
-    this.store.dispatch(GetUser({ payload: '622f96cc9285ecc9be4a90df' }));
-  }
+  ngOnInit(): void {}
 
   handleRouteClick(param: string): void {
     void this.router.navigate([param]);

@@ -34,11 +34,6 @@ export const LoginSuccess = createAction(
   props<{ payload: User }>()
 );
 export const Logout = createAction(getFullActionName(UserActionsEnum.Logout));
-export const Refresh = createAction(getFullActionName(UserActionsEnum.Refresh));
-export const RefreshSuccess = createAction(
-  getFullActionName(UserActionsEnum.RefreshSuccess),
-  props<{ payload: User }>()
-);
 export const GetUser = createAction(
   getFullActionName(UserActionsEnum.GetUser),
   props<{ payload: string }>()

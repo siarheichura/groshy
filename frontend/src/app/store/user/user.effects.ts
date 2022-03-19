@@ -68,21 +68,6 @@ export class UserEffects {
     );
   });
 
-  refresh$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.Refresh),
-      switchMap(() =>
-        this.authService
-          .refresh()
-          .pipe(
-            map((data) =>
-              UserActions.RefreshSuccess({ payload: data.data.user })
-            )
-          )
-      )
-    );
-  });
-
   logout$ = createEffect(
     () => {
       return this.actions$.pipe(

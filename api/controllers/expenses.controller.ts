@@ -1,3 +1,4 @@
+import { ApiError } from './../shared/api.error';
 import { Request, Response, NextFunction } from 'express';
 import dayjs from 'dayjs';
 import { ExpenseModel } from './../models/Expense';
@@ -15,8 +16,8 @@ export class ExpensesController {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(startDate).startOf('day'),
-            $lt: dayjs(finishDate).endOf('day'),
+            $gte: dayjs(startDate),
+            $lt: dayjs(finishDate),
           },
         });
         const expensesDto = expenses.map(
@@ -27,8 +28,8 @@ export class ExpensesController {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(startDate).startOf('day'),
-            $lt: dayjs(startDate).endOf('day'),
+            $gte: dayjs(startDate),
+            $lt: dayjs(startDate),
           },
         });
         const expensesDto = expenses.map(
@@ -127,6 +128,23 @@ export class ExpensesController {
       const updatedExpense = await ExpenseModel.findById(expenseId);
       const expenseDto = new MoneyMoveDto(updatedExpense);
       res.send({ data: expenseDto });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getFirstExpenseDate(req: Request, res: Response, next: NextFunction) {
+    try {
+      const walletId = req.params.walletId;
+      const expense = await ExpenseModel.find({ wallet: walletId }).sort({
+        date: 1,
+      });
+      if (!expense.length) {
+        res.send({ data: new Date() });
+      } else {
+        const firstExpenseDate = expense[0].date;
+        res.send({ data: firstExpenseDate });
+      }
     } catch (err) {
       next(err);
     }

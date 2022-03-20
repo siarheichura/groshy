@@ -13,6 +13,7 @@ import {
   RemoveCategorySuccess,
   ResetWalletState,
   GetMoneyMoveStatisticsSuccess,
+  GetFirstMoneyMoveDateSuccess,
 } from './wallets.actions';
 
 export const walletsReducer = createReducer(
@@ -27,6 +28,7 @@ export const walletsReducer = createReducer(
       currency: '',
     },
     periodMoneyMove: [],
+    firstMoneyMoveDate: null,
     categories: [],
   })),
   on(GetWalletsSuccess, (state, { payload }) => ({
@@ -95,5 +97,9 @@ export const walletsReducer = createReducer(
   on(GetMoneyMoveStatisticsSuccess, (state, { payload }) => ({
     ...state,
     statistics: payload.filter((item) => item.amount !== 0),
+  })),
+  on(GetFirstMoneyMoveDateSuccess, (state, { payload }) => ({
+    ...state,
+    firstMoneyMoveDate: payload.date,
   }))
 );

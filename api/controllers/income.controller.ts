@@ -15,8 +15,8 @@ export class IncomeController {
         const income = await IncomeModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(startDate).startOf('day'),
-            $lt: dayjs(finishDate).endOf('day'),
+            $gte: dayjs(startDate),
+            $lt: dayjs(finishDate),
           },
         });
         const incomeDto = income.map((income) => new MoneyMoveDto(income));
@@ -25,8 +25,8 @@ export class IncomeController {
         const income = await IncomeModel.find({
           wallet: walletId,
           date: {
-            $gte: dayjs(startDate).startOf('day'),
-            $lt: dayjs(startDate).endOf('day'),
+            $gte: dayjs(startDate),
+            $lt: dayjs(startDate),
           },
         });
         const incomeDto = income.map((income) => new MoneyMoveDto(income));
@@ -117,6 +117,24 @@ export class IncomeController {
       const updatedExpense = await IncomeModel.findById(incomeId);
       const incomeDto = new MoneyMoveDto(updatedExpense);
       res.send({ data: incomeDto });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getFirstIncomeDate(req: Request, res: Response, next: NextFunction) {
+    try {
+      const walletId = req.params.walletId;
+      const income = await IncomeModel.find({ wallet: walletId }).sort({
+        date: 1,
+      });
+
+      if (!income.length) {
+        res.send({ data: new Date() });
+      } else {
+        const firstIncomeDate = income[0].date;
+        res.send({ data: firstIncomeDate });
+      }
     } catch (err) {
       next(err);
     }

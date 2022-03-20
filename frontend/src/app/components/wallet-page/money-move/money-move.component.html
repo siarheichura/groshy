@@ -6,7 +6,7 @@
       nzFormat="MM.YYYY"
       [formControl]="datePicker"
       [nzDisabledDate]="disabledDates"
-      (ngModelChange)="onDateChange($event)"
+      (ngModelChange)="onDateChange()"
     ></nz-date-picker>
 
     <button nz-button nzType="primary" (click)="printAddMoneyMoveItemModal()">

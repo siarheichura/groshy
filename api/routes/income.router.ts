@@ -16,3 +16,7 @@ incomeRouter.get(
 incomeRouter.post(`${RouterEnum.Income}/:id`, controller.addIncome);
 incomeRouter.delete(`${RouterEnum.Income}/:incomeId`, controller.removeIncome);
 incomeRouter.put(`${RouterEnum.Income}/:incomeId`, controller.editIncome);
+incomeRouter.get(
+  `${RouterEnum.FirstIncome}/:walletId`,
+  controller.getFirstIncomeDate
+);

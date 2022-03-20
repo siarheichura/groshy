@@ -11,7 +11,9 @@ export enum RouterEnum {
   Wallets = '/wallets',
   Expense = '/expense',
   ExpenseStatistics = '/expense/statistics',
+  FirstExpense = '/expense-first',
   Income = '/income',
   IncomeStatistics = '/income/statistics',
+  FirstIncome = '/income-first',
   Categories = '/categories',
 }

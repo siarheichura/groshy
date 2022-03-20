@@ -1,3 +1,4 @@
+import { firstMoneyMoveDateSelector } from './../../../store/wallets/wallets.selectros';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
@@ -13,6 +14,7 @@ import {
   GetWalletCategories,
   GetMoneyMoveByPeriod,
   RemoveMoneyMoveItem,
+  GetFirstMoneyMoveDate,
 } from './../../../store/wallets/wallets.actions';
 import {
   periodMoneyMoveSelector,
@@ -42,8 +44,17 @@ export class MoneyMoveComponent implements OnInit {
     dayjs(this.datePicker.value).endOf('month') > dayjs()
       ? dayjs().endOf('day')
       : dayjs().endOf('month');
-  disabledDates = (date: Date): boolean =>
-    dayjs(date).isAfter(dayjs(), 'month');
+  disabledDates: (date: Date) => boolean;
+  firstMoneyMoveDate$: Observable<Date> = this.store.select(
+    firstMoneyMoveDateSelector
+  );
+  firstMoneyMoveDateSubs: Subscription = this.firstMoneyMoveDate$
+    .pipe(untilDestroyed(this))
+    .subscribe((resp) => {
+      this.disabledDates = (date: Date): boolean =>
+        dayjs(date).isAfter(dayjs(), 'month') ||
+        dayjs(date).isBefore(resp, 'month');
+    });
 
   walletId: string = (this.route.snapshot.params as { id: string }).id;
   moneyMoveType: string;
@@ -67,6 +78,12 @@ export class MoneyMoveComponent implements OnInit {
             startDate: this.startDate,
             finishDate: this.finishDate,
           },
+        })
+      );
+
+      this.store.dispatch(
+        GetFirstMoneyMoveDate({
+          payload: { type: this.moneyMoveType, walletId: this.walletId },
         })
       );
     });
@@ -161,22 +178,24 @@ export class MoneyMoveComponent implements OnInit {
     );
   }
 
-  onDateChange(date: Date) {
-    const startDate = dayjs(this.datePicker.value).startOf('month');
-    const finishDate: Dayjs =
-      dayjs(this.datePicker.value).endOf('month') > dayjs()
-        ? dayjs(this.datePicker.value).endOf('day')
-        : dayjs(this.datePicker.value).endOf('month');
+  onDateChange() {
+    if (this.datePicker.value) {
+      const startDate = dayjs(this.datePicker.value).startOf('month');
+      const finishDate: Dayjs =
+        dayjs(this.datePicker.value).endOf('month') > dayjs()
+          ? dayjs(this.datePicker.value).endOf('day')
+          : dayjs(this.datePicker.value).endOf('month');
 
-    this.store.dispatch(
-      GetMoneyMoveByPeriod({
-        payload: {
-          walletId: this.walletId,
-          type: this.moneyMoveType,
-          startDate: startDate,
-          finishDate: finishDate,
-        },
-      })
-    );
+      this.store.dispatch(
+        GetMoneyMoveByPeriod({
+          payload: {
+            walletId: this.walletId,
+            type: this.moneyMoveType,
+            startDate: startDate,
+            finishDate: finishDate,
+          },
+        })
+      );
+    }
   }
 }

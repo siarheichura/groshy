@@ -29,3 +29,7 @@ export const moneyMoveStatisticsSelector = createSelector(
   featureSelector,
   (state) => state.statistics
 );
+export const firstMoneyMoveDateSelector = createSelector(
+  featureSelector,
+  (state) => state.firstMoneyMoveDate
+);

@@ -1,4 +1,3 @@
-import { ApiError } from './../shared/api.error';
 import { Request, Response, NextFunction } from 'express';
 
 import { CategoryModel } from './../models/Category';
@@ -7,6 +6,7 @@ import { ExpenseModel } from './../models/Expense';
 import { WalletModel } from '../models/Wallet';
 import { UserModel } from './../models/User';
 
+import { ApiError } from './../shared/api.error';
 import { UserDto } from './../dtos/user.dto';
 import { WalletDto } from '../dtos/wallet.dto';
 import { tokenService } from './../services/token.service';
@@ -16,11 +16,11 @@ export class WalletController {
     try {
       const token = req.headers.authorization.split(' ')[1];
       const { id } = tokenService.validateAccessToken(token) as UserDto;
-      const userWallets = await WalletModel.find({ user: id }).populate(
+      const wallets = await WalletModel.find({ user: id }).populate(
         'expensesSum incomeSum'
       );
-      const wallets = userWallets.map((wallet) => new WalletDto(wallet));
-      res.send({ data: wallets });
+      const walletsDto = wallets.map((wallet) => new WalletDto(wallet));
+      res.json({ data: walletsDto });
     } catch (err) {
       next(err);
     }
@@ -29,10 +29,10 @@ export class WalletController {
   async getWallet(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const wallet = await WalletModel.findById(id).populate(
-        'expensesSum incomeSum'
-      );
-      res.send({ data: new WalletDto(wallet) });
+      const wallet = await WalletModel.findById(id);
+      await wallet.populate('expensesSum incomeSum');
+      const walletDto = new WalletDto(wallet);
+      res.json({ data: walletDto });
     } catch (err) {
       next(err);
     }
@@ -45,23 +45,22 @@ export class WalletController {
         token
       ) as UserDto;
       const { name, currency, balance } = req.body;
-
-      const wallet = new WalletModel({
+      const wallet = await WalletModel.create({
         name,
         currency,
         initialAmount: balance,
+        balance,
         user: id,
       });
-      wallet.populate('expensesSum incomeSum');
-      await wallet.save();
+      await wallet.populate('expensesSum incomeSum');
 
       const categories = await CategoryModel.find({ basic: true });
-      categories.forEach(async (category) => {
-        await new CategoryModel({
+      categories.forEach((category) => {
+        CategoryModel.create({
           type: category.type,
           name: category.name,
           wallet: wallet.id,
-        }).save();
+        });
       });
 
       await UserModel.findByIdAndUpdate(id, {
@@ -69,8 +68,7 @@ export class WalletController {
           wallets: wallet,
         },
       });
-
-      res.send({ data: new WalletDto(wallet) });
+      res.json({ data: new WalletDto(wallet) });
     } catch (err) {
       next(err);
     }
@@ -95,7 +93,7 @@ export class WalletController {
             $pull: { wallets: id },
           });
 
-          res.send({ data: id });
+          res.json({ data: id });
         }
       });
     } catch (err) {
@@ -104,20 +102,12 @@ export class WalletController {
   }
 
   async editWallet(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
     try {
-      WalletModel.findByIdAndUpdate(id, req.body, (err: Error) => {
-        if (err) {
-          res.status(404).send({
-            message: 'Cannot edit wallet. Maybe wallet was not found!',
-          });
-        } else {
-          res.send({ data: id });
-        }
-      });
+      const { id } = req.params;
+      const wallet = await WalletModel.findByIdAndUpdate(id, req.body);
+      res.json({ data: wallet });
     } catch (err) {
       next(err);
-      res.status(400).send({ message: 'Cannot edit wallet' });
     }
   }
 }

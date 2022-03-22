@@ -1,8 +1,7 @@
-import { ApiError } from './../shared/api.error';
 import { Request, Response, NextFunction } from 'express';
 import dayjs from 'dayjs';
+
 import { ExpenseModel } from './../models/Expense';
-import { WalletModel } from '../models/Wallet';
 import { CategoryModel } from './../models/Category';
 import { MoneyMoveDto } from '../dtos/money-move.dto';
 import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
@@ -11,7 +10,6 @@ export class ExpensesController {
   async getExpensesByPeriod(req: Request, res: Response, next: NextFunction) {
     try {
       const { walletId, startDate, finishDate } = req.params;
-
       if (finishDate) {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
@@ -23,7 +21,7 @@ export class ExpensesController {
         const expensesDto = expenses.map(
           (expense) => new MoneyMoveDto(expense)
         );
-        res.send({ data: expensesDto });
+        res.json({ data: expensesDto });
       } else {
         const expenses = await ExpenseModel.find({
           wallet: walletId,
@@ -35,7 +33,7 @@ export class ExpensesController {
         const expensesDto = expenses.map(
           (expense) => new MoneyMoveDto(expense)
         );
-        res.send({ data: expensesDto });
+        res.json({ data: expensesDto });
       }
     } catch (err) {
       next(err);
@@ -73,7 +71,7 @@ export class ExpensesController {
         })
         .sort((a, b) => b.amount - a.amount);
 
-      res.send({ data: result });
+      res.json({ data: result });
     } catch (err) {
       next(err);
     }
@@ -83,23 +81,14 @@ export class ExpensesController {
     try {
       const walletId = req.params.id;
       const { category, amount, comment, date } = req.body;
-      const expense = new ExpenseModel({
+      const expense = await ExpenseModel.create({
         category,
         amount,
         comment,
         date,
         wallet: walletId,
       });
-      await expense.save();
-      const expenseDto = new MoneyMoveDto(expense);
-
-      await WalletModel.findByIdAndUpdate(walletId, {
-        $push: {
-          expenses: expense,
-        },
-      });
-
-      res.send({ data: expenseDto });
+      res.json({ data: new MoneyMoveDto(expense) });
     } catch (err) {
       next(err);
     }
@@ -109,13 +98,8 @@ export class ExpensesController {
     try {
       const expenseId = req.params.expenseId;
       const expense = await ExpenseModel.findById(expenseId);
-      const { wallet: walletId } = expense;
       await ExpenseModel.findByIdAndDelete(expenseId);
-      await WalletModel.findByIdAndUpdate(walletId, {
-        $pull: { expenses: expenseId },
-      });
-      const expenseDto = new MoneyMoveDto(expense);
-      res.send({ data: expenseDto });
+      res.json({ data: new MoneyMoveDto(expense) });
     } catch (err) {
       next(err);
     }
@@ -124,10 +108,8 @@ export class ExpensesController {
   async editExpense(req: Request, res: Response, next: NextFunction) {
     try {
       const expenseId = req.params.expenseId;
-      await ExpenseModel.findByIdAndUpdate(expenseId, req.body);
-      const updatedExpense = await ExpenseModel.findById(expenseId);
-      const expenseDto = new MoneyMoveDto(updatedExpense);
-      res.send({ data: expenseDto });
+      const expense = await ExpenseModel.findByIdAndUpdate(expenseId, req.body);
+      res.json({ data: new MoneyMoveDto(expense) });
     } catch (err) {
       next(err);
     }
@@ -140,10 +122,10 @@ export class ExpensesController {
         date: 1,
       });
       if (!expense.length) {
-        res.send({ data: new Date() });
+        res.json({ data: new Date() });
       } else {
         const firstExpenseDate = expense[0].date;
-        res.send({ data: firstExpenseDate });
+        res.json({ data: firstExpenseDate });
       }
     } catch (err) {
       next(err);

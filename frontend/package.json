@@ -3,16 +3,20 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "heroku-postbuild": "ng build --prod",
+    "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.1.0",
+    "@angular/cli": "~13.1.2",
     "@angular/common": "~13.1.0",
     "@angular/compiler": "~13.1.0",
+    "@angular/compiler-cli": "~13.1.0",
     "@angular/core": "~13.1.0",
     "@angular/forms": "~13.1.0",
     "@angular/platform-browser": "~13.1.0",
@@ -25,10 +29,13 @@
     "@ngrx/store-devtools": "^13.0.2",
     "@swimlane/ngx-charts": "^20.1.0",
     "dayjs": "^1.10.7",
+    "express": "^4.17.3",
     "mongodb": "^4.3.1",
     "ng-zorro-antd": "^13.0.0",
+    "path": "^0.12.7",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
+    "typescript": "~4.5.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -47,6 +54,10 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "prettier": "^2.5.1",
     "typescript": "~4.5.2"
+  },
+  "engines": {
+    "node": "16.13.2",
+    "npm": "8.4.0"
   },
   "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.",
   "main": "karma.conf.js",

@@ -18,7 +18,7 @@ import { categoryRouter } from './routes/categoty.routes';
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL_LOCAL,
   })
 );
 app.use(express.json());

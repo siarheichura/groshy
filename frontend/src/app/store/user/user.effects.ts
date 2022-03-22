@@ -88,4 +88,78 @@ export class UserEffects {
       )
     );
   });
+
+  changePassword$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.ChangePassword),
+      switchMap(({ payload }) =>
+        this.authService
+          .changePassword(payload.userId, {
+            prevPassword: payload.passwords.prevPassword,
+            newPassword: payload.passwords.newPassword,
+            confirmPassword: payload.passwords.confirmPassword,
+          })
+          .pipe(
+            map((data) =>
+              SharedActions.PrintNzMessageSuccess({
+                payload: data.message,
+              })
+            ),
+            catchError((err) => {
+              return of(
+                SharedActions.PrintNzMessageError({
+                  payload: err.error.message,
+                })
+              );
+            })
+          )
+      )
+    );
+  });
+
+  changeUsername$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.ChangeUsername),
+      switchMap(({ payload }) =>
+        this.authService.changeUsername(payload.userId, payload.username).pipe(
+          mergeMap((data) => [
+            UserActions.ChangeUsernameSuccess({ payload: data.data }),
+            SharedActions.PrintNzMessageSuccess({
+              payload: data.message,
+            }),
+          ]),
+          catchError((err) => {
+            return of(
+              SharedActions.PrintNzMessageError({
+                payload: err.error.message,
+              })
+            );
+          })
+        )
+      )
+    );
+  });
+
+  changeEmail$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.ChangeEmail),
+      switchMap(({ payload }) =>
+        this.authService.changeEmail(payload.userId, payload.email).pipe(
+          mergeMap((data) => [
+            UserActions.ChangeEmailSuccess({ payload: data.data }),
+            SharedActions.PrintNzMessageSuccess({
+              payload: data.message,
+            }),
+          ]),
+          catchError((err) => {
+            return of(
+              SharedActions.PrintNzMessageError({
+                payload: err.error.message,
+              })
+            );
+          })
+        )
+      )
+    );
+  });
 }

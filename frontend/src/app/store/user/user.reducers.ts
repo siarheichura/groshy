@@ -22,6 +22,14 @@ export const userReducer = createReducer(
       isAuth: false,
     };
   }),
+  on(UserActions.ChangeUsernameSuccess, (state, { payload }) => ({
+    ...state,
+    user: payload,
+  })),
+  on(UserActions.ChangeEmailSuccess, (state, { payload }) => ({
+    ...state,
+    user: payload,
+  })),
   on(UserActions.GetUserSuccess, (state, { payload }) => ({
     ...state,
     user: payload,

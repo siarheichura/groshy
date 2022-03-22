@@ -80,6 +80,56 @@ class UserService {
     };
   }
 
+  async changePassword(
+    id: string,
+    prevPassword: string,
+    newPassword: string,
+    confirmPassword: string
+  ) {
+    const user = await UserModel.findById(id);
+
+    const isValidPrevPassword = user.checkPassword(prevPassword);
+    if (!isValidPrevPassword) {
+      throw ApiError.BadRequest('Invalid password');
+    }
+
+    const isNewPasswordsEqual = newPassword === confirmPassword;
+    if (!isNewPasswordsEqual) {
+      throw ApiError.BadRequest('Passwords doesn`t match');
+    }
+
+    if (isValidPrevPassword && isNewPasswordsEqual) {
+      user.password = newPassword;
+      user.save();
+      return new UserDto(user);
+    } else {
+      throw ApiError.BadRequest('Invalid data');
+    }
+  }
+
+  async changeUsername(id: string, username: string) {
+    const user = await UserModel.findById(id);
+    user.username = username;
+    user.save();
+
+    return user;
+  }
+
+  async changeEmail(id: string, email: string) {
+    const user = await UserModel.findById(id);
+    user.email = email;
+    user.isActivated = false;
+
+    await mailService.sendActivationMail(
+      email,
+      `${RouterEnum.ApiUrl}${RouterEnum.Base}${RouterEnum.Activate}/${user.activationLink}`
+    );
+
+    user.save();
+
+    return user;
+  }
+
   async getUser(id: string) {
     const user = await UserModel.findById(id);
     return user;

@@ -1,3 +1,4 @@
+import { UserModel } from './../models/User';
 import { config } from './../config';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
@@ -78,6 +79,53 @@ export class UserController {
     } catch (err) {
       next(err);
     }
+  }
+
+  async changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { prevPassword, newPassword, confirmPassword } = req.body;
+      const userData = await userService.changePassword(
+        id,
+        prevPassword,
+        newPassword,
+        confirmPassword
+      );
+      return res.json({
+        data: userData,
+        message: 'Password was successfuly changed',
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async changeUsername(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { username } = req.body;
+
+      const user = await userService.changeUsername(id, username);
+
+      return res.json({
+        data: new UserDto(user),
+        message: 'Username was successfuly changed',
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async changeEmail(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const { email } = req.body;
+
+    const user = await userService.changeEmail(id, email);
+
+    return res.json({
+      data: new UserDto(user),
+      message: 'Email was successfuly changed',
+    });
   }
 
   async getUser(req: Request, res: Response, next: NextFunction) {

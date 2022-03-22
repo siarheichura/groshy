@@ -1,3 +1,4 @@
+import { DRAWER_WIDTH } from './../../constants/constants';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,6 +38,11 @@ export class HeaderComponent implements OnInit {
   printDrawer(): void {
     this.drawerService.create({
       nzContent: UserProfileComponent,
+      nzTitle: 'Profile',
+      nzWidth: DRAWER_WIDTH,
+      nzContentParams: {
+        user: this.user,
+      },
     });
   }
 }

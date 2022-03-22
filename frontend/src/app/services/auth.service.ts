@@ -5,13 +5,21 @@ import { tap, Observable } from 'rxjs';
 
 import { environment } from './../../environments/environment';
 import { HTTP } from './../shared/interfaces/Http.interface';
-import { SignUpUser, User, UserLogin } from './../shared/interfaces/User';
+import {
+  SignUpUser,
+  User,
+  UserLogin,
+  Passwords,
+} from './../shared/interfaces/User';
 
 const API_PATH_REGISTRATION = '/registration';
 const API_PATH_LOGIN = '/login';
 const API_PATH_LOGOUT = '/logout';
 const API_PATH_USER = '/user';
 const API_PATH_REFRESH = '/refresh';
+const API_PATH_CHANGE_PASSWORD = '/change-password';
+const API_PATH_CHANGE_USERNAME = '/change-username';
+const API_PATH_CHANGE_EMAIL = '/change-email';
 
 interface AuthResponse {
   accessToken: string;
@@ -61,15 +69,36 @@ export class AuthService {
       .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
   }
 
+  changePassword(userId: string, passwords: Passwords): Observable<HTTP<User>> {
+    return this.http.post<HTTP<User>>(
+      `${environment.apiUrl}${API_PATH_CHANGE_PASSWORD}/${userId}`,
+      passwords
+    );
+  }
+
+  changeUsername(userId: string, username: string): Observable<HTTP<User>> {
+    return this.http.post<HTTP<User>>(
+      `${environment.apiUrl}${API_PATH_CHANGE_USERNAME}/${userId}`,
+      { username }
+    );
+  }
+
+  changeEmail(userId: string, email: string): Observable<HTTP<User>> {
+    return this.http.post<HTTP<User>>(
+      `${environment.apiUrl}${API_PATH_CHANGE_EMAIL}/${userId}`,
+      { email }
+    );
+  }
+
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}${API_PATH_USER}/${id}`);
+  }
+
   setToken(token: string): void {
     localStorage.setItem(environment.LocalStorageUserKey, token);
   }
 
   removeToken(): void {
     localStorage.removeItem(environment.LocalStorageUserKey);
-  }
-
-  getUser(id: string): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}${API_PATH_USER}/${id}`);
   }
 }

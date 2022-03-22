@@ -2,7 +2,6 @@ import express from 'express';
 import { check } from 'express-validator';
 import { UserController } from './../controllers/user.controller';
 import { RouterEnum } from '../shared/enums/RouterEnum';
-import { authMiddleware } from '../middleware/auth.middleware';
 
 const passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
 
@@ -24,6 +23,10 @@ userRouter.post(
   controller.registration
 );
 userRouter.post(RouterEnum.Login, controller.login);
+userRouter.post(RouterEnum.Logout, controller.logout);
 userRouter.get(`${RouterEnum.Activate}/:link`, controller.activate);
 userRouter.get(`${RouterEnum.User}/:id`, controller.getUser);
 userRouter.get(RouterEnum.Refresh, controller.refresh);
+userRouter.post(`${RouterEnum.ChangePassword}/:id`, controller.changePassword);
+userRouter.post(`${RouterEnum.ChangeUsername}/:id`, controller.changeUsername);
+userRouter.post(`${RouterEnum.ChangeEmail}/:id`, controller.changeEmail);

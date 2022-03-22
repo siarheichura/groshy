@@ -15,3 +15,9 @@ export interface UserLogin {
   email: string;
   password: string;
 }
+
+export interface Passwords {
+  prevPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}

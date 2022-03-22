@@ -1,5 +1,115 @@
-<div class="profile">
-  <div class="profile__footer">
-    <button class="profile__btn" (click)="onLogoutBtnClick()">Logout</button>
+<div class="container">
+  <div class="profile">
+    <div class="profile__ava">
+      <div class="profile__ava--img"></div>
+      <div class="profile__ava--edit"></div>
+    </div>
+
+    <div class="profile__user">
+      <div [ngSwitch]="usernameInputVisible">
+        <div class="profile__name" *ngSwitchCase="false">
+          <div class="name-edit" (click)="onUsernameEditBtnClick()"></div>
+          {{ user.username }}
+        </div>
+
+        <nz-input-group
+          *ngSwitchCase="true"
+          nzSize="small"
+          [nzAddOnAfter]="suffixIconName"
+        >
+          <input
+            type="text"
+            nz-input
+            placeholder="Username"
+            [formControl]="usernameControl"
+          />
+        </nz-input-group>
+
+        <ng-template #suffixIconName>
+          <i
+            nz-icon
+            nzType="check"
+            nzTheme="outline"
+            (click)="editUsername()"
+          ></i>
+        </ng-template>
+      </div>
+
+      <div [ngSwitch]="emailInputVisible">
+        <div class="profile__email" *ngSwitchCase="false">
+          <div class="email-edit" (click)="onEmailEditBtnClick()"></div>
+          {{ user.email }}
+        </div>
+
+        <nz-input-group
+          *ngSwitchCase="true"
+          nzSize="small"
+          [nzAddOnAfter]="suffixIconEmail"
+        >
+          <input
+            type="text"
+            nz-input
+            placeholder="Username"
+            [formControl]="emailControl"
+          />
+        </nz-input-group>
+
+        <ng-template #suffixIconEmail>
+          <i nz-icon nzType="check" nzTheme="outline" (click)="editEmail()"></i>
+        </ng-template>
+      </div>
+    </div>
   </div>
+
+  <nz-divider></nz-divider>
+
+  <div class="password">
+    <p class="password__title">Change password</p>
+    <form nz-form [formGroup]="passwordForm">
+      <nz-form-item>
+        <nz-form-control>
+          <input
+            type="password"
+            nz-input
+            placeholder="Current password"
+            [formControlName]="passwordFormControls.prevPassword"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <input
+            type="password"
+            nz-input
+            placeholder="New password"
+            [formControlName]="passwordFormControls.newPassword"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <input
+            type="password"
+            nz-input
+            placeholder="Confirm new password"
+            [formControlName]="passwordFormControls.confirmPassword"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <button nz-button nzType="primary" (click)="onPasswordFormSubmit()">
+          Confirm
+        </button>
+      </nz-form-item>
+    </form>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <button nz-button nzType="default" (click)="onLogoutBtnClick()">
+    Logout
+  </button>
 </div>

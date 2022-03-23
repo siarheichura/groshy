@@ -34,14 +34,11 @@
 
     &__item {
       padding: 5px 10px;
-      display: flex;
-      justify-content: space-between;
       border-bottom: 1px solid #abe8ff;
 
-      &-numbers {
+      &-header {
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
+        justify-content: space-between;
       }
 
       &-name {
@@ -52,6 +49,10 @@
         display: flex;
         gap: 2px;
       }
+    }
+
+    &__progress {
+      width: 95%;
     }
   }
 }

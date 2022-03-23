@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, tap, map } from 'rxjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
@@ -59,9 +59,15 @@ export class MoneyMoveComponent implements OnInit {
   walletId: string = (this.route.snapshot.params as { id: string }).id;
   moneyMoveType: string;
 
-  moneyMove$: Observable<MoneyMoveDayItem[]> = this.store.select(
-    periodMoneyMoveSelector
-  );
+  moneyMove$: Observable<MoneyMoveDayItem[]> = this.store
+    .select(periodMoneyMoveSelector)
+    .pipe(
+      map((items) =>
+        dayjs(this.datePicker.value).isSame(dayjs(), 'month')
+          ? items.slice().reverse()
+          : items
+      )
+    );
 
   currency$: Observable<string> = this.store.select(walletCurrencySelector);
   currentTab$: Observable<string> = this.store.select(currentTabSelector);
@@ -197,5 +203,11 @@ export class MoneyMoveComponent implements OnInit {
         })
       );
     }
+  }
+
+  onSortBtnClick() {
+    this.moneyMove$ = this.moneyMove$.pipe(
+      map((items) => items.slice().reverse())
+    );
   }
 }

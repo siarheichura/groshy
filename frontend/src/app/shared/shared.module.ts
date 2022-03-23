@@ -29,6 +29,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzPopoverModule,
     NzDatePickerModule,
     NzEmptyModule,
+    NzProgressModule,
     HeaderComponent,
     ListComponent,
     MoneyMoveDayCardComponent,

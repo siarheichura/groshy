@@ -29,15 +29,19 @@
 
   <div class="stat__list">
     <div class="stat__item" *ngFor="let item of statistics$ | async">
-      <p class="stat__item-name">{{ item.category.name }}</p>
-      <div class="stat__item-numbers">
+      <div class="stat__item-header">
+        <p class="stat__item-name">{{ item.category.name }}</p>
         <div class="stat__item-sum">
           <p>{{ item.amount }}</p>
           <p>{{ currency$ | async }}</p>
         </div>
-        <div>
-          {{ (item.amount / totalMoneyMoveSum) * 100 | number: '1.0-2' }}%
-        </div>
+      </div>
+      <div class="stat__progress">
+        <nz-progress
+          [nzPercent]="
+            (item.amount / totalMoneyMoveSum) * 100 | number: '1.0-2'
+          "
+        ></nz-progress>
       </div>
     </div>
   </div>

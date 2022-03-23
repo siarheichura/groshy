@@ -8,6 +8,21 @@
     justify-content: space-between;
   }
 
+  .form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .sort-btn {
+    width: 15px;
+    height: 15px;
+    background: url('./../../../../assets/images/sort-btn.svg') no-repeat center
+      center;
+    background-size: contain;
+    cursor: pointer;
+  }
+
   .container {
     width: 700px;
     margin: 0 auto;

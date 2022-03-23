@@ -1,27 +1,23 @@
 <form nz-form [formGroup]="loginForm">
   <nz-form-item>
     <nz-form-control [nzErrorTip]="usernameError">
-      <nz-input-group>
-        <input
-          type="text"
-          nz-input
-          [formControlName]="formControls.Email"
-          placeholder="Username"
-        />
-      </nz-input-group>
+      <input
+        type="text"
+        nz-input
+        [formControlName]="formControls.Email"
+        placeholder="Username"
+      />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
     <nz-form-control [nzErrorTip]="passwordError">
-      <nz-input-group>
-        <input
-          type="password"
-          nz-input
-          [formControlName]="formControls.Password"
-          placeholder="Password"
-        />
-      </nz-input-group>
+      <input
+        type="password"
+        nz-input
+        [formControlName]="formControls.Password"
+        placeholder="Password"
+      />
     </nz-form-control>
   </nz-form-item>
 

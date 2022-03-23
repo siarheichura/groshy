@@ -1,4 +1,3 @@
-import { FormValidators } from './../../shared/validators/form-validators';
 import {
   Component,
   Input,
@@ -14,16 +13,13 @@ import {
   FormControl,
 } from '@angular/forms';
 
-import {
-  ChangeEmail,
-  ChangePassword,
-  ChangeUsername,
-} from './../../store/user/user.actions';
+import { ChangePassword } from './../../store/user/user.actions';
 import { RouterEnum } from 'src/app/shared/enums/Router.enum';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { User } from 'src/app/shared/interfaces/User';
 import { Logout } from 'src/app/store/user/user.actions';
 import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
+import { FormValidators } from './../../shared/validators/form-validators';
 
 interface PasswordFormValue {
   prevPassword: string;
@@ -37,6 +33,16 @@ enum PasswordFormEnum {
   confirmPassword = 'confirmPassword',
 }
 
+interface UserFormValue {
+  username: string;
+  email: string;
+}
+
+enum UserFormEnum {
+  Username = 'username',
+  Email = 'email',
+}
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -46,16 +52,19 @@ enum PasswordFormEnum {
 export class UserProfileComponent implements OnInit {
   @Input() user: User;
 
+  isUserFormVisible: boolean = false;
+
+  userForm: FormGroup;
+  userFormControls = UserFormEnum;
   passwordForm: FormGroup;
   passwordFormControls = PasswordFormEnum;
 
-  usernameInputVisible: boolean = false;
-  usernameControl: FormControl = new FormControl();
-  emailInputVisible: boolean = false;
-  emailControl: FormControl = new FormControl();
-
   get passwordFormValue(): PasswordFormValue {
     return this.passwordForm.value as PasswordFormValue;
+  }
+
+  get userFormValue(): UserFormValue {
+    return this.userForm.value as UserFormValue;
   }
 
   constructor(
@@ -95,41 +104,27 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  onUsernameEditBtnClick(): void {
-    this.emailInputVisible = false;
-    this.usernameInputVisible = true;
-    this.usernameControl = new FormControl(this.user.username);
+  onProfileEditBtnClick(): void {
+    this.isUserFormVisible = true;
+    this.userFormInit();
   }
 
-  onEmailEditBtnClick(): void {
-    this.usernameInputVisible = false;
-    this.emailInputVisible = true;
-    this.emailControl = new FormControl(this.user.email);
+  userFormInit(): void {
+    this.userForm = this.fb.group({
+      [this.userFormControls.Username]: [
+        this.user.username,
+        [Validators.required],
+      ],
+      [this.userFormControls.Email]: [this.user.email, [Validators.required]],
+    });
   }
 
-  editUsername(): void {
-    if (this.usernameControl.value !== this.user.username) {
-      this.store.dispatch(
-        ChangeUsername({
-          payload: {
-            userId: this.user.id,
-            username: this.usernameControl.value,
-          },
-        })
-      );
-    }
-    this.usernameInputVisible = false;
+  onUserFormCancel(): void {
+    this.isUserFormVisible = false;
   }
 
-  editEmail(): void {
-    if (this.emailControl.value !== this.user.email) {
-      this.store.dispatch(
-        ChangeEmail({
-          payload: { userId: this.user.id, email: this.emailControl.value },
-        })
-      );
-    }
-    this.emailInputVisible = false;
+  onUserFormSubmit(): void {
+    this.isUserFormVisible = false;
   }
 
   onLogoutBtnClick(): void {

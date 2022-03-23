@@ -1,62 +1,71 @@
 <div class="container">
+  <nz-alert
+    *ngIf="!user.isActivated"
+    nzType="warning"
+    nzShowIcon
+    nzMessage="Please, activate your account"
+  ></nz-alert>
+
   <div class="profile">
-    <div class="profile__ava">
-      <div class="profile__ava--img"></div>
-      <div class="profile__ava--edit"></div>
+    <button
+      *ngIf="!isUserFormVisible"
+      class="profile__edit-btn"
+      (click)="onProfileEditBtnClick()"
+    >
+      🖊️
+    </button>
+    <div class="profile__img">
+      <nz-avatar nzText="🙎‍♂‍" [nzSize]="60"></nz-avatar>
     </div>
 
-    <div class="profile__user">
-      <div [ngSwitch]="usernameInputVisible">
-        <div class="profile__name" *ngSwitchCase="false">
-          <div class="name-edit" (click)="onUsernameEditBtnClick()"></div>
+    <div class="profile__user" [ngSwitch]="isUserFormVisible">
+      <div class="not-editable" *ngSwitchCase="false">
+        <div class="name">
           {{ user.username }}
         </div>
-
-        <nz-input-group
-          *ngSwitchCase="true"
-          nzSize="small"
-          [nzAddOnAfter]="suffixIconName"
-        >
-          <input
-            type="text"
-            nz-input
-            placeholder="Username"
-            [formControl]="usernameControl"
-          />
-        </nz-input-group>
-
-        <ng-template #suffixIconName>
-          <i
-            nz-icon
-            nzType="check"
-            nzTheme="outline"
-            (click)="editUsername()"
-          ></i>
-        </ng-template>
-      </div>
-
-      <div [ngSwitch]="emailInputVisible">
-        <div class="profile__email" *ngSwitchCase="false">
-          <div class="email-edit" (click)="onEmailEditBtnClick()"></div>
+        <div class="email">
           {{ user.email }}
         </div>
+      </div>
 
-        <nz-input-group
-          *ngSwitchCase="true"
-          nzSize="small"
-          [nzAddOnAfter]="suffixIconEmail"
-        >
-          <input
-            type="text"
-            nz-input
-            placeholder="Username"
-            [formControl]="emailControl"
-          />
-        </nz-input-group>
+      <div class="editable" *ngSwitchCase="true">
+        <form nz-form [formGroup]="userForm">
+          <nz-form-item>
+            <nz-form-control>
+              <input
+                type="text"
+                nz-input
+                placeholder="Username"
+                [formControlName]="userFormControls.Username"
+              />
+            </nz-form-control>
+          </nz-form-item>
 
-        <ng-template #suffixIconEmail>
-          <i nz-icon nzType="check" nzTheme="outline" (click)="editEmail()"></i>
-        </ng-template>
+          <nz-form-item>
+            <nz-form-control>
+              <input
+                type="text"
+                nz-input
+                placeholder="Email"
+                [formControlName]="userFormControls.Email"
+              />
+            </nz-form-control>
+          </nz-form-item>
+
+          <div class="user-form__btns">
+            <button nz-button nzSize="small" (click)="onUserFormSubmit()">
+              <i nz-icon nzType="close" nzTheme="outline"></i>
+            </button>
+            <button
+              nz-button
+              nzType="primary"
+              nzSize="small"
+              (click)="onUserFormCancel()"
+            >
+              <i nz-icon nzType="check" nzTheme="outline"></i>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

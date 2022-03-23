@@ -2,6 +2,10 @@
   <div class="header__logo" (click)="handleRouteClick(routes.Index)"></div>
   <div class="header__nav">
     <div>{{ user.username }}</div>
-    <div class="header__nav--profile" (click)="printDrawer()"></div>
+    <div (click)="printDrawer()">
+      <nz-badge nzDot [nzShowDot]="!user.isActivated" [nzOffset]="[-4, 4]">
+        <nz-avatar nzText="🙎‍♂‍"></nz-avatar>
+      </nz-badge>
+    </div>
   </div>
 </div>

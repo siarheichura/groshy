@@ -21,11 +21,8 @@
       align-items: center;
       gap: 10px;
 
-      &--profile {
-        width: 1.8rem;
-        height: 1.8rem;
-        background: url('/assets/images/profile.svg') no-repeat center center;
-        background-size: contain;
+      nz-avatar {
+        font-size: 16px;
         cursor: pointer;
       }
     }

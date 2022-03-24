@@ -101,32 +101,23 @@ export class UserController {
     }
   }
 
-  async changeUsername(req: Request, res: Response, next: NextFunction) {
+  async updateUserInfo(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { username } = req.body;
+      const { username, email } = req.body;
 
-      const user = await userService.changeUsername(id, username);
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return next(ApiError.BadRequest('Incorrect data', errors.array()));
+      }
 
-      return res.json({
+      const user = await userService.updateUserInfo(id, username, email);
+      res.json({
         data: new UserDto(user),
-        message: 'Username was successfuly changed',
       });
     } catch (err) {
       next(err);
     }
-  }
-
-  async changeEmail(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-    const { email } = req.body;
-
-    const user = await userService.changeEmail(id, email);
-
-    return res.json({
-      data: new UserDto(user),
-      message: 'Email was successfuly changed',
-    });
   }
 
   async getUser(req: Request, res: Response, next: NextFunction) {

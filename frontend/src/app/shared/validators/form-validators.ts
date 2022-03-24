@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 const forbiddenUsernameChars = /[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?А-Яа-я]/;
 
@@ -23,5 +23,23 @@ export class FormValidators {
       return { invalidPassword: true };
     }
     return null;
+  }
+
+  static mustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup): void => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+      return null;
+    };
   }
 }

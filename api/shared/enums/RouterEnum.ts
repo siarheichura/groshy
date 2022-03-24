@@ -6,11 +6,10 @@ export enum RouterEnum {
   Registration = '/registration',
   Login = '/login',
   Logout = '/logout',
-  ChangePassword = '/change-password',
-  ChangeUsername = '/change-username',
-  ChangeEmail = '/change-email',
   Activate = '/activate',
   Refresh = '/refresh',
+  UserUpdate = '/user-update',
+  ChangePassword = '/change-password',
   User = '/user',
 
   Wallets = '/wallets',

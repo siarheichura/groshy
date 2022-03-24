@@ -15,8 +15,10 @@ import {
 const API_PATH_REGISTRATION = '/registration';
 const API_PATH_LOGIN = '/login';
 const API_PATH_LOGOUT = '/logout';
-const API_PATH_USER = '/user';
 const API_PATH_REFRESH = '/refresh';
+const API_PATH_USER = '/user';
+const API_PATH_USER_UPDATE = '/user-update';
+
 const API_PATH_CHANGE_PASSWORD = '/change-password';
 const API_PATH_CHANGE_USERNAME = '/change-username';
 const API_PATH_CHANGE_EMAIL = '/change-email';
@@ -69,24 +71,21 @@ export class AuthService {
       .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
   }
 
+  updateUserInfo(
+    id: string,
+    username: string,
+    email: string
+  ): Observable<HTTP<User>> {
+    return this.http.post<HTTP<User>>(
+      `${environment.apiUrl}${API_PATH_USER_UPDATE}/${id}`,
+      { username, email }
+    );
+  }
+
   changePassword(userId: string, passwords: Passwords): Observable<HTTP<User>> {
     return this.http.post<HTTP<User>>(
       `${environment.apiUrl}${API_PATH_CHANGE_PASSWORD}/${userId}`,
       passwords
-    );
-  }
-
-  changeUsername(userId: string, username: string): Observable<HTTP<User>> {
-    return this.http.post<HTTP<User>>(
-      `${environment.apiUrl}${API_PATH_CHANGE_USERNAME}/${userId}`,
-      { username }
-    );
-  }
-
-  changeEmail(userId: string, email: string): Observable<HTTP<User>> {
-    return this.http.post<HTTP<User>>(
-      `${environment.apiUrl}${API_PATH_CHANGE_EMAIL}/${userId}`,
-      { email }
     );
   }
 

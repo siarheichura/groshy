@@ -30,6 +30,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     NzSelectModule,
     NzDatePickerModule,
     NzTabsModule,
+    NzAvatarModule,
+    NzIconModule,
+    NzBadgeModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -77,6 +83,9 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
     NzDatePickerModule,
     NzEmptyModule,
     NzProgressModule,
+    NzAlertModule,
+    NzAvatarModule,
+    NzBadgeModule,
     HeaderComponent,
     ListComponent,
     MoneyMoveDayCardComponent,

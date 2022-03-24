@@ -107,26 +107,20 @@ class UserService {
     }
   }
 
-  async changeUsername(id: string, username: string) {
+  async updateUserInfo(id: string, username: string, email: string) {
     const user = await UserModel.findById(id);
-    user.username = username;
+    if (!username || !email) {
+      throw ApiError.BadRequest('Invalid data');
+    }
+
+    if (user.username !== username) {
+      user.username = username;
+    } else if (user.email !== email) {
+      user.email = email;
+      user.isActivated = false;
+      mailService.sendActivationMail(email, user.activationLink);
+    }
     user.save();
-
-    return user;
-  }
-
-  async changeEmail(id: string, email: string) {
-    const user = await UserModel.findById(id);
-    user.email = email;
-    user.isActivated = false;
-
-    await mailService.sendActivationMail(
-      email,
-      `${RouterEnum.ApiUrl}${RouterEnum.Base}${RouterEnum.Activate}/${user.activationLink}`
-    );
-
-    user.save();
-
     return user;
   }
 

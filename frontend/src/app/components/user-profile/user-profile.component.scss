@@ -41,6 +41,10 @@
         position: relative;
         font-weight: 500;
 
+        nz-form-item {
+          margin-bottom: 0px;
+        }
+
         .name {
           position: relative;
         }
@@ -61,6 +65,10 @@
     .password {
       width: 100%;
 
+      nz-form-item {
+        margin-bottom: 5px;
+      }
+
       &__title {
         font-size: 0.8rem;
         font-weight: 600;
@@ -70,9 +78,5 @@
         width: 100%;
       }
     }
-  }
-
-  nz-form-item {
-    margin-bottom: 7px;
   }
 }

@@ -43,8 +43,11 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      [this.formControls.Email]: ['chura14@yandex.ru', [Validators.required]],
-      [this.formControls.Password]: ['Zxcvbn12', [Validators.required]],
+      [this.formControls.Email]: [
+        'chura.siarhei@gmail.com',
+        [Validators.required],
+      ],
+      [this.formControls.Password]: ['Qwerty12', [Validators.required]],
     });
   }
 

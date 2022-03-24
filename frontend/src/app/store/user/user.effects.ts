@@ -89,6 +89,21 @@ export class UserEffects {
     );
   });
 
+  updateUserInfo$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.UpdateUserInfo),
+      switchMap(({ payload }) =>
+        this.authService
+          .updateUserInfo(payload.id, payload.username, payload.email)
+          .pipe(
+            map((data) =>
+              UserActions.UpdateUserInfoSuccess({ payload: data.data })
+            )
+          )
+      )
+    );
+  });
+
   changePassword$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.ChangePassword),
@@ -113,52 +128,6 @@ export class UserEffects {
               );
             })
           )
-      )
-    );
-  });
-
-  changeUsername$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.ChangeUsername),
-      switchMap(({ payload }) =>
-        this.authService.changeUsername(payload.userId, payload.username).pipe(
-          mergeMap((data) => [
-            UserActions.ChangeUsernameSuccess({ payload: data.data }),
-            SharedActions.PrintNzMessageSuccess({
-              payload: data.message,
-            }),
-          ]),
-          catchError((err) => {
-            return of(
-              SharedActions.PrintNzMessageError({
-                payload: err.error.message,
-              })
-            );
-          })
-        )
-      )
-    );
-  });
-
-  changeEmail$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.ChangeEmail),
-      switchMap(({ payload }) =>
-        this.authService.changeEmail(payload.userId, payload.email).pipe(
-          mergeMap((data) => [
-            UserActions.ChangeEmailSuccess({ payload: data.data }),
-            SharedActions.PrintNzMessageSuccess({
-              payload: data.message,
-            }),
-          ]),
-          catchError((err) => {
-            return of(
-              SharedActions.PrintNzMessageError({
-                payload: err.error.message,
-              })
-            );
-          })
-        )
       )
     );
   });

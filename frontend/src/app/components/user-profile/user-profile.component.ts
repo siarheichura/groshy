@@ -6,14 +6,12 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { ChangePassword } from './../../store/user/user.actions';
+import {
+  ChangePassword,
+  UpdateUserInfo,
+} from './../../store/user/user.actions';
 import { RouterEnum } from 'src/app/shared/enums/Router.enum';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { User } from 'src/app/shared/interfaces/User';
@@ -75,17 +73,33 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.passwordForm = this.fb.group({
-      [this.passwordFormControls.prevPassword]: ['', [Validators.required]],
-      [this.passwordFormControls.newPassword]: [
-        '',
-        [Validators.required, Validators.minLength(8), FormValidators.password],
-      ],
-      [this.passwordFormControls.confirmPassword]: [
-        '',
-        [Validators.required, Validators.minLength(8), FormValidators.password],
-      ],
-    });
+    this.passwordForm = this.fb.group(
+      {
+        [this.passwordFormControls.prevPassword]: ['', [Validators.required]],
+        [this.passwordFormControls.newPassword]: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            FormValidators.password,
+          ],
+        ],
+        [this.passwordFormControls.confirmPassword]: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            FormValidators.password,
+          ],
+        ],
+      },
+      {
+        validator: FormValidators.mustMatch(
+          this.passwordFormControls.newPassword,
+          this.passwordFormControls.confirmPassword
+        ),
+      }
+    );
   }
 
   onPasswordFormSubmit(): void {
@@ -113,9 +127,12 @@ export class UserProfileComponent implements OnInit {
     this.userForm = this.fb.group({
       [this.userFormControls.Username]: [
         this.user.username,
-        [Validators.required],
+        [Validators.required, Validators.minLength(3), FormValidators.username],
       ],
-      [this.userFormControls.Email]: [this.user.email, [Validators.required]],
+      [this.userFormControls.Email]: [
+        this.user.email,
+        [Validators.required, Validators.email],
+      ],
     });
   }
 
@@ -124,7 +141,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   onUserFormSubmit(): void {
-    this.isUserFormVisible = false;
+    if (
+      this.userForm.valid &&
+      (this.userForm.controls['username'].value !== this.user.username ||
+        this.userForm.controls['email'].value !== this.user.email)
+    ) {
+      this.store.dispatch(
+        UpdateUserInfo({ payload: { id: this.user.id, ...this.userFormValue } })
+      );
+      this.isUserFormVisible = false;
+    } else {
+      markFormControlsDirty(this.userForm);
+    }
   }
 
   onLogoutBtnClick(): void {

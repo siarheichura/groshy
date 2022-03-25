@@ -65,8 +65,11 @@ export class UserController {
   async refresh(req: Request, res: Response, next: NextFunction) {
     try {
       const { refreshToken } = req.cookies;
+      console.log('refresh refreshToken', refreshToken);
+      console.log('refresh cookies', req.cookies);
       const userData = await userService.refresh(refreshToken);
       res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
+        domain: 'groshy.herokuapp',
         maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
         path: '/api/groshy/refresh',

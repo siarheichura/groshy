@@ -20,8 +20,6 @@ const API_PATH_USER = '/user';
 const API_PATH_USER_UPDATE = '/user-update';
 
 const API_PATH_CHANGE_PASSWORD = '/change-password';
-const API_PATH_CHANGE_USERNAME = '/change-username';
-const API_PATH_CHANGE_EMAIL = '/change-email';
 
 interface AuthResponse {
   accessToken: string;
@@ -50,11 +48,7 @@ export class AuthService {
 
   login(user: UserLogin): Observable<HTTP<AuthResponse>> {
     return this.http
-      .post<HTTP<AuthResponse>>(
-        `${environment.apiUrl}${API_PATH_LOGIN}`,
-        user,
-        { withCredentials: true }
-      )
+      .post<HTTP<AuthResponse>>(`${environment.apiUrl}${API_PATH_LOGIN}`, user)
       .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
   }
 

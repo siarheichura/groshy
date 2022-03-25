@@ -44,10 +44,6 @@ export class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
-      res.cookie(config.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
-        maxAge: config.REFRESH_TOKEN_COOKIE_MAX_AGE,
-        httpOnly: true,
-      });
       return res.json({
         data: userData,
         message: `Hey, ${userData.user.username}`,

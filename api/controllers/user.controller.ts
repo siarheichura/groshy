@@ -41,6 +41,7 @@ export class UserController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
+      console.log('login', req.cookies);
       const userData = await userService.login(email, password);
       res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: 1000 * 60 * 60 * 24 * 10,
@@ -71,6 +72,7 @@ export class UserController {
   async refresh(req: Request, res: Response, next: NextFunction) {
     try {
       const { refreshToken } = req.cookies;
+      console.log('refreshToken', refreshToken);
       const userData = await userService.refresh(refreshToken);
       res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: 1000 * 60 * 60 * 24 * 10,

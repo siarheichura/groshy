@@ -45,6 +45,7 @@ export class UserController {
       res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
+        secure: true,
         sameSite: 'none',
       });
       return res.json({
@@ -74,6 +75,7 @@ export class UserController {
       res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
+        secure: true,
         sameSite: 'none',
       });
       return res.json({ data: userData });

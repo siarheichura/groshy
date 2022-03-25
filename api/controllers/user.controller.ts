@@ -42,6 +42,12 @@ export class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
+      res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
+        maxAge: 1000 * 60 * 60 * 24 * 10,
+        httpOnly: true,
+        domain: 'groshy.herokuapp.com',
+        sameSite: 'none',
+      });
       return res.json({
         data: userData,
         message: `Hey, ${userData.user.username}`,
@@ -69,7 +75,6 @@ export class UserController {
       res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
-        secure: true,
         domain: 'groshy.herokuapp.com',
         sameSite: 'none',
       });

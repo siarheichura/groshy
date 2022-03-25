@@ -7,14 +7,11 @@ import { Observable, Subscription, map, tap, take } from 'rxjs';
 import dayjs from 'dayjs';
 
 import { MoneyMoveStat } from './../../../shared/interfaces/MoneyMoveStat.interface';
-import {
-  GetMoneyMoveStatistics,
-  GetFirstMoneyMoveDate,
-} from './../../../store/wallets/wallets.actions';
+import { GetMoneyMoveStatistics } from './../../../store/wallets/wallets.actions';
 import { currentTabSelector } from 'src/app/store/shared/shared.selectros';
 import {
-  firstMoneyMoveDateSelector,
   moneyMoveStatisticsSelector,
+  walletCreationDateSelector,
   walletCurrencySelector,
 } from './../../../store/wallets/wallets.selectros';
 
@@ -31,42 +28,16 @@ interface ChartOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsComponent implements OnInit {
-  results: ChartOptions[];
-
+  chartOptions: ChartOptions[];
   datePicker = new FormControl(new Date());
   disabledDates: (date: Date) => boolean;
-  firstMoneyMoveDate$: Observable<Date> = this.store.select(
-    firstMoneyMoveDateSelector
-  );
-  firstMoneyMoveDateSubs: Subscription = this.firstMoneyMoveDate$
-    .pipe(untilDestroyed(this))
-    .subscribe((resp) => {
-      this.disabledDates = (date: Date): boolean =>
-        dayjs(date).isAfter(dayjs(), 'month') ||
-        dayjs(date).isBefore(resp, 'month');
-    });
-
   walletId: string = (this.route.parent.snapshot.params as { id: string }).id;
   moneyMoveType: string;
   totalMoneyMoveSum: number;
-
   currency$: Observable<string> = this.store.select(walletCurrencySelector);
-
-  currentTab$: Observable<string> = this.store.select(currentTabSelector);
-  currentTabSubs: Subscription = this.currentTab$
-    .pipe(untilDestroyed(this))
-    .subscribe((resp) => {
-      this.moneyMoveType = resp;
-      this.getStatistics(this.datePicker.value);
-
-      this.store.dispatch(
-        GetFirstMoneyMoveDate({
-          payload: { type: this.moneyMoveType, walletId: this.walletId },
-        })
-      );
-    });
-
-  statistics$ = this.store.select(moneyMoveStatisticsSelector);
+  statistics$: Observable<MoneyMoveStat[]> = this.store.select(
+    moneyMoveStatisticsSelector
+  );
   statisticsSubs: Subscription = this.statistics$
     .pipe(untilDestroyed(this))
     .subscribe((resp) => {
@@ -74,12 +45,26 @@ export class StatisticsComponent implements OnInit {
         (prev, curr) => (this.totalMoneyMoveSum = prev + curr.amount),
         0
       );
-      this.setPieOptions(resp);
+      this.setChartOptions(resp);
     });
 
   constructor(private route: ActivatedRoute, private store: Store) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(walletCreationDateSelector).subscribe((resp) => {
+      this.disabledDates = (date: Date): boolean =>
+        dayjs(date).isAfter(dayjs(), 'month') ||
+        dayjs(date).isBefore(dayjs(resp), 'month');
+    });
+
+    this.store
+      .select(currentTabSelector)
+      .pipe(untilDestroyed(this))
+      .subscribe((resp) => {
+        this.moneyMoveType = resp;
+        this.getStatistics(this.datePicker.value);
+      });
+  }
 
   getStatistics(datePickerValue: Date): void {
     const startDate = dayjs(datePickerValue).startOf('month');
@@ -99,8 +84,8 @@ export class StatisticsComponent implements OnInit {
     );
   }
 
-  setPieOptions(data: MoneyMoveStat[]) {
-    this.results = data.map((item) => ({
+  setChartOptions(data: MoneyMoveStat[]) {
+    this.chartOptions = data.map((item) => ({
       value: item.amount,
       name: item.category.name,
     }));
@@ -110,7 +95,7 @@ export class StatisticsComponent implements OnInit {
     if (this.datePicker.value) {
       this.statistics$.pipe(take(1)).subscribe((resp) => {
         this.getStatistics(this.datePicker.value);
-        this.setPieOptions(resp);
+        this.setChartOptions(resp);
       });
     }
   }

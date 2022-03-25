@@ -7,7 +7,6 @@ export interface WalletsState {
   wallets: Wallet[];
   wallet: Wallet;
   periodMoneyMove: MoneyMoveDayItem[];
-  firstMoneyMoveDate: Date;
   categories: MoneyMoveCategory[];
   statistics: MoneyMoveStat[];
 }
@@ -19,9 +18,9 @@ export const initialWalletsState: WalletsState = {
     name: '',
     balance: 0,
     currency: '',
+    date: null,
   },
   periodMoneyMove: [],
-  firstMoneyMoveDate: null,
   categories: [],
   statistics: [],
 };

@@ -39,8 +39,6 @@ enum WalletsActionsEnum {
   EditMoneyMoveItemSuccess = 'EDIT_MONEY_MOVE_ITEM_SUCCESS',
   GetMoneyMoveStatistics = 'GET_MONEY_MOVE_STATISTICS',
   GetMoneyMoveStatisticsSuccess = 'GET_MONEY_MOVE_STAT_STATISTICS',
-  GetFirstMoneyMoveDate = 'GET_FIRST_MONEY_MOVE_DATE',
-  GetFirstMoneyMoveDateSuccess = 'GET_FIRST_MONEY_MOVE_DATE_SUCCESS',
 }
 
 export const ResetWalletState = createAction(
@@ -173,12 +171,4 @@ export const GetMoneyMoveStatisticsSuccess = createAction(
   props<{
     payload: MoneyMoveStat[];
   }>()
-);
-export const GetFirstMoneyMoveDate = createAction(
-  getFullActionName(WalletsActionsEnum.GetFirstMoneyMoveDate),
-  props<{ payload: { type: string; walletId: string } }>()
-);
-export const GetFirstMoneyMoveDateSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetFirstMoneyMoveDateSuccess),
-  props<{ payload: { date: Date } }>()
 );

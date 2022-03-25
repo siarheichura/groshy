@@ -1,30 +1,26 @@
-import { firstMoneyMoveDateSelector } from './../../../store/wallets/wallets.selectros';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, tap, map } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { NzModalService } from 'ng-zorro-antd/modal';
 
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { walletCreationDateSelector } from './../../../store/wallets/wallets.selectros';
 import {
   AddMoneyMoveItem,
   EditMoneyMoveItem,
-  GetWalletCategories,
   GetMoneyMoveByPeriod,
   RemoveMoneyMoveItem,
-  GetFirstMoneyMoveDate,
 } from './../../../store/wallets/wallets.actions';
 import {
   periodMoneyMoveSelector,
   walletCurrencySelector,
 } from 'src/app/store/wallets/wallets.selectros';
 import { currentTabSelector } from './../../../store/shared/shared.selectros';
-
 import { MoneyMoveFormComponent } from './../money-move-form/money-move-form.component';
 import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
-import { MoneyMoveTypes } from 'src/app/shared/enums/MoneyMoveTypes.enum';
 import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
 import { MODAL_WIDTH } from './../../../shared/constants/constants';
 
@@ -36,29 +32,11 @@ import { MODAL_WIDTH } from './../../../shared/constants/constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyMoveComponent implements OnInit {
-  MoneyMoveTypes = MoneyMoveTypes;
   datePicker = new FormControl(new Date());
-
-  startDate: Dayjs = dayjs(this.datePicker.value).startOf('month');
-  finishDate: Dayjs =
-    dayjs(this.datePicker.value).endOf('month') > dayjs()
-      ? dayjs().endOf('day')
-      : dayjs().endOf('month');
   disabledDates: (date: Date) => boolean;
-  firstMoneyMoveDate$: Observable<Date> = this.store.select(
-    firstMoneyMoveDateSelector
-  );
-  firstMoneyMoveDateSubs: Subscription = this.firstMoneyMoveDate$
-    .pipe(untilDestroyed(this))
-    .subscribe((resp) => {
-      this.disabledDates = (date: Date): boolean =>
-        dayjs(date).isAfter(dayjs(), 'month') ||
-        dayjs(date).isBefore(resp, 'month');
-    });
-
   walletId: string = (this.route.snapshot.params as { id: string }).id;
   moneyMoveType: string;
-
+  currency$: Observable<string> = this.store.select(walletCurrencySelector);
   moneyMove$: Observable<MoneyMoveDayItem[]> = this.store
     .select(periodMoneyMoveSelector)
     .pipe(
@@ -69,38 +47,47 @@ export class MoneyMoveComponent implements OnInit {
       )
     );
 
-  currency$: Observable<string> = this.store.select(walletCurrencySelector);
-  currentTab$: Observable<string> = this.store.select(currentTabSelector);
-  curentTabSubs: Subscription = this.currentTab$
-    .pipe(untilDestroyed(this))
-    .subscribe((resp) => {
-      this.moneyMoveType = resp;
-
-      this.store.dispatch(
-        GetMoneyMoveByPeriod({
-          payload: {
-            walletId: this.walletId,
-            type: this.moneyMoveType,
-            startDate: this.startDate,
-            finishDate: this.finishDate,
-          },
-        })
-      );
-
-      this.store.dispatch(
-        GetFirstMoneyMoveDate({
-          payload: { type: this.moneyMoveType, walletId: this.walletId },
-        })
-      );
-    });
-
   constructor(
     private route: ActivatedRoute,
     private store: Store,
     private modal: NzModalService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(walletCreationDateSelector).subscribe((resp) => {
+      this.disabledDates = (date: Date): boolean =>
+        dayjs(date).isAfter(dayjs(), 'month') ||
+        dayjs(date).isBefore(dayjs(resp), 'month');
+    });
+
+    this.store
+      .select(currentTabSelector)
+      .pipe(untilDestroyed(this))
+      .subscribe((resp) => {
+        this.moneyMoveType = resp;
+
+        this.getMoneyMoveItems(this.datePicker.value);
+      });
+  }
+
+  getMoneyMoveItems(datePickerValue: Date): void {
+    const startDate = dayjs(datePickerValue).startOf('month');
+    const finishDate =
+      dayjs(datePickerValue).endOf('month') > dayjs()
+        ? dayjs(datePickerValue).endOf('day')
+        : dayjs(datePickerValue).endOf('month');
+
+    this.store.dispatch(
+      GetMoneyMoveByPeriod({
+        payload: {
+          walletId: this.walletId,
+          type: this.moneyMoveType,
+          startDate,
+          finishDate,
+        },
+      })
+    );
+  }
 
   printAddMoneyMoveItemModal() {
     const modal = this.modal.create({

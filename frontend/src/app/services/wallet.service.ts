@@ -138,13 +138,4 @@ export class WalletService {
       body
     );
   }
-
-  getFirstMoneyMoveDate(
-    type: string,
-    walletId: string
-  ): Observable<HTTP<Date>> {
-    return this.http.get<HTTP<Date>>(
-      `${environment.apiUrl}/${type}-first/${walletId}`
-    );
-  }
 }

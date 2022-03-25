@@ -114,21 +114,4 @@ export class ExpensesController {
       next(err);
     }
   }
-
-  async getFirstExpenseDate(req: Request, res: Response, next: NextFunction) {
-    try {
-      const walletId = req.params.walletId;
-      const expense = await ExpenseModel.find({ wallet: walletId }).sort({
-        date: 1,
-      });
-      if (!expense.length) {
-        res.json({ data: new Date() });
-      } else {
-        const firstExpenseDate = expense[0].date;
-        res.json({ data: firstExpenseDate });
-      }
-    } catch (err) {
-      next(err);
-    }
-  }
 }

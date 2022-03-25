@@ -48,7 +48,11 @@ export class AuthService {
 
   login(user: UserLogin): Observable<HTTP<AuthResponse>> {
     return this.http
-      .post<HTTP<AuthResponse>>(`${environment.apiUrl}${API_PATH_LOGIN}`, user)
+      .post<HTTP<AuthResponse>>(
+        `${environment.apiUrl}${API_PATH_LOGIN}`,
+        user,
+        { withCredentials: true }
+      )
       .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
   }
 
@@ -59,7 +63,7 @@ export class AuthService {
 
   refresh(): Observable<HTTP<AuthResponse>> {
     return this.http
-      .get<HTTP<AuthResponse>>(`${environment.apiUrl}${API_PATH_REFRESH}`, {
+      .post<HTTP<AuthResponse>>(`${environment.apiUrl}${API_PATH_REFRESH}`, {
         withCredentials: true,
       })
       .pipe(tap((resp) => this.setToken(resp.data.accessToken)));

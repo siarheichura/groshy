@@ -29,7 +29,7 @@ userRouter.post(RouterEnum.Login, controller.login);
 userRouter.post(RouterEnum.Logout, controller.logout);
 userRouter.get(`${RouterEnum.Activate}/:link`, controller.activate);
 userRouter.get(`${RouterEnum.User}/:id`, controller.getUser);
-userRouter.get(RouterEnum.Refresh, controller.refresh);
+userRouter.post(RouterEnum.Refresh, controller.refresh);
 userRouter.post(
   `${RouterEnum.UserUpdate}/:id`,
   [validator.username, validator.email],

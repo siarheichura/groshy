@@ -71,6 +71,7 @@ export class UserController {
       res.cookie(config.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: config.REFRESH_TOKEN_COOKIE_MAX_AGE,
         httpOnly: true,
+        path: '/refresh',
       });
       return res.json({ data: userData });
     } catch (err) {

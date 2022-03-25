@@ -1,3 +1,3 @@
-export const MODAL_WIDTH = '450px';
-export const DRAWER_WIDTH = '400px';
+export const MODAL_WIDTH = '375px';
+export const DRAWER_WIDTH = '375px';
 export const CURRENCIES = ['USD', 'EUR', 'BYN', 'RUB'];

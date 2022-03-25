@@ -1,13 +1,21 @@
-import { Store } from '@ngrx/store';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import dayjs from 'dayjs';
 
 import { MoneyMoveCategory } from './../../../shared/interfaces/MoneyMoveCategory.interface';
 import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
-import { categoriesSelector } from 'src/app/store/wallets/wallets.selectros';
+import {
+  categoriesSelector,
+  walletCreationDateSelector,
+} from 'src/app/store/wallets/wallets.selectros';
 import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
 
 interface FormValue {
@@ -28,6 +36,7 @@ enum FormEnum {
   selector: 'app-money-move-modal-form',
   templateUrl: './money-move-form.component.html',
   styleUrls: ['./money-move-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyMoveFormComponent implements OnInit {
   @Input() moneyMoveType: string;
@@ -51,6 +60,12 @@ export class MoneyMoveFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.store.select(walletCreationDateSelector).subscribe((resp) => {
+      this.disabledDates = (date: Date): boolean =>
+        dayjs(date).isAfter(dayjs(), 'day') ||
+        dayjs(date).isBefore(dayjs(resp), 'day');
+    });
+
     this.categories$ = this.store.select(
       categoriesSelector({ type: this.moneyMoveType })
     );

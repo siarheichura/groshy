@@ -105,21 +105,4 @@ export class IncomeController {
       next(err);
     }
   }
-
-  async getFirstIncomeDate(req: Request, res: Response, next: NextFunction) {
-    try {
-      const walletId = req.params.walletId;
-      const income = await IncomeModel.find({ wallet: walletId }).sort({
-        date: 1,
-      });
-      if (!income.length) {
-        res.json({ data: new Date() });
-      } else {
-        const firstIncomeDate = income[0].date;
-        res.json({ data: firstIncomeDate });
-      }
-    } catch (err) {
-      next(err);
-    }
-  }
 }

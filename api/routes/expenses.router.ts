@@ -19,7 +19,3 @@ expensesRouter.delete(
   controller.removeExpense
 );
 expensesRouter.put(`${RouterEnum.Expense}/:expenseId`, controller.editExpense);
-expensesRouter.get(
-  `${RouterEnum.FirstExpense}/:walletId`,
-  controller.getFirstExpenseDate
-);

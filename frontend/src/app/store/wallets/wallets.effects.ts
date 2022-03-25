@@ -235,21 +235,4 @@ export class WalletsEffects {
       )
     );
   });
-
-  getFirstMoneyMoveDate$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WalletsActions.GetFirstMoneyMoveDate),
-      switchMap(({ payload }) =>
-        this.walletService
-          .getFirstMoneyMoveDate(payload.type, payload.walletId)
-          .pipe(
-            map((data) =>
-              WalletsActions.GetFirstMoneyMoveDateSuccess({
-                payload: { date: data.data },
-              })
-            )
-          )
-      )
-    );
-  });
 }

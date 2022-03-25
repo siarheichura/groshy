@@ -70,8 +70,8 @@ export class UserController {
       const userData = await userService.refresh(refreshToken);
       res.cookie(config.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: config.REFRESH_TOKEN_COOKIE_MAX_AGE,
-        httpOnly: true,
-        path: '/refresh',
+        httpOnly: false,
+        secure: false,
       });
       return res.json({ data: userData });
     } catch (err) {

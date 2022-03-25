@@ -8,9 +8,11 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { MoneyMoveFormComponent } from './money-move-form/money-move-form.component';
 import { WalletHeaderComponent } from './wallet-header/wallet-header.component';
 import { WalletSettingsComponent } from './wallet-settings/wallet-settings.component';
+import { WalletPageComponent } from './wallet-page.component';
 
 @NgModule({
   declarations: [
+    WalletPageComponent,
     MoneyMoveComponent,
     WalletHeaderComponent,
     WalletSettingsComponent,

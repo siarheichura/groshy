@@ -39,7 +39,7 @@ enum FormEnum {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoneyMoveFormComponent implements OnInit {
-  @Input() moneyMoveType: string;
+  @Input() moneyMoveType: string = '';
   @Input() moneyMoveItem: MoneyMoveItem;
 
   disabledDates = (date: Date): boolean => dayjs(date).isAfter(dayjs(), 'day');
@@ -47,7 +47,9 @@ export class MoneyMoveFormComponent implements OnInit {
   moneyMoveForm: FormGroup;
   formControls = FormEnum;
 
-  categories$: Observable<MoneyMoveCategory[]>;
+  categories$: Observable<MoneyMoveCategory[]> = this.store.select(
+    categoriesSelector({ type: this.moneyMoveType })
+  );
 
   get formValue(): FormValue {
     return this.moneyMoveForm.value as FormValue;

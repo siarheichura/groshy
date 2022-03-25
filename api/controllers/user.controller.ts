@@ -69,7 +69,8 @@ export class UserController {
       res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
         maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
-        domain: 'groshy',
+        secure: true,
+        domain: 'groshy.herokuapp.com',
         sameSite: 'none',
       });
       return res.json({ data: userData });

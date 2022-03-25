@@ -1,5 +1,3 @@
-import { UserModel } from './../models/User';
-import { config } from './../config';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 
@@ -57,7 +55,7 @@ export class UserController {
     try {
       const { refreshToken } = req.cookies;
       const token = await userService.logout(refreshToken);
-      res.clearCookie(config.REFRESH_TOKEN_COOKIE_KEY);
+      res.clearCookie(process.env.REFRESH_TOKEN_COOKIE_KEY);
       return res.json({ data: token });
     } catch (err) {
       next(err);
@@ -68,10 +66,10 @@ export class UserController {
     try {
       const { refreshToken } = req.cookies;
       const userData = await userService.refresh(refreshToken);
-      res.cookie(config.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
-        maxAge: config.REFRESH_TOKEN_COOKIE_MAX_AGE,
+      res.cookie(process.env.REFRESH_TOKEN_COOKIE_KEY, userData.refreshToken, {
+        maxAge: 1000 * 60 * 60 * 24 * 10,
         httpOnly: true,
-        path: '/refresh',
+        path: '/api/groshy/refresh',
       });
       return res.json({ data: userData });
     } catch (err) {

@@ -1,4 +1,3 @@
-import { config } from './../config';
 import { TokenModel } from './../models/Token';
 import jwt from 'jsonwebtoken';
 
@@ -11,12 +10,16 @@ interface TokenPayload {
 
 class TokenService {
   generateTokens(payload: TokenPayload) {
-    const accessToken = jwt.sign(payload, config.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: config.ACCESS_TOKEN_EXPIRE_TIME,
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME,
     });
-    const refreshToken = jwt.sign(payload, config.REFRESH_TOKEN_SECRET_KEY, {
-      expiresIn: config.REFRESH_TOKEN_EXPIRE_TIME,
-    });
+    const refreshToken = jwt.sign(
+      payload,
+      process.env.REFRESH_TOKEN_SECRET_KEY,
+      {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME,
+      }
+    );
     return { accessToken, refreshToken };
   }
 
@@ -32,7 +35,7 @@ class TokenService {
 
   validateAccessToken(token: string) {
     try {
-      const userData = jwt.verify(token, config.ACCESS_TOKEN_SECRET_KEY);
+      const userData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
       return userData;
     } catch (err) {
       return null;
@@ -43,7 +46,7 @@ class TokenService {
     try {
       const userData: TokenPayload = jwt.verify(
         token,
-        config.REFRESH_TOKEN_SECRET_KEY
+        process.env.REFRESH_TOKEN_SECRET_KEY
       ) as TokenPayload;
       return userData;
     } catch (err) {

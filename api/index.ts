@@ -18,7 +18,11 @@ import { categoryRouter } from './routes/categoty.routes';
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.CLIENT_URL, process.env.CLIENT_URL_LOCAL],
+    origin: [
+      process.env.CLIENT_URL,
+      process.env.CLIENT_URL_LOCAL,
+      'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    ],
   })
 );
 app.use(express.json());

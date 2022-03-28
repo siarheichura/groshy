@@ -46,6 +46,30 @@
     </nz-form-control>
   </nz-form-item>
 
+  <div>
+    <nz-upload
+      [nzAction]="'https://www.mocky.io/v2/5cc8019d300000980a055e76'"
+      nzListType="picture-card"
+      [(nzFileList)]="uploadImages"
+      [nzShowButton]="uploadImages.length < 1"
+      [nzPreview]="handlePreview"
+    >
+      <div>
+        <div>Upload check</div>
+      </div>
+    </nz-upload>
+    <nz-modal
+      [nzVisible]="previewVisible"
+      [nzContent]="modalContent"
+      [nzFooter]="null"
+      (nzOnCancel)="previewVisible = false"
+    >
+      <ng-template #modalContent>
+        <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+      </ng-template>
+    </nz-modal>
+  </div>
+
   <div class="form__footer">
     <button nz-button (click)="onCancelButtonClick()">Cancel</button>
 

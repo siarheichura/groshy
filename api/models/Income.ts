@@ -1,20 +1,13 @@
 import { Schema, model, Types } from 'mongoose';
+import { MoneyMove } from './../shared/interfaces/MoneyMove';
 
-export interface Income {
-  id: string;
-  category: string;
-  date: Date;
-  amount: number;
-  comment: string;
-  wallet: Types.ObjectId;
-}
-
-const IncomeSchema = new Schema<Income>({
+const IncomeSchema = new Schema<MoneyMove>({
   category: { type: String, required: true },
   date: { type: Date, default: Date.now, required: true },
   amount: { type: Number, required: true },
   comment: { type: String },
   wallet: { type: Schema.Types.ObjectId, ref: 'Wallet', required: true },
+  checkBase64: { type: String },
 });
 
 export const IncomeModel = model('Income', IncomeSchema);

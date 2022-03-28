@@ -16,6 +16,8 @@ export class SharedEffects {
       ofType(
         UserActions.Registration,
         UserActions.Login,
+        UserActions.UpdateUserInfo,
+        UserActions.ChangePassword,
         WalletsActions.GetWallets,
         WalletsActions.GetWallet,
         WalletsActions.AddWallet,
@@ -24,7 +26,8 @@ export class SharedEffects {
         WalletsActions.GetMoneyMoveByPeriod,
         WalletsActions.AddMoneyMoveItem,
         WalletsActions.RemoveMoneyMoveItem,
-        WalletsActions.EditMoneyMoveItem
+        WalletsActions.EditMoneyMoveItem,
+        WalletsActions.GetMoneyMoveStatistics
       ),
       map(() => SharedActions.Loading({ payload: true }))
     );
@@ -35,12 +38,16 @@ export class SharedEffects {
       ofType(
         UserActions.RegistrationSuccess,
         UserActions.LoginSuccess,
-        WalletsActions.GetWalletsSuccess,
+        UserActions.ChangePasswordSuccess,
+        UserActions.ChangePasswordError,
+        UserActions.UpdateUserInfoSuccess,
         WalletsActions.GetWalletSuccess,
+        WalletsActions.GetWalletsSuccess,
         WalletsActions.AddWalletSuccess,
         WalletsActions.GetMoneyMoveByPeriodSuccess,
         WalletsActions.AddMoneyMoveItemSuccess,
-        WalletsActions.AddMoneyMoveItemSuccess
+        WalletsActions.AddMoneyMoveItemSuccess,
+        WalletsActions.GetMoneyMoveStatisticsSuccess
       ),
       map(() => SharedActions.Loading({ payload: false }))
     );

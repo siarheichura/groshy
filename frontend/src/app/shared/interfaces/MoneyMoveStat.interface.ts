@@ -1,6 +1,4 @@
-import { MoneyMoveCategory } from './MoneyMoveCategory.interface';
-
 export interface MoneyMoveStat {
-  category: MoneyMoveCategory;
+  category: string;
   amount: number;
 }

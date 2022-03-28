@@ -9,7 +9,16 @@
     (click)="onMoneyMoveItemClick(item)"
   >
     <div class="card__title">
-      <p class="card__type">{{ item.category }}</p>
+      <p class="card__type">
+        {{ item.category }}
+        <i
+          class="card__icon"
+          *ngIf="item.checkBase64"
+          nz-icon
+          nzType="file-image"
+          nzTheme="outline"
+        ></i>
+      </p>
       <p class="card__sum">{{ item.amount }} {{ currency }}</p>
     </div>
 

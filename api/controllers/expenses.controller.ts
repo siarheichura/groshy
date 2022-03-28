@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import dayjs from 'dayjs';
 
 import { ExpenseModel } from './../models/Expense';
-import { CategoryModel } from './../models/Category';
+import { Category, CategoryModel } from './../models/Category';
 import { MoneyMoveDto } from '../dtos/money-move.dto';
 import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
 
@@ -47,13 +47,6 @@ export class ExpensesController {
   ) {
     try {
       const { walletId, startDate, finishDate } = req.params;
-      const categories = await CategoryModel.find(
-        {
-          wallet: walletId,
-          type: MoneyMoveTypes.Expense,
-        },
-        'name'
-      );
       const expenses = await ExpenseModel.find({
         wallet: walletId,
         date: {
@@ -62,10 +55,17 @@ export class ExpensesController {
         },
       });
 
+      const categories: string[] = [];
+      expenses.forEach((item) => {
+        if (!categories.includes(item.category)) {
+          categories.push(item.category);
+        }
+      });
+
       const result = categories
         .map((category) => {
           const amount = expenses
-            .filter((item) => item.category === category.name)
+            .filter((item) => item.category === category)
             .reduce((prev, curr) => prev + curr.amount, 0);
           return { category, amount };
         })
@@ -80,14 +80,17 @@ export class ExpensesController {
   async addExpense(req: Request, res: Response, next: NextFunction) {
     try {
       const walletId = req.params.id;
-      const { category, amount, comment, date } = req.body;
+      const { category, amount, comment, date, checkBase64 } = req.body;
+
       const expense = await ExpenseModel.create({
         category,
         amount,
         comment,
         date,
         wallet: walletId,
+        checkBase64,
       });
+
       res.json({ data: new MoneyMoveDto(expense) });
     } catch (err) {
       next(err);

@@ -1,6 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
-import { Expense } from './Expense';
-import { Income } from './Income';
+import { MoneyMove } from './../shared/interfaces/MoneyMove';
 
 export interface Wallet {
   id: string;
@@ -31,7 +30,7 @@ WalletSchema.virtual('expensesSum', {
   ref: 'Expense',
   localField: '_id',
   foreignField: 'wallet',
-}).get(function (this: Wallet, data: Expense[]) {
+}).get(function (this: Wallet, data: MoneyMove[]) {
   if (data) {
     const result = data.reduce((prev, curr) => prev + curr.amount, 0);
     return result;
@@ -42,7 +41,7 @@ WalletSchema.virtual('incomeSum', {
   ref: 'Income',
   localField: '_id',
   foreignField: 'wallet',
-}).get(function (this: Wallet, data: Income[]) {
+}).get(function (this: Wallet, data: MoneyMove[]) {
   if (data) {
     const result = data.reduce((prev, curr) => prev + curr.amount, 0);
     return result;

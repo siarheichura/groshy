@@ -30,7 +30,7 @@
   <div class="stat__list">
     <div class="stat__item" *ngFor="let item of statistics$ | async">
       <div class="stat__item-header">
-        <p class="stat__item-name">{{ item.category.name }}</p>
+        <p class="stat__item-name">{{ item.category }}</p>
         <div class="stat__item-sum">
           <p>{{ item.amount }}</p>
           <p>{{ currency$ | async }}</p>

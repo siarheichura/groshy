@@ -150,6 +150,7 @@ export class UserProfileComponent implements OnInit {
         UpdateUserInfo({ payload: { id: this.user.id, ...this.userFormValue } })
       );
       this.isUserFormVisible = false;
+      this.drawer.close();
     } else {
       markFormControlsDirty(this.userForm);
     }

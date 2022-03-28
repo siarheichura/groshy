@@ -33,6 +33,7 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzAvatarModule,
     NzIconModule,
     NzBadgeModule,
+    NzUploadModule,
   ],
   exports: [
     ReactiveFormsModule,
@@ -86,6 +88,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzAlertModule,
     NzAvatarModule,
     NzBadgeModule,
+    NzUploadModule,
     HeaderComponent,
     ListComponent,
     MoneyMoveDayCardComponent,

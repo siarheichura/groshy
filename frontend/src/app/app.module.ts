@@ -5,8 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
-import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { environment } from '../environments/environment';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { IconDefinition } from '@ant-design/icons-angular';
+import * as AllIcons from '@ant-design/icons-angular/icons';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -31,6 +34,13 @@ const INTERCEPTOR_PROVIDER: Provider = {
   useClass: AuthInterceptor,
 };
 
+const antDesignIcons = AllIcons as {
+  [key: string]: IconDefinition;
+};
+const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
+  (key) => antDesignIcons[key]
+);
+
 @NgModule({
   declarations: [AppComponent, UserProfileComponent],
   imports: [
@@ -54,7 +64,11 @@ const INTERCEPTOR_PROVIDER: Provider = {
     EffectsModule.forRoot([WalletsEffects, UserEffects, SharedEffects]),
     AppRoutingModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, INTERCEPTOR_PROVIDER],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: NZ_ICONS, useValue: icons },
+    INTERCEPTOR_PROVIDER,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

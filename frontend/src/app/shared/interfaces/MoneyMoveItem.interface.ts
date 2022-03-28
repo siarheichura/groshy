@@ -4,4 +4,5 @@ export interface MoneyMoveItem {
   amount: number;
   date: Date;
   comment?: string;
+  checkBase64?: string;
 }

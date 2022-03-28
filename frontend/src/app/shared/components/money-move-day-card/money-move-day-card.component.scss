@@ -24,12 +24,21 @@
     cursor: pointer;
 
     &__title {
+      position: relative;
       width: 100%;
       margin-bottom: 5px;
       display: flex;
       justify-content: space-between;
       font-size: 17px;
       font-weight: 600;
+
+      .card__icon {
+        position: absolute;
+        top: 0;
+        left: -10px;
+        font-size: 10px;
+        color: #5fcbf1;
+      }
     }
 
     &__btn-del {

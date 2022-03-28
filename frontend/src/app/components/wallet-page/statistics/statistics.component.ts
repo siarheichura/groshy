@@ -87,7 +87,7 @@ export class StatisticsComponent implements OnInit {
   setChartOptions(data: MoneyMoveStat[]) {
     this.chartOptions = data.map((item) => ({
       value: item.amount,
-      name: item.category.name,
+      name: item.category,
     }));
   }
 

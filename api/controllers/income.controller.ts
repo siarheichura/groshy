@@ -39,13 +39,6 @@ export class IncomeController {
   async getIncomeByCategories(req: Request, res: Response, next: NextFunction) {
     try {
       const { walletId, startDate, finishDate } = req.params;
-      const categories = await CategoryModel.find(
-        {
-          wallet: walletId,
-          type: MoneyMoveTypes.Income,
-        },
-        'name'
-      );
       const income = await IncomeModel.find({
         wallet: walletId,
         date: {
@@ -54,9 +47,16 @@ export class IncomeController {
         },
       });
 
+      const categories: string[] = [];
+      income.forEach((item) => {
+        if (!categories.includes(item.category)) {
+          categories.push(item.category);
+        }
+      });
+
       const result = categories.map((category) => {
         const amount = income
-          .filter((item) => item.category === category.name)
+          .filter((item) => item.category === category)
           .reduce((prev, curr) => prev + curr.amount, 0);
 
         return { category, amount };

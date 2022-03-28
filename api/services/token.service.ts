@@ -11,7 +11,7 @@ interface TokenPayload {
 class TokenService {
   generateTokens(payload: TokenPayload) {
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: '30s',
+      expiresIn: '15m',
     });
     const refreshToken = jwt.sign(
       payload,

@@ -22,7 +22,6 @@ import { HomePageModule } from './components/home-page/home-page.module';
 import { WalletModule } from './components/wallet-page/wallet.module';
 
 import { AppComponent } from './app.component';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 import { AuthInterceptor } from './services/auth.interceptor';
@@ -33,7 +32,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 };
 
 @NgModule({
-  declarations: [AppComponent, MainLayoutComponent, UserProfileComponent],
+  declarations: [AppComponent, UserProfileComponent],
   imports: [
     BrowserModule,
     FormsModule,

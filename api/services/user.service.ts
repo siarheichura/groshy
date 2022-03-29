@@ -19,7 +19,7 @@ class UserService {
 
     await mailService.sendActivationMail(
       email,
-      `${RouterEnum.ApiUrl}${RouterEnum.Base}${RouterEnum.Activate}/${user.activationLink}`
+      `${process.env.CLIENT_URL}${RouterEnum.Base}${RouterEnum.Activate}/${user.activationLink}`
     );
     return new UserDto(user);
   }

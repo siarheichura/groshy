@@ -24,7 +24,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-  RouterEnum.Base,
+  `/${RouterEnum.Base}`,
   userRouter,
   walletRouter,
   categoryRouter,

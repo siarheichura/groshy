@@ -54,7 +54,9 @@ export const GetUserSuccess = createAction(
 );
 export const UpdateUserInfo = createAction(
   getFullActionName(UserActionsEnum.UpdateUserInfo),
-  props<{ payload: { id: string; username: string; email: string } }>()
+  props<{
+    payload: { id: string; username: string; email: string; emoji: string };
+  }>()
 );
 export const UpdateUserInfoSuccess = createAction(
   getFullActionName(UserActionsEnum.UpdateUserInfoSuccess),

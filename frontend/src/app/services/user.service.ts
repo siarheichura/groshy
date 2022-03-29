@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap, Observable } from 'rxjs';
 
@@ -28,7 +28,7 @@ interface AuthResponse {
 }
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class UserService {
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   get token(): string {
@@ -37,6 +37,14 @@ export class AuthService {
 
   get decodedToken(): User {
     return this.jwtHelper.decodeToken(this.token);
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem(environment.LocalStorageUserKey, token);
+  }
+
+  removeToken(): void {
+    localStorage.removeItem(environment.LocalStorageUserKey);
   }
 
   registration(user: SignUpUser): Observable<HTTP<User>> {
@@ -72,11 +80,12 @@ export class AuthService {
   updateUserInfo(
     id: string,
     username: string,
-    email: string
+    email: string,
+    emoji: string
   ): Observable<HTTP<User>> {
     return this.http.post<HTTP<User>>(
       `${environment.apiUrl}${API_PATH_USER_UPDATE}/${id}`,
-      { username, email }
+      { username, email, emoji }
     );
   }
 
@@ -89,13 +98,5 @@ export class AuthService {
 
   getUser(id: string): Observable<User> {
     return this.http.get<User>(`${environment.apiUrl}${API_PATH_USER}/${id}`);
-  }
-
-  setToken(token: string): void {
-    localStorage.setItem(environment.LocalStorageUserKey, token);
-  }
-
-  removeToken(): void {
-    localStorage.removeItem(environment.LocalStorageUserKey);
   }
 }

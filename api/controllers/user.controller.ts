@@ -106,14 +106,14 @@ export class UserController {
   async updateUserInfo(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { username, email } = req.body;
+      const { username, email, emoji } = req.body;
 
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest('Incorrect data', errors.array()));
       }
 
-      const user = await userService.updateUserInfo(id, username, email);
+      const user = await userService.updateUserInfo(id, username, email, emoji);
       res.json({
         data: new UserDto(user),
       });

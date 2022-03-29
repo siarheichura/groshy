@@ -6,6 +6,6 @@ export interface UserState {
 }
 
 export const initialUserState: UserState = {
-  user: { id: '', username: '', email: '', isActivated: false },
+  user: { id: '', username: '', emoji: '', email: '', isActivated: false },
   isAuth: false,
 };

@@ -102,7 +102,12 @@ class UserService {
     }
   }
 
-  async updateUserInfo(id: string, username: string, email: string) {
+  async updateUserInfo(
+    id: string,
+    username: string,
+    email: string,
+    emoji: string
+  ) {
     const user = await UserModel.findById(id);
     if (!username || !email) {
       throw ApiError.BadRequest('Invalid data');
@@ -115,6 +120,8 @@ class UserService {
       user.isActivated = false;
       mailService.sendActivationMail(email, user.activationLink);
     }
+    user.emoji = emoji;
+
     user.save();
     return user;
   }

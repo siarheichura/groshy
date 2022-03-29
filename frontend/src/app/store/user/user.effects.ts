@@ -4,14 +4,14 @@ import { map, switchMap, catchError, of, mergeMap } from 'rxjs';
 import { ofType, Actions, createEffect, act } from '@ngrx/effects';
 
 import { RouterEnum } from 'src/app/shared/enums/Router.enum';
-import { AuthService } from './../../services/auth.service';
+import { UserService } from './../../services/user.service';
 import * as UserActions from './user.actions';
 import * as SharedActions from '../shared/shared.actions';
 
 @Injectable()
 export class UserEffects {
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
     private actions$: Actions,
     private router: Router
   ) {}
@@ -20,7 +20,7 @@ export class UserEffects {
     return this.actions$.pipe(
       ofType(UserActions.Registration),
       switchMap((action) =>
-        this.authService.registration(action.payload).pipe(
+        this.userService.registration(action.payload).pipe(
           mergeMap((data) => {
             this.router.navigate([RouterEnum.Auth]);
             return [
@@ -46,7 +46,7 @@ export class UserEffects {
     return this.actions$.pipe(
       ofType(UserActions.Login),
       switchMap((action) =>
-        this.authService.login(action.payload).pipe(
+        this.userService.login(action.payload).pipe(
           mergeMap((data) => {
             this.router.navigate([RouterEnum.Index]);
             return [
@@ -72,7 +72,7 @@ export class UserEffects {
     () => {
       return this.actions$.pipe(
         ofType(UserActions.Logout),
-        switchMap(() => this.authService.logout())
+        switchMap(() => this.userService.logout())
       );
     },
     { dispatch: false }
@@ -82,7 +82,7 @@ export class UserEffects {
     return this.actions$.pipe(
       ofType(UserActions.GetUser),
       switchMap((action) =>
-        this.authService
+        this.userService
           .getUser(action.payload)
           .pipe(map((data) => UserActions.GetUserSuccess({ payload: data })))
       )
@@ -93,8 +93,13 @@ export class UserEffects {
     return this.actions$.pipe(
       ofType(UserActions.UpdateUserInfo),
       switchMap(({ payload }) =>
-        this.authService
-          .updateUserInfo(payload.id, payload.username, payload.email)
+        this.userService
+          .updateUserInfo(
+            payload.id,
+            payload.username,
+            payload.email,
+            payload.emoji
+          )
           .pipe(
             map((data) =>
               UserActions.UpdateUserInfoSuccess({ payload: data.data })
@@ -108,7 +113,7 @@ export class UserEffects {
     return this.actions$.pipe(
       ofType(UserActions.ChangePassword),
       switchMap(({ payload }) =>
-        this.authService
+        this.userService
           .changePassword(payload.userId, {
             prevPassword: payload.passwords.prevPassword,
             newPassword: payload.passwords.newPassword,

@@ -10,6 +10,7 @@ import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -63,6 +64,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     }),
     EffectsModule.forRoot([WalletsEffects, UserEffects, SharedEffects]),
     AppRoutingModule,
+    PickerModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

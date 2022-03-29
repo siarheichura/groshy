@@ -6,7 +6,7 @@
     nzMessage="Please, activate your account"
   ></nz-alert>
 
-  <div class="profile">
+  <div class="profile" [ngSwitch]="isUserFormVisible">
     <button
       *ngIf="!isUserFormVisible"
       class="profile__edit-btn"
@@ -15,7 +15,30 @@
       🖊️
     </button>
     <div class="profile__img">
-      <nz-avatar nzText="🙎‍♂‍" [nzSize]="60"></nz-avatar>
+      <nz-avatar
+        *ngSwitchCase="false"
+        [nzText]="userEmoji"
+        [nzSize]="60"
+      ></nz-avatar>
+      <nz-avatar
+        *ngSwitchCase="true"
+        [nzText]="userEmoji"
+        [nzSize]="60"
+        nz-popover
+        [nzPopoverContent]="emojies"
+        nzPopoverPlacement="bottomLeft"
+      ></nz-avatar>
+
+      <ng-template #emojies>
+        <emoji-mart
+          [style]="{
+            width: '250px'
+          }"
+          [emojiSize]="20"
+          [showPreview]="false"
+          (emojiSelect)="emojiSelect($event)"
+        ></emoji-mart>
+      </ng-template>
     </div>
 
     <div class="profile__user" [ngSwitch]="isUserFormVisible">

@@ -18,6 +18,7 @@ import { User } from 'src/app/shared/interfaces/User';
 import { Logout } from 'src/app/store/user/user.actions';
 import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
 import { FormValidators } from './../../shared/validators/form-validators';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 interface PasswordFormValue {
   prevPassword: string;
@@ -49,6 +50,7 @@ enum UserFormEnum {
 })
 export class UserProfileComponent implements OnInit {
   @Input() user: User;
+  userEmoji: string;
 
   isUserFormVisible: boolean = false;
 
@@ -73,6 +75,8 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userEmoji = this.user.emoji;
+
     this.passwordForm = this.fb.group(
       {
         [this.passwordFormControls.prevPassword]: ['', [Validators.required]],
@@ -144,10 +148,17 @@ export class UserProfileComponent implements OnInit {
     if (
       this.userForm.valid &&
       (this.userForm.controls['username'].value !== this.user.username ||
-        this.userForm.controls['email'].value !== this.user.email)
+        this.userForm.controls['email'].value !== this.user.email ||
+        this.userEmoji !== this.user.emoji)
     ) {
       this.store.dispatch(
-        UpdateUserInfo({ payload: { id: this.user.id, ...this.userFormValue } })
+        UpdateUserInfo({
+          payload: {
+            id: this.user.id,
+            ...this.userFormValue,
+            emoji: this.userEmoji,
+          },
+        })
       );
       this.isUserFormVisible = false;
       this.drawer.close();
@@ -160,5 +171,9 @@ export class UserProfileComponent implements OnInit {
     this.store.dispatch(Logout());
     this.drawer.close();
     void this.router.navigate([RouterEnum.Auth]);
+  }
+
+  emojiSelect(event: EmojiEvent) {
+    this.userEmoji = event.emoji.native;
   }
 }

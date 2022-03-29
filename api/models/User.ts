@@ -5,6 +5,7 @@ import * as uuid from 'uuid';
 export interface User {
   id: string;
   username: string;
+  emoji: string;
   email: string;
   password: string;
   wallets: Types.ObjectId[];
@@ -19,6 +20,7 @@ const hashPassword = (password: string) => {
 
 const UserSchema = new Schema<User>({
   username: { type: String, required: true },
+  emoji: { type: String, requred: true, default: '🙎‍♂‍' },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true, set: hashPassword },
   wallets: [{ type: Schema.Types.ObjectId, ref: 'Wallet' }],

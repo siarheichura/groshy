@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { filter, Observable } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 import { userSelector } from './store/user/user.selectros';
 import { loadingSelector } from './store/shared/shared.selectros';
 import { RouterEnum } from './shared/enums/Router.enum';
@@ -22,7 +22,7 @@ export class AppComponent {
 
   constructor(
     private store: Store,
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router
   ) {}
 
@@ -33,9 +33,9 @@ export class AppComponent {
         this.isHeaderVisible = !r.url.includes(RouterEnum.Auth);
       });
 
-    if (this.authService.token) {
+    if (this.userService.token) {
       this.store.dispatch(
-        GetUser({ payload: this.authService.decodedToken.id })
+        GetUser({ payload: this.userService.decodedToken.id })
       );
     }
   }

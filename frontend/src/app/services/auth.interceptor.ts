@@ -10,14 +10,14 @@ import { Store } from '@ngrx/store';
 import { catchError, Observable, throwError, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 import { Logout } from './../store/user/user.actions';
 import { RouterEnum } from './../shared/enums/Router.enum';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private store: Store
   ) {}
@@ -28,8 +28,8 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     let newReq = req;
 
-    if (this.authService.token) {
-      newReq = this.addTokenHeader(req, this.authService.token);
+    if (this.userService.token) {
+      newReq = this.addTokenHeader(req, this.userService.token);
     }
 
     return next.handle(newReq).pipe(
@@ -46,10 +46,10 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.authService.refresh().pipe(
+    return this.userService.refresh().pipe(
       switchMap(() => {
         return next.handle(
-          this.addTokenHeader(request, this.authService.token)
+          this.addTokenHeader(request, this.userService.token)
         );
       }),
       catchError((err) => {

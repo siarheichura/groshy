@@ -30,7 +30,8 @@ export class AppComponent {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((r: any) => {
-        this.isHeaderVisible = !r.url.includes(RouterEnum.Auth);
+        this.isHeaderVisible =
+          !r.url.includes(RouterEnum.Auth) && !r.url.includes(RouterEnum.Error);
       });
 
     if (this.userService.token) {

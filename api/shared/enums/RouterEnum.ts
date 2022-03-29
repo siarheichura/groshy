@@ -1,7 +1,7 @@
 export enum RouterEnum {
   ClientUrl = 'http://localhost:4200',
   ApiUrl = 'http://localhost:5000',
-  Base = '/api/groshy',
+  Base = 'api/groshy',
 
   Registration = '/registration',
   Login = '/login',

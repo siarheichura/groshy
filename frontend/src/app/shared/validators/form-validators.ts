@@ -17,7 +17,8 @@ export class FormValidators {
     const hasNumber = /\d/.test(control.value);
     const hasUpperCase = /[A-Z]/.test(control.value);
     const hasLowerCase = /[a-z]/.test(control.value);
-    const isValid = hasNumber && hasUpperCase && hasLowerCase;
+    const minLength = control.value.length >= 8;
+    const isValid = hasNumber && hasUpperCase && hasLowerCase && minLength;
 
     if (!isValid) {
       return { invalidPassword: true };

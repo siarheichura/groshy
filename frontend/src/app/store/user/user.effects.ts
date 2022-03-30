@@ -30,13 +30,12 @@ export class UserEffects {
               }),
             ];
           }),
-          catchError((err) => {
-            return of(
-              SharedActions.PrintNzMessageError({
-                payload: err.error.message,
-              })
-            );
-          })
+          catchError((err) => [
+            UserActions.RegistrationError(),
+            SharedActions.PrintNzMessageError({
+              payload: err.error.message,
+            }),
+          ])
         )
       )
     );
@@ -56,13 +55,12 @@ export class UserEffects {
               }),
             ];
           }),
-          catchError((err) => {
-            return of(
-              SharedActions.PrintNzMessageError({
-                payload: err.error.message,
-              })
-            );
-          })
+          catchError((err) => [
+            UserActions.LoginError(),
+            SharedActions.PrintNzMessageError({
+              payload: err.error.message,
+            }),
+          ])
         )
       )
     );

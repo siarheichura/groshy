@@ -43,12 +43,6 @@ class UserService {
       throw ApiError.BadRequest('Invalid password');
     }
 
-    if (!user.isActivated) {
-      throw ApiError.BadRequest(
-        'Please check your email and verify your account'
-      );
-    }
-
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(user.id, tokens.refreshToken);

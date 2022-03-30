@@ -6,7 +6,7 @@ const getFullActionName = getActionNameFn(MODULE_NAME);
 
 export enum SharedActionsEnum {
   ResetSharedState = 'RESET_SHARED_STATE',
-  Loading = 'LOADING',
+  LoadingToggle = 'LOADING_TOGGLE',
   PrintNzMessageSuccess = 'PRINT_NZ_MESSAGE_SUCCESS',
   PrintNzMessageError = 'PRINT_NZ_MESSAGE_ERROR',
   ChangeTab = 'CHANGE_TAB',
@@ -15,8 +15,8 @@ export enum SharedActionsEnum {
 export const ResetSharedState = createAction(
   getFullActionName(SharedActionsEnum.ResetSharedState)
 );
-export const Loading = createAction(
-  getFullActionName(SharedActionsEnum.Loading),
+export const LoadingToggle = createAction(
+  getFullActionName(SharedActionsEnum.LoadingToggle),
   props<{ payload: boolean }>()
 );
 export const PrintNzMessageSuccess = createAction(

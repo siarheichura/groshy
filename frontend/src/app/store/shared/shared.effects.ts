@@ -29,7 +29,7 @@ export class SharedEffects {
         WalletsActions.EditMoneyMoveItem,
         WalletsActions.GetMoneyMoveStatistics
       ),
-      map(() => SharedActions.Loading({ payload: true }))
+      map(() => SharedActions.LoadingToggle({ payload: true }))
     );
   });
 
@@ -37,7 +37,9 @@ export class SharedEffects {
     return this.actions$.pipe(
       ofType(
         UserActions.RegistrationSuccess,
+        UserActions.RegistrationError,
         UserActions.LoginSuccess,
+        UserActions.LoginError,
         UserActions.ChangePasswordSuccess,
         UserActions.ChangePasswordError,
         UserActions.UpdateUserInfoSuccess,
@@ -49,7 +51,7 @@ export class SharedEffects {
         WalletsActions.AddMoneyMoveItemSuccess,
         WalletsActions.GetMoneyMoveStatisticsSuccess
       ),
-      map(() => SharedActions.Loading({ payload: false }))
+      map(() => SharedActions.LoadingToggle({ payload: false }))
     );
   });
 

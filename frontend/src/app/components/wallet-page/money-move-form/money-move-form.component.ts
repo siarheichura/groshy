@@ -117,7 +117,7 @@ export class MoneyMoveFormComponent implements OnInit {
     this.modal.close();
   }
 
-  handlePreview = async (file: NzUploadFile): Promise<void> => {
+  handlePreview = async (file: NzUploadFile) => {
     if (!file.url && !file['preview']) {
       file['preview'] = await getBase64(file.originFileObj!);
     }

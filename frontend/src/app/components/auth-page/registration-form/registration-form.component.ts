@@ -12,12 +12,14 @@ interface FormValue {
   username: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 enum FormEnum {
   Username = 'username',
   Email = 'email',
   Password = 'password',
+  ConfirmPassword = 'confirmPassword',
 }
 
 @Component({
@@ -42,14 +44,30 @@ export class RegistrationFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.registrationForm = this.fb.group({
-      [FormEnum.Username]: [
-        '',
-        [Validators.required, Validators.minLength(3), FormValidators.username],
-      ],
-      [FormEnum.Email]: ['', [Validators.required, Validators.email]],
-      [FormEnum.Password]: ['', [Validators.required, FormValidators.password]],
-    });
+    this.registrationForm = this.fb.group(
+      {
+        [FormEnum.Username]: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            FormValidators.username,
+          ],
+        ],
+        [FormEnum.Email]: ['', [Validators.required, Validators.email]],
+        [FormEnum.Password]: [
+          '',
+          [Validators.required, FormValidators.password],
+        ],
+        [FormEnum.ConfirmPassword]: ['', [Validators.required]],
+      },
+      {
+        validator: FormValidators.mustMatch(
+          this.formControls.Password,
+          this.formControls.ConfirmPassword
+        ),
+      }
+    );
   }
 
   submitForm(): void {

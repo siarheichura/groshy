@@ -32,6 +32,17 @@
     </nz-form-control>
   </nz-form-item>
 
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="mustMatchError">
+      <input
+        type="password"
+        nz-input
+        [formControlName]="formControls.ConfirmPassword"
+        placeholder="Confirm password"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
   <button nz-button nzType="primary" (click)="submitForm()">Sign up</button>
   <div class="or">or</div>
   <button nz-button nzType="dashed" (click)="handleRouteClick(routes.Auth)">
@@ -63,5 +74,11 @@
 <ng-template #passwordError let-control>
   <ng-container *ngIf="control.hasError('invalidPassword')">
     <small>Min length is 8 characters (includes A-Z, a-z and number)</small>
+  </ng-container>
+</ng-template>
+
+<ng-template #mustMatchError let-control>
+  <ng-container *ngIf="control.hasError('mustMatch')">
+    <small>Passwords don't match</small>
   </ng-container>
 </ng-template>

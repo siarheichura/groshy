@@ -6,7 +6,16 @@ import { RouterEnum } from '../shared/enums/RouterEnum';
 import { ApiError } from '../shared/api.error';
 
 class UserService {
-  async registration(username: string, email: string, password: string) {
+  async registration(
+    username: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) {
+    if (password !== confirmPassword) {
+      throw ApiError.BadRequest('Passwords do not match');
+    }
+
     const candidate = await UserModel.findOne({ email });
     if (candidate) {
       throw ApiError.BadRequest('This email is already taken');

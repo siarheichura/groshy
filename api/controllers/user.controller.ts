@@ -4,7 +4,6 @@ import { validationResult } from 'express-validator';
 import { ApiError } from './../shared/api.error';
 import { userService } from './../services/user.service';
 import { UserDto } from './../dtos/user.dto';
-import { RouterEnum } from '../shared/enums/RouterEnum';
 
 export class UserController {
   async registration(req: Request, res: Response, next: NextFunction) {
@@ -13,11 +12,12 @@ export class UserController {
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest('Incorrect data', errors.array()));
       }
-      const { username, email, password } = req.body;
+      const { username, email, password, confirmPassword } = req.body;
       const userData = await userService.registration(
         username,
         email,
-        password
+        password,
+        confirmPassword
       );
       return res.json({
         data: userData,

@@ -34,6 +34,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import {MoneyMoveDayCardItemDirective} from "./components/money-move-day-card/money-move-day-card-item.directive";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     ListComponent,
     MoneyMoveDayCardComponent,
     WalletFormComponent,
+    MoneyMoveDayCardItemDirective
   ],
 
   imports: [
@@ -93,6 +95,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     ListComponent,
     MoneyMoveDayCardComponent,
     WalletFormComponent,
+    MoneyMoveDayCardItemDirective,
   ],
   providers: [],
 })

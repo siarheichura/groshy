@@ -31,6 +31,34 @@
       [currency]="currency$ | async"
       (onRemoveItem)="removeMoneyMoveItem($event)"
       (onItemClick)="printEditMoneyMoveItemModal($event)"
-    ></app-money-move-day-card>
+    >
+<!--      <ng-template moneyMoveDayCardItemDirective let-item>-->
+<!--        <div> My item {{ item.category }} amount {{ item.amount }}</div>-->
+<!--      </ng-template>-->
+      <money-move-day-card-item-directive>
+        <ng-template let-item>
+          <div>My new item</div>
+          <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+        </ng-template>
+      </money-move-day-card-item-directive>
+    </app-money-move-day-card>
   </div>
 </div>
+
+
+
+
+
+<!--      <ng-template moneyMoveDayCardItemDirective let-item>-->
+<!--        <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{$implicit: item}"></ng-container>-->
+<!--      </ng-template>-->
+<!--       <money-move-day-card-item-directive>-->
+<!--         <ng-template let-item>-->
+<!--           <ng-container [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{$implicit: item}"></ng-container>-->
+<!--         </ng-template>-->
+<!--       </money-move-day-card-item-directive>-->
+
+<ng-template #itemTemplate let-item>
+  {{ item.category }}
+</ng-template>
+

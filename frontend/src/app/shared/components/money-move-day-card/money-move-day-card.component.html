@@ -5,30 +5,34 @@
 
   <div
     class="card"
-    *ngFor="let item of items"
+    *ngFor="let item of items; let i = index"
     (click)="onMoneyMoveItemClick(item)"
   >
-    <div class="card__title">
-      <p class="card__type">
-        {{ item.category }}
-        <i
-          class="card__icon"
-          *ngIf="item.checkBase64"
-          nz-icon
-          nzType="file-image"
-          nzTheme="outline"
-        ></i>
-      </p>
-      <p class="card__sum">{{ item.amount }} {{ currency }}</p>
-    </div>
 
-    <p class="card__comment">
-      {{ item.comment }}
-    </p>
+    <ng-conteiner [ngTemplateOutlet]="itemTemplate || itemTemplateRef?.template || defaultItemTemplate" [ngTemplateOutletContext]="{$implicit: item}"></ng-conteiner>
 
-    <button
-      class="card__btn-del"
-      (click)="removeMoneyMoveItem($event, item.id)"
-    ></button>
   </div>
 </div>
+<ng-template #defaultItemTemplate let-item>
+  <div class="card__title">
+    <p class="card__type">
+      {{ item.category }}
+      <i
+        class="card__icon"
+        *ngIf="item.checkBase64"
+        nz-icon
+        nzType="file-image"
+        nzTheme="outline"
+      ></i>
+    </p>
+    <p class="card__sum">{{ item.amount }} {{ currency }}</p>
+  </div>
+
+  <p class="card__comment">
+    {{ item.comment }}
+  </p>
+  <button
+    class="card__btn-del"
+    (click)="removeMoneyMoveItem($event, item.id)"
+  ></button>
+</ng-template>

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component, ContentChild, ElementRef,
+  OnInit,
+  QueryList,
+  TemplateRef, ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -23,6 +31,7 @@ import { MoneyMoveFormComponent } from './../money-move-form/money-move-form.com
 import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
 import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
 import { MODAL_WIDTH } from './../../../shared/constants/constants';
+import {MoneyMoveDayCardComponent} from "../../../shared/components/money-move-day-card/money-move-day-card.component";
 
 @UntilDestroy()
 @Component({
@@ -31,7 +40,9 @@ import { MODAL_WIDTH } from './../../../shared/constants/constants';
   styleUrls: ['./money-move.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoneyMoveComponent implements OnInit {
+export class MoneyMoveComponent implements OnInit, AfterViewInit {
+
+
   datePicker = new FormControl(new Date());
   disabledDates: (date: Date) => boolean;
   walletId: string = (this.route.snapshot.params as { id: string }).id;
@@ -52,6 +63,9 @@ export class MoneyMoveComponent implements OnInit {
     private store: Store,
     private modal: NzModalService
   ) {}
+
+  ngAfterViewInit() {
+  }
 
   ngOnInit(): void {
     this.store.select(walletCreationDateSelector).subscribe((resp) => {

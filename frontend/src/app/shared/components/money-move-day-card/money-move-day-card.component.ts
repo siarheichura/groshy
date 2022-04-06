@@ -1,15 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component, ContentChild,
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output, QueryList, TemplateRef
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MoneyMoveCategory } from './../../interfaces/MoneyMoveCategory.interface';
 import { MoneyMoveItem } from './../../interfaces/MoneyMoveItem.interface';
+import {MoneyMoveDayCardItemDirective} from "./money-move-day-card-item.directive";
 
 @Component({
   selector: 'app-money-move-day-card',
   templateUrl: './money-move-day-card.component.html',
   styleUrls: ['./money-move-day-card.component.scss'],
 })
-export class MoneyMoveDayCardComponent implements OnInit {
+export class MoneyMoveDayCardComponent implements OnInit, AfterViewInit {
+  @ContentChild(MoneyMoveDayCardItemDirective, { read: TemplateRef }) itemTemplate: TemplateRef<HTMLElement>;
+  @ContentChild(MoneyMoveDayCardItemDirective) itemTemplateRef: MoneyMoveDayCardItemDirective;
   @Input() items: MoneyMoveItem[];
   @Input() title: string;
   @Input() amount: number;
@@ -22,6 +34,9 @@ export class MoneyMoveDayCardComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {}
+
+  ngAfterViewInit() {
+  }
 
   onMoneyMoveItemClick(item: MoneyMoveItem) {
     this.onItemClick.emit(item);

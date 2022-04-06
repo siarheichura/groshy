@@ -7,22 +7,20 @@ export function getMoneyMoveItemsByPeriod(
   startDate: Dayjs,
   finishDate?: Dayjs
 ): MoneyMoveDayItem[] {
-  if (items.length) {
-    const templateArr = Array(finishDate.diff(startDate, 'day') + 1).fill(null);
+  const templateArr = Array(finishDate.diff(startDate, 'day') + 1).fill(null);
 
-    const result = templateArr.map((item, index) => {
-      const date = startDate.add(index, 'day');
-      const moneyMoveItems = items.filter((item) =>
-        dayjs(item.date).isSame(date, 'day')
-      );
-      const moneyMoveSum = moneyMoveItems.reduce(
-        (prev, curr) => prev + curr.amount,
-        0
-      );
-      return new MoneyMoveDayItem(date, moneyMoveItems, moneyMoveSum);
-    });
+  const result = templateArr.map((item, index) => {
+    const date = startDate.add(index, 'day');
+    const moneyMoveItems = items.filter((item) =>
+      dayjs(item.date).isSame(date, 'day')
+    );
+    const moneyMoveSum = moneyMoveItems.reduce(
+      (prev, curr) => prev + curr.amount,
+      0
+    );
+    return new MoneyMoveDayItem(date, moneyMoveItems, moneyMoveSum);
+  });
 
-    return result;
-  }
+  return result;
   return [];
 }

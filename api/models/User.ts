@@ -11,6 +11,7 @@ export interface User {
   wallets: Types.ObjectId[];
   isActivated: boolean;
   activationLink: string;
+  activationDate: Date;
   checkPassword: (password: string) => boolean;
 }
 
@@ -26,6 +27,7 @@ const UserSchema = new Schema<User>({
   wallets: [{ type: Schema.Types.ObjectId, ref: 'Wallet' }],
   isActivated: { type: Boolean, default: false },
   activationLink: { type: String, default: uuid.v4() },
+  activationDate: { type: Date, default: new Date() },
 });
 
 UserSchema.methods.checkPassword = function (

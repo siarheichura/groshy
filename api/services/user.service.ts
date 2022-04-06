@@ -4,6 +4,7 @@ import { mailService } from './mail.service';
 import { tokenService } from './token.service';
 import { RouterEnum } from '../shared/enums/RouterEnum';
 import { ApiError } from '../shared/api.error';
+import dayjs from 'dayjs';
 
 class UserService {
   async registration(
@@ -50,6 +51,17 @@ class UserService {
 
     if (!user.checkPassword(password)) {
       throw ApiError.BadRequest('Invalid password');
+    }
+
+    if (
+      !user.isActivated &&
+      dayjs().diff(dayjs(user.activationDate), 'day') > 2
+    ) {
+      await mailService.sendActivationMail(
+        email,
+        `${process.env.API_URL}${RouterEnum.Base}${RouterEnum.Activate}/${user.activationLink}`
+      );
+      throw ApiError.BadRequest('Please check your email and activate account');
     }
 
     const userDto = new UserDto(user);

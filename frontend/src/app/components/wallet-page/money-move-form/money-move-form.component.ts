@@ -3,12 +3,14 @@ import {
   Input,
   OnInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import dayjs from 'dayjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 import { MoneyMoveCategory } from './../../../shared/interfaces/MoneyMoveCategory.interface';
 import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
@@ -33,14 +35,6 @@ enum FormEnum {
   Date = 'date',
 }
 
-const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-
 @Component({
   selector: 'app-money-move-modal-form',
   templateUrl: './money-move-form.component.html',
@@ -58,9 +52,7 @@ export class MoneyMoveFormComponent implements OnInit {
 
   categories$: Observable<MoneyMoveCategory[]>;
 
-  uploadImages: NzUploadFile[] = [];
-  previewImage: string = '';
-  previewVisible = false;
+  imageUrl: string | ArrayBuffer;
 
   get formValue(): FormValue {
     return this.moneyMoveForm.value as FormValue;
@@ -69,7 +61,9 @@ export class MoneyMoveFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private modal: NzModalRef,
-    private store: Store
+    private store: Store,
+    private message: NzMessageService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -83,6 +77,12 @@ export class MoneyMoveFormComponent implements OnInit {
       categoriesSelector({ type: this.moneyMoveType })
     );
 
+    this.initMoneyMoveGorm();
+
+    this.imageUrl = this.moneyMoveItem ? this.moneyMoveItem.checkBase64 : '';
+  }
+
+  initMoneyMoveGorm(): void {
     this.moneyMoveForm = this.fb.group({
       [this.formControls.Amount]: [
         this.moneyMoveItem ? this.moneyMoveItem.amount : '',
@@ -100,41 +100,35 @@ export class MoneyMoveFormComponent implements OnInit {
         Validators.required,
       ],
     });
-
-    this.uploadImages =
-      this.moneyMoveItem && this.moneyMoveItem.checkBase64
-        ? [
-            {
-              uid: '123',
-              name: 'check.png',
-              url: this.moneyMoveItem.checkBase64,
-            },
-          ]
-        : [];
   }
 
   onCancelButtonClick() {
     this.modal.close();
   }
 
-  handlePreview = async (file: NzUploadFile) => {
-    if (!file.url && !file['preview']) {
-      file['preview'] = await getBase64(file.originFileObj!);
-    }
-    this.previewImage = file.url || file['preview'];
-    this.previewVisible = true;
-  };
-
   onSubmitButtonClick() {
     if (this.moneyMoveForm.valid) {
       this.modal.close({
         ...this.formValue,
-        checkBase64: this.uploadImages.length
-          ? this.uploadImages[0].thumbUrl
-          : '',
+        checkBase64: this.imageUrl,
       });
     } else {
       markFormControlsDirty(this.moneyMoveForm);
     }
+  }
+
+  handleImageUpload(event: any): void {
+    const file = event.target.files.item(0);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      this.imageUrl = event.target.result;
+      this.cdr.detectChanges();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  handleImageClick() {
+    this.imageUrl = '';
+    this.cdr.detectChanges();
   }
 }

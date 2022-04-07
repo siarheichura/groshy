@@ -1,5 +1,6 @@
 <form nz-form [formGroup]="walletForm">
   <nz-form-item>
+    <label [for]="formControls.Name">Name</label>
     <nz-form-control [nzErrorTip]="requiredError">
       <input
         nz-input
@@ -11,6 +12,7 @@
   </nz-form-item>
 
   <nz-form-item *ngIf="!wallet">
+    <label [for]="formControls.Balance">Initial balance</label>
     <nz-form-control [nzErrorTip]="requiredError">
       <input
         nz-input
@@ -22,6 +24,7 @@
   </nz-form-item>
 
   <nz-form-item>
+    <label [for]="formControls.Currency">Currency</label>
     <nz-form-control [nzErrorTip]="requiredError">
       <nz-select
         nzPlaceHolder="Currency"

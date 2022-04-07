@@ -2,9 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import dayjs from 'dayjs';
 
 import { IncomeModel } from './../models/Income';
-import { CategoryModel } from './../models/Category';
 import { MoneyMoveDto } from './../dtos/money-move.dto';
-import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
 
 export class IncomeController {
   async getIncomeByPeriod(req: Request, res: Response, next: NextFunction) {

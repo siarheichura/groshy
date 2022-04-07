@@ -20,4 +20,6 @@ export enum RouterEnum {
   IncomeStatistics = '/income/statistics',
   FirstIncome = '/income-first',
   Categories = '/categories',
+
+  Img = '/img',
 }

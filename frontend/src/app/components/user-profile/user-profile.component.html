@@ -97,49 +97,52 @@
 
   <nz-divider></nz-divider>
 
-  <div class="password">
-    <p class="password__title">Change password</p>
-    <form nz-form [formGroup]="passwordForm">
-      <nz-form-item>
-        <nz-form-control>
-          <input
-            type="password"
-            nz-input
-            placeholder="Current password"
-            [formControlName]="passwordFormControls.prevPassword"
-          />
-        </nz-form-control>
-      </nz-form-item>
+  <nz-collapse nzGhost>
+    <nz-collapse-panel nzHeader="Change password" [nzActive]="false">
+      <div class="password">
+        <form nz-form [formGroup]="passwordForm">
+          <nz-form-item>
+            <nz-form-control>
+              <input
+                type="password"
+                nz-input
+                placeholder="Current password"
+                [formControlName]="passwordFormControls.prevPassword"
+              />
+            </nz-form-control>
+          </nz-form-item>
 
-      <nz-form-item>
-        <nz-form-control>
-          <input
-            type="password"
-            nz-input
-            placeholder="New password"
-            [formControlName]="passwordFormControls.newPassword"
-          />
-        </nz-form-control>
-      </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <input
+                type="password"
+                nz-input
+                placeholder="New password"
+                [formControlName]="passwordFormControls.newPassword"
+              />
+            </nz-form-control>
+          </nz-form-item>
 
-      <nz-form-item>
-        <nz-form-control>
-          <input
-            type="password"
-            nz-input
-            placeholder="Confirm new password"
-            [formControlName]="passwordFormControls.confirmPassword"
-          />
-        </nz-form-control>
-      </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <input
+                type="password"
+                nz-input
+                placeholder="Confirm new password"
+                [formControlName]="passwordFormControls.confirmPassword"
+              />
+            </nz-form-control>
+          </nz-form-item>
 
-      <nz-form-item>
-        <button nz-button nzType="primary" (click)="onPasswordFormSubmit()">
-          Confirm
-        </button>
-      </nz-form-item>
-    </form>
-  </div>
+          <nz-form-item>
+            <button nz-button nzType="primary" (click)="onPasswordFormSubmit()">
+              Confirm
+            </button>
+          </nz-form-item>
+        </form>
+      </div>
+    </nz-collapse-panel>
+  </nz-collapse>
 
   <nz-divider></nz-divider>
 

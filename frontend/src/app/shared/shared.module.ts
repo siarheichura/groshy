@@ -34,6 +34,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzPopoverModule,
     NzDatePickerModule,
     NzEmptyModule,
+    NzCollapseModule,
     NzProgressModule,
     NzAlertModule,
     NzAvatarModule,

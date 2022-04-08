@@ -124,11 +124,12 @@ export class UserEffects {
               })
             ),
             catchError((err) => {
-              return of(
+              return [
+                UserActions.ChangePasswordError(),
                 SharedActions.PrintNzMessageError({
                   payload: err.error.message,
-                })
-              );
+                }),
+              ];
             })
           )
       )

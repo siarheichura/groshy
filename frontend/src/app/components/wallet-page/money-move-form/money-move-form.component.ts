@@ -19,7 +19,6 @@ import {
   walletCreationDateSelector,
 } from 'src/app/store/wallets/wallets.selectros';
 import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 interface FormValue {
   amount: number;
@@ -62,7 +61,6 @@ export class MoneyMoveFormComponent implements OnInit {
     private fb: FormBuilder,
     private modal: NzModalRef,
     private store: Store,
-    private message: NzMessageService,
     private cdr: ChangeDetectorRef
   ) {}
 

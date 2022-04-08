@@ -1,29 +1,37 @@
+import { RouterEnum } from './../../shared/enums/Router.enum';
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
-import { map, mergeMap, switchMap } from 'rxjs';
+import { map, mergeMap, switchMap, catchError, of } from 'rxjs';
 
 import { WalletService } from './../../services/wallet.service';
-import * as WalletsActions from './wallets.actions';
 import { getMoneyMoveItemsByPeriod } from 'src/app/shared/helpers/money-move.helper';
+import * as WalletsActions from './wallets.actions';
+import * as SharedActions from '../shared/shared.actions';
 
 @Injectable()
 export class WalletsEffects {
   constructor(
+    private actions$: Actions,
     private walletService: WalletService,
-    private actions$: Actions
+    private router: Router
   ) {}
 
   getWallets$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWallets),
       mergeMap(() =>
-        this.walletService
-          .getWallets()
-          .pipe(
-            map((data) =>
-              WalletsActions.GetWalletsSuccess({ payload: data.data })
-            )
-          )
+        this.walletService.getWallets().pipe(
+          map((data) =>
+            WalletsActions.GetWalletsSuccess({ payload: data.data })
+          ),
+          catchError((err) => [
+            WalletsActions.GetWalletsError(),
+            SharedActions.PrintNzMessageError({
+              payload: err.error.message,
+            }),
+          ])
+        )
       )
     );
   });
@@ -32,13 +40,20 @@ export class WalletsEffects {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWallet),
       switchMap((action) =>
-        this.walletService
-          .getWallet(action.payload.id)
-          .pipe(
-            map((data) =>
-              WalletsActions.GetWalletSuccess({ payload: data.data })
-            )
-          )
+        this.walletService.getWallet(action.payload.id).pipe(
+          map((data) =>
+            WalletsActions.GetWalletSuccess({ payload: data.data })
+          ),
+          catchError((err) => {
+            this.router.navigate([RouterEnum.Error]);
+            return [
+              WalletsActions.GetWalletError(),
+              SharedActions.PrintNzMessageError({
+                payload: err.error.message,
+              }),
+            ];
+          })
+        )
       )
     );
   });
@@ -92,13 +107,12 @@ export class WalletsEffects {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWalletCategories),
       switchMap(({ payload }) =>
-        this.walletService
-          .getWalletCategories(payload.walletId)
-          .pipe(
-            map((data) =>
-              WalletsActions.GetWalletCategoriesSuccess({ payload: data.data })
-            )
-          )
+        this.walletService.getWalletCategories(payload.walletId).pipe(
+          map((data) =>
+            WalletsActions.GetWalletCategoriesSuccess({ payload: data.data })
+          ),
+          catchError((err) => of(WalletsActions.GetWalletCategoriesError()))
+        )
       )
     );
   });
@@ -145,14 +159,18 @@ export class WalletsEffects {
             payload.finishDate
           )
           .pipe(
-            map((data) =>
-              WalletsActions.GetMoneyMoveByPeriodSuccess({
-                payload: getMoneyMoveItemsByPeriod(
-                  data.data,
-                  payload.startDate,
-                  payload.finishDate
-                ),
-              })
+            map(
+              (data) =>
+                WalletsActions.GetMoneyMoveByPeriodSuccess({
+                  payload: getMoneyMoveItemsByPeriod(
+                    data.data,
+                    payload.startDate,
+                    payload.finishDate
+                  ),
+                }),
+              catchError((err) =>
+                of(WalletsActions.GetMoneyMoveByPeriodError())
+              )
             )
           )
       )

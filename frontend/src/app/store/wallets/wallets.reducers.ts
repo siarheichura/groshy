@@ -28,7 +28,6 @@ export const walletsReducer = createReducer(
       date: null,
     },
     periodMoneyMove: [],
-    firstMoneyMoveDate: null,
     categories: [],
   })),
   on(GetWalletsSuccess, (state, { payload }) => ({

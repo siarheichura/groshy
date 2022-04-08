@@ -64,7 +64,14 @@
     </nz-form-control>
   </nz-form-item>
 
-  <img class="check" [src]="imageUrl" (click)="handleImageClick()" />
+  <nz-collapse nzGhost *ngIf="imageUrl">
+    <nz-collapse-panel
+      [nzHeader]="'Show check'"
+      [nzActive]="moneyMoveItem && imageUrl ? false : true"
+    >
+      <img class="check" [src]="imageUrl" (click)="handleImageClick()" />
+    </nz-collapse-panel>
+  </nz-collapse>
 
   <div class="form__footer">
     <button nz-button (click)="onCancelButtonClick()">Cancel</button>

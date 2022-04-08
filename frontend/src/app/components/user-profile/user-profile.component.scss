@@ -68,17 +68,16 @@
       width: 100%;
 
       nz-form-item {
-        margin-bottom: 5px;
-      }
-
-      &__title {
-        font-size: 0.8rem;
-        font-weight: 600;
+        margin-bottom: 7px;
       }
 
       button {
         width: 100%;
       }
     }
+  }
+
+  nz-collapse-panel {
+    font-weight: 600;
   }
 }

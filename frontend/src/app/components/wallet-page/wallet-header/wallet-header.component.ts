@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +14,6 @@ import { walletSelector } from 'src/app/store/wallets/wallets.selectros';
 import {
   GetWallet,
   GetWalletCategories,
-  ResetWalletState,
 } from 'src/app/store/wallets/wallets.actions';
 import { ChangeTab } from 'src/app/store/shared/shared.actions';
 
@@ -29,7 +23,7 @@ import { ChangeTab } from 'src/app/store/shared/shared.actions';
   styleUrls: ['./wallet-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletHeaderComponent implements OnInit, OnDestroy {
+export class WalletHeaderComponent implements OnInit {
   tabs = [MoneyMoveTypes.Expense, MoneyMoveTypes.Income];
   routes = RouterEnum;
   walletId: string = (this.route.snapshot.params as { id: string }).id;
@@ -73,9 +67,5 @@ export class WalletHeaderComponent implements OnInit, OnDestroy {
         nzContent: WalletSettingsComponent,
       });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(ResetWalletState());
   }
 }

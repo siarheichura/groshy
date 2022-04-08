@@ -22,6 +22,10 @@
       transition: 0.3s;
       cursor: pointer;
 
+      &:hover {
+        background-color: #f6f6f6;
+      }
+
       p {
         margin: 0;
         font-size: 1rem;

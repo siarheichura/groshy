@@ -2,7 +2,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SharedModule } from './../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 
 import { AuthPageComponent } from './auth-page.component';
 import { LoginFormComponent } from './login-form/login-form.component';

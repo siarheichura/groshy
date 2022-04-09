@@ -6,7 +6,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 
-import { ListItem } from './../../interfaces/ListItem.interface';
+import { ListItem } from '@shared/interfaces/ListItem.interface';
 
 @Component({
   selector: 'app-list',

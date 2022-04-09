@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { map, switchMap, catchError, of, mergeMap } from 'rxjs';
 import { ofType, Actions, createEffect, act } from '@ngrx/effects';
 
-import { RouterEnum } from 'src/app/shared/enums/Router.enum';
-import { UserService } from './../../services/user.service';
+import { RouterEnum } from '@shared/enums/Router.enum';
+import { UserService } from '@services/user.service';
+import * as SharedActions from '@store/shared/shared.actions';
 import * as UserActions from './user.actions';
-import * as SharedActions from '../shared/shared.actions';
 
 @Injectable()
 export class UserEffects {

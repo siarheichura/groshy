@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { MoneyMoveItem } from '../interfaces/MoneyMoveItem.interface';
+import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
 
 export class MoneyMoveDayItem {
   date: Dayjs;

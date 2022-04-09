@@ -1,7 +1,7 @@
-import { Wallet } from 'src/app/shared/classes/Wallet';
-import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
-import { MoneyMoveCategory } from './../../shared/interfaces/MoneyMoveCategory.interface';
-import { MoneyMoveStat } from 'src/app/shared/interfaces/MoneyMoveStat.interface';
+import { Wallet } from '@shared/classes/Wallet';
+import { MoneyMoveDayItem } from '@shared/classes/MoneyMoveDayItem';
+import { MoneyMoveCategory } from '@shared/interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveStat } from '@shared/interfaces/MoneyMoveStat.interface';
 
 export interface WalletsState {
   wallets: Wallet[];

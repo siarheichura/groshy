@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ResetSharedState } from './../../store/shared/shared.actions';
-import { ResetWalletState } from 'src/app/store/wallets/wallets.actions';
+import { ResetSharedState } from '@store/shared/shared.actions';
+import { ResetWalletState } from '@store/wallets/wallets.actions';
 
 @Component({
   selector: 'app-wallet-page',

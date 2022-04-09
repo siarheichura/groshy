@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { CURRENCIES } from './../../constants/constants';
-import { Wallet } from 'src/app/shared/classes/Wallet';
-import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
+import { CURRENCIES } from '@shared/constants/constants';
+import { Wallet } from '@shared/classes/Wallet';
+import { markFormControlsDirty } from '@shared/helpers/form.helper';
 
 interface FormValue {
   Name: string;

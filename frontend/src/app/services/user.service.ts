@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap, Observable } from 'rxjs';
 
-import { environment } from './../../environments/environment';
-import { HTTP } from './../shared/interfaces/Http.interface';
+import { environment } from 'environments/environment';
+import { HTTP } from '@shared/interfaces/Http.interface';
 import {
   SignUpUser,
   User,
   UserLogin,
   Passwords,
-} from './../shared/interfaces/User';
+} from '@shared/interfaces/User';
 
 const API_PATH_REGISTRATION = '/registration';
 const API_PATH_LOGIN = '/login';

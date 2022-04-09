@@ -1,4 +1,4 @@
-import { User } from './../../shared/interfaces/User';
+import { User } from '@shared/interfaces/User';
 
 export interface UserState {
   user: User;

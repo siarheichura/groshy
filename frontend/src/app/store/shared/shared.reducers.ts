@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialSharedState } from './shared.state';
 import { ChangeTab, LoadingToggle, ResetSharedState } from './shared.actions';
-import { MoneyMoveTypes } from './../../shared/enums/MoneyMoveTypes.enum';
+import { MoneyMoveTypes } from '@shared/enums/MoneyMoveTypes.enum';
 
 export const sharedReducer = createReducer(
   initialSharedState,

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RouterEnum } from './../../shared/enums/Router.enum';
+import { RouterEnum } from '@shared/enums/Router.enum';
 import { AuthPageComponent } from './auth-page.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 import { LoginFormComponent } from './login-form/login-form.component';

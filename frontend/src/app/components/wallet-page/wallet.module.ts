@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { SharedModule } from './../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { WalletRoutingModule } from './wallet-routing.module';
 import { MoneyMoveComponent } from './money-move/money-move.component';
 import { StatisticsComponent } from './statistics/statistics.component';

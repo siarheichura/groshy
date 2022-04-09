@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { ErrorPageComponent } from './shared/components/error-page/error-page.component';
-import { AuthGuard } from './services/auth.guard';
-import { RouterEnum } from './shared/enums/Router.enum';
+import { HomePageComponent } from '@components/home-page/home-page.component';
+import { ErrorPageComponent } from '@shared/components/error-page/error-page.component';
+import { AuthGuard } from '@services/auth.guard';
+import { RouterEnum } from '@shared/enums/Router.enum';
 
 const routes: Routes = [
   {

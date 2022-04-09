@@ -4,11 +4,11 @@ import { Store } from '@ngrx/store';
 import { filter, Observable } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { GetUser } from './store/user/user.actions';
-import { UserService } from './services/user.service';
-import { userSelector } from './store/user/user.selectros';
-import { loadingSelector } from './store/shared/shared.selectros';
-import { RouterEnum } from './shared/enums/Router.enum';
+import { GetUser } from '@store/user/user.actions';
+import { UserService } from '@services/user.service';
+import { userSelector } from '@store/user/user.selectros';
+import { loadingSelector } from '@store/shared/shared.selectros';
+import { RouterEnum } from '@shared/enums/Router.enum';
 
 @UntilDestroy()
 @Component({

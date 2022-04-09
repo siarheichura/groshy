@@ -6,8 +6,7 @@
   <div
     class="card"
     *ngFor="let item of items"
-    (click)="onMoneyMoveItemClick(item)"
-  >
+    (click)="onMoneyMoveItemClick(item)">
     <div class="card__title">
       <p class="card__type">
         {{ item.category }}
@@ -16,8 +15,7 @@
           *ngIf="item.checkBase64"
           nz-icon
           nzType="file-image"
-          nzTheme="outline"
-        ></i>
+          nzTheme="outline"></i>
       </p>
       <p class="card__sum">{{ item.amount }} {{ currency }}</p>
     </div>
@@ -28,7 +26,6 @@
 
     <button
       class="card__btn-del"
-      (click)="removeMoneyMoveItem($event, item.id)"
-    ></button>
+      (click)="removeMoneyMoveItem($event, item.id)"></button>
   </div>
 </div>

@@ -33,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     return next.handle(newReq).pipe(
-      catchError((error) => {
+      catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(newReq, next);
         }
@@ -52,7 +52,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.addTokenHeader(request, this.userService.token)
         );
       }),
-      catchError((err) => {
+      catchError(err => {
         this.store.dispatch(Logout());
         void this.router.navigate([RouterEnum.Auth]);
         return throwError(() => err);

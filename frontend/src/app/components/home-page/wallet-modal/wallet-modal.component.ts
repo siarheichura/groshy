@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
@@ -6,10 +6,8 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
   templateUrl: './wallet-modal.component.html',
   styleUrls: ['./wallet-modal.component.scss'],
 })
-export class WalletModalComponent implements OnInit {
+export class WalletModalComponent {
   constructor(private modal: NzModalRef) {}
-
-  ngOnInit(): void {}
 
   onConfirm(data: unknown) {
     this.modal.close(data);

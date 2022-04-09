@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MoneyMoveCategory } from './../../interfaces/MoneyMoveCategory.interface';
@@ -9,7 +9,7 @@ import { MoneyMoveItem } from './../../interfaces/MoneyMoveItem.interface';
   templateUrl: './money-move-day-card.component.html',
   styleUrls: ['./money-move-day-card.component.scss'],
 })
-export class MoneyMoveDayCardComponent implements OnInit {
+export class MoneyMoveDayCardComponent {
   @Input() items: MoneyMoveItem[];
   @Input() title: string;
   @Input() amount: number;
@@ -20,8 +20,6 @@ export class MoneyMoveDayCardComponent implements OnInit {
   @Output() onRemoveItem = new EventEmitter();
 
   constructor(private store: Store) {}
-
-  ngOnInit(): void {}
 
   onMoneyMoveItemClick(item: MoneyMoveItem) {
     this.onItemClick.emit(item);

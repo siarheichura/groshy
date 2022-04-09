@@ -6,8 +6,7 @@
         nz-input
         type="text"
         placeholder="Wallet name"
-        [formControlName]="formControls.Name"
-      />
+        [formControlName]="formControls.Name" />
     </nz-form-control>
   </nz-form-item>
 
@@ -18,8 +17,7 @@
         nz-input
         type="number"
         placeholder="Initial amount"
-        [formControlName]="formControls.Balance"
-      />
+        [formControlName]="formControls.Balance" />
     </nz-form-control>
   </nz-form-item>
 
@@ -28,13 +26,11 @@
     <nz-form-control [nzErrorTip]="requiredError">
       <nz-select
         nzPlaceHolder="Currency"
-        [formControlName]="formControls.Currency"
-      >
+        [formControlName]="formControls.Currency">
         <nz-option
           *ngFor="let currency of currencies"
           [nzValue]="currency"
-          [nzLabel]="currency"
-        ></nz-option>
+          [nzLabel]="currency"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>

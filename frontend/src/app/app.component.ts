@@ -1,5 +1,5 @@
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, Observable } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { RouterEnum } from './shared/enums/Router.enum';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   loading$: Observable<boolean> = this.store.select(loadingSelector);
   user$ = this.store.select(userSelector);
   isHeaderVisible: boolean = false;
@@ -35,7 +35,7 @@ export class AppComponent {
 
   setHeaderVisibility(): void {
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((r: any) => {
         this.isHeaderVisible =
           !r.url.includes(RouterEnum.Auth) && !r.url.includes(RouterEnum.Error);

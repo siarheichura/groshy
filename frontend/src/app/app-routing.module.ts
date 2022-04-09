@@ -17,7 +17,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () =>
       import('./components/wallet-page/wallet.module').then(
-        (m) => m.WalletModule
+        m => m.WalletModule
       ),
   },
   { path: RouterEnum.Error, component: ErrorPageComponent },

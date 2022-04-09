@@ -3,31 +3,27 @@
     *ngIf="!user.isActivated"
     nzType="warning"
     nzShowIcon
-    nzMessage="Please, activate your account within 3 days (otherwise your account will be blocked)"
-  ></nz-alert>
+    nzMessage="Please, activate your account within 3 days (otherwise your account will be blocked)"></nz-alert>
 
   <div class="profile" [ngSwitch]="isUserFormVisible">
     <button
       *ngIf="!isUserFormVisible"
       class="profile__edit-btn"
-      (click)="onProfileEditBtnClick()"
-    >
+      (click)="onProfileEditBtnClick()">
       🖊️
     </button>
     <div class="profile__img">
       <nz-avatar
         *ngSwitchCase="false"
         [nzText]="userEmoji"
-        [nzSize]="60"
-      ></nz-avatar>
+        [nzSize]="60"></nz-avatar>
       <nz-avatar
         *ngSwitchCase="true"
         [nzText]="userEmoji"
         [nzSize]="60"
         nz-popover
         [nzPopoverContent]="emojies"
-        nzPopoverPlacement="bottomLeft"
-      ></nz-avatar>
+        nzPopoverPlacement="bottomLeft"></nz-avatar>
 
       <ng-template #emojies>
         <emoji-mart
@@ -36,8 +32,7 @@
           }"
           [emojiSize]="20"
           [showPreview]="false"
-          (emojiSelect)="emojiSelect($event)"
-        ></emoji-mart>
+          (emojiSelect)="emojiSelect($event)"></emoji-mart>
       </ng-template>
     </div>
 
@@ -60,8 +55,7 @@
                 nz-input
                 nzSize="small"
                 placeholder="Username"
-                [formControlName]="userFormControls.Username"
-              />
+                [formControlName]="userFormControls.Username" />
             </nz-form-control>
           </nz-form-item>
 
@@ -72,8 +66,7 @@
                 nz-input
                 nzSize="small"
                 placeholder="Email"
-                [formControlName]="userFormControls.Email"
-              />
+                [formControlName]="userFormControls.Email" />
             </nz-form-control>
           </nz-form-item>
 
@@ -85,8 +78,7 @@
               nz-button
               nzType="primary"
               nzSize="small"
-              (click)="onUserFormSubmit()"
-            >
+              (click)="onUserFormSubmit()">
               <i nz-icon nzType="check" nzTheme="outline"></i>
             </button>
           </div>
@@ -107,8 +99,7 @@
                 type="password"
                 nz-input
                 placeholder="Current password"
-                [formControlName]="passwordFormControls.prevPassword"
-              />
+                [formControlName]="passwordFormControls.prevPassword" />
             </nz-form-control>
           </nz-form-item>
 
@@ -118,8 +109,7 @@
                 type="password"
                 nz-input
                 placeholder="New password"
-                [formControlName]="passwordFormControls.newPassword"
-              />
+                [formControlName]="passwordFormControls.newPassword" />
             </nz-form-control>
           </nz-form-item>
 
@@ -129,8 +119,7 @@
                 type="password"
                 nz-input
                 placeholder="Confirm new password"
-                [formControlName]="passwordFormControls.confirmPassword"
-              />
+                [formControlName]="passwordFormControls.confirmPassword" />
             </nz-form-control>
           </nz-form-item>
 

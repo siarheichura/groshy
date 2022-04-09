@@ -19,9 +19,9 @@ export class UserEffects {
   registration$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.Registration),
-      switchMap((action) =>
+      switchMap(action =>
         this.userService.registration(action.payload).pipe(
-          mergeMap((data) => {
+          mergeMap(data => {
             this.router.navigate([RouterEnum.Auth]);
             return [
               UserActions.RegistrationSuccess({ payload: data.data }),
@@ -30,7 +30,7 @@ export class UserEffects {
               }),
             ];
           }),
-          catchError((err) => [
+          catchError(err => [
             UserActions.RegistrationError(),
             SharedActions.PrintNzMessageError({
               payload: err.error.message,
@@ -44,9 +44,9 @@ export class UserEffects {
   login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.Login),
-      switchMap((action) =>
+      switchMap(action =>
         this.userService.login(action.payload).pipe(
-          mergeMap((data) => {
+          mergeMap(data => {
             this.router.navigate([RouterEnum.Index]);
             return [
               UserActions.LoginSuccess({ payload: data.data.user }),
@@ -55,7 +55,7 @@ export class UserEffects {
               }),
             ];
           }),
-          catchError((err) => [
+          catchError(err => [
             UserActions.LoginError(),
             SharedActions.PrintNzMessageError({
               payload: err.error.message,
@@ -79,10 +79,10 @@ export class UserEffects {
   getUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.GetUser),
-      switchMap((action) =>
+      switchMap(action =>
         this.userService
           .getUser(action.payload)
-          .pipe(map((data) => UserActions.GetUserSuccess({ payload: data })))
+          .pipe(map(data => UserActions.GetUserSuccess({ payload: data })))
       )
     );
   });
@@ -99,7 +99,7 @@ export class UserEffects {
             payload.emoji
           )
           .pipe(
-            map((data) =>
+            map(data =>
               UserActions.UpdateUserInfoSuccess({ payload: data.data })
             )
           )
@@ -118,12 +118,12 @@ export class UserEffects {
             confirmPassword: payload.passwords.confirmPassword,
           })
           .pipe(
-            map((data) =>
+            map(data =>
               SharedActions.PrintNzMessageSuccess({
                 payload: data.message,
               })
             ),
-            catchError((err) => {
+            catchError(err => {
               return [
                 UserActions.ChangePasswordError(),
                 SharedActions.PrintNzMessageError({

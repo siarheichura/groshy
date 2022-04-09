@@ -5,8 +5,7 @@
         type="text"
         nz-input
         [formControlName]="formControls.Username"
-        placeholder="Username"
-      />
+        placeholder="Username" />
     </nz-form-control>
   </nz-form-item>
 
@@ -16,8 +15,7 @@
         type="email"
         nz-input
         [formControlName]="formControls.Email"
-        placeholder="Email"
-      />
+        placeholder="Email" />
     </nz-form-control>
   </nz-form-item>
 
@@ -27,8 +25,7 @@
         type="password"
         nz-input
         [formControlName]="formControls.Password"
-        placeholder="Password"
-      />
+        placeholder="Password" />
     </nz-form-control>
   </nz-form-item>
 
@@ -38,8 +35,7 @@
         type="password"
         nz-input
         [formControlName]="formControls.ConfirmPassword"
-        placeholder="Confirm password"
-      />
+        placeholder="Confirm password" />
     </nz-form-control>
   </nz-form-item>
 
@@ -56,8 +52,7 @@
       control.hasError('required') ||
       control.hasError('invalidUsername') ||
       control.hasError('minlength')
-    "
-  >
+    ">
     <small> Min length is 3 characters. You can use a-z, _ </small>
   </ng-container>
 </ng-template>

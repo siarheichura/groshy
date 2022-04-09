@@ -3,7 +3,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -26,7 +26,7 @@ import { MODAL_WIDTH } from './../../../shared/constants/constants';
 
 @UntilDestroy()
 @Component({
-  selector: 'money-move',
+  selector: 'app-money-move',
   templateUrl: './money-move.component.html',
   styleUrls: ['./money-move.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,7 +40,7 @@ export class MoneyMoveComponent implements OnInit {
   moneyMove$: Observable<MoneyMoveDayItem[]> = this.store
     .select(periodMoneyMoveSelector)
     .pipe(
-      map((items) =>
+      map(items =>
         dayjs(this.datePicker.value).isSame(dayjs(), 'month')
           ? items.slice().reverse()
           : items
@@ -54,7 +54,7 @@ export class MoneyMoveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.select(walletCreationDateSelector).subscribe((resp) => {
+    this.store.select(walletCreationDateSelector).subscribe(resp => {
       this.disabledDates = (date: Date): boolean =>
         dayjs(date).isAfter(dayjs(), 'month') ||
         dayjs(date).isBefore(dayjs(resp), 'month');
@@ -63,7 +63,7 @@ export class MoneyMoveComponent implements OnInit {
     this.store
       .select(currentTabSelector)
       .pipe(untilDestroyed(this))
-      .subscribe((resp) => {
+      .subscribe(resp => {
         this.moneyMoveType = resp;
 
         this.getMoneyMoveItems(this.datePicker.value);
@@ -100,7 +100,7 @@ export class MoneyMoveComponent implements OnInit {
       },
     });
 
-    modal.afterClose.subscribe((res) => {
+    modal.afterClose.subscribe(res => {
       if (res) {
         this.addMoneyMoveItem(res);
       }
@@ -119,7 +119,7 @@ export class MoneyMoveComponent implements OnInit {
       },
     });
 
-    modal.afterClose.subscribe((res) => {
+    modal.afterClose.subscribe(res => {
       if (res) {
         this.editMoneyMoveItem(item, res);
       }
@@ -194,7 +194,7 @@ export class MoneyMoveComponent implements OnInit {
 
   onSortBtnClick() {
     this.moneyMove$ = this.moneyMove$.pipe(
-      map((items) => items.slice().reverse())
+      map(items => items.slice().reverse())
     );
   }
 }

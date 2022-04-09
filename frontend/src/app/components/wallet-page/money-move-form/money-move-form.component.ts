@@ -65,7 +65,7 @@ export class MoneyMoveFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.select(walletCreationDateSelector).subscribe((resp) => {
+    this.store.select(walletCreationDateSelector).subscribe(resp => {
       this.disabledDates = (date: Date): boolean =>
         dayjs(date).isAfter(dayjs(), 'day') ||
         dayjs(date).isBefore(dayjs(resp), 'day');
@@ -118,7 +118,7 @@ export class MoneyMoveFormComponent implements OnInit {
   handleImageUpload(event: any): void {
     const file = event.target.files.item(0);
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = event => {
       this.imageUrl = event.target.result;
       this.cdr.detectChanges();
     };

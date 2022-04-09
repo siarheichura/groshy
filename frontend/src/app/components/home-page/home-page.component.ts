@@ -66,7 +66,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       nzFooter: null,
     });
 
-    modal.afterClose.subscribe((res) => {
+    modal.afterClose.subscribe(res => {
       if (res) {
         this.addWallet(res);
       }

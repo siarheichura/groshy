@@ -6,8 +6,7 @@
         type="number"
         nz-input
         [formControlName]="formControls.Amount"
-        placeholder="Enter amount"
-      />
+        placeholder="Enter amount" />
     </nz-form-control>
   </nz-form-item>
 
@@ -16,13 +15,11 @@
     <nz-form-control>
       <nz-select
         [formControlName]="formControls.Category"
-        nzPlaceHolder="Select category"
-      >
+        nzPlaceHolder="Select category">
         <nz-option
           *ngFor="let category of categories$ | async"
           [nzValue]="category.name"
-          [nzLabel]="category.name"
-        ></nz-option>
+          [nzLabel]="category.name"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
@@ -35,8 +32,7 @@
         type="text"
         nz-input
         [formControlName]="formControls.Comment"
-        placeholder="Add comment"
-      />
+        placeholder="Add comment" />
     </nz-form-control>
   </nz-form-item>
 
@@ -47,8 +43,7 @@
       <nz-date-picker
         [formControlName]="formControls.Date"
         [nzDisabledDate]="disabledDates"
-        nzFormat="dd.MM.YYYY"
-      ></nz-date-picker>
+        nzFormat="dd.MM.YYYY"></nz-date-picker>
     </nz-form-control>
   </nz-form-item>
 
@@ -59,16 +54,14 @@
       <input
         type="file"
         accept="image/*"
-        (change)="handleImageUpload($event)"
-      />
+        (change)="handleImageUpload($event)" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-collapse nzGhost *ngIf="imageUrl">
     <nz-collapse-panel
       [nzHeader]="'Show check'"
-      [nzActive]="moneyMoveItem && imageUrl ? false : true"
-    >
+      [nzActive]="moneyMoveItem && imageUrl ? false : true">
       <img class="check" [src]="imageUrl" (click)="handleImageClick()" />
     </nz-collapse-panel>
   </nz-collapse>

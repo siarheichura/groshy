@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Dayjs } from 'dayjs';
 import { environment } from './../../environments/environment';
 
@@ -22,8 +22,8 @@ export class WalletService {
     return this.http
       .get<HTTP<Wallet[]>>(`${environment.apiUrl}${API_PATH_WALLETS}`)
       .pipe(
-        map((data) => {
-          data.data = data.data.map((wallet) => new Wallet(wallet));
+        map(data => {
+          data.data = data.data.map(wallet => new Wallet(wallet));
           return data;
         })
       );
@@ -33,7 +33,7 @@ export class WalletService {
     return this.http
       .get<HTTP<Wallet>>(`${environment.apiUrl}${API_PATH_WALLETS}/${id}`)
       .pipe(
-        map((data) => {
+        map(data => {
           data.data = new Wallet(data.data);
           return data;
         })
@@ -44,7 +44,7 @@ export class WalletService {
     return this.http
       .post<HTTP<Wallet>>(`${environment.apiUrl}${API_PATH_WALLETS}`, body)
       .pipe(
-        map((data) => {
+        map(data => {
           data.data = new Wallet(data.data);
           return data;
         })

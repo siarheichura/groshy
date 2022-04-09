@@ -5,7 +5,7 @@ import { MoneyMoveTypes } from './../../shared/enums/MoneyMoveTypes.enum';
 
 export const sharedReducer = createReducer(
   initialSharedState,
-  on(ResetSharedState, (state) => ({
+  on(ResetSharedState, state => ({
     ...state,
     loading: false,
     currentTab: MoneyMoveTypes.Expense,

@@ -5,14 +5,12 @@
     nzFormat="MM.YYYY"
     [formControl]="datePicker"
     [nzDisabledDate]="disabledDates"
-    (ngModelChange)="onDateChange()"
-  ></nz-date-picker>
+    (ngModelChange)="onDateChange()"></nz-date-picker>
 
   <nz-empty
     nzNotFoundImage="simple"
     *ngIf="!(statistics$ | async).length"
-    class="stat__empty"
-  ></nz-empty>
+    class="stat__empty"></nz-empty>
 
   <div class="stat__pie">
     <ngx-charts-pie-chart [results]="chartOptions" #tooltipTemplate>
@@ -40,8 +38,7 @@
         <nz-progress
           [nzPercent]="
             (item.amount / totalMoneyMoveSum) * 100 | number: '1.0-2'
-          "
-        ></nz-progress>
+          "></nz-progress>
       </div>
     </div>
   </div>

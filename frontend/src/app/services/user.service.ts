@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap, Observable } from 'rxjs';
 
@@ -61,7 +61,7 @@ export class UserService {
         user,
         { withCredentials: true }
       )
-      .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
+      .pipe(tap(resp => this.setToken(resp.data.accessToken)));
   }
 
   logout() {
@@ -74,7 +74,7 @@ export class UserService {
       .post<HTTP<AuthResponse>>(`${environment.apiUrl}${API_PATH_REFRESH}`, {
         withCredentials: true,
       })
-      .pipe(tap((resp) => this.setToken(resp.data.accessToken)));
+      .pipe(tap(resp => this.setToken(resp.data.accessToken)));
   }
 
   updateUserInfo(

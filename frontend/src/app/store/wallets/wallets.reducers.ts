@@ -17,7 +17,7 @@ import {
 
 export const walletsReducer = createReducer(
   initialWalletsState,
-  on(ResetWalletState, (state) => ({
+  on(ResetWalletState, state => ({
     ...state,
     wallets: [],
     wallet: {
@@ -45,7 +45,7 @@ export const walletsReducer = createReducer(
   })),
   on(RemoveWalletSuccess, (state, { payload }) => ({
     ...state,
-    wallets: state.wallets.filter((wallet) => wallet.id !== payload.id),
+    wallets: state.wallets.filter(wallet => wallet.id !== payload.id),
   })),
   on(GetWalletCategoriesSuccess, (state, { payload }) => ({
     ...state,
@@ -57,9 +57,7 @@ export const walletsReducer = createReducer(
   })),
   on(RemoveCategorySuccess, (state, { payload }) => ({
     ...state,
-    categories: state.categories.filter(
-      (category) => category.id !== payload.id
-    ),
+    categories: state.categories.filter(category => category.id !== payload.id),
   })),
   on(GetMoneyMoveByPeriodSuccess, (state, { payload }) => ({
     ...state,
@@ -67,7 +65,7 @@ export const walletsReducer = createReducer(
   })),
   on(AddMoneyMoveItemSuccess, (state, { payload }) => ({
     ...state,
-    periodMoneyMove: state.periodMoneyMove.map((day) => {
+    periodMoneyMove: state.periodMoneyMove.map(day => {
       if (day.date.isSame(payload.date, 'day')) {
         return {
           ...day,
@@ -80,12 +78,12 @@ export const walletsReducer = createReducer(
   })),
   on(RemoveMoneyMoveItemSuccess, (state, { payload }) => ({
     ...state,
-    periodMoneyMove: state.periodMoneyMove.map((day) => {
+    periodMoneyMove: state.periodMoneyMove.map(day => {
       if (day.date.isSame(payload.date, 'day')) {
         return {
           ...day,
           moneyMoveItems: day.moneyMoveItems.filter(
-            (item) => item.id !== payload.id
+            item => item.id !== payload.id
           ),
           moneyMoveSum: day.moneyMoveSum - payload.amount,
         };
@@ -95,6 +93,6 @@ export const walletsReducer = createReducer(
   })),
   on(GetMoneyMoveStatisticsSuccess, (state, { payload }) => ({
     ...state,
-    statistics: payload.filter((item) => item.amount !== 0),
+    statistics: payload.filter(item => item.amount !== 0),
   }))
 );

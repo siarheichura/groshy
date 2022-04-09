@@ -2,7 +2,7 @@ import { RouterEnum } from './../../shared/enums/Router.enum';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
-import { map, mergeMap, switchMap, catchError, of } from 'rxjs';
+import { map, mergeMap, switchMap, catchError, of, tap } from 'rxjs';
 
 import { WalletService } from './../../services/wallet.service';
 import { getMoneyMoveItemsByPeriod } from 'src/app/shared/helpers/money-move.helper';
@@ -20,31 +20,27 @@ export class WalletsEffects {
   getWallets$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWallets),
-      mergeMap(() =>
-        this.walletService.getWallets().pipe(
-          map((data) =>
-            WalletsActions.GetWalletsSuccess({ payload: data.data })
-          ),
-          catchError((err) => [
+      mergeMap(() => {
+        return this.walletService.getWallets().pipe(
+          map(data => WalletsActions.GetWalletsSuccess({ payload: data.data })),
+          catchError(err => [
             WalletsActions.GetWalletsError(),
             SharedActions.PrintNzMessageError({
               payload: err.error.message,
             }),
           ])
-        )
-      )
+        );
+      })
     );
   });
 
   getWallet$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.GetWallet),
-      switchMap((action) =>
+      switchMap(action =>
         this.walletService.getWallet(action.payload.id).pipe(
-          map((data) =>
-            WalletsActions.GetWalletSuccess({ payload: data.data })
-          ),
-          catchError((err) => {
+          map(data => WalletsActions.GetWalletSuccess({ payload: data.data })),
+          catchError(err => {
             this.router.navigate([RouterEnum.Error]);
             return [
               WalletsActions.GetWalletError(),
@@ -61,13 +57,11 @@ export class WalletsEffects {
   addWallet$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.AddWallet),
-      switchMap((action) =>
+      switchMap(action =>
         this.walletService
           .addWallet(action.payload)
           .pipe(
-            map((data) =>
-              WalletsActions.AddWalletSuccess({ payload: data.data })
-            )
+            map(data => WalletsActions.AddWalletSuccess({ payload: data.data }))
           )
       )
     );
@@ -76,9 +70,9 @@ export class WalletsEffects {
   removeWallet$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.RemoveWallet),
-      switchMap((action) =>
+      switchMap(action =>
         this.walletService.removeWallet(action.payload.id).pipe(
-          map((data) =>
+          map(data =>
             WalletsActions.RemoveWalletSuccess({
               payload: { id: data.data },
             })
@@ -91,7 +85,7 @@ export class WalletsEffects {
   editWallet$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WalletsActions.EditWallet),
-      switchMap((action) =>
+      switchMap(action =>
         this.walletService
           .editWallet(action.payload.id, action.payload.updatedWallet)
           .pipe(
@@ -108,10 +102,10 @@ export class WalletsEffects {
       ofType(WalletsActions.GetWalletCategories),
       switchMap(({ payload }) =>
         this.walletService.getWalletCategories(payload.walletId).pipe(
-          map((data) =>
+          map(data =>
             WalletsActions.GetWalletCategoriesSuccess({ payload: data.data })
           ),
-          catchError((err) => of(WalletsActions.GetWalletCategoriesError()))
+          catchError(err => of(WalletsActions.GetWalletCategoriesError()))
         )
       )
     );
@@ -124,7 +118,7 @@ export class WalletsEffects {
         this.walletService
           .addCategory(payload.walletId, payload.category)
           .pipe(
-            map((data) =>
+            map(data =>
               WalletsActions.AddCategorySuccess({ payload: data.data })
             )
           )
@@ -137,7 +131,7 @@ export class WalletsEffects {
       ofType(WalletsActions.RemoveCategory),
       switchMap(({ payload }) =>
         this.walletService.removeCategory(payload.id).pipe(
-          map((data) =>
+          map(data =>
             WalletsActions.RemoveCategorySuccess({
               payload: { id: data.data },
             })
@@ -160,7 +154,7 @@ export class WalletsEffects {
           )
           .pipe(
             map(
-              (data) =>
+              data =>
                 WalletsActions.GetMoneyMoveByPeriodSuccess({
                   payload: getMoneyMoveItemsByPeriod(
                     data.data,
@@ -168,9 +162,7 @@ export class WalletsEffects {
                     payload.finishDate
                   ),
                 }),
-              catchError((err) =>
-                of(WalletsActions.GetMoneyMoveByPeriodError())
-              )
+              catchError(err => of(WalletsActions.GetMoneyMoveByPeriodError()))
             )
           )
       )
@@ -184,7 +176,7 @@ export class WalletsEffects {
         this.walletService
           .addMoneyMoveItem(payload.type, payload.walletId, payload.item)
           .pipe(
-            mergeMap((data) => [
+            mergeMap(data => [
               WalletsActions.AddMoneyMoveItemSuccess({ payload: data.data }),
               WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
             ])
@@ -200,7 +192,7 @@ export class WalletsEffects {
         this.walletService
           .removeMoneyMoveItem(payload.type, payload.itemId)
           .pipe(
-            mergeMap((data) => [
+            mergeMap(data => [
               WalletsActions.RemoveMoneyMoveItemSuccess({ payload: data.data }),
               WalletsActions.GetWallet({ payload: { id: payload.walletId } }),
             ])
@@ -244,7 +236,7 @@ export class WalletsEffects {
             payload.finishDate
           )
           .pipe(
-            map((data) =>
+            map(data =>
               WalletsActions.GetMoneyMoveStatisticsSuccess({
                 payload: data.data,
               })

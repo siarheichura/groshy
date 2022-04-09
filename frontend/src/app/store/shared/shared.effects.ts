@@ -61,7 +61,7 @@ export class SharedEffects {
     () => {
       return this.actions$.pipe(
         ofType(SharedActions.PrintNzMessageSuccess),
-        map((action) => {
+        map(action => {
           return this.nzMessage.success(action.payload);
         })
       );
@@ -73,7 +73,7 @@ export class SharedEffects {
     () => {
       return this.actions$.pipe(
         ofType(SharedActions.PrintNzMessageError),
-        map((action) => this.nzMessage.error(action.payload))
+        map(action => this.nzMessage.error(action.payload))
       );
     },
     { dispatch: false }

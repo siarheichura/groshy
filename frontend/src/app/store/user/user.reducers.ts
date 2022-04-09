@@ -15,7 +15,7 @@ export const userReducer = createReducer(
     user: payload,
     isAuth: true,
   })),
-  on(UserActions.Logout, (state) => {
+  on(UserActions.Logout, state => {
     return {
       ...state,
       user: {} as User,

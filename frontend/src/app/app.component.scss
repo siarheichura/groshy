@@ -1,5 +1,18 @@
 :host {
   .app {
-    padding-bottom: 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .spinner {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    opacity: 0.8;
   }
 }

@@ -7,8 +7,7 @@
         nzFormat="MM.YYYY"
         [formControl]="datePicker"
         [nzDisabledDate]="disabledDates"
-        (ngModelChange)="onDateChange()"
-      ></nz-date-picker>
+        (ngModelChange)="onDateChange()"></nz-date-picker>
 
       <div class="sort-btn" (click)="onSortBtnClick()"></div>
     </div>
@@ -20,8 +19,7 @@
 
   <nz-empty
     nzNotFoundImage="simple"
-    *ngIf="!(moneyMove$ | async).length"
-  ></nz-empty>
+    *ngIf="!(moneyMove$ | async).length"></nz-empty>
 
   <div *ngFor="let day of moneyMove$ | async">
     <app-money-move-day-card
@@ -30,7 +28,8 @@
       [items]="day.moneyMoveItems"
       [currency]="currency$ | async"
       (onRemoveItem)="removeMoneyMoveItem($event)"
-      (onItemClick)="printEditMoneyMoveItemModal($event)"
-    ></app-money-move-day-card>
+      (onItemClick)="
+        printEditMoneyMoveItemModal($event)
+      "></app-money-move-day-card>
   </div>
 </div>

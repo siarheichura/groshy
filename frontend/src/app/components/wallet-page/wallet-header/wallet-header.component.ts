@@ -57,7 +57,7 @@ export class WalletHeaderComponent implements OnInit {
   }
 
   printDrawer() {
-    this.wallet$.pipe(take(1)).subscribe((resp) => {
+    this.wallet$.pipe(take(1)).subscribe(resp => {
       this.drawerService.create({
         nzTitle: 'Settings',
         nzWidth: DRAWER_WIDTH,

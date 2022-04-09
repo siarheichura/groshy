@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, Subscription, map, tap, take } from 'rxjs';
+import { Observable, Subscription, take } from 'rxjs';
 import dayjs from 'dayjs';
 
 import { MoneyMoveStat } from './../../../shared/interfaces/MoneyMoveStat.interface';
@@ -40,7 +40,7 @@ export class StatisticsComponent implements OnInit {
   );
   statisticsSubs: Subscription = this.statistics$
     .pipe(untilDestroyed(this))
-    .subscribe((resp) => {
+    .subscribe(resp => {
       this.totalMoneyMoveSum = resp.reduce(
         (prev, curr) => (this.totalMoneyMoveSum = prev + curr.amount),
         0
@@ -51,7 +51,7 @@ export class StatisticsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit(): void {
-    this.store.select(walletCreationDateSelector).subscribe((resp) => {
+    this.store.select(walletCreationDateSelector).subscribe(resp => {
       this.disabledDates = (date: Date): boolean =>
         dayjs(date).isAfter(dayjs(), 'month') ||
         dayjs(date).isBefore(dayjs(resp), 'month');
@@ -60,7 +60,7 @@ export class StatisticsComponent implements OnInit {
     this.store
       .select(currentTabSelector)
       .pipe(untilDestroyed(this))
-      .subscribe((resp) => {
+      .subscribe(resp => {
         this.moneyMoveType = resp;
         this.getStatistics(this.datePicker.value);
       });
@@ -85,7 +85,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   setChartOptions(data: MoneyMoveStat[]) {
-    this.chartOptions = data.map((item) => ({
+    this.chartOptions = data.map(item => ({
       value: item.amount,
       name: item.category,
     }));
@@ -93,7 +93,7 @@ export class StatisticsComponent implements OnInit {
 
   onDateChange() {
     if (this.datePicker.value) {
-      this.statistics$.pipe(take(1)).subscribe((resp) => {
+      this.statistics$.pipe(take(1)).subscribe(resp => {
         this.getStatistics(this.datePicker.value);
         this.setChartOptions(resp);
       });

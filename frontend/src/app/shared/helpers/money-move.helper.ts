@@ -11,7 +11,7 @@ export function getMoneyMoveItemsByPeriod(
 
   const result = templateArr.map((item, index) => {
     const date = startDate.add(index, 'day');
-    const moneyMoveItems = items.filter((item) =>
+    const moneyMoveItems = items.filter(item =>
       dayjs(item.date).isSame(date, 'day')
     );
     const moneyMoveSum = moneyMoveItems.reduce(

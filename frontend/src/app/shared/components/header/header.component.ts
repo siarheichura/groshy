@@ -18,13 +18,11 @@ import { DRAWER_WIDTH } from './../../constants/constants';
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   @Input() user: User;
   routes = RouterEnum;
 
   constructor(private router: Router, private drawerService: NzDrawerService) {}
-
-  ngOnInit(): void {}
 
   handleRouteClick(param: string): void {
     void this.router.navigate([param]);

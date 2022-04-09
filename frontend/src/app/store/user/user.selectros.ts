@@ -10,5 +10,5 @@ export const userSelector = createSelector(
 
 export const isUserAuthSelector = createSelector(
   featureSelector,
-  (state) => state.isAuth
+  state => state.isAuth
 );

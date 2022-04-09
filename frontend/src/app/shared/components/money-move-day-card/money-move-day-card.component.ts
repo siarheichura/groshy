@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { MoneyMoveCategory } from './../../interfaces/MoneyMoveCategory.interface';
-import { MoneyMoveItem } from './../../interfaces/MoneyMoveItem.interface';
+import { MoneyMoveCategory } from '@shared/interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
 
 @Component({
   selector: 'app-money-move-day-card',

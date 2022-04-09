@@ -1,9 +1,9 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { WalletPageComponent } from './wallet-page.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { MoneyMoveComponent } from './money-move/money-move.component';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RouterEnum } from 'src/app/shared/enums/Router.enum';
+import { RouterEnum } from '@shared/enums/Router.enum';
 
 const routes: Routes = [
   {

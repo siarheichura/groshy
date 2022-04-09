@@ -1,13 +1,12 @@
-import { MoneyMoveStat } from './../../shared/interfaces/MoneyMoveStat.interface';
 import { createAction, props } from '@ngrx/store';
 import { Dayjs } from 'dayjs';
 
-import { Wallet } from 'src/app/shared/classes/Wallet';
-
-import { MoneyMoveItem } from './../../shared/interfaces/MoneyMoveItem.interface';
-import { MoneyMoveCategory } from './../../shared/interfaces/MoneyMoveCategory.interface';
-import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
-import { getActionNameFn } from 'src/app/shared/helpers/action-name.helper';
+import { MoneyMoveStat } from '@shared/interfaces/MoneyMoveStat.interface';
+import { Wallet } from '@shared/classes/Wallet';
+import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
+import { MoneyMoveCategory } from '@shared/interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveDayItem } from '@shared/classes/MoneyMoveDayItem';
+import { getActionNameFn } from '@shared/helpers/action-name.helper';
 
 const MODULE_NAME = '[WALLETS]';
 const getFullActionName = getActionNameFn(MODULE_NAME);

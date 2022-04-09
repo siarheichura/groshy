@@ -1,4 +1,3 @@
-import { RouterEnum } from 'src/app/shared/enums/Router.enum';
 import { Router } from '@angular/router';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import {
@@ -16,14 +15,14 @@ import { FormControl } from '@angular/forms';
 import {
   AddCategory,
   EditWallet,
-  GetWalletCategories,
   RemoveCategory,
   RemoveWallet,
-} from '../../../store/wallets/wallets.actions';
-import { categoriesSelector } from '../../../store/wallets/wallets.selectros';
-import { MoneyMoveTypes } from '../../../shared/enums/MoneyMoveTypes.enum';
-import { MoneyMoveCategory } from '../../../shared/interfaces/MoneyMoveCategory.interface';
-import { Wallet } from '../../../shared/classes/Wallet';
+} from '@store/wallets/wallets.actions';
+import { categoriesSelector } from '@store/wallets/wallets.selectros';
+import { MoneyMoveTypes } from '@shared/enums/MoneyMoveTypes.enum';
+import { MoneyMoveCategory } from '@shared/interfaces/MoneyMoveCategory.interface';
+import { Wallet } from '@shared/classes/Wallet';
+import { RouterEnum } from '@shared/enums/Router.enum';
 
 @Component({
   selector: 'app-wallet-settings',

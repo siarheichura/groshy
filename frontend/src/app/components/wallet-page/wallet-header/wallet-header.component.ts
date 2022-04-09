@@ -4,18 +4,14 @@ import { Observable, take } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
-import { WalletSettingsComponent } from '../wallet-settings/wallet-settings.component';
-import { RouterEnum } from '../../../shared/enums/Router.enum';
-import { MoneyMoveTypes } from 'src/app/shared/enums/MoneyMoveTypes.enum';
-import { Wallet } from '../../../shared/classes/Wallet';
-import { DRAWER_WIDTH } from '../../../shared/constants/constants';
-
-import { walletSelector } from 'src/app/store/wallets/wallets.selectros';
-import {
-  GetWallet,
-  GetWalletCategories,
-} from 'src/app/store/wallets/wallets.actions';
-import { ChangeTab } from 'src/app/store/shared/shared.actions';
+import { walletSelector } from '@store/wallets/wallets.selectros';
+import { GetWallet, GetWalletCategories } from '@store/wallets/wallets.actions';
+import { ChangeTab } from '@store/shared/shared.actions';
+import { RouterEnum } from '@shared/enums/Router.enum';
+import { MoneyMoveTypes } from '@shared/enums/MoneyMoveTypes.enum';
+import { Wallet } from '@shared/classes/Wallet';
+import { DRAWER_WIDTH } from '@shared/constants/constants';
+import { WalletSettingsComponent } from '@components/wallet-page/wallet-settings/wallet-settings.component';
 
 @Component({
   selector: 'app-wallet-header',

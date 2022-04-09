@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { MoneyMoveDayItem } from '../classes/MoneyMoveDayItem';
-import { MoneyMoveItem } from './../interfaces/MoneyMoveItem.interface';
+import { MoneyMoveDayItem } from '@shared/classes/MoneyMoveDayItem';
+import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
 
 export function getMoneyMoveItemsByPeriod(
   items: MoneyMoveItem[],

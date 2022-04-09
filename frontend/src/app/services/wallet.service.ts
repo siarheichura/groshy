@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { Dayjs } from 'dayjs';
-import { environment } from './../../environments/environment';
+import { environment } from 'environments/environment';
 
-import { MoneyMoveCategory } from './../shared/interfaces/MoneyMoveCategory.interface';
-import { MoneyMoveItem } from './../shared/interfaces/MoneyMoveItem.interface';
-import { HTTP } from '../shared/interfaces/Http.interface';
-import { Wallet } from '../shared/classes/Wallet';
-import { MoneyMoveStat } from '../shared/interfaces/MoneyMoveStat.interface';
+import { MoneyMoveCategory } from '@shared/interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
+import { HTTP } from '@shared/interfaces/Http.interface';
+import { Wallet } from '@shared/classes/Wallet';
+import { MoneyMoveStat } from '@shared/interfaces/MoneyMoveStat.interface';
 
 const API_PATH_WALLETS = '/wallets';
 const API_PATH_CATEGORIES = '/categories';

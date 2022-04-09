@@ -7,18 +7,15 @@ import {
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import {
-  ChangePassword,
-  UpdateUserInfo,
-} from './../../store/user/user.actions';
-import { RouterEnum } from 'src/app/shared/enums/Router.enum';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
-import { User } from 'src/app/shared/interfaces/User';
-import { Logout } from 'src/app/store/user/user.actions';
-import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
-import { FormValidators } from './../../shared/validators/form-validators';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+
+import { ChangePassword, UpdateUserInfo } from '@store/user/user.actions';
+import { Logout } from '@store/user/user.actions';
+import { RouterEnum } from '@shared/enums/Router.enum';
+import { User } from '@shared/interfaces/User';
+import { markFormControlsDirty } from '@shared/helpers/form.helper';
+import { FormValidators } from '@shared/validators/form-validators';
 
 interface PasswordFormValue {
   prevPassword: string;

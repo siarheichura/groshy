@@ -7,10 +7,10 @@ import {
 import { Router } from '@angular/router';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
-import { UserProfileComponent } from '../../../components/user-profile/user-profile.component';
-import { RouterEnum } from '../../enums/Router.enum';
-import { User } from '../../interfaces/User';
-import { DRAWER_WIDTH } from './../../constants/constants';
+import { UserProfileComponent } from '@components/user-profile/user-profile.component';
+import { RouterEnum } from '@shared/enums/Router.enum';
+import { User } from '@shared/interfaces/User';
+import { DRAWER_WIDTH } from '@shared/constants/constants';
 
 @Component({
   selector: 'app-header',

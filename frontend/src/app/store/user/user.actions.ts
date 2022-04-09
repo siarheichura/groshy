@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { getActionNameFn } from 'src/app/shared/helpers/action-name.helper';
+import { getActionNameFn } from '@shared/helpers/action-name.helper';
 import {
   SignUpUser,
   User,
   UserLogin,
   Passwords,
-} from './../../shared/interfaces/User';
+} from '@shared/interfaces/User';
 
 const MODULE_NAME = '[USER]';
 const getFullActionName = getActionNameFn(MODULE_NAME);

@@ -11,8 +11,8 @@ import { catchError, Observable, throwError, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { UserService } from './user.service';
-import { Logout } from './../store/user/user.actions';
-import { RouterEnum } from './../shared/enums/Router.enum';
+import { Logout } from '@store/user/user.actions';
+import { RouterEnum } from '@shared/enums/Router.enum';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

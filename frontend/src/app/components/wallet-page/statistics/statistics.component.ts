@@ -6,14 +6,14 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, Subscription, take } from 'rxjs';
 import dayjs from 'dayjs';
 
-import { MoneyMoveStat } from './../../../shared/interfaces/MoneyMoveStat.interface';
-import { GetMoneyMoveStatistics } from './../../../store/wallets/wallets.actions';
-import { currentTabSelector } from 'src/app/store/shared/shared.selectros';
+import { MoneyMoveStat } from '@shared/interfaces/MoneyMoveStat.interface';
+import { GetMoneyMoveStatistics } from '@store/wallets/wallets.actions';
+import { currentTabSelector } from '@store/shared/shared.selectros';
 import {
   moneyMoveStatisticsSelector,
   walletCreationDateSelector,
   walletCurrencySelector,
-} from './../../../store/wallets/wallets.selectros';
+} from '@store/wallets/wallets.selectros';
 
 interface ChartOptions {
   value: number;

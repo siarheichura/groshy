@@ -5,24 +5,24 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import dayjs, { Dayjs } from 'dayjs';
-
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { walletCreationDateSelector } from './../../../store/wallets/wallets.selectros';
+
+import { walletCreationDateSelector } from '@store/wallets/wallets.selectros';
 import {
   AddMoneyMoveItem,
   EditMoneyMoveItem,
   GetMoneyMoveByPeriod,
   RemoveMoneyMoveItem,
-} from './../../../store/wallets/wallets.actions';
+} from '@store/wallets/wallets.actions';
 import {
   periodMoneyMoveSelector,
   walletCurrencySelector,
-} from 'src/app/store/wallets/wallets.selectros';
-import { currentTabSelector } from './../../../store/shared/shared.selectros';
-import { MoneyMoveFormComponent } from './../money-move-form/money-move-form.component';
-import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
-import { MoneyMoveDayItem } from 'src/app/shared/classes/MoneyMoveDayItem';
-import { MODAL_WIDTH } from './../../../shared/constants/constants';
+} from '@store/wallets/wallets.selectros';
+import { currentTabSelector } from '@store/shared/shared.selectros';
+import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
+import { MoneyMoveDayItem } from '@shared/classes/MoneyMoveDayItem';
+import { MODAL_WIDTH } from '@shared/constants/constants';
+import { MoneyMoveFormComponent } from '@components/wallet-page/money-move-form/money-move-form.component';
 
 @UntilDestroy()
 @Component({

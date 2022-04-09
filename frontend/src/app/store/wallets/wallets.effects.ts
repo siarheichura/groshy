@@ -1,13 +1,13 @@
-import { RouterEnum } from './../../shared/enums/Router.enum';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { ofType, Actions, createEffect } from '@ngrx/effects';
 import { map, mergeMap, switchMap, catchError, of, tap } from 'rxjs';
 
-import { WalletService } from './../../services/wallet.service';
-import { getMoneyMoveItemsByPeriod } from 'src/app/shared/helpers/money-move.helper';
+import { WalletService } from '@services/wallet.service';
+import { RouterEnum } from '@shared/enums/Router.enum';
+import { getMoneyMoveItemsByPeriod } from '@shared/helpers/money-move.helper';
 import * as WalletsActions from './wallets.actions';
-import * as SharedActions from '../shared/shared.actions';
+import * as SharedActions from '@store/shared/shared.actions';
 
 @Injectable()
 export class WalletsEffects {

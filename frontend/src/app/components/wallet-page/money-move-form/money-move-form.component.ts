@@ -10,15 +10,14 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import dayjs from 'dayjs';
-import { NzMessageService } from 'ng-zorro-antd/message';
 
-import { MoneyMoveCategory } from './../../../shared/interfaces/MoneyMoveCategory.interface';
-import { MoneyMoveItem } from './../../../shared/interfaces/MoneyMoveItem.interface';
+import { MoneyMoveCategory } from '@shared/interfaces/MoneyMoveCategory.interface';
+import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
 import {
   categoriesSelector,
   walletCreationDateSelector,
-} from 'src/app/store/wallets/wallets.selectros';
-import { markFormControlsDirty } from 'src/app/shared/helpers/form.helper';
+} from '@store/wallets/wallets.selectros';
+import { markFormControlsDirty } from '@shared/helpers/form.helper';
 
 interface FormValue {
   amount: number;

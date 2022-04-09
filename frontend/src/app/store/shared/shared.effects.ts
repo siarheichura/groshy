@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import * as SharedActions from './shared.actions';
-import * as WalletsActions from '../wallets/wallets.actions';
-import * as UserActions from '../user/user.actions';
+import * as WalletsActions from '@store/wallets/wallets.actions';
+import * as UserActions from '@store/user/user.actions';
 
 @Injectable()
 export class SharedEffects {

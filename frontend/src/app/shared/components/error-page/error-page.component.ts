@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterEnum } from '../../enums/Router.enum';
+import { RouterEnum } from '@shared/enums/Router.enum';
 
 @Component({
   selector: 'app-error-page',

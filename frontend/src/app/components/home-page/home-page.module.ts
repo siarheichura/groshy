@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SharedModule } from './../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 
 import { HomePageComponent } from './home-page.component';
 import { WalletModalComponent } from './wallet-modal/wallet-modal.component';

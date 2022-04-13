@@ -124,7 +124,7 @@ export class MoneyMoveFormComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  handleImageClick() {
+  resetImage() {
     this.imageUrl = '';
     this.cdr.detectChanges();
   }

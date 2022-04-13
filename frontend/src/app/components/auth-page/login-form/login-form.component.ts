@@ -38,7 +38,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private store: Store
+    private store?: Store
   ) {}
 
   ngOnInit(): void {

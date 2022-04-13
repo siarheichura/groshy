@@ -18,16 +18,16 @@ export class ListComponent {
   @Input() title: string;
   @Input() items: ListItem[];
 
-  @Output() onAdd = new EventEmitter();
-  @Output() onClick = new EventEmitter();
+  @Output() addItem = new EventEmitter();
+  @Output() clickItem = new EventEmitter();
 
   constructor() {}
 
   onItemClick(id: string): void {
-    this.onClick.emit(id);
+    this.clickItem.emit(id);
   }
 
   onAddItem(): void {
-    this.onAdd.emit();
+    this.addItem.emit();
   }
 }

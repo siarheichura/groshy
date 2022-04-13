@@ -62,7 +62,12 @@
     <nz-collapse-panel
       [nzHeader]="'Show check'"
       [nzActive]="moneyMoveItem && imageUrl ? false : true">
-      <img class="check" [src]="imageUrl" (click)="handleImageClick()" />
+      <div class="check-reset-btn">
+        <button nz-button nzSize="small" (click)="resetImage()">
+          <i nz-icon nzType="close" nzTheme="outline"></i>
+        </button>
+      </div>
+      <img class="check" [src]="imageUrl" />
     </nz-collapse-panel>
   </nz-collapse>
 

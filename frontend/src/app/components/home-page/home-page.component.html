@@ -6,6 +6,6 @@
         : 'Add your first wallet 💰'
     "
     [items]="walletsForList$ | async"
-    (onAdd)="printAddWalletModal()"
-    (onClick)="onWalletClick($event)"></app-list>
+    (addItem)="printAddWalletModal()"
+    (clickItem)="onWalletClick($event)"></app-list>
 </div>

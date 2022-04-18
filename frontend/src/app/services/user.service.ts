@@ -83,7 +83,7 @@ export class UserService {
     email: string,
     emoji: string
   ): Observable<HTTP<User>> {
-    return this.http.post<HTTP<User>>(
+    return this.http.put<HTTP<User>>(
       `${environment.apiUrl}${API_PATH_USER_UPDATE}/${id}`,
       { username, email, emoji }
     );

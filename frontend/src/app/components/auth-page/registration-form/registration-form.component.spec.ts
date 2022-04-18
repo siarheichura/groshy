@@ -3,21 +3,21 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { LoginFormComponent } from './login-form.component';
+import { RegistrationFormComponent } from './registration-form.component';
 
-describe('LoginFormComponent', () => {
-  let component: LoginFormComponent;
-  let fixture: ComponentFixture<LoginFormComponent>;
+describe('RegistrationFormComponent', () => {
+  let component: RegistrationFormComponent;
+  let fixture: ComponentFixture<RegistrationFormComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LoginFormComponent],
+      declarations: [RegistrationFormComponent],
       providers: [FormBuilder, provideMockStore()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
-    fixture = TestBed.createComponent(LoginFormComponent);
+    fixture = TestBed.createComponent(RegistrationFormComponent);
     component = fixture.componentInstance;
   });
 

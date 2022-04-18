@@ -35,6 +35,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { CalculatorComponent } from './components/calculator/calculator.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
     ListComponent,
     MoneyMoveDayCardComponent,
     WalletFormComponent,
+    CalculatorComponent,
   ],
 
   imports: [
@@ -95,6 +97,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
     ListComponent,
     MoneyMoveDayCardComponent,
     WalletFormComponent,
+    CalculatorComponent,
   ],
   providers: [],
 })

@@ -30,7 +30,7 @@ userRouter.post(RouterEnum.Logout, controller.logout);
 userRouter.get(`${RouterEnum.Activate}/:link`, controller.activate);
 userRouter.get(`${RouterEnum.User}/:id`, controller.getUser);
 userRouter.post(RouterEnum.Refresh, controller.refresh);
-userRouter.post(
+userRouter.put(
   `${RouterEnum.UserUpdate}/:id`,
   [validator.username, validator.email],
   controller.updateUserInfo

@@ -1,0 +1,101 @@
+<nz-tabset nzCentered *ngIf="(wallets$ | async).length">
+  <nz-tab [nzTitle]="operationsTabTitleTemplate">
+    <div class="wallets">
+      <ng-container *ngFor="let wallet of wallets$ | async">
+        <div class="wallet">
+          <div class="wallet__title">{{ wallet.name }}</div>
+          <div>{{ wallet.balance }} {{ wallet.currency }}</div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="form">
+      <div class="form__picker">
+        <nz-date-picker
+          nzMode="month"
+          class="date-picker"
+          nzFormat="MM.YYYY"
+          [formControl]="datePicker"
+          (ngModelChange)="onDateChange()"
+        >
+        </nz-date-picker>
+
+        <i nz-icon nzType="ng-zorro:sort"  class="form__sort-btn" (click)="onSortBtnClick()"></i>
+      </div>
+
+      <button nz-button nzType="primary" (click)="printAddOperationModal()">
+        Add {{ operationType }}
+      </button>
+    </div>
+
+    <ng-container *ngFor="let dayOperations of operations$ | async">
+      <ul
+        nz-list
+        [nzDataSource]="dayOperations.operations"
+        nzBordered
+        class="operation-list"
+        *ngIf="dayOperations.operations.length"
+      >
+        <nz-list-header class="operation-list__header">
+          {{ dayOperations.date | date: 'MMM dd' }}
+        </nz-list-header>
+        <li nz-list-item *ngFor="let operation of dayOperations.operations">
+          <ul nz-list-item-actions class="operation-list__actions">
+            <nz-list-item-action *ngIf="operation.checkImg">
+              <a (click)="printImageModal(modalContent)">
+                <i nz-icon nzType="file-image" nzTheme="outline"></i>
+                <ng-template #modalContent>
+                  <img class="check" [src]="operation.checkImg" />
+                </ng-template>
+              </a>
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <a (click)="printEditOperationModal(operation)">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </a>
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <a (click)="deleteOperation(operation.id)">
+                <i nz-icon nzType="close" nzTheme="outline"></i>
+              </a>
+            </nz-list-item-action>
+          </ul>
+          <div class="operation-list__body">
+            <div>
+              <div class="operation-list__tags">
+                <div> <nz-tag nzColor="blue"> <i nz-icon nzType="wallet" nzTheme="outline"></i> <span> {{ operation.walletName }} </span> </nz-tag> </div>
+                <div> <nz-tag nzColor="cyan"> <i nz-icon nzType="bars" nzTheme="outline"></i> <span> {{ operation.category }} </span> </nz-tag> </div>
+              </div>
+              <div class="operation-list__comment"> {{ operation.comment }} </div>
+            </div>
+            <div class="operation-list__amount"> {{ operation.amount }} {{ operation.currency }} </div>
+          </div>
+        </li>
+      </ul>
+    </ng-container>
+
+    <nz-empty *ngIf="!(operations$ | async).length" nzNotFoundImage="simple"></nz-empty>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="statisticsTabTitleTemplate">
+    <app-statistics></app-statistics>
+  </nz-tab>
+</nz-tabset>
+
+<nz-empty
+  *ngIf="!(wallets$ | async).length"
+  nzNotFoundImage="simple"
+  nzNotFoundContent="You don't have wallets :( You can create it on wallets page"
+></nz-empty>
+
+<ng-template #operationsTabTitleTemplate>
+  <i nz-icon nzType="ng-zorro:operation" style="font-size: 19px"></i> Operations
+</ng-template>
+
+<ng-template #statisticsTabTitleTemplate>
+  <i nz-icon nzType="pie-chart" style="font-size: 19px"></i> Statistics
+</ng-template>
+
+
+
+

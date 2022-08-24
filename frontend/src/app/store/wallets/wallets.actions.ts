@@ -1,11 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Dayjs } from 'dayjs';
 
-import { MoneyMoveStat } from '@shared/interfaces/MoneyMoveStat.interface';
 import { Wallet } from '@shared/classes/Wallet';
-import { MoneyMoveItem } from '@shared/interfaces/MoneyMoveItem.interface';
-import { MoneyMoveCategory } from '@shared/interfaces/MoneyMoveCategory.interface';
-import { MoneyMoveDayItem } from '@shared/classes/MoneyMoveDayItem';
 import { getActionNameFn } from '@shared/helpers/action-name.helper';
 
 const MODULE_NAME = '[WALLETS]';
@@ -15,33 +10,12 @@ enum WalletsActionsEnum {
   ResetWalletState = 'RESET_WALLET_STATE',
   GetWallets = 'GET_WALLETS',
   GetWalletsSuccess = 'GET_WALLETS_SUCCESS',
-  GetWalletsError = 'GET_WALLETS_ERROR',
-  GetWallet = 'GET_WALLET',
-  GetWalletSuccess = 'GET_WALLET_SUCCESS',
-  GetWalletError = 'GET_WALLET_ERROR',
   AddWallet = 'ADD_WALLET',
   AddWalletSuccess = 'ADD_WALLET_SUCCESS',
   RemoveWallet = 'REMOVE_WALLET',
   RemoveWalletSuccess = 'REMOVE_WALLET_SUCCESS',
   EditWallet = 'EDIT_WALLET',
-  GetWalletCategories = 'GET_WALLET_CATEGORIES',
-  GetWalletCategoriesSuccess = 'GET_WALLET_CATEGORIES_SUCCESS',
-  GetWalletCategoriesError = 'GET_WALLET_CATEGORIES_ERROR',
-  AddCategory = 'ADD_CATEGORY',
-  AddCategorySuccess = 'ADD_CATEGORY_SUCCESS',
-  RemoveCategory = 'REMOVE_CATEGORY',
-  RemoveCategorySuccess = 'REMOVE_CATEGORY_SUCCESS',
-  GetMoneyMoveByPeriod = 'GET_MONEY_MOVE_BY_PERIOD',
-  GetMoneyMoveByPeriodSuccess = 'GET_MONEY_MOVE_BY_PERIOD_SUCCESS',
-  GetMoneyMoveByPeriodError = 'GET_MONEY_MOVE_BY_PERIOD_ERROR',
-  AddMoneyMoveItem = 'ADD_MONEY_MOVE_ITEM',
-  AddMoneyMoveItemSuccess = 'ADD_MONEY_MOVE_ITEM_SUCCESS',
-  RemoveMoneyMoveItem = 'REMOVE_MONEY_MOVE_ITEM',
-  RemoveMoneyMoveItemSuccess = 'REMOVE_MONEY_MOVE_ITEM_SUCCESS',
-  EditMoneyMoveItem = 'EDIT_MONEY_MOVE_ITEM',
-  EditMoneyMoveItemSuccess = 'EDIT_MONEY_MOVE_ITEM_SUCCESS',
-  GetMoneyMoveStatistics = 'GET_MONEY_MOVE_STATISTICS',
-  GetMoneyMoveStatisticsSuccess = 'GET_MONEY_MOVE_STAT_STATISTICS',
+  EditWalletSuccess = 'EDIT_WALLET_SUCCESS',
 }
 
 export const ResetWalletState = createAction(
@@ -52,25 +26,11 @@ export const GetWallets = createAction(
 );
 export const GetWalletsSuccess = createAction(
   getFullActionName(WalletsActionsEnum.GetWalletsSuccess),
-  props<{ payload: Wallet[] }>()
-);
-export const GetWalletsError = createAction(
-  getFullActionName(WalletsActionsEnum.GetWalletsError)
-);
-export const GetWallet = createAction(
-  getFullActionName(WalletsActionsEnum.GetWallet),
-  props<{ payload: { id: string } }>()
-);
-export const GetWalletSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetWalletSuccess),
-  props<{ payload: Wallet }>()
-);
-export const GetWalletError = createAction(
-  getFullActionName(WalletsActionsEnum.GetWalletError)
+  props<{ payload: { wallet: Wallet[] } }>()
 );
 export const AddWallet = createAction(
   getFullActionName(WalletsActionsEnum.AddWallet),
-  props<{ payload: Wallet }>()
+  props<{ payload: {userId: string, wallet: Wallet} }>()
 );
 export const AddWalletSuccess = createAction(
   getFullActionName(WalletsActionsEnum.AddWalletSuccess),
@@ -88,102 +48,7 @@ export const EditWallet = createAction(
   getFullActionName(WalletsActionsEnum.EditWallet),
   props<{ payload: { id: string; updatedWallet: Wallet } }>()
 );
-export const GetWalletCategories = createAction(
-  getFullActionName(WalletsActionsEnum.GetWalletCategories),
-  props<{ payload: { walletId: string } }>()
-);
-export const GetWalletCategoriesSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetWalletCategoriesSuccess),
-  props<{
-    payload: MoneyMoveCategory[];
-  }>()
-);
-export const GetWalletCategoriesError = createAction(
-  getFullActionName(WalletsActionsEnum.GetWalletCategoriesError)
-);
-export const AddCategory = createAction(
-  getFullActionName(WalletsActionsEnum.AddCategory),
-  props<{
-    payload: { walletId: string; category: MoneyMoveCategory };
-  }>()
-);
-export const AddCategorySuccess = createAction(
-  getFullActionName(WalletsActionsEnum.AddCategorySuccess),
-  props<{
-    payload: MoneyMoveCategory;
-  }>()
-);
-export const RemoveCategory = createAction(
-  getFullActionName(WalletsActionsEnum.RemoveCategory),
-  props<{ payload: { id: string } }>()
-);
-export const RemoveCategorySuccess = createAction(
-  getFullActionName(WalletsActionsEnum.RemoveCategorySuccess),
-  props<{
-    payload: { id: string };
-  }>()
-);
-export const GetMoneyMoveByPeriod = createAction(
-  getFullActionName(WalletsActionsEnum.GetMoneyMoveByPeriod),
-  props<{
-    payload: {
-      walletId: string;
-      type: string;
-      startDate: Dayjs;
-      finishDate?: Dayjs;
-    };
-  }>()
-);
-export const GetMoneyMoveByPeriodSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetMoneyMoveByPeriodSuccess),
-  props<{ payload: MoneyMoveDayItem[] }>()
-);
-export const GetMoneyMoveByPeriodError = createAction(
-  getFullActionName(WalletsActionsEnum.GetMoneyMoveByPeriodError)
-);
-export const AddMoneyMoveItem = createAction(
-  getFullActionName(WalletsActionsEnum.AddMoneyMoveItem),
-  props<{ payload: { type: string; walletId: string; item: MoneyMoveItem } }>()
-);
-export const AddMoneyMoveItemSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.AddMoneyMoveItemSuccess),
-  props<{ payload: MoneyMoveItem }>()
-);
-export const RemoveMoneyMoveItem = createAction(
-  getFullActionName(WalletsActionsEnum.RemoveMoneyMoveItem),
-  props<{ payload: { type: string; itemId: string; walletId: string } }>()
-);
-export const RemoveMoneyMoveItemSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.RemoveMoneyMoveItemSuccess),
-  props<{ payload: MoneyMoveItem }>()
-);
-export const EditMoneyMoveItem = createAction(
-  getFullActionName(WalletsActionsEnum.EditMoneyMoveItem),
-  props<{
-    payload: {
-      type: string;
-      itemId: string;
-      updatedItem: MoneyMoveItem;
-      walletId: string;
-      startDate: Dayjs;
-      finishDate?: Dayjs;
-    };
-  }>()
-);
-export const GetMoneyMoveStatistics = createAction(
-  getFullActionName(WalletsActionsEnum.GetMoneyMoveStatistics),
-  props<{
-    payload: {
-      walletId: string;
-      type: string;
-      startDate: Dayjs;
-      finishDate?: Dayjs;
-    };
-  }>()
-);
-export const GetMoneyMoveStatisticsSuccess = createAction(
-  getFullActionName(WalletsActionsEnum.GetMoneyMoveStatisticsSuccess),
-  props<{
-    payload: MoneyMoveStat[];
-  }>()
+export const EditWalletSuccess = createAction(
+  getFullActionName(WalletsActionsEnum.EditWalletSuccess),
+  props<{ payload: { updatedWallet: Wallet } }>()
 );

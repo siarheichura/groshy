@@ -3,13 +3,15 @@ import { Router } from '@angular/router';
 import { map, switchMap, catchError, of, mergeMap } from 'rxjs';
 import { ofType, Actions, createEffect, act } from '@ngrx/effects';
 
-import { RouterEnum } from '@shared/enums/Router.enum';
+import { ROUTER } from '@shared/enums/Router.enum';
 import { UserService } from '@services/user.service';
 import * as SharedActions from '@store/shared/shared.actions';
 import * as UserActions from './user.actions';
 
 @Injectable()
 export class UserEffects {
+  userId: string = this.userService.userId
+
   constructor(
     private userService: UserService,
     private actions$: Actions,
@@ -22,24 +24,17 @@ export class UserEffects {
       switchMap(action =>
         this.userService.registration(action.payload).pipe(
           mergeMap(data => {
-            this.router.navigate([RouterEnum.Auth]);
+            void this.router.navigate([ROUTER.AUTH])
             return [
-              UserActions.RegistrationSuccess({ payload: data.data }),
-              SharedActions.PrintNzMessageSuccess({
-                payload: data.message,
-              }),
-            ];
+              UserActions.RegistrationSuccess(),
+              SharedActions.PrintNzMessageSuccess({ payload: data.message })
+            ]
           }),
-          catchError(err => [
-            UserActions.RegistrationError(),
-            SharedActions.PrintNzMessageError({
-              payload: err.error.message,
-            }),
-          ])
+          catchError(err => of(SharedActions.PrintNzMessageError({ payload: err.error.message })))
         )
       )
-    );
-  });
+    )
+  })
 
   login$ = createEffect(() => {
     return this.actions$.pipe(
@@ -47,92 +42,85 @@ export class UserEffects {
       switchMap(action =>
         this.userService.login(action.payload).pipe(
           mergeMap(data => {
-            this.router.navigate([RouterEnum.Index]);
+            void this.router.navigate([ROUTER.INDEX])
             return [
               UserActions.LoginSuccess({ payload: data.data.user }),
-              SharedActions.PrintNzMessageSuccess({
-                payload: data.message,
-              }),
-            ];
+              UserActions.GetUser(),
+              SharedActions.PrintNzMessageSuccess({ payload: data.message }),
+            ]
           }),
-          catchError(err => [
-            UserActions.LoginError(),
-            SharedActions.PrintNzMessageError({
-              payload: err.error.message,
-            }),
-          ])
+          catchError(err => of(SharedActions.PrintNzMessageError({ payload: err.error.message })))
         )
       )
-    );
-  });
+    )
+  })
 
-  logout$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(UserActions.Logout),
-        switchMap(() => this.userService.logout())
-      );
-    },
-    { dispatch: false }
-  );
+  logout$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserActions.Logout),
+      map(() => {
+        this.userService.logout()
+        void this.router.navigate([ROUTER.AUTH])
+      })
+    )
+  }, { dispatch: false })
 
   getUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserActions.GetUser),
-      switchMap(action =>
-        this.userService
-          .getUser(action.payload)
+      switchMap(() =>
+        this.userService.getUser(this.userId)
           .pipe(map(data => UserActions.GetUserSuccess({ payload: data })))
       )
     );
   });
 
-  updateUserInfo$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.UpdateUserInfo),
-      switchMap(({ payload }) =>
-        this.userService
-          .updateUserInfo(
-            payload.id,
-            payload.username,
-            payload.email,
-            payload.emoji
-          )
-          .pipe(
-            map(data =>
-              UserActions.UpdateUserInfoSuccess({ payload: data.data })
-            )
-          )
-      )
-    );
-  });
+  // updateUserInfo$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(UserActions.UpdateUserInfo),
+  //     switchMap(({ payload }) =>
+  //       this.userService
+  //         .updateUserInfo(
+  //           payload.id,
+  //           payload.username,
+  //           payload.email,
+  //           payload.emoji
+  //         )
+  //         .pipe(
+  //           map(data =>
+  //             UserActions.UpdateUserInfoSuccess({ payload: data.data })
+  //           )
+  //         )
+  //     )
+  //   );
+  // });
 
-  changePassword$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.ChangePassword),
-      switchMap(({ payload }) =>
-        this.userService
-          .changePassword(payload.userId, {
-            prevPassword: payload.passwords.prevPassword,
-            newPassword: payload.passwords.newPassword,
-            confirmPassword: payload.passwords.confirmPassword,
-          })
-          .pipe(
-            map(data =>
-              SharedActions.PrintNzMessageSuccess({
-                payload: data.message,
-              })
-            ),
-            catchError(err => {
-              return [
-                UserActions.ChangePasswordError(),
-                SharedActions.PrintNzMessageError({
-                  payload: err.error.message,
-                }),
-              ];
-            })
-          )
-      )
-    );
-  });
+  // changePassword$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(UserActions.ChangePassword),
+  //     switchMap(({ payload }) =>
+  //       this.userService
+  //         .changePassword(payload.userId, {
+  //           prevPassword: payload.passwords.prevPassword,
+  //           newPassword: payload.passwords.newPassword,
+  //           confirmPassword: payload.passwords.confirmPassword,
+  //         })
+  //         .pipe(
+  //           map(data =>
+  //             SharedActions.PrintNzMessageSuccess({
+  //               payload: data.message,
+  //             })
+  //           ),
+  //           catchError(err => {
+  //             return [
+  //               UserActions.ChangePasswordError(),
+  //               SharedActions.PrintNzMessageError({
+  //                 payload: err.error.message,
+  //               }),
+  //             ];
+  //           })
+  //         )
+  //     )
+  //   );
+  // });
 }

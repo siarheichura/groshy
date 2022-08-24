@@ -1,11 +1,3 @@
-<!-- <div class="spinner" *ngIf="loading$ | async">
-  <nz-spin [nzSpinning]="loading$ | async"></nz-spin>
-</div>
-<div class="app">
-  <app-header *ngIf="isHeaderVisible" [user]="user$ | async"></app-header>
+<nz-spin [nzSpinning]="loading$ | async">
   <router-outlet></router-outlet>
-</div> -->
-
-<header>Expense</header>
-<app-calculator></app-calculator>
-<footer>Footer</footer>
+</nz-spin>

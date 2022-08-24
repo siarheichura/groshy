@@ -1,27 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { HomePageComponent } from '@components/home-page/home-page.component';
-import { ErrorPageComponent } from '@shared/components/error-page/error-page.component';
 import { AuthGuard } from '@services/auth.guard';
-import { RouterEnum } from '@shared/enums/Router.enum';
+
+import { MainLayoutComponent } from '@components/main-layout/main-layout.component';
+import { MenuComponent } from '@components/pages/menu/menu.component';
+import { ErrorPageComponent } from '@shared/components/error-page/error-page.component';
+import { ROUTER } from '@shared/enums/Router.enum';
 
 const routes: Routes = [
   {
-    path: RouterEnum.Index,
+    path: ROUTER.INDEX,
     canActivate: [AuthGuard],
-    component: HomePageComponent,
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: ROUTER.INDEX,
+        loadChildren: () => import('./components/pages/operations/operations.module').then(m => m.OperationsModule),
+      },
+      {
+        path: ROUTER.WALLETS,
+        loadChildren: () => import('./components/pages/wallets/wallets.module').then(m => m.WalletsModule),
+      },
+      { path: ROUTER.MENU, component: MenuComponent },
+    ],
   },
-  {
-    path: `${RouterEnum.Wallet}/:id`,
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./components/wallet-page/wallet.module').then(
-        m => m.WalletModule
-      ),
-  },
-  { path: RouterEnum.Error, component: ErrorPageComponent },
-  { path: '**', redirectTo: RouterEnum.Error },
+  { path: ROUTER.ERROR, component: ErrorPageComponent },
+  { path: ROUTER.WILDCARD, redirectTo: ROUTER.ERROR },
 ];
 
 @NgModule({

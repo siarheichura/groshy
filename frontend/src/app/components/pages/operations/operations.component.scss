@@ -1,0 +1,88 @@
+:host {
+  .wallets {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .wallet {
+      min-width: 49%;
+      padding: 10px 0;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #d9d9d9;
+
+      &__title {
+        font-weight: 600;
+      }
+    }
+
+    nz-empty {
+      margin: 0 auto;
+    }
+  }
+
+  .form {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    &__picker {
+      display: flex;
+      gap: 10px;
+    }
+
+    &__sort-btn {
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      color: #d9d9d9;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        color: #1890ff;
+      }
+    }
+  }
+
+  .operation-list {
+    margin-bottom: 10px;
+
+    &__header {
+      font-weight: 600;
+    }
+
+    &__body {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    &__actions {
+      width: 13%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &__tags {
+      display: flex;
+      margin-bottom: 5px;
+    }
+
+    &__comment {
+      font-size: 13px
+    }
+
+    &__amount {
+      font-weight: 600
+    }
+  }
+}

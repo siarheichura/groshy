@@ -1,43 +1,55 @@
 import { NextFunction, Request, Response } from 'express';
-import { CategoryDto } from './../dtos/category.dto';
-import { CategoryModel } from './../models/Category';
+import { categoryService } from "../services/category.service";
 
 export class CategoryController {
-  async getWalletCategories(req: Request, res: Response, next: NextFunction) {
+  async getBasicCategories(req: Request, res: Response, next: NextFunction) {
     try {
-      const { walletId } = req.params;
-      const categories = await CategoryModel.find({
-        wallet: walletId,
-      });
-      const categoriesDto = categories.map(
-        (category) => new CategoryDto(category)
-      );
+      const { type } = req.params
+      const categories = await categoryService.getBasicCategories(type)
+      res.send({ data: categories })
+    } catch (err) {
+      next(err);
+    }
+  }
 
-      res.send({ data: categoriesDto });
+  async getUserCategories(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { type } = req.params
+      const userId = req.headers.user as string
+      const categories = await categoryService.getUserCategories(userId, type)
+      res.send({ data: categories })
     } catch (err) {
       next(err);
     }
   }
 
   async addCategory(req: Request, res: Response, next: NextFunction) {
-    const { name, type } = req.body;
-    const { walletId } = req.params;
-
     try {
-      const category = new CategoryModel({ name, type, wallet: walletId });
-      category.save();
-      res.send({ data: new CategoryDto(category) });
+      const userId = req.headers.user as string
+      const { name, type, emoji } = req.body
+      const category = categoryService.addCategory({ name, type, emoji, user: userId })
+      res.send({ data: category })
     } catch (err) {
       next(err);
     }
   }
 
-  async removeCategory(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-
+  async editCategory(req: Request, res: Response, next: NextFunction) {
     try {
-      await CategoryModel.findByIdAndDelete(id);
-      res.send({ data: id });
+      const { categoryId } = req.params
+      const { name, type, emoji } = req.body
+      const category = categoryService.editCategory(categoryId, { name, type, emoji })
+      res.send({ data: category })
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { categoryId } = req.params
+      const category = categoryService.deleteCategory(categoryId)
+      res.send({ data: category })
     } catch (err) {
       next(err);
     }

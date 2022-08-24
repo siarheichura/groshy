@@ -1,0 +1,25 @@
+<form nz-form [formGroup]="loginForm">
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="requiredError">
+      <input type="text" nz-input [formControlName]="FROM_CONTROLS.EMAIL" placeholder="Username" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="requiredError">
+      <input type="password" nz-input [formControlName]="FROM_CONTROLS.PASSWORD" placeholder="Password" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <button nz-button nzType="primary" (click)="submitForm()">Log in</button>
+  <div class="or">or</div>
+  <button nz-button nzType="dashed" (click)="handleRouteClick(ROUTER.REGISTRATION)">
+    Sign up
+  </button>
+</form>
+
+<ng-template #requiredError let-control>
+  <ng-container *ngIf="control.hasError('required')">
+    <small>This field is required</small>
+  </ng-container>
+</ng-template>

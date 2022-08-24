@@ -1,0 +1,37 @@
+<form nz-form [formGroup]="walletForm" [nzLayout]="'vertical'">
+  <nz-form-item>
+    <label>Name</label>
+    <nz-form-control>
+      <input
+        nz-input
+        type="text"
+        placeholder="Wallet name"
+        [formControlName]="FORM_CONTROLS.NAME" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <label>Balance</label>
+    <nz-form-control>
+      <input
+        nz-input
+        type="number"
+        placeholder="Initial amount"
+        [formControlName]="FORM_CONTROLS.BALANCE" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <label>Currency</label>
+    <nz-form-control>
+      <nz-select
+        nzPlaceHolder="Currency"
+        [formControlName]="FORM_CONTROLS.CURRENCY">
+        <nz-option
+          *ngFor="let currency of currencies"
+          [nzValue]="currency"
+          [nzLabel]="currency"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</form>

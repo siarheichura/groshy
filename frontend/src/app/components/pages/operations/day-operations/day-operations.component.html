@@ -1,0 +1,22 @@
+<div class="title">
+  {{ dayOperations.date | date: 'MMM dd' }}:
+  <span> {{ dayOperations.sum }} {{ 'currency' }} </span>
+</div>
+
+<div
+  class="card"
+  *ngFor="let operation of dayOperations.operations"
+  (click)="onOperationClick(operation)"
+>
+  <div class="card__title">
+    <p class="card__type">
+      {{ operation.category }}
+      <i class="card__icon" *ngIf="operation.checkImg" nz-icon nzType="file-image" nzTheme="outline"></i>
+    </p>
+    <p class="card__sum">{{ operation.amount }} {{ operation.currency }}</p>
+  </div>
+
+  <p class="card__comment"> {{ operation.comment }} </p>
+
+  <button class="card__btn-del" (click)="onDeleteButtonClick(operation.id, $event)"></button>
+</div>

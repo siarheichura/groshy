@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Injectable } from '@angular/core'
+import { CanActivate, Router } from '@angular/router'
 
-import { UserService } from './user.service';
-import { RouterEnum } from '@shared/enums/Router.enum';
+import { UserService } from './user.service'
+import { ROUTER } from '@shared/enums/Router.enum'
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -10,9 +10,9 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
     if (this.userService.token) {
-      return true;
+      return true
     } else {
-      this.router.navigate([RouterEnum.Auth]);
+      void this.router.navigate([ROUTER.AUTH])
       return false;
     }
   }

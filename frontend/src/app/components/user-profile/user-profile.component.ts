@@ -10,9 +10,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
-import { ChangePassword, UpdateUserInfo } from '@store/user/user.actions';
-import { Logout } from '@store/user/user.actions';
-import { RouterEnum } from '@shared/enums/Router.enum';
+// import { ChangePassword, UpdateUserInfo } from '@store/user/user.actions';
+// import { Logout } from '@store/user/user.actions';
+// import { RouterEnum } from '@shared/enums/Router.enum';
 import { User } from '@shared/interfaces/User';
 import { markFormControlsDirty } from '@shared/helpers/form.helper';
 import { FormValidators } from '@shared/validators/form-validators';
@@ -66,7 +66,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private drawer: NzDrawerRef,
+    // private drawer: NzDrawerRef,
     private store: Store,
     private fb: FormBuilder
   ) {}
@@ -105,15 +105,15 @@ export class UserProfileComponent implements OnInit {
 
   onPasswordFormSubmit(): void {
     if (this.passwordForm.valid) {
-      this.store.dispatch(
-        ChangePassword({
-          payload: {
-            userId: this.user.id,
-            passwords: this.passwordFormValue,
-          },
-        })
-      );
-      this.drawer.close();
+      // this.store.dispatch(
+      //   ChangePassword({
+      //     payload: {
+      //       userId: this.user.id,
+      //       passwords: this.passwordFormValue,
+      //     },
+      //   })
+      // );
+      // this.drawer.close();
     } else {
       markFormControlsDirty(this.passwordForm);
     }
@@ -148,26 +148,26 @@ export class UserProfileComponent implements OnInit {
         this.userForm.controls['email'].value !== this.user.email ||
         this.userEmoji !== this.user.emoji)
     ) {
-      this.store.dispatch(
-        UpdateUserInfo({
-          payload: {
-            id: this.user.id,
-            ...this.userFormValue,
-            emoji: this.userEmoji,
-          },
-        })
-      );
+      // this.store.dispatch(
+      //   UpdateUserInfo({
+      //     payload: {
+      //       id: this.user.id,
+      //       ...this.userFormValue,
+      //       emoji: this.userEmoji,
+      //     },
+      //   })
+      // );
       this.isUserFormVisible = false;
-      this.drawer.close();
+      // this.drawer.close();
     } else {
       markFormControlsDirty(this.userForm);
     }
   }
 
   onLogoutBtnClick(): void {
-    this.store.dispatch(Logout());
-    this.drawer.close();
-    void this.router.navigate([RouterEnum.Auth]);
+    // this.store.dispatch(Logout());
+    // this.drawer.close();
+    // void this.router.navigate([RouterEnum.Auth]);
   }
 
   emojiSelect(event: EmojiEvent) {

@@ -1,5 +1,5 @@
 export interface HTTP<T> {
-  data: T;
-  error?: string;
-  message?: string;
+  data: T
+  errors?: string
+  message?: string
 }

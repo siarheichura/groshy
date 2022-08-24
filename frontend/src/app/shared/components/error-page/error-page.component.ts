@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterEnum } from '@shared/enums/Router.enum';
+import { ROUTER } from '@shared/enums/Router.enum';
 
 @Component({
   selector: 'app-error-page',
@@ -8,7 +8,7 @@ import { RouterEnum } from '@shared/enums/Router.enum';
   styleUrls: ['./error-page.component.scss'],
 })
 export class ErrorPageComponent {
-  routes = RouterEnum;
+  ROUTER = ROUTER
 
   constructor(private router: Router) {}
 

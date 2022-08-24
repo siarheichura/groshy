@@ -1,0 +1,16 @@
+:host {
+  nz-tag {
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: #e8e8e8;
+    }
+  }
+
+  .categories__title {
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+}

@@ -1,0 +1,21 @@
+:host {
+  nz-date-picker {
+    width: 100%;
+  }
+
+  .pie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .progress-bar {
+    width: 97%
+  }
+
+  .list-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+}

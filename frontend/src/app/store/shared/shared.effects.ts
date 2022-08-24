@@ -16,18 +16,10 @@ export class SharedEffects {
       ofType(
         UserActions.Registration,
         UserActions.Login,
-        UserActions.UpdateUserInfo,
-        UserActions.ChangePassword,
         WalletsActions.GetWallets,
-        WalletsActions.GetWallet,
         WalletsActions.AddWallet,
         WalletsActions.EditWallet,
         WalletsActions.RemoveWallet,
-        WalletsActions.GetMoneyMoveByPeriod,
-        WalletsActions.AddMoneyMoveItem,
-        WalletsActions.RemoveMoneyMoveItem,
-        WalletsActions.EditMoneyMoveItem,
-        WalletsActions.GetMoneyMoveStatistics
       ),
       map(() => SharedActions.LoadingToggle({ payload: true }))
     );
@@ -37,21 +29,8 @@ export class SharedEffects {
     return this.actions$.pipe(
       ofType(
         UserActions.RegistrationSuccess,
-        UserActions.RegistrationError,
-        UserActions.LoginError,
-        UserActions.ChangePasswordSuccess,
-        UserActions.ChangePasswordError,
-        UserActions.UpdateUserInfoSuccess,
-        WalletsActions.GetWalletSuccess,
         WalletsActions.GetWalletsSuccess,
-        WalletsActions.GetWalletsError,
-        WalletsActions.GetWalletError,
         WalletsActions.AddWalletSuccess,
-        WalletsActions.GetMoneyMoveByPeriodSuccess,
-        WalletsActions.GetMoneyMoveByPeriodError,
-        WalletsActions.GetWalletCategoriesError,
-        WalletsActions.AddMoneyMoveItemSuccess,
-        WalletsActions.GetMoneyMoveStatisticsSuccess
       ),
       map(() => SharedActions.LoadingToggle({ payload: false }))
     );

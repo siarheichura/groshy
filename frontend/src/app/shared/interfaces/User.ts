@@ -6,7 +6,7 @@ export interface User {
   isActivated: boolean;
 }
 
-export interface SignUpUser {
+export interface RegistrationUser {
   email: string;
   username: string;
   password: string;
@@ -15,10 +15,4 @@ export interface SignUpUser {
 export interface UserLogin {
   email: string;
   password: string;
-}
-
-export interface Passwords {
-  prevPassword: string;
-  newPassword: string;
-  confirmPassword: string;
 }

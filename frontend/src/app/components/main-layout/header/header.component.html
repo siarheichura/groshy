@@ -1,0 +1,19 @@
+<div class="header">
+  <i nz-icon nzType="ng-zorro:groshy_mini" class="header__logo"></i>
+
+  <div class="header__title">{{ currentTab$ | async | uppercase }}</div>
+
+  <div class="header__menu" nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
+    <div>{{ user && user.username }}</div>
+    <nz-avatar [nzText]="user && user.emoji"></nz-avatar>
+
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item nzDanger (click)="onLogoutBtnClick()" style="display: flex; gap: 5px">
+          <i nz-icon nzType="logout" nzTheme="outline"></i>
+          Logout
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </div>
+</div>

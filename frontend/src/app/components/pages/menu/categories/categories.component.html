@@ -1,0 +1,21 @@
+<div class="categories__title">Expense</div>
+<nz-tag
+  nzMode="closeable"
+  *ngFor="let category of expenseCategories$ | async"
+  (nzOnClose)="printDeleteCategoryConfirmModal($event, category.id)"
+>
+  <span (click)="printEditCategoryModal(category)"> {{ category.emoji }} {{ category.name }} </span>
+</nz-tag>
+<nz-tag (click)="printAddCategoryModal('expense')"> + Add new category </nz-tag>
+
+<nz-divider></nz-divider>
+
+<div class="categories__title">Income</div>
+<nz-tag
+  nzMode="closeable"
+  *ngFor="let category of incomeCategories$ | async"
+  (nzOnClose)="printDeleteCategoryConfirmModal($event, category.id)"
+>
+  <span (click)="printEditCategoryModal(category)"> {{ category.emoji }} {{ category.name }} </span>
+</nz-tag>
+<nz-tag (click)="printAddCategoryModal('income')"> + Add new category </nz-tag>

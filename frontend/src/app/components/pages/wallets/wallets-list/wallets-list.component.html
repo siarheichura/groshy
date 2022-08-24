@@ -1,0 +1,44 @@
+<div class="wallets-list">
+  <nz-card [nzHoverable]="true" [nzActions]="[edit, archive, delete]" *ngFor="let wallet of wallets$ | async">
+    <nz-card-meta [nzTitle]="wallet.name" [nzDescription]="wallet.balance + ' ' + wallet.currency"></nz-card-meta>
+
+    <ng-template #edit>
+      <i nz-icon
+         nzType="edit"
+         nz-tooltip
+         nzTooltipTitle="edit"
+         [nzTooltipOverlayStyle]="{'font-size': '13px'}"
+         (click)="printEditWalletModal(wallet)"
+      ></i>
+    </ng-template>
+    <ng-template #archive>
+      <i
+        nz-icon
+        nzType="file-zip"
+        nz-tooltip
+        nzTooltipTitle="to archive"
+        [nzTooltipOverlayStyle]="{'font-size': '13px'}"
+        (click)="printArchiveConfirmModal(wallet)"
+      ></i>
+    </ng-template>
+    <ng-template #delete>
+      <i
+        nz-icon
+        nzType="delete"
+        nz-tooltip
+        nzTooltipTitle="delete"
+        [nzTooltipOverlayStyle]="{'font-size': '13px'}"
+        (click)="printRemoveConfirmModal(wallet.id)"
+      ></i>
+    </ng-template>
+  </nz-card>
+
+  <div class="empty" *ngIf="!(wallets$ | async).length">
+    <nz-empty nzNotFoundImage="simple"></nz-empty>
+  </div>
+</div>
+
+<button nz-button nzBlock (click)="printAddWalletModal()">
+  <i nz-icon nzType="plus-circle"></i>
+  Add wallet
+</button>

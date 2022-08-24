@@ -9,7 +9,7 @@ export enum SharedActionsEnum {
   LoadingToggle = 'LOADING_TOGGLE',
   PrintNzMessageSuccess = 'PRINT_NZ_MESSAGE_SUCCESS',
   PrintNzMessageError = 'PRINT_NZ_MESSAGE_ERROR',
-  ChangeTab = 'CHANGE_TAB',
+  SetCurrentTab = 'SET_CURRENT_TAB',
 }
 
 export const ResetSharedState = createAction(
@@ -27,7 +27,7 @@ export const PrintNzMessageError = createAction(
   getFullActionName(SharedActionsEnum.PrintNzMessageError),
   props<{ payload: string }>()
 );
-export const ChangeTab = createAction(
-  getFullActionName(SharedActionsEnum.ChangeTab),
+export const SetCurrentTab = createAction(
+  getFullActionName(SharedActionsEnum.SetCurrentTab),
   props<{ payload: string }>()
 );

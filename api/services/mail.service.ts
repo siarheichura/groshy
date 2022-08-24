@@ -1,8 +1,7 @@
-import nodemailer from 'nodemailer';
-import { RouterEnum } from '../shared/enums/RouterEnum';
+import nodemailer from 'nodemailer'
 
 class MailService {
-  transporter;
+  transporter
 
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -11,9 +10,9 @@ class MailService {
       secure: false,
       auth: {
         user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
+        pass: process.env.GENERATED_APP_PASSWORD,
       },
-    });
+    })
   }
 
   async sendActivationMail(emailTo: string, link: string) {
@@ -23,12 +22,12 @@ class MailService {
       subject: `Account activation on ${process.env.CLIENT_URL} site`,
       text: '',
       html: `
-      <div>
-        <h1>Follow the link to activate your account</h1>
-        <a href="${link}">${link}</a>
-      </div>
+        <div>
+          <h1>Follow the link to activate your account</h1>
+          <a href="${link}">${link}</a>
+        </div>
       `,
-    });
+    })
   }
 }
 

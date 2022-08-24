@@ -1,11 +1,13 @@
-import { MoneyMoveTypes } from '@shared/enums/MoneyMoveTypes.enum';
+import { OPERATION_TYPES } from '@shared/enums/OperationTypes.enum';
 
 export interface SharedState {
   loading: boolean;
   currentTab: string;
+  operationType: string;
 }
 
 export const initialSharedState: SharedState = {
   loading: false,
-  currentTab: MoneyMoveTypes.Expense,
+  currentTab: '',
+  operationType: OPERATION_TYPES.EXPENSE,
 };

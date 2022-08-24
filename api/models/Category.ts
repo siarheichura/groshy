@@ -1,28 +1,12 @@
 import { Schema, model, Types } from 'mongoose';
-import { MoneyMoveTypes } from './../shared/enums/MoneyMoveTypes';
-
-export interface Category {
-  id: string;
-  type: MoneyMoveTypes;
-  name: string;
-  basic: boolean;
-  wallet: Types.ObjectId;
-  user: Types.ObjectId;
-}
+import { OPERATION_TYPES_ENUM } from '../shared/enums/OperationTypes.enum';
+import { Category } from "../shared/interfaces/Category";
 
 const CategorySchema = new Schema<Category>({
-  type: {
-    type: String,
-    enum: MoneyMoveTypes,
-    required: true,
-  },
   name: { type: String, required: true },
-  basic: { type: Boolean },
-  wallet: {
-    type: Schema.Types.ObjectId,
-    ref: 'Wallet',
-    required: true,
-  },
+  type: { type: String, enum: OPERATION_TYPES_ENUM, required: true },
+  emoji: { type: String },
+  user: { type: Schema.Types.ObjectId, ref: 'User'},
 });
 
-export const CategoryModel = model('Category', CategorySchema);
+export const CategoryModel = model('Category', CategorySchema)

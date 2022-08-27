@@ -10,6 +10,3 @@ userRouter.post(ROUTER_ENUM.REGISTRATION, registrationValidator, controller.regi
 userRouter.post(ROUTER_ENUM.LOGIN, controller.login)
 userRouter.get(`${ROUTER_ENUM.ACTIVATE}/:link`, controller.activate)
 userRouter.get(`${ROUTER_ENUM.USER}/:id`, controller.getUser)
-
-// userRouter.put(`${ROUTER_ENUM.UserUpdate}/:id`,updateUserValidator, controller.updateUserInfo)
-// userRouter.post(`${ROUTER_ENUM.ChangePassword}/:id`, controller.changePassword)

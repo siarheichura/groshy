@@ -7,9 +7,9 @@ export class OperationController {
       const { type, startDate, finishDate } = req.params
       const userId = req.headers.user as string
       const operations = await operationService.getOperationsByPeriod(userId, type, startDate, finishDate)
-      res.send({ data: operations });
+      res.send({ data: operations })
     } catch (err) {
-      next(err);
+      next(err)
     }
   }
 

@@ -45,50 +45,12 @@ export class UserController {
 
   async getUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const user = await userService.getUser(id);
-      const userDto = new UserDto(user);
-      return res.json(userDto);
+      const { id } = req.params
+      const user = await userService.getUser(id)
+      const userDto = new UserDto(user)
+      return res.json(userDto)
     } catch (err) {
-      next(err);
+      next(err)
     }
   }
-
-  // async changePassword(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     const { id } = req.params;
-  //     const { prevPassword, newPassword, confirmPassword } = req.body;
-  //     const userData = await userService.changePassword(
-  //       id,
-  //       prevPassword,
-  //       newPassword,
-  //       confirmPassword
-  //     );
-  //     return res.json({
-  //       data: userData,
-  //       message: 'Password was successfuly changed',
-  //     });
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // }
-  //
-  // async updateUserInfo(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     const { id } = req.params;
-  //     const { username, email, emoji } = req.body;
-  //
-  //     const errors = validationResult(req);
-  //     if (!errors.isEmpty()) {
-  //       return next(ApiError.BadRequest('Incorrect data', errors.array()));
-  //     }
-  //
-  //     const user = await userService.updateUserInfo(id, username, email, emoji);
-  //     res.json({
-  //       data: new UserDto(user),
-  //     });
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // }
 }

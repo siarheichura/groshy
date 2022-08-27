@@ -31,4 +31,4 @@ class MailService {
   }
 }
 
-export const mailService = new MailService();
+export const mailService = new MailService()

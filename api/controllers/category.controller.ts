@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
-import { categoryService } from "../services/category.service";
+import { NextFunction, Request, Response } from 'express'
+import { categoryService } from '../services/category.service'
 
 export class CategoryController {
   async getBasicCategories(req: Request, res: Response, next: NextFunction) {
@@ -8,7 +8,7 @@ export class CategoryController {
       const categories = await categoryService.getBasicCategories(type)
       res.send({ data: categories })
     } catch (err) {
-      next(err);
+      next(err)
     }
   }
 
@@ -19,7 +19,7 @@ export class CategoryController {
       const categories = await categoryService.getUserCategories(userId, type)
       res.send({ data: categories })
     } catch (err) {
-      next(err);
+      next(err)
     }
   }
 
@@ -30,7 +30,7 @@ export class CategoryController {
       const category = categoryService.addCategory({ name, type, emoji, user: userId })
       res.send({ data: category })
     } catch (err) {
-      next(err);
+      next(err)
     }
   }
 
@@ -41,7 +41,7 @@ export class CategoryController {
       const category = categoryService.editCategory(categoryId, { name, type, emoji })
       res.send({ data: category })
     } catch (err) {
-      next(err);
+      next(err)
     }
   }
 
@@ -51,7 +51,7 @@ export class CategoryController {
       const category = categoryService.deleteCategory(categoryId)
       res.send({ data: category })
     } catch (err) {
-      next(err);
+      next(err)
     }
   }
 }

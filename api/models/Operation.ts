@@ -1,5 +1,5 @@
-import { Schema, model } from 'mongoose';
-import { Operation } from '../shared/interfaces/Operation';
+import { Schema, model } from 'mongoose'
+import { Operation } from '../shared/interfaces/Operation'
 
 const OperationSchema = new Schema<Operation>({
   type: { type: String, required: true },
@@ -12,6 +12,6 @@ const OperationSchema = new Schema<Operation>({
   wallet: { type: Schema.Types.ObjectId, ref: 'Wallet', required: true },
   walletName: { type: String, required: true },
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-});
+})
 
-export const OperationModel = model('Operation', OperationSchema);
+export const OperationModel = model('Operation', OperationSchema)

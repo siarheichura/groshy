@@ -1,4 +1,4 @@
-import { OPERATION_TYPES_ENUM } from "../enums/OperationTypes.enum";
+import { OPERATION_TYPES_ENUM } from '../enums/OperationTypes.enum'
 
 export const BASIC_CATEGORIES = [
   {

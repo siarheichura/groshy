@@ -1,6 +1,6 @@
-import { CategoryModel } from "../models/Category";
-import { Category } from "../shared/interfaces/Category";
-import { CategoryDto } from "../dtos/category.dto";
+import { CategoryModel } from '../models/Category'
+import { Category } from '../shared/interfaces/Category'
+import { CategoryDto } from '../dtos/category.dto'
 
 class CategoryService {
   async createUserBasicCategories(userId: string) {
@@ -38,10 +38,6 @@ class CategoryService {
     const category = await CategoryModel.findByIdAndDelete(categoryId)
     const categoryDto = new CategoryDto(category)
     return categoryDto
-  }
-
-  async deleteAllUserCategories(userId: string) {
-    await CategoryModel.deleteMany({ user: userId })
   }
 }
 

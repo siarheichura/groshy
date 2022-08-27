@@ -1,8 +1,8 @@
-import { WalletModel } from "../models/Wallet";
-import { WalletDto } from "../dtos/wallet.dto";
-import { Wallet, WalletCreate } from "../shared/interfaces/Wallet";
-import { Types } from "mongoose";
-import { OPERATORS_ENUM } from "../shared/enums/Operators.enum";
+import { WalletModel } from '../models/Wallet'
+import { WalletDto } from '../dtos/wallet.dto'
+import { Wallet, WalletCreate } from '../shared/interfaces/Wallet'
+import { Types } from 'mongoose'
+import { OPERATORS_ENUM } from '../shared/enums/Operators.enum'
 
 class WalletService {
   async getUserWallets(userId: string) {
@@ -23,7 +23,7 @@ class WalletService {
 
   async addWallet(body: WalletCreate) {
     try {
-      const wallet = await WalletModel.create(body);
+      const wallet = await WalletModel.create(body)
       const walletDto = new WalletDto(wallet)
       return walletDto
     } catch (err) {

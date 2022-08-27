@@ -1,16 +1,17 @@
-import dayjs from 'dayjs';
-import { OperationModel } from '../models/Operation';
-import { DayOperationsI, Operation } from "../shared/interfaces/Operation";
-import {OperationDto} from "../dtos/operation.dto";
-import { walletService } from "./wallet.service";
-import { OPERATION_TYPES_ENUM } from "../shared/enums/OperationTypes.enum";
-import { OPERATORS_ENUM } from "../shared/enums/Operators.enum";
-import { categoryService } from "./category.service";
+import dayjs from 'dayjs'
 import axios from 'axios'
 
+import { categoryService } from './category.service'
+import { walletService } from './wallet.service'
+import { OperationModel } from '../models/Operation'
+import { OperationDto } from "../dtos/operation.dto"
+import { DayOperationsI, Operation } from '../shared/interfaces/Operation'
+import { OPERATION_TYPES_ENUM } from '../shared/enums/OperationTypes.enum'
+import { OPERATORS_ENUM } from '../shared/enums/Operators.enum'
+
+// Remove to separate service
 const currencyApiUrl = 'https://api.exchangerate.host/'
 const convert = (from: string, to: string) => `convert?from=${from}&to=${to}`
-const getAllRates = (base?: string) => base ? `latest?base=${base}` : 'latest'
 
 class OperationService {
   async getOperationsByPeriod(userId: string, type: string, startDate: string, finishDate?: string) {
@@ -21,7 +22,7 @@ class OperationService {
         $gte: dayjs(startDate),
         $lt: finishDate ? dayjs(finishDate) : dayjs(startDate),
       },
-    });
+    })
     return this.getDayOperationsByPeriod(operations, startDate, finishDate)
   }
 
@@ -82,11 +83,6 @@ class OperationService {
     return result
   }
 
-  async deleteAllWalletOperations(walletId: string) {
-    await OperationModel.deleteMany({wallet: walletId})
-    return
-  }
-
   getDayOperationsByPeriod(operations: Operation[], startDate: string, finishDate: string): DayOperationsI[] {
     const dayjsStartDate = dayjs(startDate)
     const dayjsFinishDate = dayjs(finishDate)
@@ -106,4 +102,4 @@ class OperationService {
   }
 }
 
-export const operationService = new OperationService();
+export const operationService = new OperationService()

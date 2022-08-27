@@ -1,6 +1,6 @@
-import express from 'express';
-import { CategoryController } from './../controllers/category.controller';
-import { ROUTER_ENUM } from '../shared/enums/Router.enum';
+import express from 'express'
+import { CategoryController } from '../controllers/category.controller'
+import { ROUTER_ENUM } from '../shared/enums/Router.enum'
 
 export const categoryRouter = express.Router()
 const controller = new CategoryController()

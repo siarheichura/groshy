@@ -1,9 +1,9 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store'
 
-import { getActionNameFn } from "@shared/helpers/action-name.helper";
-import { DayOperations, Operation } from "@shared/interfaces/Operation.interface";
-import { Period } from "@store/operations/operations.state";
-import { OperationsStatistics } from "@shared/interfaces/OperationsStatistics.interface";
+import { getActionNameFn } from '@shared/helpers/action-name.helper'
+import { DayOperations, Operation } from '@shared/interfaces/Operation.interface'
+import { Period } from '@store/operations/operations.state'
+import { OperationsStatistics } from '@shared/interfaces/OperationsStatistics.interface'
 
 const MODULE_NAME = '[OPERATIONS]'
 const getFullActionName = getActionNameFn(MODULE_NAME)
@@ -22,39 +22,39 @@ enum OperationsActionsEnum {
 }
 
 export const ResetOperationsState = createAction(
-  getFullActionName(OperationsActionsEnum.ResetOperationsState)
+  getFullActionName(OperationsActionsEnum.ResetOperationsState),
 )
 export const SetOperationsType = createAction(
   getFullActionName(OperationsActionsEnum.SetOperationsType),
-  props<{ payload: string }>()
+  props<{ payload: string }>(),
 )
 export const SetOperationsPeriod = createAction(
   getFullActionName(OperationsActionsEnum.SetOperationsPeriod),
-  props<{ payload: Period }>()
+  props<{ payload: Period }>(),
 )
 export const GetOperations = createAction(
-  getFullActionName(OperationsActionsEnum.GetOperations)
+  getFullActionName(OperationsActionsEnum.GetOperations),
 )
 export const GetOperationsSuccess = createAction(
   getFullActionName(OperationsActionsEnum.GetOperationsSuccess),
-  props<{ payload: DayOperations[] }>()
+  props<{ payload: DayOperations[] }>(),
 )
 export const AddOperation = createAction(
   getFullActionName(OperationsActionsEnum.AddOperation),
-  props<{ payload: Operation }>()
+  props<{ payload: Operation }>(),
 )
 export const EditOperation = createAction(
   getFullActionName(OperationsActionsEnum.EditOperation),
-  props<{ payload: { id: string, operation: Operation } }>()
+  props<{ payload: { id: string, operation: Operation } }>(),
 )
 export const DeleteOperation = createAction(
   getFullActionName(OperationsActionsEnum.DeleteOperation),
-  props<{ payload: { id: string } }>()
+  props<{ payload: { id: string } }>(),
 )
 export const GetOperationsStatistics = createAction(
-  getFullActionName(OperationsActionsEnum.GetOperationsStatistics)
+  getFullActionName(OperationsActionsEnum.GetOperationsStatistics),
 )
 export const GetOperationsStatisticsSuccess = createAction(
   getFullActionName(OperationsActionsEnum.GetOperationsStatisticsSuccess),
-  props<{ payload: OperationsStatistics[] }>()
+  props<{ payload: OperationsStatistics[] }>(),
 )

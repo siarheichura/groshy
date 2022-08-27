@@ -13,7 +13,8 @@ import { userSelector } from '@store/user/user.selectros'
 export class MainLayoutComponent implements OnInit {
   user$ = this.store.select(userSelector)
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+  }
 
   ngOnInit(): void {
     this.getUser()

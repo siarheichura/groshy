@@ -6,14 +6,15 @@ import { ROUTER } from '@shared/enums/Router.enum'
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {
+  }
 
   canActivate(): boolean {
     if (this.userService.token) {
       return true
     } else {
       void this.router.navigate([ROUTER.AUTH])
-      return false;
+      return false
     }
   }
 }

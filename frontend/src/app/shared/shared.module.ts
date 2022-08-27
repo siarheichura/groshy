@@ -1,17 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgZorroModule } from './ng-zorro.module';
-
-import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { CalculatorComponent } from './components/calculator/calculator.component';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { RouterModule } from '@angular/router'
+import { NgZorroModule } from './ng-zorro.module'
 
 @NgModule({
-  declarations: [
-    ErrorPageComponent,
-    CalculatorComponent,
-  ],
+  declarations: [],
   imports: [
     ReactiveFormsModule,
     FormsModule,
@@ -24,8 +18,8 @@ import { CalculatorComponent } from './components/calculator/calculator.componen
     RouterModule,
     FormsModule,
     NgZorroModule,
-    CalculatorComponent,
   ],
   providers: [],
 })
-export class SharedModule {}
+export class SharedModule {
+}

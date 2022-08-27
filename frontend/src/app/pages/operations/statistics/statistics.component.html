@@ -1,0 +1,39 @@
+<nz-date-picker
+  nzMode='month'
+  class='stat__date-picker'
+  nzFormat='MM.YYYY'
+  [formControl]='datePicker'
+  (ngModelChange)='onDateChange()'
+></nz-date-picker>
+
+<div class='pie'>
+  <ngx-charts-pie-chart [results]='chartOptions'>
+    <ng-template #tooltipTemplate let-model='model'>
+      <div>
+        <div>{{ model.name }}</div>
+        <div>{{ model.value }} {{ 'USD' }}</div>
+      </div>
+    </ng-template>
+  </ngx-charts-pie-chart>
+</div>
+
+<nz-list>
+  <nz-list-item *ngFor='let option of chartOptions'>
+    <nz-list-item-meta>
+      <nz-list-item-meta-title>
+        <div class='list-item'>
+          <div>{{ option.name }}</div>
+          <div>{{ option.value }} USD</div>
+        </div>
+
+      </nz-list-item-meta-title>
+      <nz-list-item-meta-description>
+        <div class='progress-bar'>
+          <nz-progress [nzPercent]="(option.value / totalOperationsValuesAmount) * 100 | number: '1.0-2'"></nz-progress>
+        </div>
+      </nz-list-item-meta-description>
+    </nz-list-item-meta>
+  </nz-list-item>
+</nz-list>
+
+<nz-empty nzNotFoundImage='simple' *ngIf='!chartOptions.length'></nz-empty>

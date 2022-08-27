@@ -1,18 +1,19 @@
-import { Injectable } from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import { Observable } from "rxjs";
-import { Dayjs } from "dayjs";
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { Dayjs } from 'dayjs'
 
-import { environment } from "environments/environment";
-import { HTTP } from "@shared/interfaces/Http.interface";
-import { DayOperations, Operation } from "@shared/interfaces/Operation.interface";
-import { API_PATHS } from "@shared/enums/ApiPaths.enum";
-import { OperationsStatistics } from "@shared/interfaces/OperationsStatistics.interface";
+import { environment } from 'environments/environment'
+import { HTTP } from '@shared/interfaces/Http.interface'
+import { DayOperations, Operation } from '@shared/interfaces/Operation.interface'
+import { API_PATHS } from '@shared/enums/ApiPaths.enum'
+import { OperationsStatistics } from '@shared/interfaces/OperationsStatistics.interface'
 
 @Injectable({ providedIn: 'root' })
 export class OperationsService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getOperations(type: string, startDate: Dayjs, finishDate?: Dayjs): Observable<HTTP<DayOperations[]>> {
     return this.http.get<HTTP<DayOperations[]>>(`${environment.apiUrl}${API_PATHS.OPERATIONS}/${type}/${startDate}/${finishDate}`)

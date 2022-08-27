@@ -1,46 +1,46 @@
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms'
 
-const forbiddenUsernameChars = /[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?А-Яа-я]/;
+const forbiddenUsernameChars = /[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?А-Яа-я]/
 
 export class FormValidators {
   static username(control: AbstractControl) {
-    const validChars = !forbiddenUsernameChars.test(control.value);
+    const validChars = !forbiddenUsernameChars.test(control.value)
 
     if (!validChars) {
-      return { invalidUsername: true };
+      return { invalidUsername: true }
     }
 
-    return null;
+    return null
   }
 
   static password(control: AbstractControl) {
-    const hasNumber = /\d/.test(control.value);
-    const hasUpperCase = /[A-Z]/.test(control.value);
-    const hasLowerCase = /[a-z]/.test(control.value);
-    const minLength = control.value.length >= 8;
-    const isValid = hasNumber && hasUpperCase && hasLowerCase && minLength;
+    const hasNumber = /\d/.test(control.value)
+    const hasUpperCase = /[A-Z]/.test(control.value)
+    const hasLowerCase = /[a-z]/.test(control.value)
+    const minLength = control.value.length >= 8
+    const isValid = hasNumber && hasUpperCase && hasLowerCase && minLength
 
     if (!isValid) {
-      return { invalidPassword: true };
+      return { invalidPassword: true }
     }
-    return null;
+    return null
   }
 
   static mustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup): void => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
+      const control = formGroup.controls[controlName]
+      const matchingControl = formGroup.controls[matchingControlName]
 
       if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-        return;
+        return
       }
 
       if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
+        matchingControl.setErrors({ mustMatch: true })
       } else {
-        matchingControl.setErrors(null);
+        matchingControl.setErrors(null)
       }
-      return null;
-    };
+      return null
+    }
   }
 }

@@ -1,0 +1,23 @@
+<form nz-form [formGroup]='categoryForm'>
+  <nz-input-group nzCompact>
+    <input
+      class='emoji-input'
+      [formControlName]='FORM_CONTROLS.EMOJI'
+      nz-input nz-popover
+      [nzPopoverContent]='emojiTemplate'
+      nzPopoverPlacement='bottomLeft'
+    />
+    <input
+      class='name-input'
+      [formControlName]='FORM_CONTROLS.NAME'
+      nz-input
+      placeholder='Enter category name'
+    />
+  </nz-input-group>
+</form>
+
+<ng-template #emojiTemplate>
+  <emoji-mart [emojiSize]='25' [showPreview]='false' (emojiSelect)='onEmojiSelect($event)'></emoji-mart>
+</ng-template>
+
+

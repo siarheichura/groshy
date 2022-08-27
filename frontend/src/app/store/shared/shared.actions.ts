@@ -1,8 +1,8 @@
-import { createAction, props } from '@ngrx/store';
-import { getActionNameFn } from '@shared/helpers/action-name.helper';
+import { createAction, props } from '@ngrx/store'
+import { getActionNameFn } from '@shared/helpers/action-name.helper'
 
-const MODULE_NAME = '[SHARED]';
-const getFullActionName = getActionNameFn(MODULE_NAME);
+const MODULE_NAME = '[SHARED]'
+const getFullActionName = getActionNameFn(MODULE_NAME)
 
 export enum SharedActionsEnum {
   ResetSharedState = 'RESET_SHARED_STATE',
@@ -13,21 +13,21 @@ export enum SharedActionsEnum {
 }
 
 export const ResetSharedState = createAction(
-  getFullActionName(SharedActionsEnum.ResetSharedState)
-);
+  getFullActionName(SharedActionsEnum.ResetSharedState),
+)
 export const LoadingToggle = createAction(
   getFullActionName(SharedActionsEnum.LoadingToggle),
-  props<{ payload: boolean }>()
-);
+  props<{ payload: boolean }>(),
+)
 export const PrintNzMessageSuccess = createAction(
   getFullActionName(SharedActionsEnum.PrintNzMessageSuccess),
-  props<{ payload: string }>()
-);
+  props<{ payload: string }>(),
+)
 export const PrintNzMessageError = createAction(
   getFullActionName(SharedActionsEnum.PrintNzMessageError),
-  props<{ payload: string }>()
-);
+  props<{ payload: string }>(),
+)
 export const SetCurrentTab = createAction(
   getFullActionName(SharedActionsEnum.SetCurrentTab),
-  props<{ payload: string }>()
-);
+  props<{ payload: string }>(),
+)

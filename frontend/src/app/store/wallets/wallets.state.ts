@@ -1,4 +1,4 @@
-import { Wallet } from '@shared/classes/Wallet';
+import { Wallet } from '@shared/interfaces/Wallet.interface'
 
 export interface WalletsState {
   wallets: Wallet[]

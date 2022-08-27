@@ -1,10 +1,10 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store'
 
-import { getActionNameFn } from "@shared/helpers/action-name.helper";
-import { Category } from "@shared/interfaces/Category.interface";
+import { getActionNameFn } from '@shared/helpers/action-name.helper'
+import { Category } from '@shared/interfaces/Category.interface'
 
-const MODULE_NAME = '[CATEGORIES]';
-const getFullActionName = getActionNameFn(MODULE_NAME);
+const MODULE_NAME = '[CATEGORIES]'
+const getFullActionName = getActionNameFn(MODULE_NAME)
 
 enum CategoriesActionsEnum {
   ResetCategoriesState = 'RESET_CATEGORIES_STATE',
@@ -17,26 +17,26 @@ enum CategoriesActionsEnum {
 
 export const ResetCategoriesState = createAction(
   getFullActionName(CategoriesActionsEnum.ResetCategoriesState),
-  props<{ payload: { type: string } }>()
+  props<{ payload: { type: string } }>(),
 )
 export const GetUserCategories = createAction(
   getFullActionName(CategoriesActionsEnum.GetUserCategories),
-  props<{ payload: { type: string } }>()      // expense/income/all
+  props<{ payload: { type: string } }>(),      // expense/income/all
 )
 export const GetUserCategoriesSuccess = createAction(
   getFullActionName(CategoriesActionsEnum.GetUserCategoriesSuccess),
-  props<{ payload: Category[] }>()
+  props<{ payload: Category[] }>(),
 )
 export const AddCategory = createAction(
   getFullActionName(CategoriesActionsEnum.AddCategory),
-  props<{ payload: Category }>()
+  props<{ payload: Category }>(),
 )
 export const EditCategory = createAction(
   getFullActionName(CategoriesActionsEnum.EditCategory),
-  props<{ payload: { categoryId: string, category: Category }  }>()
+  props<{ payload: { categoryId: string, category: Category } }>(),
 )
 export const DeleteCategory = createAction(
   getFullActionName(CategoriesActionsEnum.DeleteCategory),
-  props<{ payload: { categoryId: string } }>()
+  props<{ payload: { categoryId: string } }>(),
 )
 

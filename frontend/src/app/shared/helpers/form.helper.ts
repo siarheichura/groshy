@@ -15,6 +15,6 @@ export const markFormControlsDirty = (form: FormGroup) => {
         control.markAsDirty()
         control.updateValueAndValidity()
       }
-    }
+    },
   )
 }

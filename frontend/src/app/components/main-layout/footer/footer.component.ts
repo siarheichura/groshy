@@ -19,7 +19,7 @@ export class FooterComponent {
   constructor(
     private router: Router,
     private store: Store,
-    private iconService: NzIconService
+    private iconService: NzIconService,
   ) {
     this.iconService.addIconLiteral('ng-zorro:expense', SVG.EXPENSE)
     this.iconService.addIconLiteral('ng-zorro:income', SVG.INCOME)
@@ -28,6 +28,6 @@ export class FooterComponent {
   }
 
   onRouteClick(route: string): void {
-    this.store.dispatch(SetCurrentTab({ payload: route }));
+    this.store.dispatch(SetCurrentTab({ payload: route }))
   }
 }

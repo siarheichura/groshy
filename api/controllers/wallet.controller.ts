@@ -26,7 +26,7 @@ export class WalletController {
     try {
       const { userId: user } = req.params
       const { name, currency, balance } = req.body
-      const wallet = await walletService.addWallet({name, currency, balance, user})
+      const wallet = await walletService.addWallet({ name, currency, balance, user })
       res.send({ data: wallet })
     } catch (err) {
       next(err)
@@ -39,7 +39,7 @@ export class WalletController {
       const wallet = await walletService.deleteWallet(walletId)
       res.json({
         data: wallet,
-        message: `Wallet ${wallet.name} was deleted`
+        message: `Wallet ${wallet.name} was deleted`,
       })
     } catch (err) {
       next(err)
@@ -53,7 +53,7 @@ export class WalletController {
       const wallet = await walletService.editWallet(walletId, updatedWallet)
       res.json({
         data: wallet,
-        message: `Wallet ${wallet.name} was updated`
+        message: `Wallet ${wallet.name} was updated`,
       })
     } catch (err) {
       next(err)

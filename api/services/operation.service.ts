@@ -8,6 +8,7 @@ import { OperationDto } from "../dtos/operation.dto"
 import { DayOperationsI, Operation } from '../shared/interfaces/Operation'
 import { OPERATION_TYPES_ENUM } from '../shared/enums/OperationTypes.enum'
 import { OPERATORS_ENUM } from '../shared/enums/Operators.enum'
+import { ERROR_CODES } from '../shared/enums/ErrorCodes.enum'
 
 // Remove to separate service
 const currencyApiUrl = 'https://api.exchangerate.host/'
@@ -48,6 +49,14 @@ class OperationService {
     const operator = operation.type === OPERATION_TYPES_ENUM.EXPENSE ? OPERATORS_ENUM.INCREASE : OPERATORS_ENUM.DECREASE
     await walletService.updateWalletBalance(operation.wallet, operation.amount, operator)
     return new OperationDto(operation)
+  }
+
+  async deleteAllWalletOperations(walletId: string) {
+    try {
+      await OperationModel.deleteMany({ wallet: walletId })
+    } catch (err) {
+      throw { error_code: ERROR_CODES.DELETE_ALL_WALLETS_OPERATIONS }
+    }
   }
 
   async getOperationsStatistics(userId: string, type: string, startDate: string, finishDate?: string) {

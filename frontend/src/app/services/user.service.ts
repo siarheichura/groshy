@@ -4,13 +4,14 @@ import { tap, Observable } from 'rxjs'
 
 import { environment } from 'environments/environment'
 import { HTTP } from '@shared/interfaces/Http.interface'
-import { AuthResponse } from "@shared/interfaces/AuthResponse.interface"
+import { AuthResponse } from '@shared/interfaces/AuthResponse.interface'
 import { RegistrationUser, User, UserLogin } from '@shared/interfaces/User'
-import { API_PATHS } from "@shared/enums/ApiPaths.enum"
+import { API_PATHS } from '@shared/enums/ApiPaths.enum'
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   get userId(): string {
     return localStorage.getItem(environment.LocalStorageUserKey)
@@ -44,17 +45,6 @@ export class UserService {
   }
 
   getUser(id: string): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}${API_PATHS.USER}/${id}`);
+    return this.http.get<User>(`${environment.apiUrl}${API_PATHS.USER}/${id}`)
   }
-
-  // updateUserInfo(id: string, username: string, email: string, emoji: string): Observable<HTTP<User>> {
-  //   return this.http.put<HTTP<User>>(`${environment.apiUrl}${API_PATHS.USER_UPDATE}/${id}`, { username, email, emoji })
-  // }
-  //
-  // changePassword(userId: string, passwords: Passwords): Observable<HTTP<User>> {
-  //   return this.http.post<HTTP<User>>(
-  //     `${environment.apiUrl}${API_PATHS.CHANGE_PASSWORD}/${userId}`,
-  //     passwords
-  //   );
-  // }
 }

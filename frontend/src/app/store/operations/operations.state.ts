@@ -1,6 +1,6 @@
-import { Dayjs } from "dayjs"
-import { DayOperations } from "@shared/interfaces/Operation.interface"
-import { OperationsStatistics } from "@shared/interfaces/OperationsStatistics.interface"
+import { Dayjs } from 'dayjs'
+import { DayOperations } from '@shared/interfaces/Operation.interface'
+import { OperationsStatistics } from '@shared/interfaces/OperationsStatistics.interface'
 
 export interface Period {
   startDate: Dayjs,
@@ -18,5 +18,5 @@ export const initialOperationsState: OperationsState = {
   type: null,
   period: null,
   operations: [],
-  statistics: []
+  statistics: [],
 }

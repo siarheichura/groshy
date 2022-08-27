@@ -1,13 +1,10 @@
 export enum API_PATHS {
   REGISTRATION = '/registration',
   LOGIN = '/login',
-  LOGOUT = '/logout',
-  REFRESH = '/refresh',
   USER = '/user',
-  USER_UPDATE = '/user-update',
-  CHANGE_PASSWORD = '/change-password',
+  WALLETS = '/wallets',
+  WALLET = '/wallet',
   OPERATIONS = '/operations',
   STATISTICS = '/statistics',
-  WALLETS = '/wallets',
-  WALLET = '/wallet'
+  CATEGORIES = '/categories'
 }

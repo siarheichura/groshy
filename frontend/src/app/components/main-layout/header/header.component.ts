@@ -21,7 +21,7 @@ export class HeaderComponent {
 
   constructor(
     private store: Store,
-    private iconService: NzIconService
+    private iconService: NzIconService,
   ) {
     this.iconService.addIconLiteral('ng-zorro:groshy_mini', SVG.GROSHY_MINI)
   }

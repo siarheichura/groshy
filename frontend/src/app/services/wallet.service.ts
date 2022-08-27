@@ -4,12 +4,13 @@ import { Observable } from 'rxjs'
 import { environment } from 'environments/environment'
 
 import { HTTP } from '@shared/interfaces/Http.interface'
-import { Wallet } from '@shared/classes/Wallet'
+import { Wallet } from '@shared/interfaces/Wallet.interface'
 import { API_PATHS } from '@shared/enums/ApiPaths.enum'
 
 @Injectable({ providedIn: 'root' })
 export class WalletService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getWallets(userId: string): Observable<HTTP<Wallet[]>> {
     return this.http.get<HTTP<Wallet[]>>(`${environment.apiUrl}${API_PATHS.WALLETS}/${userId}`)
@@ -20,7 +21,7 @@ export class WalletService {
   }
 
   removeWallet(id: string): Observable<HTTP<Wallet>> {
-    return this.http.delete<HTTP<Wallet>>(`${environment.apiUrl}${API_PATHS.WALLET}/${id}`);
+    return this.http.delete<HTTP<Wallet>>(`${environment.apiUrl}${API_PATHS.WALLET}/${id}`)
   }
 
   editWallet(id: string, body: Wallet): Observable<HTTP<Wallet>> {

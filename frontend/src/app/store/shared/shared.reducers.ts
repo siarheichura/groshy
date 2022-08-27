@@ -1,11 +1,11 @@
-import { createReducer, on } from '@ngrx/store';
-import { initialSharedState } from './shared.state';
+import { createReducer, on } from '@ngrx/store'
+import { initialSharedState } from './shared.state'
 import {
   SetCurrentTab,
   LoadingToggle,
   ResetSharedState,
-} from './shared.actions';
-import { OPERATION_TYPES } from "@shared/enums/OperationTypes.enum";
+} from './shared.actions'
+import { OPERATION_TYPES } from '@shared/enums/OperationTypes.enum'
 
 export const sharedReducer = createReducer(
   initialSharedState,
@@ -18,5 +18,5 @@ export const sharedReducer = createReducer(
   on(SetCurrentTab, (state, { payload }) => ({
     ...state,
     currentTab: payload,
-  }))
-);
+  })),
+)

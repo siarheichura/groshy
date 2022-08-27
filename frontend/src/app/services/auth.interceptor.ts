@@ -10,8 +10,9 @@ import { Logout } from '@store/user/user.actions'
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private userService: UserService,
-    private store: Store
-  ) {}
+    private store: Store,
+  ) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let newReq = req
@@ -20,8 +21,8 @@ export class AuthInterceptor implements HttpInterceptor {
       newReq = req.clone({
         setHeaders: {
           user: this.userService.userId,
-          Authorization: `Bearer ${this.userService.token}`
-        }
+          Authorization: `Bearer ${this.userService.token}`,
+        },
       })
     }
 
@@ -31,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.store.dispatch(Logout())
         }
         return throwError(() => err)
-      })
+      }),
     )
   }
 }

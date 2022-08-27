@@ -1,0 +1,67 @@
+<form nz-form [formGroup]='operationForm' [nzLayout]="'vertical'">
+  <label class='required-label'>Wallet</label>
+  <div>
+    <nz-tag
+      nzMode='checkable'
+      *ngFor='let wallet of wallets$ | async'
+      [nzChecked]='wallet.checked'
+      (nzCheckedChange)='onCheckWalletTagChange($event, wallet)'
+    >
+      {{ wallet.name }}
+    </nz-tag>
+  </div>
+
+  <nz-form-item>
+    <label class='required-label'>Amount</label>
+    <nz-form-control>
+      <input type='number' nz-input [formControlName]='FORM_CONTROLS.Amount' placeholder='Enter amount' />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <label class='required-label'>Category</label>
+    <nz-form-control>
+      <nz-select nzPlaceHolder='Select category' [formControlName]='FORM_CONTROLS.Category'>
+        <nz-option
+          *ngFor='let category of categories$ | async'
+          [nzValue]='category.name'
+          [nzLabel]="category.emoji + ' ' + category.name"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <label>Comment</label>
+    <nz-form-control>
+      <input type='text' nz-input [formControlName]='FORM_CONTROLS.Comment' placeholder='Add comment' />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <label>Date</label>
+    <nz-form-control>
+      <nz-date-picker
+        [formControlName]='FORM_CONTROLS.Date'
+        nzFormat='dd.MM.YYYY'></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item *ngIf='!imageUrl'>
+    <label>Upload check image</label>
+    <nz-form-control>
+      <input type='file' accept='image/*' (change)='onImageUpload($event)' />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-collapse nzGhost *ngIf='imageUrl'>
+    <nz-collapse-panel [nzHeader]="'Show check'" [nzActive]='!!imageUrl && !operation'>
+      <div class='check-reset-btn'>
+        <button nz-button nzSize='small' (click)='resetImage()'>
+          <i nz-icon nzType='close' nzTheme='outline'></i>
+        </button>
+      </div>
+      <img class='check' [src]='imageUrl' />
+    </nz-collapse-panel>
+  </nz-collapse>
+</form>

@@ -1,0 +1,20 @@
+<nz-tabset nzCentered nzLinkRouter>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="'/' + ROUTES.WALLETS">
+      <i nz-icon nzType='ng-zorro:wallet' style='font-size: 19px'></i>
+      Wallets
+    </a>
+  </nz-tab>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]='ROUTES.TRANSFERS'>
+      <i nz-icon nzType='ng-zorro:transfer' style='font-size: 19px'></i>
+      Transfers
+    </a>
+  </nz-tab>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]='ROUTES.ARCHIVE'>
+      <i nz-icon nzType='ng-zorro:archive' style='font-size: 19px'></i>
+      Archive
+    </a>
+  </nz-tab>
+</nz-tabset>

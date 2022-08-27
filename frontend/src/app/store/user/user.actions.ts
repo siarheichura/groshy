@@ -13,12 +13,6 @@ export enum UserActionsEnum {
   GetUser = 'GET_USER',
   GetUserSuccess = 'GET_USER_SUCCESS',
   Logout = 'LOGOUT',
-
-  // UpdateUserInfo = 'UPADTE_USER_INFO',
-  // UpdateUserInfoSuccess = 'UPADTE_USER_INFO_SUCCESS',
-  // ChangePassword = 'CHANGE_PASSWORD',
-  // ChangePasswordSuccess = 'CHANGE_PASSWORD_SUCCESS',
-  // ChangePasswordError = 'CHANGE_PASSWORD_ERROR',
 }
 
 export const Registration = createAction(getFullActionName(UserActionsEnum.Registration), props<{ payload: RegistrationUser }>())
@@ -28,33 +22,3 @@ export const LoginSuccess = createAction(getFullActionName(UserActionsEnum.Login
 export const GetUser = createAction(getFullActionName(UserActionsEnum.GetUser))
 export const GetUserSuccess = createAction(getFullActionName(UserActionsEnum.GetUserSuccess), props<{ payload: User }>())
 export const Logout = createAction(getFullActionName(UserActionsEnum.Logout))
-
-// export const LogoutSuccess = createAction(
-//   getFullActionName(UserActionsEnum.LogoutSuccess)
-// )
-// export const UpdateUserInfo = createAction(
-//   getFullActionName(UserActionsEnum.UpdateUserInfo),
-//   props<{
-//     payload: { id: string; username: string; email: string; emoji: string };
-//   }>()
-// );
-// export const UpdateUserInfoSuccess = createAction(
-//   getFullActionName(UserActionsEnum.UpdateUserInfoSuccess),
-//   props<{ payload: User }>()
-// );
-// export const ChangePassword = createAction(
-//   getFullActionName(UserActionsEnum.ChangePassword),
-//   props<{
-//     payload: {
-//       userId: string;
-//       passwords: Passwords;
-//     };
-//   }>()
-// );
-// export const ChangePasswordSuccess = createAction(
-//   getFullActionName(UserActionsEnum.ChangePasswordSuccess),
-//   props<{ payload: User }>()
-// );
-// export const ChangePasswordError = createAction(
-//   getFullActionName(UserActionsEnum.ChangePasswordError)
-// );

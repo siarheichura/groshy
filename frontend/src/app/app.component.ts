@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntilDestroy } from '@ngneat/until-destroy';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { UntilDestroy } from '@ngneat/until-destroy'
+import { Store } from '@ngrx/store'
+import { Observable } from 'rxjs'
 
-import { loadingSelector } from '@store/shared/shared.selectros';
+import { loadingSelector } from '@store/shared/shared.selectros'
 
 @UntilDestroy()
 @Component({
@@ -13,9 +13,11 @@ import { loadingSelector } from '@store/shared/shared.selectros';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  loading$: Observable<boolean> = this.store.select(loadingSelector);
+  loading$: Observable<boolean> = this.store.select(loadingSelector)
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

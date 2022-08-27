@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy'
 import { NzModalService } from 'ng-zorro-antd/modal'
 
 import { WalletFormComponent } from '../wallet-form/wallet-form.component'
-import { AddWallet, EditWallet, GetWallets, RemoveWallet } from '@store/wallets/wallets.actions'
+import { AddWallet, EditWallet, RemoveWallet } from '@store/wallets/wallets.actions'
 import { walletsSelector } from '@store/wallets/wallets.selectros'
 import { userSelector } from '@store/user/user.selectros'
 import { MODAL_WIDTH } from '@shared/constants/constants'
@@ -32,14 +32,7 @@ export class WalletsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user$.pipe(untilDestroyed(this)).subscribe(user => {
-      this.userId = user.id
-      this.getWallets(user.id)
-    })
-  }
-
-  getWallets(userId: string): void {
-    this.store.dispatch(GetWallets())
+    this.user$.pipe(untilDestroyed(this)).subscribe(user => this.userId = user.id)
   }
 
   addWallet(wallet: Wallet): void {
@@ -98,7 +91,7 @@ export class WalletsListComponent implements OnInit {
   printArchiveConfirmModal(wallet: Wallet): void {
     this.modal.confirm({
       nzTitle: 'Are you sure?',
-      nzContent: 'This wallet will be removed to Archive, you can restore it',
+      nzContent: 'This wallet will be removed to Archive, you can restore it. All operations will be on their places',
       nzOnOk: () => this.archiveWallet(wallet),
     })
   }

@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4ad8279-2b1a-4fcd-bfc3-39106c0c42e6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/shared/enums/ErrorCodes.enum.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/wallet.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/wallet.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/middleware/error.middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/middleware/error.middleware.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/services/operation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/operation.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/services/wallet.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/services/wallet.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/pages/wallets/archive/archive.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/pages/wallets/archive/archive.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/pages/wallets/archive/archive.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/pages/wallets/archive/archive.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/pages/wallets/archive/archive.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/pages/wallets/archive/archive.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/pages/wallets/wallets-list/wallets-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/pages/wallets/wallets-list/wallets-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/pages/wallets/wallets-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/pages/wallets/wallets-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/pages/wallets/wallets.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/pages/wallets/wallets.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,10 +40,12 @@
     "last_opened_file_path": "C:/Users/sichura/groshy/api/shared/enums",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.javascript.prettier",
+    "settings.editor.selected.configurable": "preferences.sourceCode.TypeScript",
     "ts.external.directory.path": "C:\\Users\\sichura\\groshy\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 
 import { archivedWalletsSelector } from '@store/wallets/wallets.selectros'
 import { Wallet } from '@shared/interfaces/Wallet.interface'
+import { EditWallet } from '@store/wallets/wallets.actions'
 
 @Component({
   selector: 'app-archive',
@@ -18,5 +19,9 @@ export class ArchiveComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  unzipWallet(wallet: Wallet): void {
+    this.store.dispatch(EditWallet({ payload: { id: wallet.id, updatedWallet: { ...wallet, isArchived: false } } }))
   }
 }

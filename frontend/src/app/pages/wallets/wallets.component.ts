@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store'
 
 import { SetCurrentTab } from '@store/shared/shared.actions'
 import { TABS } from '@shared/enums/Tabs.enum'
+import { GetWallets } from '@store/wallets/wallets.actions'
 
 @Component({
   selector: 'app-wallets',
@@ -17,5 +18,6 @@ export class WalletsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(SetCurrentTab({ payload: TABS.WALLETS }))
+    this.store.dispatch(GetWallets())
   }
 }

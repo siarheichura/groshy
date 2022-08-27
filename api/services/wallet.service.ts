@@ -1,14 +1,21 @@
+import { Types } from 'mongoose'
+
 import { WalletModel } from '../models/Wallet'
 import { WalletDto } from '../dtos/wallet.dto'
 import { Wallet, WalletCreate } from '../shared/interfaces/Wallet'
-import { Types } from 'mongoose'
 import { OPERATORS_ENUM } from '../shared/enums/Operators.enum'
+import { operationService } from './operation.service'
+import { ERROR_CODES } from '../shared/enums/ErrorCodes.enum'
 
 class WalletService {
   async getUserWallets(userId: string) {
-    const wallets = await WalletModel.find({ user: userId })
-    const walletsDto = wallets.map((wallet) => new WalletDto(wallet))
-    return walletsDto
+    try {
+      const wallets = await WalletModel.find({ user: userId })
+      const walletsDto = wallets.map((wallet) => new WalletDto(wallet))
+      return walletsDto
+    } catch (err) {
+      throw { error_code: ERROR_CODES.GET_USER_WALLETS }
+    }
   }
 
   async getWallet(walletId: string) {
@@ -17,7 +24,7 @@ class WalletService {
       const walletDto = new WalletDto(wallet)
       return walletDto
     } catch (err) {
-      console.log('WalletService | getWallet')
+      throw { error_code: ERROR_CODES.GET_WALLET }
     }
   }
 
@@ -27,18 +34,18 @@ class WalletService {
       const walletDto = new WalletDto(wallet)
       return walletDto
     } catch (err) {
-      console.log('WalletService | addWallet')
+      throw { error_code: ERROR_CODES.ADD_WALLET }
     }
   }
 
-  // Add delete all operations and all ??categories?? in this wallet
   async deleteWallet(walletId: string) {
     try {
       const wallet = await WalletModel.findByIdAndDelete(walletId)
+      await operationService.deleteAllWalletOperations(walletId)
       const walletDto = new WalletDto(wallet)
       return walletDto
     } catch (err) {
-      console.log('WalletService | deleteWallet')
+      throw { error_code: ERROR_CODES.DELETE_WALLET }
     }
   }
 
@@ -48,15 +55,19 @@ class WalletService {
       const walletDto = new WalletDto(wallet)
       return walletDto
     } catch (err) {
-      console.log('WalletService | editWallet')
+      throw { error_code: ERROR_CODES.EDIT_WALLET }
     }
   }
 
   async updateWalletBalance(walletId: string | Types.ObjectId, value: number, type: OPERATORS_ENUM) {
-    const wallet = await WalletModel.findById(walletId)
-    await wallet.update({ balance: type === OPERATORS_ENUM.INCREASE ? wallet.balance + value : wallet.balance - value })
-    const walletDto = new WalletDto(wallet)
-    return walletDto
+    try {
+      const wallet = await WalletModel.findById(walletId)
+      await wallet.update({ balance: type === OPERATORS_ENUM.INCREASE ? wallet.balance + value : wallet.balance - value })
+      const walletDto = new WalletDto(wallet)
+      return walletDto
+    } catch (err) {
+      throw { error_code: ERROR_CODES.UPDATE_WALLET_BALANCE }
+    }
   }
 }
 
